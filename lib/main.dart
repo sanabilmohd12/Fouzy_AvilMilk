@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fouzy/view/bottombar.dart';
-import 'package:fouzy/view/homescreen.dart';
-import 'package:fouzy/view/splashscreen.dart';
+
 
 void main() {
   runApp(const MyApp());
