@@ -1,86 +1,139 @@
 import 'package:flutter/material.dart';
+import 'package:fouzy/constants/colors.dart';
+import 'package:fouzy/view/homescreen.dart';
+import 'package:fouzy/view/splashscreen.dart';
 
-import 'homescreen.dart';
+import 'categoryspage.dart';
 
-class Bottombarom extends StatefulWidget {
-  const Bottombarom({super.key});
+class CustomBottomNavigationBar extends StatelessWidget {
+  final int selectedIndex;
+  final Function(int) onItemSelected;
 
-  @override
-  State<Bottombarom> createState() => _BottombaromState();
-}
+  CustomBottomNavigationBar({
+    required this.selectedIndex,
+    required this.onItemSelected,
+  });
 
-class _BottombaromState extends State<Bottombarom> {
+  final screen = [
+    Homescreen(),
+    Splashscreen(),
+    Homescreen(),
+    Splashscreen(),
+
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Stack(
+      children: [
+        CustomPaint(
+          size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height/9.5),
+          painter: BNBCustomPainter(),
+        ),
+        Center(
+          heightFactor: .8,
+          child: Container(
+            height: 80,
+            width: 80,
+            decoration: BoxDecoration(image: DecorationImage(scale:1.7,image: AssetImage('assets/Sundae (1).png',)),
+              shape: BoxShape.circle,
+              color: cYellow,
+              // border: Border.all(
+              //   color: Colors.green, // Adjust border color as needed
+              //   width: 4,
+              // ),
+              boxShadow: [
+                BoxShadow(color: cgreen,spreadRadius: 5,blurRadius: 10),
+
+              ]
+              // image: DecorationImage(image: AssetImage('assets/Sundae (1).png',),fit: BoxFit.cover,),
+            ),
+
+            
+          ),
+
+          // child: FloatingActionButton(
+          //   onPressed: () {},
+          //   backgroundColor: Colors.orange,
+          //   child: Icon(Icons.add),
+          //   elevation: 0.1,
+          // ),
+
+
+        ),
+
+        Container(
+          height: 130,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              buildNavItem(Icons.home, 0),
+              GestureDetector(
+                onTap: () {
+                  CategoryScreen();
+
+                },
+                  child: GestureDetector(
+                      onTap: (){
+                        Splashscreen();
+                      },
+                      child: buildNavItem(Icons.shopping_cart, 1,))),
+              SizedBox(width: 40), // The dummy child for the floating button
+              buildNavItem(Icons.edit_document, 2),
+              buildNavItem(Icons.auto_graph_outlined, 3),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  Widget buildNavItem(IconData icon, int index)
+
+  {
+    return GestureDetector(
+      onTap:
+          () => onItemSelected(index),
+      child: Container(
+        width: 90,
+        height: 80,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: selectedIndex == index ? Colors.white : Colors.transparent,
+        ),
+        child: Icon(size: 35,
+          icon,
+          color: selectedIndex == index ? Colors.green : Colors.black,
+        ),
+      ),
+    );
   }
 }
 
+class BNBCustomPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = cYellow
+      ..style = PaintingStyle.fill;
 
+    Path path = Path();
+    path.moveTo(0, 20); // Start
+    path.quadraticBezierTo(size.width * .20, 0, size.width * 0.35, 0);
+    path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 20);
+    path.arcToPoint(Offset(size.width * .60, 20),
+        radius: Radius.circular(10.0), clockwise: false);
+    path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.65, 0);
+    path.quadraticBezierTo(size.width * 0.80, 0, size.width, 20);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+    canvas.drawPath(path, paint);
+  }
 
-// class BottomNavBar extends StatefulWidget {
-//   @override
-//   _BottomNavBarState createState() => _BottomNavBarState();
-// }
-//
-// class _BottomNavBarState extends State<BottomNavBar> {
-//   int index = 0;
-//   // GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
-//   final navigationanKey = GlobalKey<State>();
-//
-//   final Screen = [
-//     Homescreen(),
-//     Homescreen(),
-//     Homescreen(),
-//     Homescreen(),
-//   ];
-//
-//   final items = <Widget>[
-//     // Icon(Icons.home_outlined,color: Colors.white,),
-//     // Icon(Icons.book,color: Colors.white),
-//     // Icon(Icons.book,color: Colors.white),
-//
-//     Icon(
-//       Icons.connecting_airports_sharp,
-//       color: Color(0xFFFEF1E2),
-//     ),
-//     Icon(
-//       Icons.connecting_airports_sharp,
-//       color: Color(0xFFFEF1E2),
-//     ),
-//     Icon(
-//       Icons.connecting_airports_sharp,
-//       color: Color(0xFFFEF1E2),
-//     ),
-//     Icon(
-//       Icons.connecting_airports_sharp,
-//       color: Color(0xFFFEF1E2),
-//     ),
-//
-//     // CircleAvatar(backgroundColor: Colors.transparent,radius: 20,backgroundImage: AssetImage("assets/homebutton.png")),
-//     // CircleAvatar(backgroundColor: Colors.transparent,radius: 20,backgroundImage: AssetImage("assets/bookingsbutton.png")),
-//     // CircleAvatar(backgroundColor: Colors.transparent,radius: 20,backgroundImage: AssetImage("assets/profilebutton.png")),
-//   ];
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         backgroundColor: Colors.transparent,
-//         bottomNavigationBar: BottomNavigationBar(
-//           items: [
-//             BottomNavigationBarItem(label: "sxsx", icon: items[index]),
-//             BottomNavigationBarItem(label: "sxsx", icon: items[index]),
-//             BottomNavigationBarItem(label: "sxsx", icon: items[index]),
-//             BottomNavigationBarItem(label: "sxsx", icon: items[index]),
-//           ],
-//
-//           onTap: (index) => setState(() {
-//             this.index = index;
-//           }),
-//           // buttonBackgroundColor: Colors.white,
-//           backgroundColor: Color(0xFF005AFF),
-//           selectedItemColor: Colors.red,
-//         ),
-//         body: Screen[index]);
-//   }
-// }
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+}
