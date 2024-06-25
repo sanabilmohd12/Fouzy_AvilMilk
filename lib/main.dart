@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'adminview/AdminHomeScreen.dart';
+import 'adminview/maincateroylist.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home:  Splashscreen(),
-      home:  BottomNavBar(),
+      home:  Admin_Home_Screen(),
 
     );
   }
