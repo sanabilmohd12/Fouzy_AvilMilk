@@ -51,116 +51,161 @@ class Avil_Milk_Screen extends StatelessWidget {
           centerTitle: true,
 
           title: text(
-            "Main Category",
+            " Fouzy Avil Milks",
             FontWeight.w700,
             cgreen,
             18,
           ),
         ),
-        body:Column(
-          children: [
-            ListView.builder(
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: Text(
-                              "Do you want to  EDIT or DELETE ?",
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w600,
-                                  color: cBlack)),
-                          actions: <Widget>[
-                            Center(
-                              child: Row(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                          color: myRed,
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Color(0x26000000),
-                                              blurRadius:
-                                              2.0, // soften the shadow
-                                              spreadRadius:
-                                              1.0, //extend the shadow
-                                            ),
-                                          ]),
-                                      child: Center(
-                                          child: Text("Delete",
-                                              style: TextStyle(
-                                                  color: cWhite,
-                                                  fontSize: 17,
-                                                  fontWeight:
-                                                  FontWeight.w700))),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-
-                                      Navigator.pop(context);
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                          color: cgreen,
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Color(0x26000000),
-                                              blurRadius:
-                                              2.0, // soften the shadow
-                                              spreadRadius:
-                                              1.0, //extend the shadow
-                                            ),
-                                          ]),
-                                      child: Center(
-                                          child: Text("Edit",
-                                              style: TextStyle(
-                                                  color: cWhite,
-                                                  fontSize: 17,
-                                                  fontWeight:
-                                                  FontWeight.w700))),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Container(
+        body:
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              GridView.builder(
+                  itemCount: 5,
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 0.8
+                  ),
+                  itemBuilder: (BuildContext context,int index){
+                    return  Container(
                       margin: EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
+                          horizontal: 5, vertical: 5),
                       width: width,
-                      height: height*.10,
+                      height: height*.12,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: cWhite,
                       ),
+                      child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(width: width,height: 60,
+                              child: Image(image: AssetImage(juciepic,),)),
+                          FittedBox(child: text("named", FontWeight.w400, cgreen, 15)),
+                          FittedBox(child: text("₹15", FontWeight.w400, cgreen, 15)),
+                          SizedBox(),
+                          Row(mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: Text(
+                                            "Do you want to DELETE ?",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w600,
+                                                color: cBlack)),
+                                        actions: <Widget>[
+                                          Center(
+                                            child: TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Container(
+                                                height: 45,
+                                                width: 90,
+                                                decoration: BoxDecoration(
+                                                    color: myRed,
+                                                    borderRadius:
+                                                    BorderRadius.circular(8),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Color(0x26000000),
+                                                        blurRadius:
+                                                        2.0, // soften the shadow
+                                                        spreadRadius:
+                                                        1.0, //extend the shadow
+                                                      ),
+                                                    ]),
+                                                child: Center(
+                                                    child: Text("Delete",
+                                                        style: TextStyle(
+                                                            color: cWhite,
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                            FontWeight.w700))),
+                                              ),
+                                            ),
+                                          ),
 
-                    ));
-              },
-            ),
-          ],
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child:
+                                  Icon(Icons.delete_outline,size: 20,color: myRed,) ,  ),
+
+                              SizedBox(width: 10,),
+
+                              InkWell(    onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    content: Text(
+                                        "Do you want to EDIT ?",
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w600,
+                                            color: cBlack)),
+                                    actions: <Widget>[
+                                      Center(
+                                        child: TextButton(
+                                          onPressed: () {
+
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            height: 45,
+                                            width: 90,
+                                            decoration: BoxDecoration(
+                                                color: cgreen,
+                                                borderRadius:
+                                                BorderRadius.circular(8),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Color(0x26000000),
+                                                    blurRadius:
+                                                    2.0, // soften the shadow
+                                                    spreadRadius:
+                                                    1.0, //extend the shadow
+                                                  ),
+                                                ]),
+                                            child: Center(
+                                                child: Text("Edit",
+                                                    style: TextStyle(
+                                                        color: cWhite,
+                                                        fontSize: 17,
+                                                        fontWeight:
+                                                        FontWeight.w700))),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                                  child:
+                                  Icon(Icons.edit_outlined,size: 20,color: cgreen,) ,                                  ),
+                              SizedBox(width: 5,),
+                            ],
+                          ),
+                          SizedBox(height: 2,)
+                        ],),
+
+                    );
+
+                  })
+
+            ],
+          ),
         ) ,
+
 
 
       ),
