@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fouzy/view/homescreen.dart';
+
+import 'adminview/AdminHomeScreen.dart';
+import 'adminview/AvilMilkListScreen.dart';
 
 
 void main() {
@@ -19,7 +23,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home:  Splashscreen(),
-      home:  BottomNavBar(),
+      // home:  Homescreen(),
+      // home: Admin_Home_Screen(),
+      home:Avil_Milk_Screen(),
+
 
     );
   }
