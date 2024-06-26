@@ -78,3 +78,47 @@ Widget Button( double height,double width,Color mycolor,String text,Color textco
     ) ,
   );
 }
+Widget btn( double height,double width,Color mycolor,String text,Color textcolr, FontWeight weight, double size,IconData? icn){
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 10),
+    height:height ,
+    width: width,
+    decoration: BoxDecoration(color: mycolor,borderRadius: BorderRadius.circular(15),boxShadow: [
+
+      BoxShadow(
+        color: lightWhite,
+        spreadRadius: 3,
+        blurStyle: BlurStyle.inner,blurRadius: 5
+
+      )],),
+    child:Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          text,style: TextStyle(color: textcolr,fontWeight: weight,fontSize: size,fontFamily: "poppines"),
+        ),
+        Icon(icn,size: 20,)
+
+      ],
+    ) ,
+  );
+}
+Widget savebtn( double height,double width,Color mycolor,String text,Color textcolr, FontWeight weight, double size){
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
+    height:height ,
+    width: width,
+    decoration: BoxDecoration(color: mycolor,borderRadius: BorderRadius.circular(25),
+     ),
+    child:Center(
+      child: Text(
+        text,style: TextStyle(color: textcolr,fontWeight: weight,fontSize: size,fontFamily: "poppines"),
+      ),
+    ) ,
+  );
+}
+
+
+
+

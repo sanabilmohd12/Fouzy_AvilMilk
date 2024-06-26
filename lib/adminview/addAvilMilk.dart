@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
@@ -28,48 +29,8 @@ class addAvilMilkScreen extends StatelessWidget {
         ),
       ),
       child: Scaffold(
-        floatingActionButtonLocation:
-        FloatingActionButtonLocation.miniCenterFloat,
-        floatingActionButton: SizedBox(
-            height: 49,
-            width: width / 1.1,
-            // child: Consumer<MainProvider>(builder: (context, value, child) {
-            //   return   value.loader?CircularProgressIndicator(color: tViloet,):
-            child: FloatingActionButton(
-              onPressed: () {
-                // final FormState? form = _formKey.currentState;
-                // if (form!.validate()) {
 
-                // if(from=="NEW"){
-                //   value.addDetails(from,"");
-                //
-                //   value.getdetails();
-                //   back(context);
-                // }else{
-                //   value.addDetails(from,oldid);
-                //
-                //   value.getdetails();
-                //   back(context);
-                // }
-                //
-                //   }
-                back(context);
 
-              },
-              elevation: 0,
-              backgroundColor: cgreen,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(42),
-              ),
-              child: text(
-                "Save",
-                FontWeight.w700,
-                cWhite,
-                18,
-              ),
-            )
-          // }),
-        ),
 
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -87,7 +48,7 @@ class addAvilMilkScreen extends StatelessWidget {
           centerTitle: true,
 
           title: text(
-            "Add MainCategory",
+            "Add Fouzy AvilMilk",
             FontWeight.w700,
             cgreen,
             18,
@@ -99,19 +60,60 @@ class addAvilMilkScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: height*0.2,),
+                 Container(
+                   margin:EdgeInsets.symmetric(horizontal: 10,vertical: 10) ,
+
+                     width: 200,height: 200,
+                   decoration: BoxDecoration(color: cWhite,borderRadius: BorderRadius.circular(15),boxShadow: [
+                     BoxShadow(
+                         color: lightWhite,
+                         spreadRadius: 3,
+                         blurStyle: BlurStyle.inner,blurRadius: 5
+
+                     )],border: Border.all(width: 2,color: cWhite)),
+                   child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                     children: [
+                       Icon(Icons.add_a_photo_rounded,color: cgreen,size: 50,),
+                       text("Add AvilMilk Images", FontWeight.w400, cgreen, 12)
+                     ],
+                   ),
+                 ),
+                SizedBox(height: 50),
+
+                textfield(
+                    TextInputType.text, "enter your AvilMilk Name ", "Name"),
+                textfield(
+                    TextInputType.number, "enter your Price", " ₹Price"),
+                textfield(
+                    TextInputType.text, "enter your description ", "description"),
+                textfield(
+                    TextInputType.text, "enter your AvilMilk Category ", "AvilMilk Category"),
+                /// autocomplete maincategory
                 textfield(
                     TextInputType.text, "enter your Types ", "Types"),
-                textfield(
-                    TextInputType.text, "enter your Types ", "Types"),
-                textfield(
-                    TextInputType.text, "enter your Types ", "Types"),
-                textfield(
-                    TextInputType.text, "enter your Types ", "Types"),
-                textfield(
-                    TextInputType.text, "enter your Types ", "Types"),
-                textfield(
-                    TextInputType.text, "enter your Types ", "Types"),
+
+                // final FormState? form = _formKey.currentState;
+                // if (form!.validate()) {
+
+                // if(from=="NEW"){
+                //   value.addDetails(from,"");
+                //
+                //   value.getdetails();
+                //   back(context);
+                // }else{
+                //   value.addDetails(from,oldid);
+                //
+                //   value.getdetails();
+                //   back(context);
+                // }
+                //
+                //   }
+
+
+
+
+                savebtn(height/15, width, cgreen, "Save", cWhite, FontWeight.w800, 15)
+
               ],
             ),
           ),

@@ -7,6 +7,9 @@ import '../constants/myimages.dart';
 import '../constants/widgets.dart';
 import 'AvilMilkListScreen.dart';
 import 'addMainCategory.dart';
+import 'icecreamslistScreen.dart';
+import 'jucieslist.dart';
+import 'listFouzySpecialScreen.dart';
 import 'maincateroylist.dart';
 
 class Admin_Home_Screen extends StatelessWidget {
@@ -55,7 +58,7 @@ class Admin_Home_Screen extends StatelessWidget {
               Builder(
                 builder: (context) {
                   return InkWell(onTap: () {
-          
+             callNext(context, FouzySpecialScreen());
                   },
                       child: Button(height*.10,width,cgreen,"Fouzy Special",cWhite,FontWeight.w800, 22));
                 }
@@ -73,23 +76,23 @@ class Admin_Home_Screen extends StatelessWidget {
                   return InkWell(onTap: () {
                      callNext(context, Avil_Milk_Screen());
                   },
-                      child: Button(height*.10,width,cgreen,"Avail  Milks",cWhite,FontWeight.w800, 22));
+                      child: Button(height*.10,width,cgreen,"Fouzy Avail  Milks",cWhite,FontWeight.w800, 22));
                 }
               ),
               Builder(
                 builder: (context) {
                   return InkWell(onTap: () {
-          
+               callNext(context, IcrecreamListScreen());
                   },
-                      child: Button(height*.10,width,cgreen,"Ice Creams",cWhite,FontWeight.w800, 22));
+                      child: Button(height*.10,width,cgreen,"Fouzy Ice Creams",cWhite,FontWeight.w800, 22));
                 }
               ),
               Builder(
                 builder: (context) {
                   return InkWell(onTap: () {
-          
+                      callNext(context, jucieslistScreen());
                   },
-                      child: Button(height*.10,width,cgreen,"Jucies",cWhite,FontWeight.w800, 22));
+                      child: Button(height*.10,width,cgreen,"Fouzy Jucies",cWhite,FontWeight.w800, 22));
                 }
               ),
             ],
