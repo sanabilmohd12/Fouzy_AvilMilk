@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fouzy/view/bottombar.dart';
+import 'package:fouzy/view/homescreen.dart';
 import 'package:provider/provider.dart';
 
 import 'adminview/AdminHomeScreen.dart';

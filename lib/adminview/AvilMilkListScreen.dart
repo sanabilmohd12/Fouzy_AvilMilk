@@ -85,7 +85,7 @@ class Avil_Milk_Screen extends StatelessWidget {
                         children: [
                           SizedBox(width: width,height: 60,
                               child: Image(image: AssetImage(juciepic,),)),
-                          FittedBox(child: text("named", FontWeight.w400, cgreen, 15)),
+                          FittedBox(child: text("named", FontWeight.w400, cgreen, 20)),
                           FittedBox(child: text("₹15", FontWeight.w400, cgreen, 15)),
                           SizedBox(),
                           Row(mainAxisAlignment: MainAxisAlignment.end,
