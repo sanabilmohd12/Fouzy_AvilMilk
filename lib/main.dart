@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fouzy/view/bottombar.dart';
+import 'package:provider/provider.dart';
 
 import 'adminview/AdminHomeScreen.dart';
+import 'provider/mainprovider.dart';
 
 
 void main() {
@@ -14,16 +16,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      // home:  Splashscreen(),
-      home:  Admin_Home_Screen(),
+    return MultiProvider(
+      providers: [
 
+        ChangeNotifierProvider(create:(context) => Mainprovider(),)
+
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        // home:  Splashscreen(),
+        home:  Admin_Home_Screen(),
+
+      ),
     );
   }
 }
