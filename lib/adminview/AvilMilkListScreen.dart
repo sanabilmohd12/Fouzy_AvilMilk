@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/provider/mainprovider.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
@@ -27,12 +29,17 @@ class Avil_Milk_Screen extends StatelessWidget {
       ),
       child: Scaffold(
         floatingActionButton:
-        FloatingActionButton(
-          backgroundColor: cgreen,
-          child: Icon(Icons.add, color: cWhite, size: 38),
-          onPressed: () {
-            callNext(context, addAvilMilkScreen());
-          },
+        Consumer<Mainprovider>(
+          builder: (context,value,child) {
+            return FloatingActionButton(
+              backgroundColor: cgreen,
+              child: Icon(Icons.add, color: cWhite, size: 38),
+              onPressed: () {
+                value.getMainCategoy();
+                callNext(context, addAvilMilkScreen());
+              },
+            );
+          }
         ),
 
         backgroundColor: Colors.transparent,

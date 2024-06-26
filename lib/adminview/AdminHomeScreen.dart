@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/provider/mainprovider.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
@@ -63,9 +65,10 @@ class Admin_Home_Screen extends StatelessWidget {
                       child: Button(height*.10,width,cgreen,"Fouzy Special",cWhite,FontWeight.w800, 22));
                 }
               ),
-              Builder(
-                builder: (context) {
+              Consumer<Mainprovider>(
+                builder: (context,value,child) {
                   return InkWell(onTap: () {
+                    value.getMainCategoy();
                         callNext(context, Main_Category());
                   },
                       child: Button(height*.10,width,cgreen,"Main Category",cWhite,FontWeight.w800, 22));

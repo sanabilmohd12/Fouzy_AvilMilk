@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:fouzy/provider/mainprovider.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
 import '../constants/myimages.dart';
 import '../constants/widgets.dart';
+import '../modelClass/MainCategoryModelClass.dart';
 
 class addAvilMilkScreen extends StatelessWidget {
   addAvilMilkScreen({super.key});
@@ -81,17 +84,155 @@ class addAvilMilkScreen extends StatelessWidget {
                  ),
                 SizedBox(height: 50),
 
-                // textfield(
-                //     TextInputType.text, "enter your AvilMilk Name ", "Name"),
-                // textfield(
-                //     TextInputType.number, "enter your Price", " ₹Price"),
-                // textfield(
-                //     TextInputType.text, "enter your description ", "description"),
-                // textfield(
-                //     TextInputType.text, "enter your AvilMilk Category ", "AvilMilk Category"),
-                // /// autocomplete maincategory
-                // textfield(
-                //     TextInputType.text, "enter your Types ", "Types",""),
+                Consumer<Mainprovider>(
+                  builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.text, "enter your AvilMilk Name ", "Name",value.avilMilkNameCt);
+                  }
+                ),
+                Consumer<Mainprovider>(
+                    builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.number, "enter your Price", " ₹Price",value.avilMilkPriceCt);
+                  }
+                ),
+                Consumer<Mainprovider>(
+                    builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.text, "enter your description ", "description",value.avilMilkDescribtionCt);
+                  }
+                ),
+                Consumer<Mainprovider>(
+                    builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.text, "enter your AvilMilk Category ", "AvilMilk Category",value.avilMilkCategoryCt);
+                  }
+                ),
+                /// autocomplete maincategory
+                SizedBox(
+                  width: width / 1.5,
+                  child: Consumer<Mainprovider>(
+                      builder: (context, value, child) {
+                        return Autocomplete<MainCategory>(
+                          optionsBuilder:
+                              (TextEditingValue textEditingValue) {
+                            return value.mainCategorylist
+                                .where((MainCategory item) => item.name
+                                .toLowerCase()
+                                .contains(
+                                textEditingValue.text.toLowerCase()))
+                                .toList();
+                          },
+                          displayStringForOption: (MainCategory option) =>
+                          option.name,
+                          fieldViewBuilder: (BuildContext context,
+                              TextEditingController
+                              fieldTextEditingController,
+                              FocusNode fieldFocusNode,
+                              VoidCallback onFieldSubmitted) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              fieldTextEditingController.text =
+                                  value.maincategorynameCt.text;
+                            });
+
+                            return SizedBox(
+                              child: TextFormField(
+                                maxLines: null,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 14),
+                                  hintStyle: TextStyle(
+                                      color:cBlack.withOpacity(0.6),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold),
+                                  fillColor:lightWhite,
+                                  filled: true,
+                                  border: const UnderlineInputBorder(
+                                    // borderRadius: BorderRadius.circular(30),
+                                    borderSide: BorderSide(
+                                        width: 2, color: Colors.red),
+                                  ),
+                                  focusedBorder: const UnderlineInputBorder(
+                                    // borderRadius: BorderRadius.circular(30),
+                                      borderSide: BorderSide(
+                                          color: Colors.grey, width: 2)),
+                                  enabledBorder: const UnderlineInputBorder(
+                                    // borderRadius: BorderRadius.circular(30),
+
+                                  ),
+                                  hintText: "Select a category",
+                                  suffixIcon:  Icon(
+                                    Icons.keyboard_arrow_down_sharp,
+                                    size: 25,
+                                    color: cBlack,
+                                  ),
+                                ),
+                                onChanged: (txt) {
+
+                                },
+                                controller: fieldTextEditingController,
+                                focusNode: fieldFocusNode,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "This field is Required";
+                                  } else {
+
+                                  }
+                                },
+                              ),
+                            );
+                          },
+                          onSelected: (MainCategory selection) {
+                            value.maincategorynameCt.text = selection.name;
+                            value.mainCategorySelectedId = selection.id;
+                            print(selection.id + "asdfg");
+                          },
+                          optionsViewBuilder: (BuildContext context,
+                              AutocompleteOnSelected<MainCategory> onSelected,
+                              Iterable<MainCategory> options) {
+                            return Align(
+                              alignment: Alignment.topLeft,
+                              child: Material(
+                                child: Container(
+                                  width: 200,
+                                  height: 300,
+                                  color:cWhite,
+                                  child: ListView.builder(
+                                    padding: const EdgeInsets.all(10.0),
+                                    itemCount: options.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final MainCategory option =
+                                      options.elementAt(index);
+
+                                      return GestureDetector(
+                                        onTap: () {
+                                          onSelected(option);
+                                        },
+                                        child: Container(
+                                          color: cWhite,
+                                          height: 50,
+                                          width: 200,
+                                          child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(option.name,
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                        FontWeight.bold)),
+                                                const SizedBox(height: 10)]),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }),
+                ),
 
                 // final FormState? form = _formKey.currentState;
                 // if (form!.validate()) {
@@ -123,5 +264,40 @@ class addAvilMilkScreen extends StatelessWidget {
 
       ),
     );
+  }
+  void showBottomSheet(BuildContext context) {
+    Mainprovider provider =Provider.of<Mainprovider>(context,listen: false);
+    showModalBottomSheet(
+        elevation: 10,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            )
+        ),
+        context: context,
+        builder: (BuildContext bc) {
+          return Wrap(
+            children: <Widget>[
+              ListTile(
+                  leading:  Icon(
+                    Icons.camera_enhance_sharp,
+                    color: cgreen,
+                  ),
+                  title: const Text('Camera',),
+                  onTap: () => {
+                    // donationProvider.getImgcamera(),
+                    Navigator.pop(context)}),
+              ListTile(
+                  leading:  Icon(Icons.photo, color: cgreen),
+                  title: const Text('Gallery',),
+                  onTap: () => {
+                    // donationProvider.getImggallery(),
+                    Navigator.pop(context)}),
+            ],
+          );
+        });
+    // ImageSource
   }
 }

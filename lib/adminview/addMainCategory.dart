@@ -37,11 +37,9 @@ class addMainCategoryScreen extends StatelessWidget {
         floatingActionButton: SizedBox(
           height: 49,
           width: width / 1.1,
-          // child: Consumer<MainProvider>(builder: (context, value, child) {
-          //   return   value.loader?CircularProgressIndicator(color: tViloet,):
-            child: Consumer<Mainprovider>(
-              builder: (context,value,child) {
-                return FloatingActionButton(
+          child: Consumer<Mainprovider>(builder: (context, value, child) {
+            return   value.loader?CircularProgressIndicator(color: cgreen,):
+           FloatingActionButton(
                   onPressed: () {
                     final FormState? form = _formKey.currentState;
                     if (form!.validate()) {
@@ -58,7 +56,7 @@ class addMainCategoryScreen extends StatelessWidget {
                       }
 
                     }
-                    back(context);
+
 
                   },
                   elevation: 0,
@@ -110,7 +108,7 @@ class addMainCategoryScreen extends StatelessWidget {
                 Consumer<Mainprovider>(
                   builder: (context,value,child) {
                     return textfield(
-                        TextInputType.text, "enter your Types ", "Types",value.addCategoryCt);
+                        TextInputType.text, "enter your Types ", "Types",value.addCategorynameCt);
                   }
                 ),
               ],
