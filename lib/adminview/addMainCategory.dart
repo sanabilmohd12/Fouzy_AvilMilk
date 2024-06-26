@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/provider/mainprovider.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
@@ -7,7 +9,9 @@ import '../constants/myimages.dart';
 import '../constants/widgets.dart';
 
 class addMainCategoryScreen extends StatelessWidget {
-   addMainCategoryScreen({super.key});
+  String from;
+  String oldid;
+   addMainCategoryScreen({super.key,required this.from,required this.oldid});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -35,38 +39,41 @@ class addMainCategoryScreen extends StatelessWidget {
           width: width / 1.1,
           // child: Consumer<MainProvider>(builder: (context, value, child) {
           //   return   value.loader?CircularProgressIndicator(color: tViloet,):
-            child: FloatingActionButton(
-              onPressed: () {
-                // final FormState? form = _formKey.currentState;
-                // if (form!.validate()) {
+            child: Consumer<Mainprovider>(
+              builder: (context,value,child) {
+                return FloatingActionButton(
+                  onPressed: () {
+                    final FormState? form = _formKey.currentState;
+                    if (form!.validate()) {
 
-                  // if(from=="NEW"){
-                  //   value.addDetails(from,"");
-                  //
-                  //   value.getdetails();
-                  //   back(context);
-                  // }else{
-                  //   value.addDetails(from,oldid);
-                  //
-                  //   value.getdetails();
-                  //   back(context);
-                  // }
-              //
-              //   }
-                back(context);
+                      if(from=="NEW"){
+                        value.addMainCategory(context,from,"",);
 
-              },
-              elevation: 0,
-              backgroundColor: cgreen,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(42),
-              ),
-              child: text(
-                "Save",
-                FontWeight.w700,
-                cWhite,
-                18,
-              ),
+                        back(context);
+                      }else{
+                        value.addMainCategory(context,from,oldid);
+
+
+                        back(context);
+                      }
+
+                    }
+                    back(context);
+
+                  },
+                  elevation: 0,
+                  backgroundColor: cgreen,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(42),
+                  ),
+                  child: text(
+                    "Save",
+                    FontWeight.w700,
+                    cWhite,
+                    18,
+                  ),
+                );
+              }
             )
           // }),
         ),
@@ -100,8 +107,12 @@ class addMainCategoryScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                   SizedBox(height: height*0.2,),
-                textfield(
-                    TextInputType.text, "enter your Types ", "Types"),
+                Consumer<Mainprovider>(
+                  builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.text, "enter your Types ", "Types",value.addCategoryCt);
+                  }
+                ),
               ],
             ),
           ),

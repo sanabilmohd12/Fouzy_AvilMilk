@@ -102,14 +102,14 @@ class addJuciesAndShakes extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: height*0.2,),
-                textfield(
-                    TextInputType.text, "enter your jucie name ", "Name"),
-                textfield(
-                    TextInputType.number, "enter your Price ", "₹Price"),
-
-                 ///autocomplete juciestypes
-                textfield(
-                    TextInputType.text, "enter your Types ", "Types"),
+                // textfield(
+                //     TextInputType.text, "enter your jucie name ", "Name"),
+                // textfield(
+                //     TextInputType.number, "enter your Price ", "₹Price"),
+                //
+                //  ///autocomplete juciestypes
+                // textfield(
+                //     TextInputType.text, "enter your Types ", "Types"),
 
               ],
             ),

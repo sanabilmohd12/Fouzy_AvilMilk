@@ -100,8 +100,8 @@ class AddJucieCategory extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: height*0.2,),
-                textfield(
-                    TextInputType.text, "enter your jucie Category ", "Category"),
+                // textfield(
+                    // TextInputType.text, "enter your jucie Category ", "Category"),
               ],
             ),
           ),

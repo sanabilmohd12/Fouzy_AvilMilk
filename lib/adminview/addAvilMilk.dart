@@ -81,17 +81,17 @@ class addAvilMilkScreen extends StatelessWidget {
                  ),
                 SizedBox(height: 50),
 
-                textfield(
-                    TextInputType.text, "enter your AvilMilk Name ", "Name"),
-                textfield(
-                    TextInputType.number, "enter your Price", " ₹Price"),
-                textfield(
-                    TextInputType.text, "enter your description ", "description"),
-                textfield(
-                    TextInputType.text, "enter your AvilMilk Category ", "AvilMilk Category"),
-                /// autocomplete maincategory
-                textfield(
-                    TextInputType.text, "enter your Types ", "Types"),
+                // textfield(
+                //     TextInputType.text, "enter your AvilMilk Name ", "Name"),
+                // textfield(
+                //     TextInputType.number, "enter your Price", " ₹Price"),
+                // textfield(
+                //     TextInputType.text, "enter your description ", "description"),
+                // textfield(
+                //     TextInputType.text, "enter your AvilMilk Category ", "AvilMilk Category"),
+                // /// autocomplete maincategory
+                // textfield(
+                //     TextInputType.text, "enter your Types ", "Types",""),
 
                 // final FormState? form = _formKey.currentState;
                 // if (form!.validate()) {

@@ -31,7 +31,7 @@ class Main_Category extends StatelessWidget {
             backgroundColor: cgreen,
             child: Icon(Icons.add, color: cWhite, size: 38),
             onPressed: () {
-              callNext(context, addMainCategoryScreen());
+              callNext(context, addMainCategoryScreen(from: "NEW",oldid: "",));
             },
           ),
 
