@@ -7,6 +7,7 @@ import '../constants/myimages.dart';
 import '../constants/widgets.dart';
 import 'AvilMilkListScreen.dart';
 import 'addMainCategory.dart';
+import 'icecreamslistScreen.dart';
 import 'jucieslist.dart';
 import 'listFouzySpecialScreen.dart';
 import 'maincateroylist.dart';
@@ -81,7 +82,7 @@ class Admin_Home_Screen extends StatelessWidget {
               Builder(
                 builder: (context) {
                   return InkWell(onTap: () {
-          
+               callNext(context, IcrecreamListScreen());
                   },
                       child: Button(height*.10,width,cgreen,"Fouzy Ice Creams",cWhite,FontWeight.w800, 22));
                 }

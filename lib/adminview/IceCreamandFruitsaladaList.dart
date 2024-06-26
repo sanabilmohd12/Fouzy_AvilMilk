@@ -6,11 +6,11 @@ import '../constants/colors.dart';
 import '../constants/myimages.dart';
 import '../constants/widgets.dart';
 
-import 'addjucies&shakesTypes.dart';
+import 'addIcreamTypesScreen.dart';
 
 
-class JuciesAndShakesList extends StatelessWidget {
-  const JuciesAndShakesList({super.key});
+class IceCreamTypesListScreen extends StatelessWidget {
+  const IceCreamTypesListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class JuciesAndShakesList extends StatelessWidget {
           backgroundColor: cgreen,
           child: Icon(Icons.add, color: cWhite, size: 38),
           onPressed: () {
-            callNext(context, addJuciesAndShakes());
+            callNext(context, AddIceCreamTypesScreen());
           },
         ),
 
@@ -53,7 +53,7 @@ class JuciesAndShakesList extends StatelessWidget {
           centerTitle: true,
 
           title: text(
-            " Fouzy special jucies",
+            " Fouzy IceCreams ",
             FontWeight.w700,
             cgreen,
             18,
@@ -82,7 +82,7 @@ class JuciesAndShakesList extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        FittedBox(child: text("lime", FontWeight.w500, cgreen, 20)),
+                        FittedBox(child: text("puttIceCream", FontWeight.w500, cgreen, 20)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
