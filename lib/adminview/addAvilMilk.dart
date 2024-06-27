@@ -273,16 +273,24 @@ class addAvilMilkScreen extends StatelessWidget {
                     return InkWell(onTap: () {
                       final FormState? form = _formKey.currentState;
                       if (form!.validate()) {
+                        if(value.AvilmilkFileImg!=null||value.avilmilkimg!=''){
+                          if(avilfrom=="NEW"){
+                            value.addAvilMilkItems(context,avilfrom,"");
 
-                      if(avilfrom=="NEW"){
-                        value.addAvilMilkItems(context,avilfrom,"");
+                            back(context);
+                          }else{
+                            value.addAvilMilkItems(context,avilfrom,aviloldid);
 
-                        back(context);
-                      }else{
-                        value.addAvilMilkItems(context,avilfrom,aviloldid);
+                            back(context);
+                          }
+                        }else{
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                            SnackBar(backgroundColor: Colors.red,
+                                content: Text("product photo provide",style: TextStyle(color:cWhite,fontSize: 15),)),
+                          );
+                        }
 
-                        back(context);
-                      }
 
                         }
                       },

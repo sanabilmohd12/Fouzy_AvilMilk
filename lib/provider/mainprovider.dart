@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../modelClass/MainCategoryModelClass.dart';
 import '../modelClass/avilmilktypesModelClass.dart';
+import '../modelClass/jucieandshakesCateModelClass.dart';
 
 class Mainprovider extends  ChangeNotifier{
   final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -43,7 +44,7 @@ class Mainprovider extends  ChangeNotifier{
           .showSnackBar( SnackBar(
         backgroundColor: cWhite,
         content: Text(
-            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 20,fontWeight: FontWeight.w800,)),
+            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
         duration:
         Duration(milliseconds: 3000),
       ));
@@ -53,7 +54,7 @@ class Mainprovider extends  ChangeNotifier{
           .showSnackBar( SnackBar(
         backgroundColor: cWhite,
         content: Text(
-            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 20,fontWeight: FontWeight.w800,)),
+            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
         duration:
         Duration(milliseconds: 3000),
       ));
@@ -164,7 +165,7 @@ class Mainprovider extends  ChangeNotifier{
           .showSnackBar( SnackBar(
         backgroundColor: cWhite,
         content: Text(
-            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 20,fontWeight: FontWeight.w800,)),
+            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
         duration:
         Duration(milliseconds: 3000),
       ));
@@ -174,7 +175,7 @@ class Mainprovider extends  ChangeNotifier{
           .showSnackBar( SnackBar(
              backgroundColor: cWhite,
         content: Text(
-            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 20,fontWeight: FontWeight.w800,)),
+            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
         duration:
         Duration(milliseconds: 3000),
       ));
@@ -318,7 +319,7 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
-                      // jucie & shakes
+                      // jucie category
 
 
   TextEditingController juciecategoryCt =TextEditingController();
@@ -338,29 +339,163 @@ class Mainprovider extends  ChangeNotifier{
     }
 
     if(from=="EDIT"){
-      db.collection("MAIN_CATEGORY").doc(oldId).update(map);
+      db.collection("JUICE_CATEGORY").doc(oldId).update(map);
       ScaffoldMessenger.of(context)
           .showSnackBar( SnackBar(
         backgroundColor: cWhite,
         content: Text(
-            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 20,fontWeight: FontWeight.w800,)),
+            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
         duration:
         Duration(milliseconds: 3000),
       ));
     }else{
-      db.collection("MAIN_CATEGORY").doc(id).set(map);
+      db.collection("JUICE_CATEGORY").doc(id).set(map);
       ScaffoldMessenger.of(context)
           .showSnackBar( SnackBar(
         backgroundColor: cWhite,
         content: Text(
-            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 20,fontWeight: FontWeight.w800,)),
+            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
         duration:
         Duration(milliseconds: 3000),
       ));
     }
     jucieloader=false;
-    getMainCategoy();
+    getJucieCategory();
     notifyListeners();
   }
+
+  void juciecategoryclear(){
+    juciecategoryCt.clear();
+  }
+
+
+  List<JucieCategoryModel> juciecategorylist=[];
+
+
+  bool getjuciecategoryloader= false;
+
+  void getJucieCategory(){
+    getjuciecategoryloader=true;
+    notifyListeners();
+    db.collection("JUICE_CATEGORY").get().then((value) {
+      if(value.docs.isNotEmpty){
+        getjuciecategoryloader=false;
+        notifyListeners();
+        juciecategorylist.clear();
+        for(var element in value.docs){
+          Map<dynamic, dynamic> getjuciecategorymap = element.data();
+          juciecategorylist.add(JucieCategoryModel(
+              getjuciecategorymap["JUICE_CATEGORY_ID"].toString(),
+              getjuciecategorymap["JUICE_CATEGORY_NAME"].toString(),
+                ));
+          notifyListeners();
+        }
+      }
+    });
+    notifyListeners();
+  }
+
+  void deleteJucieCategory(String id){
+    db.collection("JUICE_CATEGORY").doc(id).delete();
+    getJucieCategory();
+    notifyListeners();
+  }
+
+  void editJucieCategory(String id,BuildContext context) {
+    db.collection('JUICE_CATEGORY').doc(id).get().then((value) {
+      Map<dynamic, dynamic> dataMaps = value.data() as Map;
+      if (value.exists) {
+        juciecategoryCt.text = dataMaps["JUICE_CATEGORY_NAME"].toString();
+      }
+      notifyListeners();
+    });
+    getJucieCategory();
+    notifyListeners();
+  }
+
+
+            // jucie and shakes
+
+
+    TextEditingController jucieandShakesnameCt=TextEditingController();
+    TextEditingController jucieandShakespriceCt=TextEditingController();
+    TextEditingController jucieandshakescategoryCt=TextEditingController();
+
+      String JucieCategorySelectedId='';
+
+
+  bool addjucieshakesloader=false;
+
+  void addJucieAndShakesTypes(BuildContext context,String from,String oldId){
+    addjucieshakesloader=true;
+    notifyListeners();
+    String id =DateTime.now().millisecondsSinceEpoch.toString();
+    Map<String ,dynamic> map = HashMap();
+    map["JUICE_SHAKES_NAME"]=jucieandShakesnameCt.text;
+    map["JUICE_SHAKES_PRICE"]=jucieandShakespriceCt.text;
+    map["JUICE_SHAKES_CATEGORY"]=jucieandshakescategoryCt.text;
+    map["JUICE_SHAKES_CATEGORY_ID"]=JucieCategorySelectedId;
+
+    if(from=="NEW"){
+      map["JUICE_SHAKES_ID"]=id;
+    }
+
+    if(from=="EDIT"){
+      db.collection("JUICE_SHAKES_ITEMS").doc(oldId).update(map);
+      ScaffoldMessenger.of(context)
+          .showSnackBar( SnackBar(
+        backgroundColor: cWhite,
+        content: Text(
+            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
+        duration:
+        Duration(milliseconds: 3000),
+      ));
+    }else{
+      db.collection("JUICE_SHAKES_ITEMS").doc(id).set(map);
+      ScaffoldMessenger.of(context)
+          .showSnackBar( SnackBar(
+        backgroundColor: cWhite,
+        content: Text(
+            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
+        duration:
+        Duration(milliseconds: 3000),
+      ));
+    }
+    addjucieshakesloader=false;
+    notifyListeners();
+  }
+
+ List<JucieAndShakesItems> juiceshakesitemslist=[];
+
+  bool getjuiceshakeslistloader= false;
+
+  void getJuiceShakesItems(){
+    getjuiceshakeslistloader=true;
+    notifyListeners();
+    db.collection("JUICE_CATEGORY").get().then((value) {
+      if(value.docs.isNotEmpty){
+        getjuiceshakeslistloader=false;
+        notifyListeners();
+        juiceshakesitemslist.clear();
+        for(var element in value.docs){
+          Map<dynamic, dynamic> getjucieshakeitemmap = element.data();
+          juiceshakesitemslist.add(JucieAndShakesItems(
+              getjucieshakeitemmap["JUCIE_SHAKES_ID"].toString()  ,
+              getjucieshakeitemmap["JUICE_SHAKES_NAME"].toString()  ,
+              getjucieshakeitemmap["JUICE_SHAKES_PRICE"].toString()  ,
+              getjucieshakeitemmap["JUICE_SHAKES_CATEGORY_ID"].toString()  ,
+              getjucieshakeitemmap["JUICE_SHAKES_CATEGORY"].toString()  ,
+             ));
+          notifyListeners();
+          print("dfvf"+element.data().toString());
+
+        }
+
+      }
+    });
+    notifyListeners();
+  }
+
+
 
 }

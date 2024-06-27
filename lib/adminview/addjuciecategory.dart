@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/provider/mainprovider.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
@@ -7,7 +9,10 @@ import '../constants/myimages.dart';
 import '../constants/widgets.dart';
 
 class AddJucieCategory extends StatelessWidget {
-  AddJucieCategory({super.key});
+  String juicefrom;
+  String jucieoldid;
+
+  AddJucieCategory({super.key,required this.juicefrom,required this.jucieoldid});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -33,27 +38,24 @@ class AddJucieCategory extends StatelessWidget {
         floatingActionButton: SizedBox(
             height: 49,
             width: width / 1.1,
-            // child: Consumer<MainProvider>(builder: (context, value, child) {
-            //   return   value.loader?CircularProgressIndicator(color: tViloet,):
-            child: FloatingActionButton(
+            child: Consumer<Mainprovider>(builder: (context, value, child) {
+              return   value.jucieloader?CircularProgressIndicator(color: cgreen,):
+            FloatingActionButton(
               onPressed: () {
-                // final FormState? form = _formKey.currentState;
-                // if (form!.validate()) {
+                final FormState? form = _formKey.currentState;
+                if (form!.validate()) {
 
-                // if(from=="NEW"){
-                //   value.addDetails(from,"");
-                //
-                //   value.getdetails();
-                //   back(context);
-                // }else{
-                //   value.addDetails(from,oldid);
-                //
-                //   value.getdetails();
-                //   back(context);
-                // }
-                //
-                //   }
-                back(context);
+                if(juicefrom=="NEW"){
+                  value.addJucieCategory(context,juicefrom,"");
+
+                  back(context);
+                }else{
+                  value.addJucieCategory(context,juicefrom,jucieoldid);
+
+                  back(context);
+                }
+
+                  }
 
               },
               elevation: 0,
@@ -67,8 +69,8 @@ class AddJucieCategory extends StatelessWidget {
                 cWhite,
                 18,
               ),
-            )
-          // }),
+            );
+          }),
         ),
 
         backgroundColor: Colors.transparent,
@@ -100,8 +102,12 @@ class AddJucieCategory extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: height*0.2,),
-                // textfield(
-                    // TextInputType.text, "enter your jucie Category ", "Category"),
+                Consumer<Mainprovider>(
+                  builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.text, "enter your jucie Category ", "Category",value.juciecategoryCt);
+                  }
+                ),
               ],
             ),
           ),

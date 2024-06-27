@@ -1,13 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/provider/mainprovider.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
 import '../constants/myimages.dart';
 import '../constants/widgets.dart';
+import '../modelClass/jucieandshakesCateModelClass.dart';
 
 class addJuciesAndShakes extends StatelessWidget {
-  addJuciesAndShakes({super.key});
+  String jucieshakesfrom;
+  String jucieshakesoldid;
+  addJuciesAndShakes({super.key,required this.jucieshakesfrom,required this.jucieshakesoldid});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -33,27 +38,24 @@ class addJuciesAndShakes extends StatelessWidget {
         floatingActionButton: SizedBox(
             height: 49,
             width: width / 1.1,
-            // child: Consumer<MainProvider>(builder: (context, value, child) {
-            //   return   value.loader?CircularProgressIndicator(color: tViloet,):
-            child: FloatingActionButton(
+            child: Consumer<Mainprovider>(builder: (context, value, child) {
+              return   value.addjucieshakesloader?CircularProgressIndicator(color: cgreen,):
+             FloatingActionButton(
               onPressed: () {
-                // final FormState? form = _formKey.currentState;
-                // if (form!.validate()) {
+                final FormState? form = _formKey.currentState;
+                if (form!.validate()) {
 
-                // if(from=="NEW"){
-                //   value.addDetails(from,"");
-                //
-                //   value.getdetails();
-                //   back(context);
-                // }else{
-                //   value.addDetails(from,oldid);
-                //
-                //   value.getdetails();
-                //   back(context);
-                // }
-                //
-                //   }
-                back(context);
+                if(jucieshakesfrom=="NEW"){
+                  value.addJucieAndShakesTypes(context,jucieshakesfrom,"");
+
+               back(context);
+                }else{
+                  value.addJucieAndShakesTypes(context,jucieshakesfrom,jucieshakesoldid);
+
+                  back(context);
+                }
+
+                  }
 
               },
               elevation: 0,
@@ -67,8 +69,8 @@ class addJuciesAndShakes extends StatelessWidget {
                 cWhite,
                 18,
               ),
-            )
-          // }),
+            );
+          }),
         ),
 
         backgroundColor: Colors.transparent,
@@ -102,14 +104,146 @@ class addJuciesAndShakes extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: height*0.2,),
-                // textfield(
-                //     TextInputType.text, "enter your jucie name ", "Name"),
-                // textfield(
-                //     TextInputType.number, "enter your Price ", "₹Price"),
-                //
-                //  ///autocomplete juciestypes
-                // textfield(
-                //     TextInputType.text, "enter your Types ", "Types"),
+                Consumer<Mainprovider>(
+                  builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.text, "enter your jucie name ", "Name",value.jucieandShakesnameCt);
+                  }
+                ),
+                Consumer<Mainprovider>(
+                    builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.number, "enter your Price ", "₹Price",value.jucieandShakespriceCt);
+                  }
+                ),
+
+                 ///autocomplete juciestypes
+                 SizedBox(
+                                  width: width / 1.5,
+                                  child: Consumer<Mainprovider>(
+                                      builder: (context, value, child) {
+                                        return Autocomplete<JucieCategoryModel>(
+                                          optionsBuilder:
+                                              (TextEditingValue textEditingValue) {
+                                            return value.juciecategorylist
+                                                .where((JucieCategoryModel item) => item.name
+                                                .toLowerCase()
+                                                .contains(
+                                                textEditingValue.text.toLowerCase()))
+                                                .toList();
+                                          },
+                                          displayStringForOption: (JucieCategoryModel option) =>
+                                          option.name,
+                                          fieldViewBuilder: (BuildContext context,
+                                              TextEditingController
+                                              fieldTextEditingController,
+                                              FocusNode fieldFocusNode,
+                                              VoidCallback onFieldSubmitted) {
+                                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                                              fieldTextEditingController.text =
+                                                  value.jucieandshakescategoryCt.text;
+                                            });
+
+                                            return SizedBox(
+                                              child: TextFormField(
+                                                maxLines: null,
+                                                decoration: InputDecoration(
+                                                  contentPadding: EdgeInsets.symmetric(
+                                                      vertical: 16, horizontal: 14),
+                                                  hintStyle: TextStyle(
+                                                      color:cBlack.withOpacity(0.6),
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.bold),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(30),
+                                                  ),
+                                                  focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(30.0),
+                                                    borderSide:  BorderSide(
+                                                      color: cWhite,
+                                                    ),
+                                                  ),
+                                                  enabledBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(30.0),
+                                                    borderSide:  BorderSide(
+                                                      color:cWhite,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                  hintText: "Select a category",
+                                                  suffixIcon:  Icon(
+                                                    Icons.keyboard_arrow_down_sharp,
+                                                    size: 25,
+                                                    color: cBlack,
+                                                  ),
+                                                ),
+                                                onChanged: (txt) {
+
+                                                },
+                                                controller: fieldTextEditingController,
+                                                focusNode: fieldFocusNode,
+                                                validator: (value) {
+                                                  if (value!.isEmpty) {
+                                                    return "This field is Required";
+                                                  } else {
+
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                          onSelected: (JucieCategoryModel selection) {
+                                            value.jucieandshakescategoryCt.text = selection.name;
+                                            value.JucieCategorySelectedId = selection.id;
+                                            print(selection.id + "asdfg");
+                                          },
+                                          optionsViewBuilder: (BuildContext context,
+                                              AutocompleteOnSelected<JucieCategoryModel> onSelected,
+                                              Iterable<JucieCategoryModel> options) {
+                                            return Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Material(
+                                                child: Container(
+                                                  width: 200,
+                                                  height: 300,
+                                                  color:cWhite,
+                                                  child: ListView.builder(
+                                                    padding: const EdgeInsets.all(10.0),
+                                                    itemCount: options.length,
+                                                    itemBuilder:
+                                                        (BuildContext context, int index) {
+                                                      final JucieCategoryModel option =
+                                                      options.elementAt(index);
+
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          onSelected(option);
+                                                        },
+                                                        child: Container(
+                                                          color: cWhite,
+                                                          height: 50,
+                                                          width: 200,
+                                                          child: Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text(option.name,
+                                                                    style: const TextStyle(
+                                                                        fontWeight:
+                                                                        FontWeight.bold)),
+                                                                const SizedBox(height: 10)]),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }),
+                                ),
+
 
               ],
             ),

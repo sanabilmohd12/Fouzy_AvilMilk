@@ -91,9 +91,10 @@ class Admin_Home_Screen extends StatelessWidget {
                       child: Button(height*.10,width,cgreen,"Fouzy Ice Creams",cWhite,FontWeight.w800, 22));
                 }
               ),
-              Builder(
-                builder: (context) {
+              Consumer<Mainprovider>(
+                builder: (context,value,child) {
                   return InkWell(onTap: () {
+                    value.getJucieCategory();
                       callNext(context, jucieslistScreen());
                   },
                       child: Button(height*.10,width,cgreen,"Fouzy Jucies",cWhite,FontWeight.w800, 22));
