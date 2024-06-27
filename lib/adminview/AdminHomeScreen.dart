@@ -74,9 +74,10 @@ class Admin_Home_Screen extends StatelessWidget {
                       child: Button(height*.10,width,cgreen,"Main Category",cWhite,FontWeight.w800, 22));
                 }
               ),
-              Builder(
-                builder: (context) {
+              Consumer<Mainprovider>(
+                builder: (context,val,child) {
                   return InkWell(onTap: () {
+                    val.getavilmilktypes();
                      callNext(context, Avil_Milk_Screen());
                   },
                       child: Button(height*.10,width,cgreen,"Fouzy Avail  Milks",cWhite,FontWeight.w800, 22));

@@ -11,7 +11,9 @@ import '../constants/widgets.dart';
 import '../modelClass/MainCategoryModelClass.dart';
 
 class addAvilMilkScreen extends StatelessWidget {
-  addAvilMilkScreen({super.key});
+  String avilfrom;
+  String aviloldid;
+  addAvilMilkScreen({super.key,required this.avilfrom,required this.aviloldid});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -33,9 +35,6 @@ class addAvilMilkScreen extends StatelessWidget {
         ),
       ),
       child: Scaffold(
-
-
-
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           leading: InkWell(
@@ -64,23 +63,53 @@ class addAvilMilkScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Container(
-                   margin:EdgeInsets.symmetric(horizontal: 10,vertical: 10) ,
+                 Consumer<Mainprovider>(
+                   builder: (context,value,child) {
+                     return InkWell(onTap: () {
+                       showBottomSheet(context);
+                     },
+                       child: value.AvilmilkFileImg!=null?Container(
+                         margin:EdgeInsets.symmetric(horizontal: 10,vertical: 10) ,
 
-                     width: 200,height: 200,
-                   decoration: BoxDecoration(color: cWhite,borderRadius: BorderRadius.circular(15),boxShadow: [
-                     BoxShadow(
-                         color: lightWhite,
-                         spreadRadius: 3,
-                         blurStyle: BlurStyle.inner,blurRadius: 5
+                           width: 200,height: 200,
+                         decoration: BoxDecoration(color: cWhite,borderRadius: BorderRadius.circular(15),boxShadow: [
+                           BoxShadow(
+                               color: lightWhite,
+                               spreadRadius: 3,
+                               blurStyle: BlurStyle.inner,blurRadius: 5
 
-                     )],border: Border.all(width: 2,color: cWhite)),
-                   child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                     children: [
-                       Icon(Icons.add_a_photo_rounded,color: cgreen,size: 50,),
-                       text("Add AvilMilk Images", FontWeight.w400, cgreen, 12)
-                     ],
-                   ),
+                           )],border: Border.all(width: 2,color: cWhite),image: DecorationImage(image: FileImage(value.AvilmilkFileImg!))),
+                       ):value.avilmilkimg!=""?Container(
+                         margin:EdgeInsets.symmetric(horizontal: 10,vertical: 10) ,
+
+                         width: 200,height: 200,
+                         decoration: BoxDecoration(color: cWhite,borderRadius: BorderRadius.circular(15),boxShadow: [
+                           BoxShadow(
+                               color: lightWhite,
+                               spreadRadius: 3,
+                               blurStyle: BlurStyle.inner,blurRadius: 5
+
+                           )],border: Border.all(width: 2,color: cWhite),image: DecorationImage(image: NetworkImage(value.avilmilkimg))),
+                       ):Container(
+                         margin:EdgeInsets.symmetric(horizontal: 10,vertical: 10) ,
+
+                           width: 200,height: 200,
+                         decoration: BoxDecoration(color: cWhite,borderRadius: BorderRadius.circular(15),boxShadow: [
+                           BoxShadow(
+                               color: lightWhite,
+                               spreadRadius: 3,
+                               blurStyle: BlurStyle.inner,blurRadius: 5
+
+                           )],border: Border.all(width: 2,color: cWhite)),
+                         child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                           children: [
+                             Icon(Icons.add_a_photo_rounded,color: cgreen,size: 50,),
+                             text("Add AvilMilk Images", FontWeight.w400, cgreen, 12)
+                           ],
+                         ),
+                       ),
+                     );
+                   }
                  ),
                 SizedBox(height: 50),
 
@@ -145,20 +174,21 @@ class addAvilMilkScreen extends StatelessWidget {
                                       color:cBlack.withOpacity(0.6),
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold),
-                                  fillColor:lightWhite,
-                                  filled: true,
-                                  border: const UnderlineInputBorder(
-                                    // borderRadius: BorderRadius.circular(30),
-                                    borderSide: BorderSide(
-                                        width: 2, color: Colors.red),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
                                   ),
-                                  focusedBorder: const UnderlineInputBorder(
-                                    // borderRadius: BorderRadius.circular(30),
-                                      borderSide: BorderSide(
-                                          color: Colors.grey, width: 2)),
-                                  enabledBorder: const UnderlineInputBorder(
-                                    // borderRadius: BorderRadius.circular(30),
-
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide:  BorderSide(
+                                      color: cWhite,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide:  BorderSide(
+                                      color:cWhite,
+                                      width: 1,
+                                    ),
                                   ),
                                   hintText: "Select a category",
                                   suffixIcon:  Icon(
@@ -234,27 +264,31 @@ class addAvilMilkScreen extends StatelessWidget {
                       }),
                 ),
 
-                // final FormState? form = _formKey.currentState;
-                // if (form!.validate()) {
-
-                // if(from=="NEW"){
-                //   value.addDetails(from,"");
-                //
-                //   value.getdetails();
-                //   back(context);
-                // }else{
-                //   value.addDetails(from,oldid);
-                //
-                //   value.getdetails();
-                //   back(context);
-                // }
-                //
-                //   }
 
 
 
 
-                savebtn(height/15, width, cgreen, "Save", cWhite, FontWeight.w800, 15)
+                Consumer<Mainprovider>(
+                  builder: (context,value,child) {
+                    return InkWell(onTap: () {
+                      final FormState? form = _formKey.currentState;
+                      if (form!.validate()) {
+
+                      if(avilfrom=="NEW"){
+                        value.addAvilMilkItems(context,avilfrom,"");
+
+                        back(context);
+                      }else{
+                        value.addAvilMilkItems(context,avilfrom,aviloldid);
+
+                        back(context);
+                      }
+
+                        }
+                      },
+                        child:value.avilloader?CircularProgressIndicator(color: cgreen,):savebtn(height/15, width, cgreen, "Save", cWhite, FontWeight.w800, 15));
+                  }
+                )
 
               ],
             ),
@@ -287,13 +321,13 @@ class addAvilMilkScreen extends StatelessWidget {
                   ),
                   title: const Text('Camera',),
                   onTap: () => {
-                    // donationProvider.getImgcamera(),
+                    provider.getImgcamera(),
                     Navigator.pop(context)}),
               ListTile(
                   leading:  Icon(Icons.photo, color: cgreen),
                   title: const Text('Gallery',),
                   onTap: () => {
-                    // donationProvider.getImggallery(),
+                    provider.getImggallery(),
                     Navigator.pop(context)}),
             ],
           );

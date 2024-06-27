@@ -68,7 +68,7 @@ class Main_Category extends StatelessWidget {
           children: [
             Consumer<Mainprovider>(
               builder: (context,value,child) {
-                return ListView.builder(
+                return value.getloader?CircularProgressIndicator(color: cgreen,):ListView.builder(
                   physics: ScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,

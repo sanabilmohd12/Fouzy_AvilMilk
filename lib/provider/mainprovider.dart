@@ -8,8 +8,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fouzy/constants/colors.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../modelClass/MainCategoryModelClass.dart';
+import '../modelClass/avilmilktypesModelClass.dart';
 
 class Mainprovider extends  ChangeNotifier{
   final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -67,6 +69,7 @@ class Mainprovider extends  ChangeNotifier{
   }
 
   List<MainCategory> mainCategorylist=[];
+
   bool getloader= false;
 
   void getMainCategoy(){
@@ -107,7 +110,7 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
-                            // Avilmilks
+                            /// Avilmilks
 
 
      TextEditingController avilMilkNameCt =TextEditingController();
@@ -122,7 +125,7 @@ class Mainprovider extends  ChangeNotifier{
       File? AvilmilkFileImg=null;
       String avilmilkimg='';
 
-  Future<void> addAvilMilkItems( BuildContext context,String from,String oldId) async {
+  Future<void> addAvilMilkItems( BuildContext context1,String from,String oldId) async {
     avilloader=true;
     notifyListeners();
     String id =DateTime.now().millisecondsSinceEpoch.toString();
@@ -132,6 +135,7 @@ class Mainprovider extends  ChangeNotifier{
     map["DISCRETION"]=avilMilkDescribtionCt.text;
     map["AVILMILK_CATEGORY"]=avilMilkCategoryCt.text;
     map["MAIN_CATEGORY"]=maincategorynameCt.text;
+    map["MAIN_CATEGORY_ID"]=mainCategorySelectedId;
 
     if (AvilmilkFileImg != null) {
       String photoId = DateTime.now().millisecondsSinceEpoch.toString();
@@ -148,16 +152,13 @@ class Mainprovider extends  ChangeNotifier{
     } else {
       map['AVILMILK_PHOTO'] = avilmilkimg;
     }
-
-
-
     if(from=="NEW"){
       map["AVIL_MILK_ID"]=id;
     }
 
     if(from=="EDIT"){
       db.collection("AVIL_MILK").doc(oldId).update(map);
-      ScaffoldMessenger.of(context)
+      ScaffoldMessenger.of(context1)
           .showSnackBar( SnackBar(
         backgroundColor: cWhite,
         content: Text(
@@ -167,9 +168,9 @@ class Mainprovider extends  ChangeNotifier{
       ));
     }else{
       db.collection("AVIL_MILK").doc(id).set(map);
-      ScaffoldMessenger.of(context)
+      ScaffoldMessenger.of(context1)
           .showSnackBar( SnackBar(
-        backgroundColor: cWhite,
+             backgroundColor: cWhite,
         content: Text(
             "Added Successfully",style: TextStyle(color: cgreen,fontSize: 20,fontWeight: FontWeight.w800,)),
         duration:
@@ -177,9 +178,145 @@ class Mainprovider extends  ChangeNotifier{
       ));
     }
     avilloader=false;
-
+    getavilmilktypes();
     notifyListeners();
   }
+  void setImage(File image) {
+    AvilmilkFileImg = image;
+    notifyListeners();
+  }
+
+  Future getImggallery() async {
+    final imagePicker = ImagePicker();
+    final pickedImage =
+    await imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setImage(File(pickedImage.path));
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  Future getImgcamera() async {
+    final imgPicker = ImagePicker();
+    final pickedImage = await imgPicker.pickImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      setImage(File(pickedImage.path));
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  // Future<void> cropImage(String path, String from) async {
+  //   final croppedFile = await ImageCropper().cropImage(
+  //     sourcePath: path,
+  //     aspectRatioPresets: Platform.isAndroid
+  //         ? [
+  //       CropAspectRatioPreset.square,
+  //       CropAspectRatioPreset.ratio3x2,
+  //       CropAspectRatioPreset.original,
+  //       CropAspectRatioPreset.ratio4x3,
+  //       CropAspectRatioPreset.ratio16x9,
+  //     ]
+  //         : [
+  //       CropAspectRatioPreset.original,
+  //       CropAspectRatioPreset.square,
+  //       CropAspectRatioPreset.ratio3x2,
+  //       CropAspectRatioPreset.ratio4x3,
+  //       CropAspectRatioPreset.ratio5x3,
+  //       CropAspectRatioPreset.ratio5x4,
+  //       CropAspectRatioPreset.ratio7x5,
+  //       CropAspectRatioPreset.ratio16x9,
+  //       CropAspectRatioPreset.ratio16x9
+  //     ],
+  //     uiSettings: [
+  //       AndroidUiSettings(
+  //           toolbarTitle: 'Cropper',
+  //           toolbarColor: Colors.white,
+  //           toolbarWidgetColor: Colors.black,
+  //           initAspectRatio: CropAspectRatioPreset.original,
+  //           lockAspectRatio: false),
+  //       IOSUiSettings(
+  //         title: 'Cropper',
+  //       )
+  //     ],
+  //   );
+  //   if (croppedFile != null) {
+  //     Registerfileimg = File(croppedFile.path);
+  //     notifyListeners();
+  //   }
+  // }
+
+
+   void avilmilkclear(){
+    avilMilkNameCt.clear();
+    avilMilkPriceCt.clear();
+    avilMilkDescribtionCt.clear();
+    avilMilkCategoryCt.clear();
+    mainCategorylist.clear();
+    avilmilkimg='';
+    AvilmilkFileImg=null;
+   }
+
+
+ List<AvilMilkTypes> avilmilklist=[];
+
+
+  bool getavilloader= false;
+
+  void getavilmilktypes(){
+    getavilloader=true;
+    notifyListeners();
+    db.collection("AVIL_MILK").get().then((value) {
+      if(value.docs.isNotEmpty){
+        getavilloader=false;
+        notifyListeners();
+        avilmilklist.clear();
+        for(var element in value.docs){
+          Map<dynamic, dynamic> getavilmap = element.data();
+          avilmilklist.add(AvilMilkTypes(
+              getavilmap["AVIL_MILK_ID"].toString(),
+              getavilmap["AVIL_MILK_NAME"].toString(),
+              getavilmap["AVIL_MILK_PRICE"].toString(),
+              getavilmap["DISCRETION"].toString(),
+              getavilmap["AVILMILK_CATEGORY"].toString(),
+              getavilmap["MAIN_CATEGORY"].toString(),
+              getavilmap["MAIN_CATEGORY_ID"].toString(),
+              getavilmap["AVILMILK_PHOTO"].toString(),
+
+            ));
+          notifyListeners();
+        }
+      }
+    });
+    notifyListeners();
+  }
+
+  void deleteavilmilk(String id){
+    db.collection("AVIL_MILK").doc(id).delete();
+    getavilmilktypes();
+    notifyListeners();
+  }
+
+  void editavilmilk(String id) {
+    db.collection('AVIL_MILK').doc(id).get().then((value) {
+      Map<dynamic, dynamic> dataMaps = value.data() as Map;
+      if (value.exists) {
+        avilMilkNameCt.text=dataMaps["AVIL_MILK_NAME"].toString();
+        avilMilkPriceCt.text=dataMaps["AVIL_MILK_PRICE"].toString();
+        avilMilkDescribtionCt.text=dataMaps["DISCRETION"].toString();
+        avilMilkCategoryCt.text=dataMaps["AVILMILK_CATEGORY"].toString();
+        maincategorynameCt.text=dataMaps["MAIN_CATEGORY"].toString();
+        avilmilkimg=dataMaps["AVILMILK_PHOTO"].toString();
+      }
+      notifyListeners();
+    });
+    notifyListeners();
+  }
+
+
 
 
 
