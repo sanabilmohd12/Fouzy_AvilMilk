@@ -136,6 +136,8 @@ class Mainprovider extends  ChangeNotifier{
     map["AVILMILK_CATEGORY"]=avilMilkCategoryCt.text;
     map["MAIN_CATEGORY"]=maincategorynameCt.text;
     map["MAIN_CATEGORY_ID"]=mainCategorySelectedId;
+    map["ADDED_TIME"]=DateTime.now();
+    map["COUNT"]="";
 
     if (AvilmilkFileImg != null) {
       String photoId = DateTime.now().millisecondsSinceEpoch.toString();
@@ -316,9 +318,49 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
+                      // jucie & shakes
 
 
+  TextEditingController juciecategoryCt =TextEditingController();
 
 
+  bool jucieloader=false;
+
+  void addJucieCategory( BuildContext context,String from,String oldId){
+    jucieloader=true;
+    notifyListeners();
+    String id =DateTime.now().millisecondsSinceEpoch.toString();
+    Map<String ,dynamic> map = HashMap();
+    map["JUICE_CATEGORY_NAME"]=juciecategoryCt.text;
+
+    if(from=="NEW"){
+      map["JUICE_CATEGORY_ID"]=id;
+    }
+
+    if(from=="EDIT"){
+      db.collection("MAIN_CATEGORY").doc(oldId).update(map);
+      ScaffoldMessenger.of(context)
+          .showSnackBar( SnackBar(
+        backgroundColor: cWhite,
+        content: Text(
+            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 20,fontWeight: FontWeight.w800,)),
+        duration:
+        Duration(milliseconds: 3000),
+      ));
+    }else{
+      db.collection("MAIN_CATEGORY").doc(id).set(map);
+      ScaffoldMessenger.of(context)
+          .showSnackBar( SnackBar(
+        backgroundColor: cWhite,
+        content: Text(
+            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 20,fontWeight: FontWeight.w800,)),
+        duration:
+        Duration(milliseconds: 3000),
+      ));
+    }
+    jucieloader=false;
+    getMainCategoy();
+    notifyListeners();
+  }
 
 }
