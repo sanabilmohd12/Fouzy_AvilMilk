@@ -117,7 +117,7 @@ class jucieslistScreen extends StatelessWidget {
                                                   Center(
                                                     child: TextButton(
                                                       onPressed: () {
-                                                        value.deletemaincategory(item.id);
+                                                        value.deleteJucieCategory(item.id);
           
                                                         Navigator.of(context).pop();
                                                       },
