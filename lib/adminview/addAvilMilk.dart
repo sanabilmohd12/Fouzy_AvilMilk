@@ -263,11 +263,6 @@ class addAvilMilkScreen extends StatelessWidget {
                         );
                       }),
                 ),
-
-
-
-
-
                 Consumer<Mainprovider>(
                   builder: (context,value,child) {
                     return InkWell(onTap: () {
