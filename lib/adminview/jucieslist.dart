@@ -78,8 +78,8 @@ class jucieslistScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       var item = value.juciecategorylist[index];
                       return InkWell(onTap: () {
-                        value.getJuiceShakesItems();
-                        callNext(context, JuciesAndShakesList());
+                        value.getJuiceShakesItems(value.juciecategorylist[index].id);
+                        callNext(context, JuciesAndShakesList(jucietypeid:value.juciecategorylist[index].id ,jucietypename: value.juciecategorylist[index].name,));
           
                       },
                         child: Container(
@@ -117,7 +117,7 @@ class jucieslistScreen extends StatelessWidget {
                                                   Center(
                                                     child: TextButton(
                                                       onPressed: () {
-                                                        value.deleteJucieCategory(item.id);
+                                                        value.deleteJucieCategory(item.id,context);
           
                                                         Navigator.of(context).pop();
                                                       },

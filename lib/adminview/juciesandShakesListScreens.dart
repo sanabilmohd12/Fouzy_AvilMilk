@@ -12,7 +12,9 @@ import 'addjucies&shakesTypes.dart';
 
 
 class JuciesAndShakesList extends StatelessWidget {
-  const JuciesAndShakesList({super.key});
+  String jucietypename;
+  String jucietypeid;
+   JuciesAndShakesList({super.key,required this.jucietypename,required this.jucietypeid});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +39,9 @@ class JuciesAndShakesList extends StatelessWidget {
               backgroundColor: cgreen,
               child: Icon(Icons.add, color: cWhite, size: 38),
               onPressed: () {
+                value.juiceshakesclear();
                 value.getJucieCategory();
-                callNext(context, addJuciesAndShakes(jucieshakesfrom: "NEW",jucieshakesoldid: '',));
+                callNext(context, addJuciesAndShakes(jucieshakesfrom: "NEW",jucieshakesoldid: '',jucietypename: jucietypename,jucietypeid: jucietypeid,));
               },
             );
           }
@@ -68,7 +71,6 @@ class JuciesAndShakesList extends StatelessWidget {
         ),
         body:
 
-            /// evide null ann varunne clear it okay
 
         SingleChildScrollView(
           child: Column(
@@ -97,7 +99,7 @@ class JuciesAndShakesList extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             FittedBox(child: text(data.name, FontWeight.w500, cgreen, 20)),
-                            FittedBox(child: text(data.price, FontWeight.w500, cgreen, 15)),
+                            FittedBox(child: text("₹${data.price}", FontWeight.w500, cgreen, 15)),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -119,9 +121,11 @@ class JuciesAndShakesList extends StatelessWidget {
                                                 Center(
                                                   child: TextButton(
                                                     onPressed: () {
+                                                      value.deletejuiceshakes(data.id, jucietypeid, context);
                                                       Navigator.of(context).pop();
                                                     },
                                                     child: Container(
+
                                                       height: 45,
                                                       width: 90,
                                                       decoration: BoxDecoration(
@@ -168,8 +172,12 @@ class JuciesAndShakesList extends StatelessWidget {
                                             Center(
                                               child: TextButton(
                                                 onPressed: () {
-
-                                                  Navigator.pop(context);
+                                                  value.editjucieshake(data.id,jucietypeid,context);
+                                                  callNext(
+                                                      context,
+                                                      addJuciesAndShakes(
+                                                        jucieshakesfrom: "EDIT", jucieshakesoldid: data.id, jucietypename: jucietypename, jucietypeid: jucietypename,
+                                                      ));
                                                 },
                                                 child: Container(
                                                   height: 45,

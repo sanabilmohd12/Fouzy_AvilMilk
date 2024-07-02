@@ -109,7 +109,7 @@ class Main_Category extends StatelessWidget {
                                             Center(
                                               child: TextButton(
                                                 onPressed: () {
-                                                  value.deletemaincategory(items.id);
+                                                  value.deletemaincategory(items.id,context);
 
                                                   Navigator.of(context).pop();
                                                 },
@@ -161,7 +161,7 @@ class Main_Category extends StatelessWidget {
                                           child: TextButton(
                                             onPressed: () {
                                               print("dbjhbd"+items.id);
-                                              value.editmaincategory(items.id);
+                                              value.editmaincategory(items.id,context);
                                               callNext(
                                                   context,
                                                   addMainCategoryScreen(

@@ -138,6 +138,7 @@ class addAvilMilkScreen extends StatelessWidget {
                   }
                 ),
                 /// autocomplete maincategory
+                ///
                 SizedBox(
                   width: width / 1.5,
                   child: Consumer<Mainprovider>(
@@ -273,7 +274,9 @@ class addAvilMilkScreen extends StatelessWidget {
                             value.addAvilMilkItems(context,avilfrom,"");
 
                             back(context);
+
                           }else{
+
                             value.addAvilMilkItems(context,avilfrom,aviloldid);
 
                             back(context);
@@ -285,11 +288,9 @@ class addAvilMilkScreen extends StatelessWidget {
                                 content: Text("product photo provide",style: TextStyle(color:cWhite,fontSize: 15),)),
                           );
                         }
-
-
-                        }
-                      },
-                        child:value.avilloader?CircularProgressIndicator(color: cgreen,):savebtn(height/15, width, cgreen, "Save", cWhite, FontWeight.w800, 15));
+                      }},
+                        child:value.avilloader?CircularProgressIndicator(color: cgreen,):
+                        savebtn(height/15, width, cgreen, "Save", cWhite, FontWeight.w800, 15));
                   }
                 )
 

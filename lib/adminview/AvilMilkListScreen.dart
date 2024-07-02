@@ -116,7 +116,7 @@ class Avil_Milk_Screen extends StatelessWidget {
                                           Center(
                                             child: TextButton(
                                               onPressed: () {
-                                                value.deleteavilmilk(item.id);
+                                                value.deleteavilmilk(item.id,context);
 
                                                 Navigator.of(context).pop();
                                               },
@@ -171,7 +171,7 @@ class Avil_Milk_Screen extends StatelessWidget {
                                         child: TextButton(
                                           onPressed: () {
                                             print("dbjhbd"+item.id);
-                                            value.editavilmilk(item.id);
+                                            value.editavilmilk(item.id,context);
                                             callNext(
                                                 context,
                                                 addAvilMilkScreen(
