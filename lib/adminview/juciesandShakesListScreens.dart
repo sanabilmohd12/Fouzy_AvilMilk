@@ -14,7 +14,8 @@ import 'addjucies&shakesTypes.dart';
 class JuciesAndShakesList extends StatelessWidget {
   String jucietypename;
   String jucietypeid;
-   JuciesAndShakesList({super.key,required this.jucietypename,required this.jucietypeid});
+  String maincategoryid;
+   JuciesAndShakesList({super.key,required this.jucietypename,required this.jucietypeid,required this.maincategoryid});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class JuciesAndShakesList extends StatelessWidget {
               onPressed: () {
                 value.juiceshakesclear();
                 value.getJucieCategory();
-                callNext(context, addJuciesAndShakes(jucieshakesfrom: "NEW",jucieshakesoldid: '',jucietypename: jucietypename,jucietypeid: jucietypeid,));
+                callNext(context, addJuciesAndShakes(jucieshakesfrom: "NEW",jucieshakesoldid: '',jucietypename: jucietypename,jucietypeid: jucietypeid, maincategory: maincategoryid,));
               },
             );
           }
@@ -176,7 +177,7 @@ class JuciesAndShakesList extends StatelessWidget {
                                                   callNext(
                                                       context,
                                                       addJuciesAndShakes(
-                                                        jucieshakesfrom: "EDIT", jucieshakesoldid: data.id, jucietypename: jucietypename, jucietypeid: jucietypename,
+                                                        jucieshakesfrom: "EDIT", jucieshakesoldid: data.id, jucietypename: jucietypename, jucietypeid: jucietypename,maincategory: maincategoryid,
                                                       ));
                                                 },
                                                 child: Container(

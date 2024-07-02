@@ -14,7 +14,8 @@ class addJuciesAndShakes extends StatelessWidget {
   String jucieshakesoldid;
   String jucietypename;
   String jucietypeid;
-  addJuciesAndShakes({super.key,required this.jucieshakesfrom,required this.jucieshakesoldid,required this.jucietypename,required this.jucietypeid});
+  String maincategory;
+  addJuciesAndShakes({super.key,required this.jucieshakesfrom,required this.jucieshakesoldid,required this.jucietypename,required this.jucietypeid,required this.maincategory,});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -48,11 +49,11 @@ class addJuciesAndShakes extends StatelessWidget {
                 if (form!.validate()) {
 
                 if(jucieshakesfrom=="NEW"){
-                  value.addJucieAndShakesTypes(context,jucieshakesfrom,"",jucietypeid,jucietypename);
+                  value.addJucieAndShakesTypes(context,jucieshakesfrom,"",jucietypeid,jucietypename,maincategory);
 
                back(context);
                 }else{
-                  value.addJucieAndShakesTypes(context,jucieshakesfrom,jucieshakesoldid,jucietypeid,jucietypename);
+                  value.addJucieAndShakesTypes(context,jucieshakesfrom,jucieshakesoldid,jucietypeid,jucietypename,maincategory);
 
                   back(context);
                 }

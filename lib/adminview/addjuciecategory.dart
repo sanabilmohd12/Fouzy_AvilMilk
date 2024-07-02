@@ -7,6 +7,7 @@ import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
 import '../constants/myimages.dart';
 import '../constants/widgets.dart';
+import '../modelClass/MainCategoryModelClass.dart';
 
 class AddJucieCategory extends StatelessWidget {
   String juicefrom;
@@ -106,7 +107,133 @@ class AddJucieCategory extends StatelessWidget {
                   builder: (context,value,child) {
                     return textfield(
                         TextInputType.text, "enter your jucie Category ", "Category",value.juciecategoryCt);
+
                   }
+                ),
+                SizedBox(
+                  width: width / 1.5,
+                  child: Consumer<Mainprovider>(
+                      builder: (context, value, child) {
+                        return Autocomplete<MainCategory>(
+                          optionsBuilder:
+                              (TextEditingValue textEditingValue) {
+                            return value.mainCategorylist
+                                .where((MainCategory item) => item.name
+                                .toLowerCase()
+                                .contains(
+                                textEditingValue.text.toLowerCase()))
+                                .toList();
+                          },
+                          displayStringForOption: (MainCategory option) =>
+                          option.name,
+                          fieldViewBuilder: (BuildContext context,
+                              TextEditingController
+                              fieldTextEditingController,
+                              FocusNode fieldFocusNode,
+                              VoidCallback onFieldSubmitted) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              fieldTextEditingController.text =
+                                  value.MainCategoryjucieyCt.text;
+                            });
+
+                            return SizedBox(
+                              child: TextFormField(
+                                maxLines: null,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 14),
+                                  hintStyle: TextStyle(
+                                      color:cBlack.withOpacity(0.6),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide:  BorderSide(
+                                      color: cWhite,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide:  BorderSide(
+                                      color:cWhite,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  hintText: "Select a category",
+                                  suffixIcon:  Icon(
+                                    Icons.keyboard_arrow_down_sharp,
+                                    size: 25,
+                                    color: cBlack,
+                                  ),
+                                ),
+                                onChanged: (txt) {
+
+                                },
+                                controller: fieldTextEditingController,
+                                focusNode: fieldFocusNode,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "This field is Required";
+                                  } else {
+
+                                  }
+                                },
+                              ),
+                            );
+                          },
+                          onSelected: (MainCategory selection) {
+                            value.MainCategoryjucieyCt.text = selection.name;
+                            value.selectedmaincategoryjucie = selection.id;
+                            print(selection.id + "asdfg");
+                          },
+                          optionsViewBuilder: (BuildContext context,
+                              AutocompleteOnSelected<MainCategory> onSelected,
+                              Iterable<MainCategory> options) {
+                            return Align(
+                              alignment: Alignment.topLeft,
+                              child: Material(
+                                child: Container(
+                                  width: 200,
+                                  height: 300,
+                                  color:cWhite,
+                                  child: ListView.builder(
+                                    padding: const EdgeInsets.all(10.0),
+                                    itemCount: options.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final MainCategory option =
+                                      options.elementAt(index);
+
+                                      return GestureDetector(
+                                        onTap: () {
+                                          onSelected(option);
+                                        },
+                                        child: Container(
+                                          color: cWhite,
+                                          height: 50,
+                                          width: 200,
+                                          child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(option.name,
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                        FontWeight.bold)),
+                                                const SizedBox(height: 10)]),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }),
                 ),
               ],
             ),

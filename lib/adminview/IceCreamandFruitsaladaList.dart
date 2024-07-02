@@ -53,7 +53,7 @@ class IceCreamTypesListScreen extends StatelessWidget {
           centerTitle: true,
 
           title: text(
-            " Fouzy IceCreams ",
+            " Fouzy IceCreams Item",
             FontWeight.w700,
             cgreen,
             18,

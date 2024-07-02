@@ -343,7 +343,9 @@ class Mainprovider extends  ChangeNotifier{
 
 
   TextEditingController juciecategoryCt =TextEditingController();
+  TextEditingController MainCategoryjucieyCt =TextEditingController();
 
+   String selectedmaincategoryjucie="";
 
   bool jucieloader=false;
 
@@ -353,6 +355,8 @@ class Mainprovider extends  ChangeNotifier{
     String id =DateTime.now().millisecondsSinceEpoch.toString();
     Map<String ,dynamic> map = HashMap();
     map["JUICE_CATEGORY_NAME"]=juciecategoryCt.text;
+    map["MAIN_CATEGORY"]=MainCategoryjucieyCt.text;
+    map["MAIN_CATEGORY_ID"]=selectedmaincategoryjucie;
 
     if(from=="NEW"){
       map["JUICE_CATEGORY_ID"]=id;
@@ -407,6 +411,8 @@ class Mainprovider extends  ChangeNotifier{
           juciecategorylist.add(JucieCategoryModel(
               getjuciecategorymap["JUICE_CATEGORY_ID"].toString(),
               getjuciecategorymap["JUICE_CATEGORY_NAME"].toString(),
+              getjuciecategorymap["MAIN_CATEGORY"].toString(),
+              getjuciecategorymap["MAIN_CATEGORY_ID"].toString(),
                 ));
           notifyListeners();
         }
@@ -435,6 +441,7 @@ class Mainprovider extends  ChangeNotifier{
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
         juciecategoryCt.text = dataMaps["JUICE_CATEGORY_NAME"].toString();
+        MainCategoryjucieyCt.text = dataMaps["MAIN_CATEGORY"].toString();
       }
       notifyListeners();
     });
@@ -457,7 +464,7 @@ class Mainprovider extends  ChangeNotifier{
 
   bool addjucieshakesloader=false;
 
-  void addJucieAndShakesTypes(BuildContext context,String from,String oldId,String jucietypesid,String jucietypesname){
+  void addJucieAndShakesTypes(BuildContext context,String from,String oldId,String jucietypesid,String jucietypesname,String maincategory){
     addjucieshakesloader=true;
     notifyListeners();
     String id =DateTime.now().millisecondsSinceEpoch.toString();
@@ -466,6 +473,7 @@ class Mainprovider extends  ChangeNotifier{
     map["JUICE_SHAKES_PRICE"]=jucieandShakespriceCt.text;
     map["JUICE_SHAKES_CATEGORY"]=jucietypesname;
     map["JUICE_SHAKES_CATEGORY_ID"]=jucietypesid;
+    map["MAIN_CATEGORY_ID"]=maincategory;
 
     if(from=="NEW"){
       map["JUICE_SHAKES_ID"]=id;
@@ -521,6 +529,7 @@ class Mainprovider extends  ChangeNotifier{
               getjucieshakeitemmap["JUICE_SHAKES_PRICE"].toString(),
               getjucieshakeitemmap["JUICE_SHAKES_CATEGORY_ID"].toString(),
               getjucieshakeitemmap["JUICE_SHAKES_CATEGORY"].toString(),
+              getjucieshakeitemmap["MAIN_CATEGORY_ID"].toString(),
               ));
                notifyListeners();
           print("dfvf"+element.data().toString());
@@ -571,6 +580,9 @@ class Mainprovider extends  ChangeNotifier{
 
 
   TextEditingController  addicecreamcategoryCt =TextEditingController();
+  TextEditingController  maincategoryIceCt =TextEditingController();
+
+  String selectedmaincategoryiceid='';
 
   bool iceloader=false;
 
@@ -580,6 +592,8 @@ class Mainprovider extends  ChangeNotifier{
     String id =DateTime.now().millisecondsSinceEpoch.toString();
     Map<String ,dynamic> map = HashMap();
     map["ICE_CATEGORY_NAME"]=addicecreamcategoryCt.text;
+    map["MAIN_CATEGORY_NAME"]=maincategoryIceCt.text;
+    map["MAIN_CATEGORY_ID"]=selectedmaincategoryiceid;
 
     if(from=="NEW"){
       map["ICE_CATEGORY_ID"]=id;
@@ -634,6 +648,8 @@ class Mainprovider extends  ChangeNotifier{
           icecategorylist.add(IceCreamCategoryModel(
             getmap["ICE_CATEGORY_ID"].toString(),
             getmap["ICE_CATEGORY_NAME"].toString(),
+            getmap["MAIN_CATEGORY_ID"].toString(),
+            getmap["MAIN_CATEGORY_NAME"].toString(),
           ));
           notifyListeners();
         }
@@ -661,6 +677,7 @@ class Mainprovider extends  ChangeNotifier{
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
         addicecreamcategoryCt.text = dataMaps["ICE_CATEGORY_NAME"].toString();
+        maincategoryIceCt.text = dataMaps["MAIN_CATEGORY_NAME"].toString();
 
       }
       notifyListeners();
@@ -671,6 +688,7 @@ class Mainprovider extends  ChangeNotifier{
   }
 
    void icecreamitem(){
+
 
    }
 

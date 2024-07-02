@@ -36,6 +36,7 @@ class jucieslistScreen extends StatelessWidget {
               backgroundColor: cgreen,
               child: Icon(Icons.add, color: cWhite, size: 38),
               onPressed: () {
+                value.getMainCategoy();
                 value.juciecategoryclear();
              callNext(context, AddJucieCategory(juicefrom: "NEW",jucieoldid: '',)) ;
                       },
@@ -79,7 +80,8 @@ class jucieslistScreen extends StatelessWidget {
                       var item = value.juciecategorylist[index];
                       return InkWell(onTap: () {
                         value.getJuiceShakesItems(value.juciecategorylist[index].id);
-                        callNext(context, JuciesAndShakesList(jucietypeid:value.juciecategorylist[index].id ,jucietypename: value.juciecategorylist[index].name,));
+                        callNext(context, JuciesAndShakesList(jucietypeid:value.juciecategorylist[index].id ,jucietypename: value.juciecategorylist[index].name,
+                        maincategoryid: value.juciecategorylist[index].maincatoryid,));
           
                       },
                         child: Container(

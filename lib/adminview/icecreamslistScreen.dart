@@ -37,6 +37,7 @@ class IcrecreamListScreen extends StatelessWidget {
               backgroundColor: cgreen,
               child: Icon(Icons.add, color: cWhite, size: 38),
               onPressed: () {
+                value.getMainCategoy();
                 value.iceCategoryclear();
                 callNext(context, AddIceCreamCategory( icecategoryfrom: "NEW",icecategoryoldid: '',)) ;
               },

@@ -1,7 +1,9 @@
 class JucieCategoryModel{
   String id;
   String name;
-  JucieCategoryModel(this.id,this.name);
+  String maincatory;
+  String maincatoryid;
+  JucieCategoryModel(this.id,this.name,this.maincatory, this.maincatoryid);
 }
 
 
@@ -11,5 +13,6 @@ class JucieAndShakesItems{
    String price;
    String categoryid;
    String categoryname;
-  JucieAndShakesItems(this.id,this.name,this.price,this.categoryid,this.categoryname);
+   String maincatoryid;
+  JucieAndShakesItems(this.id,this.name,this.price,this.categoryid,this.categoryname,this.maincatoryid);
 }
