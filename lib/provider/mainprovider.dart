@@ -1,5 +1,3 @@
-
-
 import 'dart:collection';
 import 'dart:io';
 
@@ -15,75 +13,74 @@ import '../modelClass/avilmilktypesModelClass.dart';
 import '../modelClass/icecreamsModelClass.dart';
 import '../modelClass/jucieandshakesCateModelClass.dart';
 
-class Mainprovider extends  ChangeNotifier{
+class Mainprovider extends ChangeNotifier {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Reference ref = FirebaseStorage.instance.ref("IMAGE URL");
 
-
-
   /// maincategory
 
+  TextEditingController addCategorynameCt = TextEditingController();
 
-  TextEditingController  addCategorynameCt =TextEditingController();
+  bool loader = false;
 
-  bool loader=false;
-
-  void addMainCategory( BuildContext context,String from,String oldId){
-    loader=true;
+  void addMainCategory(BuildContext context, String from, String oldId) {
+    loader = true;
     notifyListeners();
-    String id =DateTime.now().millisecondsSinceEpoch.toString();
-    Map<String ,dynamic> map = HashMap();
-    map["MAIN_CATEGORY_NAME"]=addCategorynameCt.text;
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    Map<String, dynamic> map = HashMap();
+    map["MAIN_CATEGORY_NAME"] = addCategorynameCt.text;
 
-    if(from=="NEW"){
-      map["MAIN_CATEGORY_ID"]=id;
+    if (from == "NEW") {
+      map["MAIN_CATEGORY_ID"] = id;
     }
 
-    if(from=="EDIT"){
+    if (from == "EDIT") {
       db.collection("MAIN_CATEGORY").doc(oldId).update(map);
-      ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: cWhite,
-        content: Text(
-            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
-        duration:
-        Duration(milliseconds: 3000),
+        content: Text("Updated Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
       ));
-    }else{
+    } else {
       db.collection("MAIN_CATEGORY").doc(id).set(map);
-      ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: cWhite,
-        content: Text(
-            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
-        duration:
-        Duration(milliseconds: 3000),
-      )
-      );
+        content: Text("Added Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
+      ));
     }
-    loader=false;
+    loader = false;
     getMainCategoy();
     notifyListeners();
   }
 
-
-  void MainCategoryclear(){
+  void MainCategoryclear() {
     addCategorynameCt.clear();
   }
 
-  List<MainCategory> mainCategorylist=[];
+  List<MainCategory> mainCategorylist = [];
 
-  bool getloader= false;
+  bool getloader = false;
 
-  void getMainCategoy(){
-    getloader=true;
+  void getMainCategoy() {
+    getloader = true;
     notifyListeners();
     db.collection("MAIN_CATEGORY").get().then((value) {
-      if(value.docs.isNotEmpty){
-        getloader=false;
+      if (value.docs.isNotEmpty) {
+        getloader = false;
         notifyListeners();
         mainCategorylist.clear();
-        for(var element in value.docs){
+        for (var element in value.docs) {
           Map<dynamic, dynamic> getmap = element.data();
           mainCategorylist.add(MainCategory(
             getmap["MAIN_CATEGORY_ID"].toString(),
@@ -96,7 +93,7 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
-  void deletemaincategory(String id,BuildContext context){
+  void deletemaincategory(String id, BuildContext context) {
     db.collection("MAIN_CATEGORY").doc(id).delete();
     getMainCategoy();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -110,7 +107,7 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
-  void editmaincategory(String id,BuildContext context) {
+  void editmaincategory(String id, BuildContext context) {
     db.collection('MAIN_CATEGORY').doc(id).get().then((value) {
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
@@ -122,34 +119,36 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
-                            /// Avilmilks
+  /// Avilmilks
+
+  TextEditingController avilMilkNameCt = TextEditingController();
+  TextEditingController avilMilkPriceCt = TextEditingController();
+  TextEditingController avilMilkDescribtionCt = TextEditingController();
+  TextEditingController avilMilkCategoryCt = TextEditingController();
+  TextEditingController maincategorynameCt = TextEditingController();
+
+  String mainCategorySelectedId = '';
+
+  bool avilloader = false;
+  File? AvilmilkFileImg = null;
+
+  String avilmilkimg = '';
 
 
-     TextEditingController avilMilkNameCt =TextEditingController();
-     TextEditingController avilMilkPriceCt =TextEditingController();
-     TextEditingController avilMilkDescribtionCt =TextEditingController();
-     TextEditingController avilMilkCategoryCt =TextEditingController();
-     TextEditingController maincategorynameCt =TextEditingController();
-
-     String mainCategorySelectedId ='';
-
-     bool avilloader=false;
-      File? AvilmilkFileImg=null;
-      String avilmilkimg='';
-
-  Future<void> addAvilMilkItems( BuildContext context1,String from,String oldId) async {
-    avilloader=true;
+  Future<void> addAvilMilkItems(BuildContext context1, String from, String oldId) async {
+    avilloader = true;
     notifyListeners();
-    String id =DateTime.now().millisecondsSinceEpoch.toString();
-    Map<String ,dynamic> map = HashMap();
-    map["AVIL_MILK_NAME"]=avilMilkNameCt.text;
-    map["AVIL_MILK_PRICE"]=avilMilkPriceCt.text;
-    map["DISCRETION"]=avilMilkDescribtionCt.text;
-    map["AVILMILK_CATEGORY"]=avilMilkCategoryCt.text;
-    map["MAIN_CATEGORY"]=maincategorynameCt.text;
-    map["MAIN_CATEGORY_ID"]=mainCategorySelectedId;
-    map["ADDED_TIME"]=DateTime.now();
-    map["COUNT"]="";
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    HashMap<String, dynamic> map = HashMap();
+
+    map["AVIL_MILK_NAME"] = avilMilkNameCt.text.isNotEmpty ? avilMilkNameCt.text : null;
+    map["AVIL_MILK_PRICE"] = avilMilkPriceCt.text.isNotEmpty ? avilMilkPriceCt.text : null;
+    map["DISCRETION"] = avilMilkDescribtionCt.text.isNotEmpty ? avilMilkDescribtionCt.text : null;
+    map["AVILMILK_CATEGORY"] = avilMilkCategoryCt.text.isNotEmpty ? avilMilkCategoryCt.text : null;
+    map["MAIN_CATEGORY"] = maincategorynameCt.text.isNotEmpty ? maincategorynameCt.text : null;
+    map["MAIN_CATEGORY_ID"] = mainCategorySelectedId.isNotEmpty ? mainCategorySelectedId : null;
+    map["ADDED_TIME"] = DateTime.now();
+    map["COUNT"] = "";
 
     if (AvilmilkFileImg != null) {
       String photoId = DateTime.now().millisecondsSinceEpoch.toString();
@@ -166,35 +165,41 @@ class Mainprovider extends  ChangeNotifier{
     } else {
       map['AVILMILK_PHOTO'] = avilmilkimg;
     }
-    if(from=="NEW"){
-      map["AVIL_MILK_ID"]=id;
+    if (from == "NEW") {
+      map["AVIL_MILK_ID"] = id;
     }
 
-    if(from=="EDIT"){
+    if (from == "EDIT") {
       db.collection("AVIL_MILK").doc(oldId).update(map);
-      ScaffoldMessenger.of(context1)
-          .showSnackBar( SnackBar(
+      ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
         backgroundColor: cWhite,
-        content: Text(
-            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
-        duration:
-        Duration(milliseconds: 3000),
+        content: Text("Updated Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
       ));
-    }else{
+    } else {
       db.collection("AVIL_MILK").doc(id).set(map);
-      ScaffoldMessenger.of(context1)
-          .showSnackBar( SnackBar(
-             backgroundColor: cWhite,
-        content: Text(
-            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
-        duration:
-        Duration(milliseconds: 3000),
+      ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
+        backgroundColor: cWhite,
+        content: Text("Added Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
       ));
     }
-    avilloader=false;
+    avilloader = false;
+
     getavilmilktypes();
     notifyListeners();
   }
+
   void setImage(File image) {
     AvilmilkFileImg = image;
     notifyListeners();
@@ -203,7 +208,7 @@ class Mainprovider extends  ChangeNotifier{
   Future getImggallery() async {
     final imagePicker = ImagePicker();
     final pickedImage =
-    await imagePicker.pickImage(source: ImageSource.gallery);
+        await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       setImage(File(pickedImage.path));
@@ -222,7 +227,6 @@ class Mainprovider extends  ChangeNotifier{
       print('No image selected.');
     }
   }
-
 
   // Future<void> cropImage(String path, String from) async {
   //   final croppedFile = await ImageCropper().cropImage(
@@ -264,51 +268,63 @@ class Mainprovider extends  ChangeNotifier{
   //   }
   // }
 
-
-   void avilmilkclear(){
+  void avilmilkclear() {
     avilMilkNameCt.clear();
     avilMilkPriceCt.clear();
     avilMilkDescribtionCt.clear();
     avilMilkCategoryCt.clear();
     mainCategorylist.clear();
-    avilmilkimg='';
-    AvilmilkFileImg=null;
-   }
+    avilmilkimg = '';
+    AvilmilkFileImg = null;
+  }
 
+  List<AvilMilkTypes> avilmilklist = [];
 
- List<AvilMilkTypes> avilmilklist=[];
+  bool getavilloader = false;
 
+  void getavilmilktypes() {
 
-  bool getavilloader= false;
-
-  void getavilmilktypes(){
-    getavilloader=true;
+    getavilloader = true;
     notifyListeners();
     db.collection("AVIL_MILK").get().then((value) {
-      if(value.docs.isNotEmpty){
-        getavilloader=false;
+      if (value.docs.isNotEmpty) {
+        getavilloader = false;
         notifyListeners();
         avilmilklist.clear();
-        for(var element in value.docs){
+        for (var element in value.docs) {
           Map<dynamic, dynamic> getavilmap = element.data();
           avilmilklist.add(AvilMilkTypes(
-              getavilmap["AVIL_MILK_ID"].toString(),
-              getavilmap["AVIL_MILK_NAME"].toString(),
-              getavilmap["AVIL_MILK_PRICE"].toString(),
-              getavilmap["DISCRETION"].toString(),
-              getavilmap["AVILMILK_CATEGORY"].toString(),
-              getavilmap["MAIN_CATEGORY"].toString(),
-              getavilmap["MAIN_CATEGORY_ID"].toString(),
-              getavilmap["AVILMILK_PHOTO"].toString(),
+            getavilmap["AVIL_MILK_ID"].toString(),
+            getavilmap["AVIL_MILK_NAME"].toString(),
+            getavilmap["AVIL_MILK_PRICE"].toString(),
+            getavilmap["DISCRETION"].toString(),
+            getavilmap["AVILMILK_CATEGORY"].toString(),
+            getavilmap["MAIN_CATEGORY"].toString(),
+            getavilmap["MAIN_CATEGORY_ID"].toString(),
+            getavilmap["AVILMILK_PHOTO"].toString(),
           ));
           notifyListeners();
         }
+
       }
+      notifyListeners();
     });
     notifyListeners();
   }
 
-  void deleteavilmilk(String id,BuildContext context){
+
+
+
+
+
+
+
+
+
+
+
+
+  void deleteavilmilk(String id, BuildContext context) {
     db.collection("AVIL_MILK").doc(id).delete();
     getavilmilktypes();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -322,16 +338,16 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
-  void editavilmilk(String id,BuildContext context) {
+  void editavilmilk(String id, BuildContext context) {
     db.collection('AVIL_MILK').doc(id).get().then((value) {
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
-        avilMilkNameCt.text=dataMaps["AVIL_MILK_NAME"].toString();
-        avilMilkPriceCt.text=dataMaps["AVIL_MILK_PRICE"].toString();
-        avilMilkDescribtionCt.text=dataMaps["DISCRETION"].toString();
-        avilMilkCategoryCt.text=dataMaps["AVILMILK_CATEGORY"].toString();
-        maincategorynameCt.text=dataMaps["MAIN_CATEGORY"].toString();
-        avilmilkimg=dataMaps["AVILMILK_PHOTO"].toString();
+        avilMilkNameCt.text = dataMaps["AVIL_MILK_NAME"].toString();
+        avilMilkPriceCt.text = dataMaps["AVIL_MILK_PRICE"].toString();
+        avilMilkDescribtionCt.text = dataMaps["DISCRETION"].toString();
+        avilMilkCategoryCt.text = dataMaps["AVILMILK_CATEGORY"].toString();
+        maincategorynameCt.text = dataMaps["MAIN_CATEGORY"].toString();
+        avilmilkimg = dataMaps["AVILMILK_PHOTO"].toString();
       }
       notifyListeners();
     });
@@ -339,81 +355,84 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
-                      // jucie category
+  // jucie category
 
+  TextEditingController juciecategoryCt = TextEditingController();
+  TextEditingController MainCategoryjucieyCt = TextEditingController();
 
-  TextEditingController juciecategoryCt =TextEditingController();
-  TextEditingController MainCategoryjucieyCt =TextEditingController();
+  String selectedmaincategoryjucie = "";
 
-   String selectedmaincategoryjucie="";
+  bool jucieloader = false;
 
-  bool jucieloader=false;
+  //Juice Categories
 
-  void addJucieCategory( BuildContext context,String from,String oldId){
-    jucieloader=true;
+  void addJucieCategory(BuildContext context, String from, String oldId) {
+    jucieloader = true;
     notifyListeners();
-    String id =DateTime.now().millisecondsSinceEpoch.toString();
-    Map<String ,dynamic> map = HashMap();
-    map["JUICE_CATEGORY_NAME"]=juciecategoryCt.text;
-    map["MAIN_CATEGORY"]=MainCategoryjucieyCt.text;
-    map["MAIN_CATEGORY_ID"]=selectedmaincategoryjucie;
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    Map<String, dynamic> map = HashMap();
+    map["JUICE_CATEGORY_NAME"] = juciecategoryCt.text;
+    map["MAIN_CATEGORY"] = MainCategoryjucieyCt.text;
+    map["MAIN_CATEGORY_ID"] = selectedmaincategoryjucie;
 
-    if(from=="NEW"){
-      map["JUICE_CATEGORY_ID"]=id;
+    if (from == "NEW") {
+      map["JUICE_CATEGORY_ID"] = id;
     }
 
-    if(from=="EDIT"){
+    if (from == "EDIT") {
       db.collection("JUICE_CATEGORY").doc(oldId).update(map);
-      ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: cWhite,
-        content: Text(
-            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
-        duration:
-        Duration(milliseconds: 3000),
+        content: Text("Updated Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
       ));
-    }else{
+    } else {
       db.collection("JUICE_CATEGORY").doc(id).set(map);
-      ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: cWhite,
-        content: Text(
-            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
-        duration:
-        Duration(milliseconds: 3000),
+        content: Text("Added Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
       ));
     }
-    jucieloader=false;
+    jucieloader = false;
     getJucieCategory();
     notifyListeners();
   }
 
-  void juciecategoryclear(){
+  void juciecategoryclear() {
     juciecategoryCt.clear();
   }
 
+  List<JucieCategoryModel> juciecategorylist = [];
 
-  List<JucieCategoryModel> juciecategorylist=[];
-
-
-  bool getjuciecategoryloader= false;
+  bool getjuciecategoryloader = false;
 
   void getJucieCategory() {
-    getjuciecategoryloader=true;
+    getjuciecategoryloader = true;
     notifyListeners();
     db.collection("JUICE_CATEGORY").get().then((value) {
-      if(value.docs.isNotEmpty){
-        getjuciecategoryloader=false;
+      if (value.docs.isNotEmpty) {
+        getjuciecategoryloader = false;
         notifyListeners();
         juciecategorylist.clear();
-        for(var element in value.docs){
+        for (var element in value.docs) {
           Map<dynamic, dynamic> getjuciecategorymap = element.data();
           juciecategorylist.add(JucieCategoryModel(
-              getjuciecategorymap["JUICE_CATEGORY_ID"].toString(),
-              getjuciecategorymap["JUICE_CATEGORY_NAME"].toString(),
-              getjuciecategorymap["MAIN_CATEGORY"].toString(),
-              getjuciecategorymap["MAIN_CATEGORY_ID"].toString(),
-                ));
+            getjuciecategorymap["JUICE_CATEGORY_ID"].toString(),
+            getjuciecategorymap["JUICE_CATEGORY_NAME"].toString(),
+            getjuciecategorymap["MAIN_CATEGORY"].toString(),
+            getjuciecategorymap["MAIN_CATEGORY_ID"].toString(),
+          ));
           notifyListeners();
         }
       }
@@ -421,7 +440,7 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
-  void deleteJucieCategory(String id,BuildContext context){
+  void deleteJucieCategory(String id, BuildContext context) {
     db.collection("JUICE_CATEGORY").doc(id).delete();
     getJucieCategory();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -435,8 +454,7 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
-  void editJucieCategory(String id,BuildContext context) {
-
+  void editJucieCategory(String id, BuildContext context) {
     db.collection('JUICE_CATEGORY').doc(id).get().then((value) {
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
@@ -448,107 +466,108 @@ class Mainprovider extends  ChangeNotifier{
     getJucieCategory();
 
     notifyListeners();
-
   }
+  //*  *//
 
+  /// jucie and shakes
 
-            /// jucie and shakes
+  TextEditingController jucieandShakesnameCt = TextEditingController();
+  TextEditingController jucieandShakespriceCt = TextEditingController();
+  // TextEditingController jucieandshakescategoryCt=TextEditingController();
 
+  // String JucieCategorySelectedId='';
 
-    TextEditingController jucieandShakesnameCt=TextEditingController();
-    TextEditingController jucieandShakespriceCt=TextEditingController();
-    // TextEditingController jucieandshakescategoryCt=TextEditingController();
+  bool addjucieshakesloader = false;
 
-      // String JucieCategorySelectedId='';
-
-
-  bool addjucieshakesloader=false;
-
-  void addJucieAndShakesTypes(BuildContext context,String from,String oldId,String jucietypesid,String jucietypesname,String maincategory){
-    addjucieshakesloader=true;
+  void addJucieAndShakesTypes(BuildContext context, String from, String oldId,
+      String jucietypesid, String jucietypesname, String maincategory) {
+    addjucieshakesloader = true;
     notifyListeners();
-    String id =DateTime.now().millisecondsSinceEpoch.toString();
-    Map<String ,dynamic> map = HashMap();
-    map["JUICE_SHAKES_NAME"]=jucieandShakesnameCt.text;
-    map["JUICE_SHAKES_PRICE"]=jucieandShakespriceCt.text;
-    map["JUICE_SHAKES_CATEGORY"]=jucietypesname;
-    map["JUICE_SHAKES_CATEGORY_ID"]=jucietypesid;
-    map["MAIN_CATEGORY_ID"]=maincategory;
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    Map<String, dynamic> map = HashMap();
+    map["JUICE_SHAKES_NAME"] = jucieandShakesnameCt.text;
+    map["JUICE_SHAKES_PRICE"] = jucieandShakespriceCt.text;
+    map["JUICE_SHAKES_CATEGORY"] = jucietypesname;
+    map["JUICE_SHAKES_CATEGORY_ID"] = jucietypesid;
+    map["MAIN_CATEGORY_ID"] = maincategory;
 
-    if(from=="NEW"){
-      map["JUICE_SHAKES_ID"]=id;
+    if (from == "NEW") {
+      map["JUICE_SHAKES_ID"] = id;
     }
 
-    if(from=="EDIT"){
+    if (from == "EDIT") {
       db.collection("JUICE_SHAKES_ITEMS").doc(oldId).update(map);
-      ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: cWhite,
-        content: Text(
-            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
-        duration:
-        Duration(milliseconds: 3000),
+        content: Text("Updated Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
       ));
-    }else{
+    } else {
       db.collection("JUICE_SHAKES_ITEMS").doc(id).set(map);
-      ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(
-            backgroundColor: cWhite,
-            content: Text(
-            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
-        duration:
-        Duration(milliseconds: 3000),
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: cWhite,
+        content: Text("Added Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
       ));
     }
     getJuiceShakesItems(jucietypesid);
-    addjucieshakesloader=false;
+    addjucieshakesloader = false;
     notifyListeners();
   }
 
- List<JucieAndShakesItems> juiceshakesitemslist=[];
+  List<JucieAndShakesItems> juiceshakesitemslist = [];
 
-  bool getjuiceshakeslistloader= false;
+  bool getjuiceshakeslistloader = false;
 
-  void getJuiceShakesItems(String juicetypeid){
+  void getJuiceShakesItems(String juicetypeid) {
     juiceshakesitemslist.clear();
     print("dcdc");
-    getjuiceshakeslistloader=true;
+    getjuiceshakeslistloader = true;
     notifyListeners();
-    db.collection("JUICE_SHAKES_ITEMS").where("JUICE_SHAKES_CATEGORY_ID",isEqualTo: juicetypeid).get().then((value) {
-      if(value.docs.isNotEmpty){
-        getjuiceshakeslistloader=false;
+    db
+        .collection("JUICE_SHAKES_ITEMS")
+        .where("JUICE_SHAKES_CATEGORY_ID", isEqualTo: juicetypeid)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        getjuiceshakeslistloader = false;
         notifyListeners();
 
-        for(var element in value.docs){
-
+        for (var element in value.docs) {
           Map<dynamic, dynamic> getjucieshakeitemmap = element.data();
 
-              juiceshakesitemslist.add(JucieAndShakesItems(
-              getjucieshakeitemmap["JUICE_SHAKES_ID"].toString(),
-              getjucieshakeitemmap["JUICE_SHAKES_NAME"].toString(),
-              getjucieshakeitemmap["JUICE_SHAKES_PRICE"].toString(),
-              getjucieshakeitemmap["JUICE_SHAKES_CATEGORY_ID"].toString(),
-              getjucieshakeitemmap["JUICE_SHAKES_CATEGORY"].toString(),
-              getjucieshakeitemmap["MAIN_CATEGORY_ID"].toString(),
-              ));
-               notifyListeners();
-          print("dfvf"+element.data().toString());
+          juiceshakesitemslist.add(JucieAndShakesItems(
+            getjucieshakeitemmap["JUICE_SHAKES_ID"].toString(),
+            getjucieshakeitemmap["JUICE_SHAKES_NAME"].toString(),
+            getjucieshakeitemmap["JUICE_SHAKES_PRICE"].toString(),
+            getjucieshakeitemmap["JUICE_SHAKES_CATEGORY_ID"].toString(),
+            getjucieshakeitemmap["JUICE_SHAKES_CATEGORY"].toString(),
+            getjucieshakeitemmap["MAIN_CATEGORY_ID"].toString(),
+          ));
+          notifyListeners();
+          print("dfvf" + element.data().toString());
         }
       }
     });
     notifyListeners();
-
   }
 
-
-
-
-  void juiceshakesclear(){
+  void juiceshakesclear() {
     jucieandShakesnameCt.clear();
     jucieandShakespriceCt.clear();
   }
 
-  void editjucieshake(String id,String juicetypeid,BuildContext context){
+  void editjucieshake(String id, String juicetypeid, BuildContext context) {
     db.collection('JUICE_SHAKES_ITEMS').doc(id).get().then((value) {
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
@@ -561,7 +580,8 @@ class Mainprovider extends  ChangeNotifier{
 
     notifyListeners();
   }
-  void deletejuiceshakes(String id,String juicetypeid,BuildContext context){
+
+  void deletejuiceshakes(String id, String juicetypeid, BuildContext context) {
     db.collection('JUICE_SHAKES_ITEMS').doc(id).delete();
     getJuiceShakesItems(juicetypeid);
     ScaffoldMessenger.of(context).showSnackBar(
@@ -574,76 +594,77 @@ class Mainprovider extends  ChangeNotifier{
     );
     notifyListeners();
   }
+  //*  *//
 
+  // Ice cream
 
-    // Ice cream
+  TextEditingController addicecreamcategoryCt = TextEditingController();
+  TextEditingController maincategoryIceCt = TextEditingController();
 
+  String selectedmaincategoryiceid = '';
 
-  TextEditingController  addicecreamcategoryCt =TextEditingController();
-  TextEditingController  maincategoryIceCt =TextEditingController();
+  bool iceloader = false;
 
-  String selectedmaincategoryiceid='';
-
-  bool iceloader=false;
-
-  void addIceCategory( BuildContext context,String from,String oldId){
-    iceloader=true;
+  void addIceCategory(BuildContext context, String from, String oldId) {
+    iceloader = true;
     notifyListeners();
-    String id =DateTime.now().millisecondsSinceEpoch.toString();
-    Map<String ,dynamic> map = HashMap();
-    map["ICE_CATEGORY_NAME"]=addicecreamcategoryCt.text;
-    map["MAIN_CATEGORY_NAME"]=maincategoryIceCt.text;
-    map["MAIN_CATEGORY_ID"]=selectedmaincategoryiceid;
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    Map<String, dynamic> map = HashMap();
+    map["ICE_CATEGORY_NAME"] = addicecreamcategoryCt.text;
+    map["MAIN_CATEGORY_NAME"] = maincategoryIceCt.text;
+    map["MAIN_CATEGORY_ID"] = selectedmaincategoryiceid;
 
-    if(from=="NEW"){
-      map["ICE_CATEGORY_ID"]=id;
+    if (from == "NEW") {
+      map["ICE_CATEGORY_ID"] = id;
     }
 
-    if(from=="EDIT"){
+    if (from == "EDIT") {
       db.collection("ICE_CREAM_CATEGORY").doc(oldId).update(map);
-      ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: cWhite,
-        content: Text(
-            "Updated Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
-        duration:
-        Duration(milliseconds: 3000),
+        content: Text("Updated Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
       ));
-    }else{
+    } else {
       db.collection("ICE_CREAM_CATEGORY").doc(id).set(map);
-      ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: cWhite,
-        content: Text(
-            "Added Successfully",style: TextStyle(color: cgreen,fontSize: 15,fontWeight: FontWeight.w800,)),
-        duration:
-        Duration(milliseconds: 3000),
-      )
-      );
+        content: Text("Added Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
+      ));
     }
-    iceloader=false;
+    iceloader = false;
     getIceCreamCategoy();
     notifyListeners();
   }
 
-
-  void iceCategoryclear(){
+  void iceCategoryclear() {
     addicecreamcategoryCt.clear();
   }
 
-  List<IceCreamCategoryModel> icecategorylist=[];
+  List<IceCreamCategoryModel> icecategorylist = [];
 
-  bool geticecatloader= false;
+  bool geticecatloader = false;
 
-  void getIceCreamCategoy(){
-    geticecatloader=true;
+  void getIceCreamCategoy() {
+    geticecatloader = true;
     notifyListeners();
     db.collection("ICE_CREAM_CATEGORY").get().then((value) {
-      if(value.docs.isNotEmpty){
-        geticecatloader=false;
+      if (value.docs.isNotEmpty) {
+        geticecatloader = false;
         notifyListeners();
         icecategorylist.clear();
-        for(var element in value.docs){
+        for (var element in value.docs) {
           Map<dynamic, dynamic> getmap = element.data();
           icecategorylist.add(IceCreamCategoryModel(
             getmap["ICE_CATEGORY_ID"].toString(),
@@ -658,7 +679,7 @@ class Mainprovider extends  ChangeNotifier{
     notifyListeners();
   }
 
-  void deleteicecategory(String id,BuildContext context){
+  void deleteicecategory(String id, BuildContext context) {
     db.collection("ICE_CREAM_CATEGORY").doc(id).delete();
     getIceCreamCategoy();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -671,27 +692,20 @@ class Mainprovider extends  ChangeNotifier{
     );
     notifyListeners();
   }
+
   //
-  void editicecategory(String id,BuildContext context) {
+  void editicecategory(String id, BuildContext context) {
     db.collection('ICE_CREAM_CATEGORY').doc(id).get().then((value) {
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
         addicecreamcategoryCt.text = dataMaps["ICE_CATEGORY_NAME"].toString();
         maincategoryIceCt.text = dataMaps["MAIN_CATEGORY_NAME"].toString();
-
       }
       notifyListeners();
-
     });
     getIceCreamCategoy();
     notifyListeners();
   }
 
-   void icecreamitem(){
-
-
-   }
-
-
-
+  void icecreamitem() {}
 }

@@ -54,55 +54,53 @@ class Admin_Home_Screen extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        body:SingleChildScrollView(
-          child: Column(
-            children: [
-              Builder(
-                builder: (context) {
-                  return InkWell(onTap: () {
-             callNext(context, FouzySpecialScreen());
-                  },
-                      child: Button(height*.10,width,cgreen,"Fouzy Special",cWhite,FontWeight.w800, 22));
-                }
-              ),
-              Consumer<Mainprovider>(
-                builder: (context,value,child) {
-                  return InkWell(onTap: () {
-                    value.getMainCategoy();
-                        callNext(context, Main_Category());
-                  },
-                      child: Button(height*.10,width,cgreen,"Main Category",cWhite,FontWeight.w800, 22));
-                }
-              ),
-              Consumer<Mainprovider>(
-                builder: (context,val,child) {
-                  return InkWell(onTap: () {
-                    val.getavilmilktypes();
-                     callNext(context, Avil_Milk_Screen());
-                  },
-                      child: Button(height*.10,width,cgreen,"Fouzy Avail  Milks",cWhite,FontWeight.w800, 22));
-                }
-              ),
-              Consumer<Mainprovider>(
-                builder: (context,value,child) {
-                  return InkWell(onTap: () {
-                    value.getIceCreamCategoy();
-               callNext(context, IcrecreamListScreen());
-                  },
-                      child: Button(height*.10,width,cgreen,"Fouzy Ice Creams",cWhite,FontWeight.w800, 22));
-                }
-              ),
-              Consumer<Mainprovider>(
-                builder: (context,value,child) {
-                  return InkWell(onTap: () {
-                    value.getJucieCategory();
-                      callNext(context, jucieslistScreen());
-                  },
-                      child: Button(height*.10,width,cgreen,"Fouzy Jucies",cWhite,FontWeight.w800, 22));
-                }
-              ),
-            ],
-          ),
+        body:Column(
+          children: [
+            Builder(
+              builder: (context) {
+                return InkWell(onTap: () {
+           callNext(context, FouzySpecialScreen());
+                },
+                    child: Button(height*.10,width,cgreen,"Fouzy Special",cWhite,FontWeight.w800, 22));
+              }
+            ),
+            Consumer<Mainprovider>(
+              builder: (context,value,child) {
+                return InkWell(onTap: () {
+                  value.getMainCategoy();
+                      callNext(context, Main_Category());
+                },
+                    child: Button(height*.10,width,cgreen,"Main Category",cWhite,FontWeight.w800, 22));
+              }
+            ),
+            Consumer<Mainprovider>(
+              builder: (context,val,child) {
+                return InkWell(onTap: () {
+                  val.getavilmilktypes();
+                   callNext(context, AvilMilkScreen());
+                },
+                    child: Button(height*.10,width,cgreen,"Fouzy Avail  Milks",cWhite,FontWeight.w800, 22));
+              }
+            ),
+            Consumer<Mainprovider>(
+              builder: (context,value,child) {
+                return InkWell(onTap: () {
+                  value.getIceCreamCategoy();
+             callNext(context, IcrecreamListScreen());
+                },
+                    child: Button(height*.10,width,cgreen,"Fouzy Ice Creams",cWhite,FontWeight.w800, 22));
+              }
+            ),
+            Consumer<Mainprovider>(
+              builder: (context,value,child) {
+                return InkWell(onTap: () {
+                  value.getJucieCategory();
+                    callNext(context, jucieslistScreen());
+                },
+                    child: Button(height*.10,width,cgreen,"Fouzy Jucies",cWhite,FontWeight.w800, 22));
+              }
+            ),
+          ],
         ) ,
 
 
