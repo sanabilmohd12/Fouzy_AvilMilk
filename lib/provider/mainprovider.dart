@@ -29,6 +29,7 @@ class Mainprovider extends  ChangeNotifier{
   bool loader=false;
 
   void addMainCategory( BuildContext context,String from,String oldId){
+
     loader=true;
     notifyListeners();
     String id =DateTime.now().millisecondsSinceEpoch.toString();
