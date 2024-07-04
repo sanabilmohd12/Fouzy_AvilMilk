@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/view/homescreen.dart';
+import 'package:fouzy/view/splashscreen.dart';
 import 'package:provider/provider.dart';
 
 import 'adminview/AdminHomeScreen.dart';
@@ -37,8 +39,9 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        // home:  Splashscreen(),
-        home:  Admin_Home_Screen(),
+        // home:  SplashScreen(),
+        home:  Homescreen(),
+        // home:  Admin_Home_Screen(),
 
       ),
     );

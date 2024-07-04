@@ -16,9 +16,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   final screen = [
     Homescreen(),
-    Splashscreen(),
+    CategoryScreen(),
     Homescreen(),
-    Splashscreen(),
+    CategoryScreen(),
 
   ];
 
@@ -75,7 +75,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 },
                   child: GestureDetector(
                       onTap: (){
-                        Splashscreen();
+                        CategoryScreen();
                       },
                       child: buildNavItem(Icons.shopping_cart, 1,))),
               SizedBox(width: 40), // The dummy child for the floating button

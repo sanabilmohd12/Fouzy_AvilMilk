@@ -106,7 +106,7 @@ class AddJucieCategory extends StatelessWidget {
                 Consumer<Mainprovider>(
                   builder: (context,value,child) {
                     return textfield(
-                        TextInputType.text, "enter your jucie Category ", "Category",value.juciecategoryCt);
+                        TextInputType.text, "enter your juice Category ", "Category",value.juciecategoryCt);
 
                   }
                 ),

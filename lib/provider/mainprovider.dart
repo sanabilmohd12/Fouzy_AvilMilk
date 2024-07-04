@@ -594,6 +594,7 @@ class Mainprovider extends  ChangeNotifier{
     map["ICE_CATEGORY_NAME"]=addicecreamcategoryCt.text;
     map["MAIN_CATEGORY_NAME"]=maincategoryIceCt.text;
     map["MAIN_CATEGORY_ID"]=selectedmaincategoryiceid;
+    // map["TYPE"]=type;
 
     if(from=="NEW"){
       map["ICE_CATEGORY_ID"]=id;

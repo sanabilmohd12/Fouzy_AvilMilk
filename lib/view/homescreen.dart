@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/colors.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/mainprovider.dart';
 import 'bottombar.dart';
 
 class Homescreen extends StatefulWidget {
@@ -24,7 +26,7 @@ class _HomescreenState extends State<Homescreen> {
     return Scaffold(
       backgroundColor: cYellow,
       appBar: AppBar(
-        toolbarHeight: 150,
+        toolbarHeight: 100,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -53,11 +55,17 @@ class _HomescreenState extends State<Homescreen> {
                     ),
                   ),
                 ),
-                child: ListView.builder(
-                  shrinkWrap: true,
+                child: Consumer<Mainprovider>(
+                      builder: (context,value,child) {
+                             return value.getloader?Center(child: CircularProgressIndicator(color: cgreen,)):ListView.builder(
 
-                  itemCount: 10,
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: value.mainCategorylist.length,
                   itemBuilder: (context, index) {
+                    print("ffvfvfv"+value.mainCategorylist.length.toString());
+                    var items =value.mainCategorylist[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 18.0, vertical: 28),
@@ -74,9 +82,9 @@ class _HomescreenState extends State<Homescreen> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        child: const Center(
+                        child:  Center(
                           child: Text(
-                            'Avil Milk',
+                            items.name,
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w800,
@@ -86,9 +94,9 @@ class _HomescreenState extends State<Homescreen> {
                       ),
                     );
                   },
-                ),
-              )
-            ],
+                );
+              })
+              ) ],
           ),
         ),
           Align(

@@ -15,7 +15,7 @@ Widget text(String name, FontWeight weight, Color mycolor, double size) {
         fontFamily: "poppines"),
   );
 }
-Widget textfield( TextInputType keyboardtype,
+Widget textfield(TextInputType keyboardtype,
     String validationtext, String labeltxt,TextEditingController controller) {
 
 
