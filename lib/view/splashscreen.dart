@@ -1,7 +1,55 @@
-import 'package:flutter/material.dart';
 
-class Splashscreen extends StatelessWidget {
-  const Splashscreen({super.key});
+
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../constants/callFunctions.dart';
+import '../provider/mainprovider.dart';
+import 'bottombar.dart';
+import 'homescreen.dart';
+
+
+
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+  @override
+  void initState() {
+
+    print("codee id her");
+
+    Timer? _timer;
+
+
+    super.initState();
+
+    Mainprovider mainProvider = Provider.of<Mainprovider>(context, listen: false);
+
+
+
+    Timer(const Duration(seconds: 3), () {
+      mainProvider.getMainCategoy();
+      callNext(context,  Homescreen()
+      );
+    });
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

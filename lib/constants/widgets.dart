@@ -16,7 +16,7 @@ Widget text(String name, FontWeight weight, Color mycolor, double size) {
   );
 }
 Widget textfield( TextInputType keyboardtype,
-    String validationtext, String labeltxt, TextEditingController controller) {
+    String validationtext, String labeltxt,TextEditingController controller) {
 
 
   return Padding(
@@ -26,6 +26,8 @@ Widget textfield( TextInputType keyboardtype,
 
       child: TextFormField(
 
+        style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),
+
         textAlign: TextAlign.center,
         controller: controller,
         keyboardType: keyboardtype,
@@ -33,7 +35,8 @@ Widget textfield( TextInputType keyboardtype,
           // contentPadding: const EdgeInsets.symmetric(vertical: 14),
           helperText: "",
           labelText: labeltxt,
-          labelStyle: TextStyle(fontSize: 12),
+          labelStyle: TextStyle(fontSize: 18),
+
 
           hintStyle: TextStyle(color: Colors.grey[400]),
           // prefixIcon:const Icon(Icons.person,color: Colors.green,),

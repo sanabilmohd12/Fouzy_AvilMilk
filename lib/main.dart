@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:fouzy/view/homescreen.dart';
 import 'package:provider/provider.dart';
 
 import 'adminview/AdminHomeScreen.dart';
@@ -40,7 +39,6 @@ class MyApp extends StatelessWidget {
         ),
         // home:  Splashscreen(),
         home:  Admin_Home_Screen(),
-        // home: Homescreen(),
 
       ),
     );
