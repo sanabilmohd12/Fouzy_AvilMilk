@@ -21,12 +21,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  int _selectedIndex = 0;
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+
   @override
   void initState() {
 
@@ -43,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(const Duration(seconds: 3), () {
       mainProvider.getMainCategoy();
-      callNext(context,  Homescreen()
+      callNext(context,  Home_screen()
       );
     });
 

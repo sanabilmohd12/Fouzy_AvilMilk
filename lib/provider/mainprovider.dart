@@ -17,6 +17,16 @@ class Mainprovider extends ChangeNotifier {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Reference ref = FirebaseStorage.instance.ref("IMAGE URL");
 
+  /// bottomsheet indexes *
+  int _selectedindex = 0;
+  int get selectedindex => _selectedindex;
+
+  void selectindex (int index){
+    _selectedindex = index;
+    notifyListeners();
+  }
+
+
   /// maincategory
 
   TextEditingController addCategorynameCt = TextEditingController();
@@ -269,7 +279,7 @@ class Mainprovider extends ChangeNotifier {
   // }
 
   void avilmilkclear() {
-    avilMilkNameCt.clear();
+      avilMilkNameCt.clear();
     avilMilkPriceCt.clear();
     avilMilkDescribtionCt.clear();
     avilMilkCategoryCt.clear();
