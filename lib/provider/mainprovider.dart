@@ -29,11 +29,13 @@ class Mainprovider extends ChangeNotifier {
 
   /// maincategory
 
-  TextEditingController addCategorynameCt = TextEditingController();
+
+  TextEditingController  addCategorynameCt =TextEditingController();
 
   bool loader = false;
 
   void addMainCategory(BuildContext context, String from, String oldId) {
+
     loader = true;
     notifyListeners();
     String id = DateTime.now().millisecondsSinceEpoch.toString();
