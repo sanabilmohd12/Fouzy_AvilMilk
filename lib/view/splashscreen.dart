@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../constants/callFunctions.dart';
 import '../provider/mainprovider.dart';
 import 'bottombar.dart';
+import 'bttmtest.dart';
 import 'homescreen.dart';
 
 
@@ -38,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(const Duration(seconds: 3), () {
       mainProvider.getMainCategoy();
-      callNext(context,  Home_screen()
+      callNext(context,  BottomNavBarV2()
       );
     });
 

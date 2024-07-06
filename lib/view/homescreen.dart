@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/colors.dart';
+import 'package:fouzy/view/detailsScreen.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/mainprovider.dart';
@@ -27,6 +28,7 @@ class _HomescreenState extends State<Home_screen> {
     return Scaffold(
       backgroundColor: cYellow,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 100,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -70,28 +72,33 @@ class _HomescreenState extends State<Home_screen> {
                                 print("ffvfvfv" +
                                     value.mainCategorylist.length.toString());
                                 var items = value.mainCategorylist[index];
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 18.0, vertical: 28),
-                                  child: Container(
-                                    height: height / 12,
-                                    width: width * .2,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: syellow,
-                                      image: const DecorationImage(
-                                        image: AssetImage(
-                                          'assets/containerimg.jpg',
+                                return InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Detailsscreen(id: items.id),));
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 18.0, vertical: 28),
+                                    child: Container(
+                                      height: height / 12,
+                                      width: width * .2,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: syellow,
+                                        image: const DecorationImage(
+                                          image: AssetImage(
+                                            'assets/containerimg.jpg',
+                                          ),
+                                          fit: BoxFit.cover,
                                         ),
-                                        fit: BoxFit.cover,
                                       ),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        items.name,
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w800,
+                                      child: Center(
+                                        child: Text(
+                                          items.name,
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w800,
+                                          ),
                                         ),
                                       ),
                                     ),
