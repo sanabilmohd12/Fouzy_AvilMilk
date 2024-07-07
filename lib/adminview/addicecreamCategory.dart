@@ -87,7 +87,6 @@ class AddIceCreamCategory extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           centerTitle: true,
-
           title: FittedBox(
             child: text(
               "Add Fouzy IceCream Category",
@@ -108,8 +107,7 @@ class AddIceCreamCategory extends StatelessWidget {
                 Consumer<Mainprovider>(
                   builder: (context,value,child) {
                     return textfield(
-                        TextInputType.text, "enter your juice Category ", "Category",value.addicecreamcategoryCt);
-                  }
+                        TextInputType.text, "enter your juice Category ", "Category",value.addicecreamcategoryCt);}
                 ),
                 SizedBox(
                   width: width / 1.5,

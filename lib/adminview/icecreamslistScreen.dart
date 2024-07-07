@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fouzy/provider/mainprovider.dart';
@@ -12,12 +14,16 @@ import 'addicecreamCategory.dart';
 
 
 class IcrecreamListScreen extends StatelessWidget {
-  const IcrecreamListScreen({super.key});
+      IcrecreamListScreen ({super.key});
 
   @override
+
   Widget build(BuildContext context) {
+
     var height = MediaQuery.of(context).size.height;
+
     var width = MediaQuery.of(context).size.width;
+
     return Container(
       width: width,
       height: height,
@@ -44,7 +50,6 @@ class IcrecreamListScreen extends StatelessWidget {
             );
           }
         ),
-
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           leading: InkWell(
@@ -225,5 +230,7 @@ class IcrecreamListScreen extends StatelessWidget {
 
       ),
     );
+
   }
+
 }

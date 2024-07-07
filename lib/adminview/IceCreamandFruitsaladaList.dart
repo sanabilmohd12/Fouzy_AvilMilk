@@ -202,9 +202,6 @@ class IceCreamTypesListScreen extends StatelessWidget {
             ],
           ),
         ) ,
-
-
-
       ),
     );
   }

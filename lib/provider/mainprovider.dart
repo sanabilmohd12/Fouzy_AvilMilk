@@ -615,6 +615,7 @@ class Mainprovider extends ChangeNotifier {
     map["ICE_CATEGORY_NAME"] = addicecreamcategoryCt.text;
     map["MAIN_CATEGORY_NAME"] = maincategoryIceCt.text;
     map["MAIN_CATEGORY_ID"] = selectedmaincategoryiceid;
+    map["TYPE"] = "ICECREAM";
 
     if (from == "NEW") {
       map["ICE_CATEGORY_ID"] = id;
@@ -695,8 +696,7 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //
-  void editicecategory(String id, BuildContext context) {
+    void editicecategory(String id, BuildContext context) {
     db.collection('ICE_CREAM_CATEGORY').doc(id).get().then((value) {
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
@@ -709,5 +709,27 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void icecreamitem() {}
+  TextEditingController icecremaflavourCT = TextEditingController();
+  TextEditingController icecremaSingleCT = TextEditingController();
+  TextEditingController icecremDoubleCT = TextEditingController();
+
+
+  void icecreamitem(String icecate, String icecategid,String maincateic) {
+    String id =DateTime.now().millisecondsSinceEpoch.toString();
+    Map<String,Object> map= HashMap();
+    map["ID"]=id;
+    map["ICE_FLAVOUR"]=icecremaflavourCT.text;
+    map["SINGLE_PRICE"]=icecremaSingleCT.text;
+    map["DOUBLE_PRICE"]=icecremDoubleCT.text;
+    map["ICE_CATEGORY_NAME"] =icecate ;
+    map["ICE_CATEGORY_ID"] = icecategid;
+    map["MAIN_CATEGORY_ID"] = maincateic;
+    map["TYPE"] = "ICECREAM";
+
+    db.collection("ICE_CREAM_ITEMS").doc(id).set(map);
+
+  }
+
+
+
 }

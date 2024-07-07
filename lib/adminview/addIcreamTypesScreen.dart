@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/provider/mainprovider.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
@@ -7,7 +9,9 @@ import '../constants/myimages.dart';
 import '../constants/widgets.dart';
 
 class AddIceCreamTypesScreen extends StatelessWidget {
-  AddIceCreamTypesScreen({super.key});
+  String iceitemfrom;
+  String iceitemoldid;
+  AddIceCreamTypesScreen({super.key,required this.iceitemfrom,required this.iceitemoldid});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -33,26 +37,22 @@ class AddIceCreamTypesScreen extends StatelessWidget {
         floatingActionButton: SizedBox(
             height: 49,
             width: width / 1.1,
-            // child: Consumer<MainProvider>(builder: (context, value, child) {
-            //   return   value.loader?CircularProgressIndicator(color: tViloet,):
-            child: FloatingActionButton(
+            child: Consumer<Mainprovider>(builder: (context, value, child) {
+              return   value.loader?CircularProgressIndicator(color: cgreen,):
+            FloatingActionButton(
               onPressed: () {
-                // final FormState? form = _formKey.currentState;
-                // if (form!.validate()) {
+                final FormState? form = _formKey.currentState;
+                if (form!.validate()) {
 
-                // if(from=="NEW"){
-                //   value.addDetails(from,"");
-                //
-                //   value.getdetails();
-                //   back(context);
-                // }else{
-                //   value.addDetails(from,oldid);
-                //
-                //   value.getdetails();
-                //   back(context);
-                // }
-                //
-                //   }
+                if(iceitemfrom=="NEW"){
+                  value.icecreamitem(iceitemfrom,"");
+
+                }else{
+                  value.icecreamitem(iceitemfrom,iceitemoldid);
+
+                }
+
+                  }
                 back(context);
 
               },
@@ -68,7 +68,7 @@ class AddIceCreamTypesScreen extends StatelessWidget {
                 18,
               ),
             )
-          // }),
+          }),
         ),
 
         backgroundColor: Colors.transparent,
@@ -102,14 +102,26 @@ class AddIceCreamTypesScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: height*0.2,),
-                // textfield(
-                //     TextInputType.text, "enter your jucie name ", "Name"),
-                // textfield(
-                //     TextInputType.number, "enter your Price ", "₹Price"),
-                //
-                // ///autocomplete juciestypes
-                // textfield(
-                //     TextInputType.text, "enter your Types ", "Types"),
+
+                Consumer<Mainprovider>(
+                  builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.text, "enter Flavours", "Flavour Name",value.icecremaflavourCT);
+                  }
+                ),
+                Consumer<Mainprovider>(
+                    builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.number, "enter Single Price ", "₹Single Price",value.icecremaSingleCT);
+                  }
+                ),
+
+                Consumer<Mainprovider>(
+                    builder: (context,value,child) {
+                    return textfield(
+                        TextInputType.number, "enter Double Price ", "₹Double Price",value.icecremDoubleCT);
+                  }
+                ),
 
               ],
             ),
