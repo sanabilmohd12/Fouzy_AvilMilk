@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/constants/callFunctions.dart';
+import 'package:fouzy/provider/mainprovider.dart';
 import 'package:fouzy/view/salespage.dart';
+import 'package:provider/provider.dart';
 
+import '../adminview/AdminHomeScreen.dart';
 import '../constants/colors.dart';
 import 'bottombar.dart';
 import 'categoryspage.dart';
@@ -31,6 +35,9 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
 
   @override
   Widget build(BuildContext context) {
+
+    Mainprovider provider =Provider.of<Mainprovider>(context,listen: false);
+
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white.withAlpha(55),
@@ -54,24 +61,29 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                     size: Size(size.width, 100),
                     painter: BNBCustomPainter(),
                   ),
-            Center(
-          heightFactor: .8,
-          child: Container(
-            height: 80,
-            width: 80,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                scale: 1.7,
-                image: AssetImage('assets/Sundae (1).png'),
+            InkWell(onTap: () {
+              callNext(context, Admin_Home_Screen());
+            },
+              child: Center(
+                        heightFactor: .8,
+                        child: Container(
+              height: 80,
+              width: 80,
+              decoration: BoxDecoration(
+
+                image: DecorationImage(
+                  scale: 1.7,
+                  image: AssetImage('assets/Sundae (1).png'),
+                ),
+                shape: BoxShape.circle,
+                color: cYellow,
+                boxShadow: [
+                  BoxShadow(color: cgreen, spreadRadius: 5, blurRadius: 10),
+                ],
               ),
-              shape: BoxShape.circle,
-              color: cYellow,
-              boxShadow: [
-                BoxShadow(color: cgreen, spreadRadius: 5, blurRadius: 10),
-              ],
+                        ),
+                      ),
             ),
-          ),
-        ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
                     child: Container(
@@ -87,6 +99,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                               size: 30,
                             ),
                             onPressed: () {
+
                               setBottomBarIndex(0);
                             },
                             splashColor: Colors.white,

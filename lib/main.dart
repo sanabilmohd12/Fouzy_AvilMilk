@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        // home:  SplashScreen(),
-        home:  Admin_Home_Screen(),
+        home:  SplashScreen(),
+        // home:  Admin_Home_Screen(),
 
         // home: Home_screen(),
         // home: BottomNavBarV2(),
