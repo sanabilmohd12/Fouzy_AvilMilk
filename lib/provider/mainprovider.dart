@@ -20,15 +20,17 @@ class Mainprovider extends ChangeNotifier {
   /// maincategory
 
 
-  TextEditingController  addCategorynameCt =TextEditingController();
+  TextEditingController addCategorynameCt = TextEditingController();
 
   bool loader = false;
 
   void addMainCategory(BuildContext context, String from, String oldId) {
-
     loader = true;
     notifyListeners();
-    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    String id = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
     Map<String, dynamic> map = HashMap();
     map["MAIN_CATEGORY_NAME"] = addCategorynameCt.text;
 
@@ -137,23 +139,36 @@ class Mainprovider extends ChangeNotifier {
   String avilmilkimg = '';
 
 
-  Future<void> addAvilMilkItems(BuildContext context1, String from, String oldId) async {
+  Future<void> addAvilMilkItems(BuildContext context1, String from,
+      String oldId) async {
     avilloader = true;
     notifyListeners();
-    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    String id = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
     HashMap<String, dynamic> map = HashMap();
 
-    map["AVIL_MILK_NAME"] = avilMilkNameCt.text.isNotEmpty ? avilMilkNameCt.text : null;
-    map["AVIL_MILK_PRICE"] = avilMilkPriceCt.text.isNotEmpty ? avilMilkPriceCt.text : null;
-    map["DISCRETION"] = avilMilkDescribtionCt.text.isNotEmpty ? avilMilkDescribtionCt.text : null;
-    map["AVILMILK_CATEGORY"] = avilMilkCategoryCt.text.isNotEmpty ? avilMilkCategoryCt.text : null;
-    map["MAIN_CATEGORY"] = maincategorynameCt.text.isNotEmpty ? maincategorynameCt.text : null;
-    map["MAIN_CATEGORY_ID"] = mainCategorySelectedId.isNotEmpty ? mainCategorySelectedId : null;
+    map["AVIL_MILK_NAME"] =
+    avilMilkNameCt.text.isNotEmpty ? avilMilkNameCt.text : null;
+    map["AVIL_MILK_PRICE"] =
+    avilMilkPriceCt.text.isNotEmpty ? avilMilkPriceCt.text : null;
+    map["DISCRETION"] =
+    avilMilkDescribtionCt.text.isNotEmpty ? avilMilkDescribtionCt.text : null;
+    map["AVILMILK_CATEGORY"] =
+    avilMilkCategoryCt.text.isNotEmpty ? avilMilkCategoryCt.text : null;
+    map["MAIN_CATEGORY"] =
+    maincategorynameCt.text.isNotEmpty ? maincategorynameCt.text : null;
+    map["MAIN_CATEGORY_ID"] =
+    mainCategorySelectedId.isNotEmpty ? mainCategorySelectedId : null;
     map["ADDED_TIME"] = DateTime.now();
     map["COUNT"] = "";
 
     if (AvilmilkFileImg != null) {
-      String photoId = DateTime.now().millisecondsSinceEpoch.toString();
+      String photoId = DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString();
       ref = FirebaseStorage.instance.ref().child(photoId);
       await ref.putFile(AvilmilkFileImg!).whenComplete(() async {
         await ref.getDownloadURL().then((value) {
@@ -210,7 +225,7 @@ class Mainprovider extends ChangeNotifier {
   Future getImggallery() async {
     final imagePicker = ImagePicker();
     final pickedImage =
-        await imagePicker.pickImage(source: ImageSource.gallery);
+    await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       setImage(File(pickedImage.path));
@@ -285,7 +300,6 @@ class Mainprovider extends ChangeNotifier {
   bool getavilloader = false;
 
   void getavilmilktypes() {
-
     getavilloader = true;
     notifyListeners();
     db.collection("AVIL_MILK").get().then((value) {
@@ -307,23 +321,11 @@ class Mainprovider extends ChangeNotifier {
           ));
           notifyListeners();
         }
-
       }
       notifyListeners();
     });
     notifyListeners();
   }
-
-
-
-
-
-
-
-
-
-
-
 
 
   void deleteavilmilk(String id, BuildContext context) {
@@ -371,7 +373,10 @@ class Mainprovider extends ChangeNotifier {
   void addJucieCategory(BuildContext context, String from, String oldId) {
     jucieloader = true;
     notifyListeners();
-    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    String id = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
     Map<String, dynamic> map = HashMap();
     map["JUICE_CATEGORY_NAME"] = juciecategoryCt.text;
     map["MAIN_CATEGORY"] = MainCategoryjucieyCt.text;
@@ -469,12 +474,14 @@ class Mainprovider extends ChangeNotifier {
 
     notifyListeners();
   }
+
   //*  *//
 
   /// jucie and shakes
 
   TextEditingController jucieandShakesnameCt = TextEditingController();
   TextEditingController jucieandShakespriceCt = TextEditingController();
+
   // TextEditingController jucieandshakescategoryCt=TextEditingController();
 
   // String JucieCategorySelectedId='';
@@ -485,7 +492,10 @@ class Mainprovider extends ChangeNotifier {
       String jucietypesid, String jucietypesname, String maincategory) {
     addjucieshakesloader = true;
     notifyListeners();
-    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    String id = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
     Map<String, dynamic> map = HashMap();
     map["JUICE_SHAKES_NAME"] = jucieandShakesnameCt.text;
     map["JUICE_SHAKES_PRICE"] = jucieandShakespriceCt.text;
@@ -596,6 +606,7 @@ class Mainprovider extends ChangeNotifier {
     );
     notifyListeners();
   }
+
   //*  *//
 
   // Ice cream
@@ -610,7 +621,10 @@ class Mainprovider extends ChangeNotifier {
   void addIceCategory(BuildContext context, String from, String oldId) {
     iceloader = true;
     notifyListeners();
-    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    String id = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
     Map<String, dynamic> map = HashMap();
     map["ICE_CATEGORY_NAME"] = addicecreamcategoryCt.text;
     map["MAIN_CATEGORY_NAME"] = maincategoryIceCt.text;
@@ -696,7 +710,7 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-    void editicecategory(String id, BuildContext context) {
+  void editicecategory(String id, BuildContext context) {
     db.collection('ICE_CREAM_CATEGORY').doc(id).get().then((value) {
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
@@ -710,26 +724,85 @@ class Mainprovider extends ChangeNotifier {
   }
 
   TextEditingController icecremaflavourCT = TextEditingController();
+
   TextEditingController icecremaSingleCT = TextEditingController();
+
   TextEditingController icecremDoubleCT = TextEditingController();
 
+  void icecreamitem(String icecate, String icecategid, String maincateid,
+      String from, String oldid, BuildContext context) {
+    String id = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
 
-  void icecreamitem(String icecate, String icecategid,String maincateic) {
-    String id =DateTime.now().millisecondsSinceEpoch.toString();
-    Map<String,Object> map= HashMap();
-    map["ID"]=id;
-    map["ICE_FLAVOUR"]=icecremaflavourCT.text;
-    map["SINGLE_PRICE"]=icecremaSingleCT.text;
-    map["DOUBLE_PRICE"]=icecremDoubleCT.text;
-    map["ICE_CATEGORY_NAME"] =icecate ;
+    Map<String, Object> map = HashMap();
+
+    map["ICE_FLAVOUR"] = icecremaflavourCT.text;
+
+    map["SINGLE_PRICE"] = icecremaSingleCT.text;
+
+    map["DOUBLE_PRICE"] = icecremDoubleCT.text;
+
+    map["ICE_CATEGORY_NAME"] = icecate;
+
     map["ICE_CATEGORY_ID"] = icecategid;
-    map["MAIN_CATEGORY_ID"] = maincateic;
+
+    map["MAIN_CATEGORY_ID"] = maincateid;
+
     map["TYPE"] = "ICECREAM";
 
-    db.collection("ICE_CREAM_ITEMS").doc(id).set(map);
+    if (from == "NEW") {
+      map["ID"] = id;
+    }
 
+    if (from == "EDIT") {
+      db.collection("ICE_CREAM_ITEMS").doc(oldid).update(map);
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+
+        backgroundColor: cWhite,
+
+        content: Text("Updated Successfully",
+
+            style: TextStyle(
+
+              color: cgreen,
+
+              fontSize: 15,
+
+              fontWeight: FontWeight.w800,
+
+            )),
+
+        duration: Duration(milliseconds: 3000),
+
+      ));
+
+    } else {
+
+      db.collection("ICE_CREAM_ITEMS").doc(id).set(map);
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+
+        backgroundColor: cWhite,
+
+        content: Text("Added Successfully",
+
+            style: TextStyle(
+
+              color: cgreen,
+
+              fontSize: 15,
+
+              fontWeight: FontWeight.w800,
+
+            )),
+
+        duration: Duration(milliseconds: 3000),
+
+      ));
+    }
   }
-
-
 
 }

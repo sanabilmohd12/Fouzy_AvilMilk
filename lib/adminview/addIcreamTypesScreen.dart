@@ -11,7 +11,10 @@ import '../constants/widgets.dart';
 class AddIceCreamTypesScreen extends StatelessWidget {
   String iceitemfrom;
   String iceitemoldid;
-  AddIceCreamTypesScreen({super.key,required this.iceitemfrom,required this.iceitemoldid});
+  String icecategory;
+      String icecategoryid;
+  String maincategoryid;
+  AddIceCreamTypesScreen({super.key,required this.iceitemfrom,required this.iceitemoldid,required this.icecategory,required this.icecategoryid,required this.maincategoryid,});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -45,10 +48,10 @@ class AddIceCreamTypesScreen extends StatelessWidget {
                 if (form!.validate()) {
 
                 if(iceitemfrom=="NEW"){
-                  value.icecreamitem(iceitemfrom,"");
+                  value.icecreamitem(icecategory,icecategoryid,maincategoryid,iceitemfrom,"",context);
 
                 }else{
-                  value.icecreamitem(iceitemfrom,iceitemoldid);
+                  value.icecreamitem(icecategory,icecategoryid,maincategoryid,iceitemfrom,iceitemoldid,context);
 
                 }
 
@@ -67,7 +70,7 @@ class AddIceCreamTypesScreen extends StatelessWidget {
                 cWhite,
                 18,
               ),
-            )
+            );
           }),
         ),
 

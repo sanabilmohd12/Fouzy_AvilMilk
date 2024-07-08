@@ -9,7 +9,7 @@ import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
 import '../constants/myimages.dart';
 import '../constants/widgets.dart';
-import 'IceCreamandFruitsaladaList.dart';
+import 'IceCreamlist.dart';
 import 'addicecreamCategory.dart';
 
 
@@ -84,10 +84,9 @@ class IcrecreamListScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     var icedata=value.icecategorylist[index];
                     return InkWell(onTap: () {
-
-                      callNext(context, IceCreamTypesListScreen());
-
-                    },
+                      callNext(context, IceCreamTypesListScreen(icecategory: icedata.name,icecategoryid: icedata.id,
+                        maincategoryid: icedata.maincategoryid,));
+                      },
                       child: Container(
                         margin: EdgeInsets.symmetric(
                             horizontal: 15, vertical: 10),

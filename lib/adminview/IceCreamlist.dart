@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/main.dart';
 
 import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
@@ -10,7 +11,10 @@ import 'addIcreamTypesScreen.dart';
 
 
 class IceCreamTypesListScreen extends StatelessWidget {
-  const IceCreamTypesListScreen({super.key});
+  String icecategory;
+  String icecategoryid;
+  String maincategoryid;
+   IceCreamTypesListScreen({super.key,required this.icecategory,required this.icecategoryid,required this.maincategoryid});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,8 @@ class IceCreamTypesListScreen extends StatelessWidget {
           backgroundColor: cgreen,
           child: Icon(Icons.add, color: cWhite, size: 38),
           onPressed: () {
-            callNext(context, AddIceCreamTypesScreen());
+            callNext(context, AddIceCreamTypesScreen(iceitemfrom: "NEW",iceitemoldid: '',icecategory: icecategory,icecategoryid: icecategoryid,
+            maincategoryid: maincategoryid));
           },
         ),
 
