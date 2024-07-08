@@ -149,7 +149,7 @@ class Mainprovider extends ChangeNotifier {
   String avilmilkimg = '';
 
 
-  Future<void> addAvilMilkItems(BuildContext context1, String from,
+  Future<void> addAvilMilkItems(BuildContext context1 , String from,
       String oldId) async {
     avilloader = true;
     notifyListeners();
@@ -198,16 +198,16 @@ class Mainprovider extends ChangeNotifier {
 
     if (from == "EDIT") {
       db.collection("AVIL_MILK").doc(oldId).update(map);
-      ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
-        backgroundColor: cWhite,
-        content: Text("Updated Successfully",
-            style: TextStyle(
-              color: cgreen,
-              fontSize: 15,
-              fontWeight: FontWeight.w800,
-            )),
-        duration: Duration(milliseconds: 3000),
-      ));
+      // ScaffoldMessenger.of().showSnackBar(SnackBar(
+      //   backgroundColor: cWhite,
+      //   content: Text("Updated Successfully",
+      //       style: TextStyle(
+      //         color: cgreen,
+      //         fontSize: 15,
+      //         fontWeight: FontWeight.w800,
+      //       )),
+      //   duration: Duration(milliseconds: 3000),
+      // ));
     } else {
       db.collection("AVIL_MILK").doc(id).set(map);
       ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
@@ -813,6 +813,20 @@ class Mainprovider extends ChangeNotifier {
 
       ));
     }
+  }
+
+  /// CheckBox ** //
+
+
+  Map<int, bool> checkboxStates = {};
+
+  bool getCheckboxValue(int index) {
+    return checkboxStates[index] ?? false;
+  }
+
+  void setCheckboxValue(int index, bool value) {
+    checkboxStates[index] = value;
+    notifyListeners();
   }
 
 }

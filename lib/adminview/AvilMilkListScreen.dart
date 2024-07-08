@@ -19,7 +19,7 @@ class Avil_Milk_Screen extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
             appbarbkgd,
@@ -29,20 +29,22 @@ class Avil_Milk_Screen extends StatelessWidget {
       ),
       child: Scaffold(
         floatingActionButton:
-        Consumer<Mainprovider>(
-          builder: (context,value,child) {
-            return FloatingActionButton(
-              backgroundColor: cgreen,
-              child: Icon(Icons.add, color: cWhite, size: 38),
-              onPressed: () {
-                value.avilmilkclear();
-                value.getMainCategoy();
-                callNext(context, addAvilMilkScreen(avilfrom: "NEW",aviloldid: "",));
-              },
-            );
-          }
-        ),
-
+            Consumer<Mainprovider>(builder: (context, value, child) {
+          return FloatingActionButton(
+            backgroundColor: cgreen,
+            child: Icon(Icons.add, color: cWhite, size: 38),
+            onPressed: () {
+              value.avilmilkclear();
+              value.getMainCategoy();
+              callNext(
+                  context,
+                  addAvilMilkScreen(
+                    avilfrom: "NEW",
+                    aviloldid: "",
+                  ));
+            },
+          );
+        }),
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           leading: InkWell(
@@ -57,7 +59,6 @@ class Avil_Milk_Screen extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           centerTitle: true,
-
           title: text(
             " Fouzy Avil Milks",
             FontWeight.w700,
@@ -65,49 +66,82 @@ class Avil_Milk_Screen extends StatelessWidget {
             18,
           ),
         ),
-        body:
-        SingleChildScrollView(
-          child: Consumer<Mainprovider>(
-            builder: (context,value,child) {
-              return value.getavilloader?Center(child: CircularProgressIndicator(color: cgreen,)):GridView.builder(
-                  itemCount: value.avilmilklist.length,
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(),
-                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 0.5,
-                      mainAxisSpacing: 0.4,
-                      childAspectRatio: 0.6
+        body: SingleChildScrollView(
+          child: Consumer<Mainprovider>(builder: (context, value, child) {
+            return value.getavilloader
+                ? Center(
+                    child: CircularProgressIndicator(
+                    color: cgreen,
+                  ))
+                : GridView.builder(
+                    itemCount: value.avilmilklist.length,
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 0.5,
+                        mainAxisSpacing: 0.4,
+                        childAspectRatio: 0.6),
+                    itemBuilder: (BuildContext context, int index) {
+                      var item = value.avilmilklist[index];
+                      return Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        width: width,
+                        height: height * .12,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: cWhite,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                width: width,
+                                height: 250,
 
-                  ),
-                  itemBuilder: (BuildContext context,int index){
-                    var item =value.avilmilklist[index];
-                    return  Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 5),
-                      width: width,
-                      height: height*.12,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: cWhite,
-                      ),
-                      child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(width: width,height: 60,
-                              child:item.avilphoto==""? Image(image: AssetImage(juciepic,),):Image(image: NetworkImage(item.avilphoto))),
-                          FittedBox(child: text(item.name, FontWeight.w400, cgreen, 15)),
-                          FittedBox(child: text("₹"+item.price, FontWeight.w400, cgreen, 12)),
 
-                          SizedBox(),
-                          Row(mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
+                                child: item.avilphoto != ""
+                                    ? Image(
+                                        image: NetworkImage(
+                                        item.avilphoto,
+                                      ),)
+                                    : SizedBox()),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  FittedBox(
+                                      child: text(
+                                          item.name, FontWeight.w800, cgreen, 25)),
+                                  FittedBox(
+                                      child: text("₹  " + item.price, FontWeight.w700,
+                                          cgreen, 20)),
+
+                                ],
+                              ),
+                            ),
+
+                            Column(
+                              children: [
+                                FittedBox(
+                                    child: text(item.describtion, FontWeight.w400,
+                                        cgreen, 22)),
+                              ],
+                            ),
+
+                            SizedBox(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
                                   onTap: () {
                                     showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        content: Text(
-                                            "Do you want to DELETE ?",
+                                        content: Text("Do you want to DELETE ?",
                                             style: TextStyle(
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.w600,
@@ -116,7 +150,8 @@ class Avil_Milk_Screen extends StatelessWidget {
                                           Center(
                                             child: TextButton(
                                               onPressed: () {
-                                                value.deleteavilmilk(item.id,context);
+                                                value.deleteavilmilk(
+                                                    item.id, context);
 
                                                 Navigator.of(context).pop();
                                               },
@@ -126,14 +161,16 @@ class Avil_Milk_Screen extends StatelessWidget {
                                                 decoration: BoxDecoration(
                                                     color: myRed,
                                                     borderRadius:
-                                                    BorderRadius.circular(8),
+                                                        BorderRadius.circular(
+                                                            8),
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: Color(0x26000000),
+                                                        color:
+                                                            Color(0x26000000),
                                                         blurRadius:
-                                                        2.0, // soften the shadow
+                                                            2.0, // soften the shadow
                                                         spreadRadius:
-                                                        1.0, //extend the shadow
+                                                            1.0, //extend the shadow
                                                       ),
                                                     ]),
                                                 child: Center(
@@ -142,88 +179,104 @@ class Avil_Milk_Screen extends StatelessWidget {
                                                             color: cWhite,
                                                             fontSize: 17,
                                                             fontWeight:
-                                                            FontWeight.w700))),
+                                                                FontWeight
+                                                                    .w700))),
+
                                               ),
                                             ),
                                           ),
-
                                         ],
                                       ),
                                     );
                                   },
-                                  child:
-                                  Icon(Icons.delete_outline,size: 20,color: myRed,) ,  ),
-
-                              SizedBox(width: 10,),
-
-                              InkWell(    onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    content: Text(
-                                        "Do you want to EDIT ?",
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600,
-                                            color: cBlack)),
-                                    actions: <Widget>[
-                                      Center(
-                                        child: TextButton(
-                                          onPressed: () {
-                                            print("dbjhbd"+item.id);
-                                            value.editavilmilk(item.id,context);
-                                            callNext(
-                                                context,
-                                                addAvilMilkScreen(
-                                                  avilfrom: "EDIT",
-                                                  aviloldid: item.id,
-                                                ));
-                                          },
-                                          child: Container(
-                                            height: 45,
-                                            width: 90,
-                                            decoration: BoxDecoration(
-                                                color: cgreen,
-                                                borderRadius:
-                                                BorderRadius.circular(8),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Color(0x26000000),
-                                                    blurRadius:
-                                                    2.0, // soften the shadow
-                                                    spreadRadius:
-                                                    1.0, //extend the shadow
-                                                  ),
-                                                ]),
-                                            child: Center(
-                                                child: Text("Edit",
-                                                    style: TextStyle(
-                                                        color: cWhite,
-                                                        fontSize: 17,
-                                                        fontWeight:
-                                                        FontWeight.w700))),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  child: Icon(
+                                    Icons.delete_outline,
+                                    size: 30,
+                                    color: myRed,
                                   ),
-                                );
-                              },
-                                  child:
-                                  Icon(Icons.edit_outlined,size: 20,color: cgreen,) ,                                  ),
-                              SizedBox(width: 5,),
-                            ],
-                          ),
-                          SizedBox(height: 2,)
-                        ],),
+                                ),
+                                SizedBox(
+                                  width: 40,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: Text("Do you want to EDIT ?",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w600,
+                                                color: cBlack)),
+                                        actions: <Widget>[
+                                          Center(
+                                            child: TextButton(
+                                              onPressed: () {
+                                                print("dbjhbd" + item.id);
+                                                value.editavilmilk(
+                                                    item.id, context);
+                                                callNext(
+                                                    context,
+                                                    addAvilMilkScreen(
+                                                      avilfrom: "EDIT",
+                                                      aviloldid: item.id,
+                                                    ));
 
-                    );
+                                              },
+                                              child: Container(
+                                                height: 45,
+                                                width: 90,
+                                                decoration: BoxDecoration(
+                                                    color: cgreen,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x26000000),
+                                                        blurRadius:
+                                                            2.0, // soften the shadow
+                                                        spreadRadius:
+                                                            1.0, //extend the shadow
+                                                      ),
+                                                    ]),
+                                                child: Center(
+                                                    child: Text("Edit",
+                                                        style: TextStyle(
+                                                            color: cWhite,
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700))),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.edit_outlined,
+                                    size: 30,
+                                    color: cgreen,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                              ],
 
-                  }
-                  );
-            }
-          ),
-        ) ,
+                            ),
+                            SizedBox(
+                              height: 2,
+                            )
+                          ],
+                        ),
+                      );
+                    });
+          }),
+        ),
       ),
     );
   }
