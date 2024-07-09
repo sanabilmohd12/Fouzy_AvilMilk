@@ -19,9 +19,38 @@ class FouzyMultiple extends StatelessWidget {
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    bool isSelected = false;
+    final int index1;
     return Scaffold(
       backgroundColor: cYellow,
+       floatingActionButton: Consumer<Mainprovider>(
+        builder: (context, value, child) {
+      bool isAnySelected = false;
+      for (int i = 0; i < value.avilmilklist.length; i++)
+      {
+        if (value.getCheckboxValue(i) == true) {
+          isAnySelected = true;
+          break;
+        }
+      }
+      return isAnySelected
+          ? FloatingActionButton.extended(
+        backgroundColor: Colors.yellow,
+        onPressed: () {},
+        label: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(
+            'Add To Cart',
+            style: TextStyle(
+              fontSize: 19,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+        icon: Icon(Icons.shopping_cart, color: cgreen),
+      )
+          : SizedBox();
+    }
+    ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 100,
@@ -107,13 +136,20 @@ class FouzyMultiple extends StatelessWidget {
                                                 child: Transform.scale(
                                                   scale: 1.5,
                                                   child: Checkbox(
-                                                      shape: CircleBorder(),
-                                                      splashRadius: 10,
-                                                      value: isSelected,
-
-                                                      onChanged: (bool? newValue) {
-                                                        value.setCheckboxValue(index, newValue ?? false);
-                                                      },
+                                                    shape: CircleBorder(),
+                                                    value:
+                                                        value.getCheckboxValue(
+                                                            index),
+                                                    onChanged:
+                                                        (bool? newValue) {
+                                                      value.setCheckboxValue(
+                                                          index,
+                                                          newValue ?? false);
+                                                    },
+                                                    checkColor: Colors.green,
+                                                    fillColor:
+                                                        WidgetStatePropertyAll(
+                                                            Colors.white),
                                                   ),
                                                 ));
                                           }),

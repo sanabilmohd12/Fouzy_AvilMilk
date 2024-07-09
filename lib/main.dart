@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fouzy/view/bottombar.dart';
 import 'package:fouzy/view/bttmtest.dart';
+import 'package:fouzy/view/categoryspage.dart';
 import 'package:fouzy/view/fouzy_multiple.dart';
 // import 'package:fouzy/view/Home_Screen.dart';
 import 'package:fouzy/view/homescreen.dart';
@@ -46,8 +47,8 @@ class MyApp extends StatelessWidget {
         // home: FouzyMultiple(),
         // home:  Admin_Home_Screen(),
         // home: Home_screen(),
-        // home: BottomNavBarV2(),
-
+        // home: BottomNavBarV2()
+        // home: CategoryScreen(),
       ),
     );
   }

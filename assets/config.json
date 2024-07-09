@@ -1,0 +1,58 @@
+{
+  "name": "CustomIcons",
+  "css_prefix_text": "",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "861ab06e455e2de3232ebef67d60d708",
+      "css": "minus",
+      "code": 59392,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "1475dba0554cfaa7e73a8e141dca1d5b",
+      "css": "minus_circle",
+      "code": 61526,
+      "src": "fontawesome5"
+    },
+    {
+      "uid": "4062c0e99a3540f6c261bd08ef0fb63f",
+      "css": "minus-circle",
+      "code": 59393,
+      "src": "iconic"
+    },
+    {
+      "uid": "5c2bfb9cd1b66a0ed06c6ff1c3eea154",
+      "css": "circle-minus",
+      "code": 59522,
+      "src": "linearicons"
+    },
+    {
+      "uid": "4ba33d2607902cf690dd45df09774cb0",
+      "css": "plus-circled",
+      "code": 59394,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "d29d71b64123ee9b726a3282225ac4f6",
+      "css": "plus_circle",
+      "code": 61525,
+      "src": "fontawesome5"
+    },
+    {
+      "uid": "a66cdc7278e6b33b8bd44a141f5e1a8d",
+      "css": "plus-circled-1",
+      "code": 59395,
+      "src": "entypo"
+    },
+    {
+      "uid": "59ba4f90d2ca2a843f4f930b03270362",
+      "css": "plus-circle",
+      "code": 59396,
+      "src": "iconic"
+    }
+  ]
+}
