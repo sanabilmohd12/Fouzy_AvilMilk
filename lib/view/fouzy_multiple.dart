@@ -19,7 +19,7 @@ class FouzyMultiple extends StatelessWidget {
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    bool isSelected = false;
+    final int index1;
     return Scaffold(
       backgroundColor: cYellow,
       appBar: AppBar(
@@ -108,14 +108,20 @@ class FouzyMultiple extends StatelessWidget {
                                                   scale: 1.5,
                                                   child: Checkbox(
                                                       shape: CircleBorder(),
-                                                      splashRadius: 10,
-                                                      value: isSelected,
+
+                                                      value: value.getCheckboxValue(index),
 
                                                       onChanged: (bool? newValue) {
                                                         value.setCheckboxValue(index, newValue ?? false);
                                                       },
+                                                    checkColor: Colors.green,
+                                                    fillColor: WidgetStatePropertyAll(Colors.white),
+
+
+
                                                   ),
-                                                ));
+                                                )
+                                            );
                                           }),
                                         ),
                                         Padding(

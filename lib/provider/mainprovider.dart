@@ -725,7 +725,6 @@ class Mainprovider extends ChangeNotifier {
 
 /// CheckBox ** //
 
-
   Map<int, bool> checkboxStates = {};
 
   bool getCheckboxValue(int index) {
