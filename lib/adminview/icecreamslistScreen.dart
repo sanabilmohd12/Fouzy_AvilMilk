@@ -85,7 +85,6 @@ class IcrecreamListScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     var icedata=value.icecategorylist[index];
                     return InkWell(onTap: () {
-
                       if(index==0){
                         value.fetchIceCreamList();
                         callNext(context, IceCreamTypesListScreen(icecategory: icedata.name,icecategoryid: icedata.id,
@@ -93,9 +92,7 @@ class IcrecreamListScreen extends StatelessWidget {
                       }else{
                         callNext(context, DeseertsItemScreen(icecategory: icedata.name,icecategoryid: icedata.id,
                           maincategoryid: icedata.maincategoryid,));
-
                       }
-
                       },
                       child: Container(
                         margin: EdgeInsets.symmetric(
