@@ -987,8 +987,8 @@ TextEditingController dessertsNameCT = TextEditingController();
 
   Map<int, bool> checkboxStates = {};
 
-  bool getCheckboxValue(int index) {
-    return checkboxStates[index] ?? false;
+  bool getCheckboxValue(int index1,) {
+    return checkboxStates[index1] ?? false;
   }
 
   void setCheckboxValue(int index, bool value) {
