@@ -1,7 +1,6 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/main.dart';
 import 'package:fouzy/provider/mainprovider.dart';
 import 'package:provider/provider.dart';
 
@@ -9,22 +8,20 @@ import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
 import '../constants/myimages.dart';
 import '../constants/widgets.dart';
-import 'IceCreamlist.dart';
-import 'addicecreamCategory.dart';
-import 'dessertsitem.dart';
+
+import 'addIcreamTypesScreen.dart';
 
 
-class IcrecreamListScreen extends StatelessWidget {
-      IcrecreamListScreen ({super.key});
+class IceCreamTypesListScreen extends StatelessWidget {
+  String icecategory;
+  String icecategoryid;
+  String maincategoryid;
+   IceCreamTypesListScreen({super.key,required this.icecategory,required this.icecategoryid,required this.maincategoryid});
 
   @override
-
   Widget build(BuildContext context) {
-
     var height = MediaQuery.of(context).size.height;
-
     var width = MediaQuery.of(context).size.width;
-
     return Container(
       width: width,
       height: height,
@@ -44,13 +41,14 @@ class IcrecreamListScreen extends StatelessWidget {
               backgroundColor: cgreen,
               child: Icon(Icons.add, color: cWhite, size: 38),
               onPressed: () {
-                value.getMainCategoy();
-                value.iceCategoryclear();
-                callNext(context, AddIceCreamCategory( icecategoryfrom: "NEW",icecategoryoldid: '',)) ;
+                value.icelistclear();
+                callNext(context, AddIceCreamTypesScreen(iceitemfrom: "NEW",iceitemoldid: '',icecategory: icecategory,icecategoryid: icecategoryid,
+                maincategoryid: maincategoryid));
               },
             );
           }
         ),
+
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           leading: InkWell(
@@ -67,43 +65,31 @@ class IcrecreamListScreen extends StatelessWidget {
           centerTitle: true,
 
           title: text(
-            "Fouzy IceCreams List",
+            " Fouzy IceCreams Item",
             FontWeight.w700,
             cgreen,
             18,
           ),
         ),
-        body:Column(
-          children: [
-            Consumer<Mainprovider>(
-              builder: (context,value,child) {
-                return ListView.builder(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: value.icecategorylist.length,
-                  itemBuilder: (context, index) {
-                    var icedata=value.icecategorylist[index];
-                    return InkWell(onTap: () {
-
-                      if(index==0){
-                        value.fetchIceCreamList();
-                        callNext(context, IceCreamTypesListScreen(icecategory: icedata.name,icecategoryid: icedata.id,
-                          maincategoryid: icedata.maincategoryid,));
-                      }else{
-                        callNext(context, DeseertsItemScreen(icecategory: icedata.name,icecategoryid: icedata.id,
-                          maincategoryid: icedata.maincategoryid,));
-
-                      }
-
-                      },
-                      child: Container(
+        body:
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Consumer<Mainprovider>(
+                builder: (context,value,child) {
+                  return ListView.builder(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: value.icecreamlist.length,
+                    itemBuilder: (context, index) {
+                      var items =value.icecreamlist[index];
+                      return Container(
                         margin: EdgeInsets.symmetric(
                             horizontal: 15, vertical: 10),
                         width: width,
-                        height: height*.15,
+                        height: height*.19,
                         decoration: BoxDecoration(
-
                           borderRadius: BorderRadius.circular(12),
                           color: cWhite,
                         ),
@@ -111,7 +97,25 @@ class IcrecreamListScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            FittedBox(child: text(icedata.name, FontWeight.w500, cgreen, 20)),
+                            FittedBox(child: text(items.icecreamfalovour, FontWeight.w800, cgreen, 20)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FittedBox(child: text("Single", FontWeight.w700, cgreen, 20)),
+
+                                FittedBox(child: text("₹"+items.singleprice, FontWeight.w500, cgreen, 20)),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+
+                              children: [
+                                FittedBox(child: text("Double", FontWeight.w700, cgreen, 20)),
+
+                                FittedBox(child: text("₹"+items.doubleprice, FontWeight.w500, cgreen, 20)),
+                              ],
+                            ),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -133,7 +137,7 @@ class IcrecreamListScreen extends StatelessWidget {
                                                 Center(
                                                   child: TextButton(
                                                     onPressed: () {
-                                                      value.deleteicecategory(value.icecategorylist[index].id,context);
+                                                      value.deleteicelist(items.id,context);
                                                       Navigator.of(context).pop();
                                                     },
                                                     child: Container(
@@ -183,9 +187,12 @@ class IcrecreamListScreen extends StatelessWidget {
                                             Center(
                                               child: TextButton(
                                                 onPressed: () {
-                                                  print("HBHB"+icedata.id);
-                                                  value.editicecategory(value.icecategorylist[index].id, context);
-                                                     callNext(context, AddIceCreamCategory(icecategoryfrom: "EDIT", icecategoryoldid:value.icecategorylist[index].id,));
+                                                  print("hgfds0"+items.id);
+                                                  value.editicelist(items.id, context);
+                                                  callNext(context, AddIceCreamTypesScreen(iceitemfrom: "EDIT",iceitemoldid: items.id,icecategory: icecategory,icecategoryid: icecategoryid,
+                                                      maincategoryid: maincategoryid));
+
+
                                                 },
                                                 child: Container(
                                                   height: 45,
@@ -227,20 +234,15 @@ class IcrecreamListScreen extends StatelessWidget {
                           ],
                         ),
 
-                      ),
-                    );
-
-                  },
-                );
-              }
-            ),
-          ],
+                      );
+                    },
+                  );
+                }
+              ),
+            ],
+          ),
         ) ,
-
-
       ),
     );
-
   }
-
 }

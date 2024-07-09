@@ -7,14 +7,15 @@ import '../constants/callfunctions.dart';
 import '../constants/colors.dart';
 import '../constants/myimages.dart';
 import '../constants/widgets.dart';
+import '../modelClass/MainCategoryModelClass.dart';
 
-class AddIceCreamTypesScreen extends StatelessWidget {
-  String iceitemfrom;
-  String iceitemoldid;
+class adddessertsScreen extends StatelessWidget {
+  String dessertsfrom;
+  String dessertsoldid;
   String icecategory;
-      String icecategoryid;
+  String icecategoryid;
   String maincategoryid;
-  AddIceCreamTypesScreen({super.key,required this.iceitemfrom,required this.iceitemoldid,required this.icecategory,required this.icecategoryid,required this.maincategoryid,});
+  adddessertsScreen({super.key,required this.dessertsfrom,required this.dessertsoldid,required this.icecategory,required this.icecategoryid,required this.maincategoryid});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -38,25 +39,26 @@ class AddIceCreamTypesScreen extends StatelessWidget {
         floatingActionButtonLocation:
         FloatingActionButtonLocation.miniCenterFloat,
         floatingActionButton: SizedBox(
-            height: 49,
-            width: width / 1.1,
-            child: Consumer<Mainprovider>(builder: (context, value, child) {
-              return   value.loader?CircularProgressIndicator(color: cgreen,):
+          height: 49,
+          width: width / 1.1,
+          child: Consumer<Mainprovider>(builder: (context, value, child) {
+            return   value.iceloader?CircularProgressIndicator(color: cgreen,):
             FloatingActionButton(
               onPressed: () {
                 final FormState? form = _formKey.currentState;
                 if (form!.validate()) {
 
-                if(iceitemfrom=="NEW"){
-                  value.icecreamitem(icecategory,icecategoryid,maincategoryid,iceitemfrom,"",context);
+                  if(dessertsfrom=="NEW"){
+                    value.dessertsItems(icecategory,icecategoryid, maincategoryid,dessertsfrom,"",context);
 
-                }else{
-                  value.icecreamitem(icecategory,icecategoryid,maincategoryid,iceitemfrom,iceitemoldid,context);
+                    back(context);
+                  }else{
+                    value.dessertsItems(icecategory,icecategoryid, maincategoryid,dessertsfrom,dessertsoldid,context);
+
+                    back(context);
+                  }
 
                 }
-
-                  }
-                back(context);
 
               },
               elevation: 0,
@@ -88,10 +90,9 @@ class AddIceCreamTypesScreen extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           centerTitle: true,
-
           title: FittedBox(
             child: text(
-              "Add FouzySpecial IceCream",
+              "Add Fouzy Desserts items",
               FontWeight.w700,
               cgreen,
               18,
@@ -104,27 +105,20 @@ class AddIceCreamTypesScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 SizedBox(height: height*0.2,),
-
-                Consumer<Mainprovider>(
-                  builder: (context,value,child) {
-                    return textfield(
-                        TextInputType.text, "enter Flavours", "Flavour Name",value.icecremaflavourCT);
-                  }
-                ),
                 Consumer<Mainprovider>(
                     builder: (context,value,child) {
-                    return textfield(
-                        TextInputType.number, "enter Single Price ", "₹Single Price",value.icecremaSingleCT);
-                  }
+                      return textfield(
+                          TextInputType.text, "enter your Item ", "Name",value.dessertsNameCT);}
+                ),  Consumer<Mainprovider>(
+                    builder: (context,value,child) {
+                      return textfield(
+                          TextInputType.number, "enter your ItemPrice ", "₹Price",value.dessertspriceCT);}
                 ),
 
-                Consumer<Mainprovider>(
-                    builder: (context,value,child) {
-                    return textfield(
-                        TextInputType.number, "enter Double Price ", "₹Double Price",value.icecremDoubleCT);
-                  }
-                ),
+
+
 
               ],
             ),

@@ -341,6 +341,7 @@ class BNBCustomPainter extends CustomPainter {
   }
 }
 
+
 // class BNBCustomPainter extends CustomPainter {
 //   @override
 //   void paint(Canvas canvas, Size size) {
