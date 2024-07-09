@@ -14,8 +14,11 @@ import 'adddesserts.dart';
 
 
 class DeseertsItemScreen extends StatelessWidget {
+  String icecategory;
+  String icecategoryid;
+  String maincategoryid;
 
-  DeseertsItemScreen({super.key});
+  DeseertsItemScreen({super.key,required this.icecategory,required this.icecategoryid,required this.maincategoryid});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +43,8 @@ class DeseertsItemScreen extends StatelessWidget {
                 backgroundColor: cgreen,
                 child: Icon(Icons.add, color: cWhite, size: 38),
                 onPressed: () {
-                         callNext(context, adddessertsScreen());
+                         callNext(context, adddessertsScreen(dessertsfrom: "NEW", dessertsoldid: '',
+                           icecategory: icecategory, icecategoryid: icecategoryid, maincategoryid: maincategoryid,));
                 },
               );
             }
