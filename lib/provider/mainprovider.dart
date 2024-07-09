@@ -87,6 +87,7 @@ class Mainprovider extends ChangeNotifier {
   bool getloader = false;
 
   void getMainCategoy() {
+    print("ddcd");
     getloader = true;
     notifyListeners();
     db.collection("MAIN_CATEGORY").get().then((value) {
@@ -624,6 +625,15 @@ class Mainprovider extends ChangeNotifier {
   TextEditingController addicecreamcategoryCt = TextEditingController();
   TextEditingController maincategoryIceCt = TextEditingController();
 
+
+
+  String checkvalue = "";
+
+  void icetypes(String? val) {
+    checkvalue = val!;
+    notifyListeners();
+  }
+
   String selectedmaincategoryiceid = '';
 
   bool iceloader = false;
@@ -639,7 +649,7 @@ class Mainprovider extends ChangeNotifier {
     map["ICE_CATEGORY_NAME"] = addicecreamcategoryCt.text;
     map["MAIN_CATEGORY_NAME"] = maincategoryIceCt.text;
     map["MAIN_CATEGORY_ID"] = selectedmaincategoryiceid;
-    map["TYPE"] = "ICECREAM";
+    map["TYPE"] = checkvalue;
 
     if (from == "NEW") {
       map["ICE_CATEGORY_ID"] = id;
@@ -675,8 +685,11 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
   void iceCategoryclear() {
     addicecreamcategoryCt.clear();
+    checkvalue='';
   }
 
   List<IceCreamCategoryModel> icecategorylist = [];
@@ -698,6 +711,7 @@ class Mainprovider extends ChangeNotifier {
             getmap["ICE_CATEGORY_NAME"].toString(),
             getmap["MAIN_CATEGORY_ID"].toString(),
             getmap["MAIN_CATEGORY_NAME"].toString(),
+            getmap["TYPE"].toString(),
           ));
           notifyListeners();
         }
@@ -726,6 +740,7 @@ class Mainprovider extends ChangeNotifier {
       if (value.exists) {
         addicecreamcategoryCt.text = dataMaps["ICE_CATEGORY_NAME"].toString();
         maincategoryIceCt.text = dataMaps["MAIN_CATEGORY_NAME"].toString();
+        checkvalue=dataMaps["TYPE"].toString();
       }
       notifyListeners();
     });
@@ -813,7 +828,160 @@ class Mainprovider extends ChangeNotifier {
 
       ));
     }
+    fetchIceCreamList();
   }
+
+
+  void icelistclear(){
+    icecremaflavourCT.clear();
+    icecremaSingleCT.clear();
+    icecremDoubleCT.clear();
+  }
+
+  List<IceCreamList> icecreamlist=[];
+
+  bool geticelist=false;
+  void fetchIceCreamList() {
+    geticelist = true;
+    notifyListeners();
+    db.collection("ICE_CREAM_ITEMS").get().then((value) {
+      if (value.docs.isNotEmpty) {
+        geticelist = false;
+        notifyListeners();
+        icecreamlist.clear();
+        for (var element in value.docs) {
+          Map<dynamic, dynamic> getmap = element.data();
+          icecreamlist.add(IceCreamList(
+              getmap["ID"].toString(),
+              getmap["SINGLE_PRICE"].toString(),
+              getmap["DOUBLE_PRICE"].toString(),
+              getmap["ICE_CATEGORY_ID"].toString(),
+              getmap["ICE_CATEGORY_NAME"].toString(),
+              getmap["ICE_FLAVOUR"].toString(),
+              getmap["MAIN_CATEGORY_ID"].toString(),
+              getmap["TYPE"].toString(),
+              ));
+          notifyListeners();
+        }
+      }
+    });
+    notifyListeners();
+  }
+
+
+  void deleteicelist(String id, BuildContext context) {
+    db.collection("ICE_CREAM_ITEMS").doc(id).delete();
+    getIceCreamCategoy();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(
+            "Deleted successfully ",
+            style: TextStyle(color: cWhite, fontSize: 15),
+          )),
+    );
+    fetchIceCreamList();
+    notifyListeners();
+  }
+
+  void editicelist(String id, BuildContext context) {
+    db.collection('ICE_CREAM_ITEMS').doc(id).get().then((value) {
+      Map<dynamic, dynamic> dataMaps = value.data() as Map;
+      if (value.exists) {
+        icecremaflavourCT.text = dataMaps["ICE_FLAVOUR"].toString();
+        icecremaSingleCT.text = dataMaps["SINGLE_PRICE"].toString();
+        icecremDoubleCT.text = dataMaps["DOUBLE_PRICE"].toString();
+      }
+      notifyListeners();
+    });
+    fetchIceCreamList();
+    notifyListeners();
+  }
+
+TextEditingController dessertsNameCT = TextEditingController();
+  TextEditingController dessertspriceCT = TextEditingController();
+
+  void dessertsItems(String icecate, String icecategid, String maincateid,
+      String from, String oldid, BuildContext context) {
+    String id = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
+
+    Map<String, Object> map = HashMap();
+
+    map["DESSERTS_NAME"] = dessertsNameCT.text;
+
+    map["DESSERTS_PRICE"] = dessertspriceCT.text;
+
+
+    map["ICE_CATEGORY_NAME"] = icecate;
+
+    map["ICE_CATEGORY_ID"] = icecategid;
+
+    map["MAIN_CATEGORY_ID"] = maincateid;
+
+    map["TYPE"] = "DESSERTS";
+
+    if (from == "NEW") {
+      map["ID"] = id;
+    }
+
+    if (from == "EDIT") {
+      db.collection("DESSERTS_ITEMS").doc(oldid).update(map);
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+
+        backgroundColor: cWhite,
+
+        content: Text("Updated Successfully",
+
+            style: TextStyle(
+
+              color: cgreen,
+
+              fontSize: 15,
+
+              fontWeight: FontWeight.w800,
+
+            )),
+
+        duration: Duration(milliseconds: 3000),
+
+      ));
+
+    } else {
+
+      db.collection("DESSERTS_ITEMS").doc(id).set(map);
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+
+        backgroundColor: cWhite,
+
+        content: Text("Added Successfully",
+
+            style: TextStyle(
+
+              color: cgreen,
+
+              fontSize: 15,
+
+              fontWeight: FontWeight.w800,
+
+            )),
+
+        duration: Duration(milliseconds: 3000),
+
+      ));
+    }
+    fetchIceCreamList();
+  }
+
+
+
+
+
+
 
   /// CheckBox ** //
 

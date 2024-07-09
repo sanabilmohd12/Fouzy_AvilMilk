@@ -89,7 +89,7 @@ class AddIceCreamCategory extends StatelessWidget {
           centerTitle: true,
           title: FittedBox(
             child: text(
-              "Add Fouzy IceCream Category",
+              "Add Fouzy IceCreams Types",
               FontWeight.w700,
               cgreen,
               18,
@@ -109,6 +109,58 @@ class AddIceCreamCategory extends StatelessWidget {
                     return textfield(
                         TextInputType.text, "enter your juice Category ", "Category",value.addicecreamcategoryCt);}
                 ),
+
+                Consumer<Mainprovider>(
+                    builder: (context,val2,child) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            children: [
+                              Radio(
+                                  activeColor: cgreen,
+                                  value: "ICE CREAM",
+                                  groupValue:val2.checkvalue,
+                                  onChanged: (value){
+                                    val2.checkvalue = value.toString();
+                                    val2.notifyListeners();
+                                  }
+                              ),
+                              Container(
+                                  width:width / 4,
+                                  height:height / 18,
+                                  decoration: BoxDecoration( color: Colors.grey.shade200,borderRadius: BorderRadius.circular(18)),
+                                  child: Center(child:  Text(
+                                    "ICE CREAM",
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.w300, fontSize: 15, color: cBlack,fontFamily: "ink nut"),
+                                  ),))                     ],
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                  activeColor: cgreen,
+                                  value: "DESSERT",
+                                  groupValue:val2.checkvalue,
+                                  onChanged: (value){
+                                    val2.checkvalue = value.toString();
+                                    val2.notifyListeners();
+                                  }
+                              ),
+                              Container(
+                                  width:width / 3,
+                                  height:height / 18,
+                                  decoration: BoxDecoration( color: Colors.grey.shade200,borderRadius: BorderRadius.circular(18)),
+                                  child: Center(child:  Text(
+                                    "DESSERT",
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.w300, fontSize: 15, color: cBlack,fontFamily: "ink nut"),
+                                  ),))                    ],
+                          ),
+                        ],);
+                    }
+                ),
+                SizedBox(height: 10,),
                 SizedBox(
                   width: width / 1.5,
                   child: Consumer<Mainprovider>(

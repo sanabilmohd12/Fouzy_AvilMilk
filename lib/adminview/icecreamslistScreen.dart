@@ -11,6 +11,7 @@ import '../constants/myimages.dart';
 import '../constants/widgets.dart';
 import 'IceCreamlist.dart';
 import 'addicecreamCategory.dart';
+import 'dessertsitem.dart';
 
 
 class IcrecreamListScreen extends StatelessWidget {
@@ -66,7 +67,7 @@ class IcrecreamListScreen extends StatelessWidget {
           centerTitle: true,
 
           title: text(
-            "Fouzy IceCream types",
+            "Fouzy IceCreams List",
             FontWeight.w700,
             cgreen,
             18,
@@ -84,15 +85,24 @@ class IcrecreamListScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     var icedata=value.icecategorylist[index];
                     return InkWell(onTap: () {
-                      callNext(context, IceCreamTypesListScreen(icecategory: icedata.name,icecategoryid: icedata.id,
-                        maincategoryid: icedata.maincategoryid,));
+
+                      if(index==0){
+                        value.fetchIceCreamList();
+                        callNext(context, IceCreamTypesListScreen(icecategory: icedata.name,icecategoryid: icedata.id,
+                          maincategoryid: icedata.maincategoryid,));
+                      }else{
+                        callNext(context, DeseertsItemScreen());
+
+                      }
+
                       },
                       child: Container(
                         margin: EdgeInsets.symmetric(
                             horizontal: 15, vertical: 10),
                         width: width,
-                        height: height*.12,
+                        height: height*.15,
                         decoration: BoxDecoration(
+
                           borderRadius: BorderRadius.circular(12),
                           color: cWhite,
                         ),
