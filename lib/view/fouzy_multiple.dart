@@ -4,17 +4,22 @@ import 'package:fouzy/provider/mainprovider.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/colors.dart';
-import '../constants/myimages.dart';
 import '../constants/widgets.dart';
 
 class FouzyMultiple extends StatelessWidget {
   const FouzyMultiple({super.key});
 
   @override
+
+
   Widget build(BuildContext context) {
+
     Mainprovider provider = Provider.of<Mainprovider>(context, listen: false);
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
       provider.getavilmilktypes();
+
     });
 
     var height = MediaQuery.of(context).size.height;
@@ -22,35 +27,33 @@ class FouzyMultiple extends StatelessWidget {
     final int index1;
     return Scaffold(
       backgroundColor: cYellow,
-       floatingActionButton: Consumer<Mainprovider>(
-        builder: (context, value, child) {
-      bool isAnySelected = false;
-      for (int i = 0; i < value.avilmilklist.length; i++)
-      {
-        if (value.getCheckboxValue(i) == true) {
-          isAnySelected = true;
-          break;
+      floatingActionButton:
+          Consumer<Mainprovider>(builder: (context, value, child) {
+        bool isAnySelected = false;
+        for (int i = 0; i < value.avilmilklist.length; i++) {
+          if (value.getCheckboxValue(i) == true) {
+            isAnySelected = true;
+            break;
+          }
         }
-      }
-      return isAnySelected
-          ? FloatingActionButton.extended(
-        backgroundColor: Colors.yellow,
-        onPressed: () {},
-        label: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text(
-            'Add To Cart',
-            style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ),
-        icon: Icon(Icons.shopping_cart, color: cgreen),
-      )
-          : SizedBox();
-    }
-    ),
+        return isAnySelected
+            ? FloatingActionButton.extended(
+                backgroundColor: Colors.yellow,
+                onPressed: () {},
+                label: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    'Add To Cart',
+                    style: TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                icon: Icon(Icons.shopping_cart, color: cgreen),
+              )
+            : SizedBox();
+      }),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 100,

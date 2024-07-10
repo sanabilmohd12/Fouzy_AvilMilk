@@ -70,13 +70,13 @@ class _HomescreenState extends State<Home_screen> {
                                 var items = value.mainCategorylist[index];
                                 return InkWell(
                                   onTap: (){
-                                    if(index==0){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => Detailsscreen(id: items.id),));
-                                    }
-                                    else if(index==2){
-
-                                    }
-                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => Detailsscreen(id: items.id),));
+                                    // if(index==0){
+                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => Detailsscreen(id: items.id),));
+                                    // }
+                                    // else if(index==2){
+                                    //
+                                    // }
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => FouzyMultiple(),));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
