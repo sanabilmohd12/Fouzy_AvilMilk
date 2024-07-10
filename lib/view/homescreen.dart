@@ -29,7 +29,7 @@ class _HomescreenState extends State<Home_screen> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/appbar bg1.jpg'),
+              image: AssetImage('assets/lowbgapp.jpg'),
               fit: BoxFit.cover,
             ),
           ),

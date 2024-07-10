@@ -1,4 +1,4 @@
-class AvilMilkTypes{
+class Fouzysp{
   String id;
   String name;
   String price;
@@ -8,5 +8,5 @@ class AvilMilkTypes{
   String maincatrgoryname;
   String avilphoto;
   // int count;
-  AvilMilkTypes(this.id,this.name,this.price,this.describtion,this.avilcategory,this.maincategoryid,this.maincatrgoryname,this.avilphoto,);
+  Fouzysp(this.id,this.name,this.price,this.describtion,this.avilcategory,this.maincategoryid,this.maincatrgoryname,this.avilphoto,);
 }

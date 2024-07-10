@@ -59,10 +59,15 @@ class Admin_Home_Screen extends StatelessWidget {
             children: [
               Builder(
                 builder: (context) {
-                  return InkWell(onTap: () {
-             callNext(context, FouzySpecialScreen());
-                  },
-                      child: Button(height*.10,width,cgreen,"Fouzy Special",cWhite,FontWeight.w800, 22));
+                  return Consumer<Mainprovider>(
+                    builder: (context,val,child) {
+                      return InkWell(onTap: () {
+                        val.getfsptypes();
+                                   callNext(context, FouzySpecialScreen());
+                      },
+                          child: Button(height*.10,width,cgreen,"Fouzy Special",cWhite,FontWeight.w800, 22));
+                    }
+                  );
                 }
               ),
               Consumer<Mainprovider>(
@@ -80,7 +85,7 @@ class Admin_Home_Screen extends StatelessWidget {
                     val.getavilmilktypes();
                      callNext(context, Avil_Milk_Screen());
                   },
-                      child: Button(height*.10,width,cgreen,"Fouzy Avail  Milks",cWhite,FontWeight.w800, 22));
+                      child: Button(height*.10,width,cgreen,"Fouzy Avil  Milks",cWhite,FontWeight.w800, 22));
                 }
               ),
               Consumer<Mainprovider>(
