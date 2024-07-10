@@ -280,6 +280,7 @@ class addAvilMilkScreen extends StatelessWidget {
                             value.addAvilMilkItems(context,avilfrom,aviloldid);
 
                             back(context);
+                            value.getavilmilktypes();
                           }
                         }else{
                           ScaffoldMessenger.of(context)

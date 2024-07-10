@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../modelClass/MainCategoryModelClass.dart';
 import '../modelClass/avilmilktypesModelClass.dart';
+import '../modelClass/fouzysp.dart';
 import '../modelClass/icecreamsModelClass.dart';
 import '../modelClass/jucieandshakesCateModelClass.dart';
 
@@ -26,6 +29,27 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
+  /// Count
+
+// void countIncrement(int index){
+// if(avilmilklist[index].count>=0){
+// avilmilklist[index].count++;
+// notifyListeners();
+// }
+// print(avilmilklist[index].count.toString()+"incr");
+// notifyListeners();
+// }
+//
+// void countDecrement(int index){
+//     if(avilmilklist[index].count>0){
+// avilmilklist[index].count--;
+// notifyListeners();
+//     }
+//     print(avilmilklist[index].count.toString()+"decr");
+//     notifyListeners();
+// }
 
   /// maincategory
 
@@ -134,6 +158,165 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
+  ///FouzySp
+
+
+  TextEditingController fspNameCt = TextEditingController();
+  TextEditingController fspPriceCt = TextEditingController();
+  TextEditingController fspDescriptionCt = TextEditingController();
+  TextEditingController fspCategoryCt = TextEditingController();
+  TextEditingController spmaincategorynameCt = TextEditingController();
+
+  String fspmainCategorySelectedId = '';
+  bool fsploader = false;
+  File? fspAvilmilkFileImg = null;
+  String fspAvilmilkImg = '';
+
+  Future<void> addfspAvilMilk(BuildContext context1 , String from, String oldId) async {
+    print('zkxhckzxckjzj');
+
+    fsploader = true;
+    notifyListeners();
+
+    print("dcdcfdc");
+    String id = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
+    HashMap<String, dynamic> map = HashMap();
+
+    map["FOUZY_SPECIALS"] =
+    fspNameCt.text.isNotEmpty ? fspNameCt.text : null;
+    map["FSP_AVIL_MILK_PRICE"] =
+    fspPriceCt.text.isNotEmpty ? fspPriceCt.text : null;
+    map["FSP_DISCRETION"] =
+    fspDescriptionCt.text.isNotEmpty ? fspDescriptionCt.text : null;
+    map["FSP_AVILMILK_CATEGORY"] =
+    fspCategoryCt.text.isNotEmpty ? fspCategoryCt.text : null;
+    map["MAIN_CATEGORY"] =
+    spmaincategorynameCt.text.isNotEmpty ? spmaincategorynameCt.text : null;
+    map["MAIN_CATEGORY_ID"] =fspmainCategorySelectedId;
+    map["ADDED_TIME"] = DateTime.now();
+    map["COUNT"] = "";
+
+    if (fspAvilmilkFileImg != null) {
+      String photoId = DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString();
+      ref = FirebaseStorage.instance.ref().child(photoId);
+      await ref.putFile(fspAvilmilkFileImg!).whenComplete(() async {
+        await ref.getDownloadURL().then((value) {
+          map["FSpAVILMILK_PHOTO"] = value;
+
+          notifyListeners();
+        });
+        notifyListeners();
+      });
+      notifyListeners();
+    } else {
+      map['FSPAVILMILK_PHOTO'] = fspAvilmilkImg;
+    }
+    if (from == "NEW") {
+      map["FSPAVIL_MILK_ID"] = id;
+    }
+
+    if (from == "EDIT") {
+      db.collection("FSPAVIL_MILK").doc(oldId).update(map);
+      // ScaffoldMessenger.of().showSnackBar(SnackBar(
+      //   backgroundColor: cWhite,
+      //   content: Text("Updated Successfully",
+      //       style: TextStyle(
+      //         color: cgreen,
+      //         fontSize: 15,
+      //         fontWeight: FontWeight.w800,
+      //       )),
+      //   duration: Duration(milliseconds: 3000),
+      // ));
+    }
+    else {
+      print('jhsadjkasd');
+      db.collection("FSPAVIL_MILK").doc(id).set(map);
+      ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
+        backgroundColor: cWhite,
+        content: Text("Added Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+        duration: Duration(milliseconds: 3000),
+      ));
+    }
+    fsploader = false;
+
+    getfsptypes();
+    notifyListeners();
+  }
+
+
+  void setImages(File image) {
+    fspAvilmilkFileImg = image;
+    notifyListeners();
+  }
+
+  Future getImggalleryf() async {
+    final imagePicker = ImagePicker();
+    final pickedImage =
+    await imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setImages(File(pickedImage.path));
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  Future getImgcamerasf() async {
+    final imgPicker = ImagePicker();
+    final pickedImage = await imgPicker.pickImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      setImages(File(pickedImage.path));
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  List<Fouzysp> fspavilmilklist = [];
+
+  void getfsptypes() {
+    getavilloader = true;
+    notifyListeners();
+    db.collection("FSPAVIL_MILK").get().then((value) {
+      if (value.docs.isNotEmpty) {
+        getavilloader = false;
+        notifyListeners();
+        fspavilmilklist.clear();
+        for (var element in value.docs) {
+          Map<dynamic, dynamic> getavilmap = element.data();
+          fspavilmilklist.add(Fouzysp(
+            getavilmap["FSPAVIL_MILK_ID"].toString(),
+            getavilmap["FSPAVIL_MILK_NAME"].toString(),
+            getavilmap["FSPAVIL_MILK_PRICE"].toString(),
+            getavilmap["FSPDISCRETION"].toString(),
+            getavilmap["FSPAVILMILK_CATEGORY"].toString(),
+            getavilmap["FSPMAIN_CATEGORY"].toString(),
+            getavilmap["FSPMAIN_CATEGORY_ID"].toString(),
+            getavilmap["FSPAVILMILK_PHOTO"].toString(),
+
+
+          ));
+          notifyListeners();
+        }
+      }
+      notifyListeners();
+    });
+    notifyListeners();
+  }
+
   /// Avilmilks
 
   TextEditingController avilMilkNameCt = TextEditingController();
@@ -141,6 +324,10 @@ class Mainprovider extends ChangeNotifier {
   TextEditingController avilMilkDescribtionCt = TextEditingController();
   TextEditingController avilMilkCategoryCt = TextEditingController();
   TextEditingController maincategorynameCt = TextEditingController();
+  TextEditingController priceCt = TextEditingController();
+
+
+
 
   String mainCategorySelectedId = '';
 
@@ -150,8 +337,7 @@ class Mainprovider extends ChangeNotifier {
   String avilmilkimg = '';
 
 
-  Future<void> addAvilMilkItems(BuildContext context1 , String from,
-      String oldId) async {
+  Future<void> addAvilMilkItems(BuildContext context1 , String from, String oldId) async {
     avilloader = true;
     notifyListeners();
     String id = DateTime
@@ -211,16 +397,16 @@ class Mainprovider extends ChangeNotifier {
       // ));
     } else {
       db.collection("AVIL_MILK").doc(id).set(map);
-      ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
-        backgroundColor: cWhite,
-        content: Text("Added Successfully",
-            style: TextStyle(
-              color: cgreen,
-              fontSize: 15,
-              fontWeight: FontWeight.w800,
-            )),
-        duration: Duration(milliseconds: 3000),
-      ));
+      // ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
+      //   backgroundColor: cWhite,
+      //   content: Text("Added Successfully",
+      //       style: TextStyle(
+      //         color: cgreen,
+      //         fontSize: 15,
+      //         fontWeight: FontWeight.w800,
+      //       )),
+      //   duration: Duration(milliseconds: 3000),
+      // ));
     }
     avilloader = false;
 
@@ -304,6 +490,14 @@ class Mainprovider extends ChangeNotifier {
     mainCategorylist.clear();
     avilmilkimg = '';
     AvilmilkFileImg = null;
+      fspNameCt.clear();
+      fspPriceCt.clear();
+      fspDescriptionCt.clear();
+      fspCategoryCt.clear();
+      fspAvilmilkFileImg = null;
+      fspAvilmilkImg= '';
+
+
   }
 
   List<AvilMilkTypes> avilmilklist = [];
@@ -329,6 +523,8 @@ class Mainprovider extends ChangeNotifier {
             getavilmap["MAIN_CATEGORY"].toString(),
             getavilmap["MAIN_CATEGORY_ID"].toString(),
             getavilmap["AVILMILK_PHOTO"].toString(),
+
+
           ));
           notifyListeners();
         }
