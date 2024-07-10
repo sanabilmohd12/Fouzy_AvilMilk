@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../adminview/AdminHomeScreen.dart';
 import '../constants/colors.dart';
 import 'bottombar.dart';
-import 'categoryspage.dart';
+import 'cartScreen.dart';
 import 'homescreen.dart';
 import 'orderpage.dart';
 
@@ -20,7 +20,7 @@ _BottomNavBarV2State createState() => _BottomNavBarV2State();
 class _BottomNavBarV2State extends State<BottomNavBarV2> {
   final List<Widget> _screens = [
     Home_screen(),
-    CategoryScreen(),
+    Cart_Screen(),
     SalesScreen(),
     OrderScreen(),
   ];

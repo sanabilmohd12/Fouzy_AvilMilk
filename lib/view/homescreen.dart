@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/colors.dart';
-import 'package:fouzy/view/detailsScreen.dart';
 import 'package:provider/provider.dart';
-
 import '../provider/mainprovider.dart';
-import 'bottombar.dart';
+import 'FouzyAvilMilkList.dart';
+import 'IceCreamList.dart';
+import 'Juice&ShakesList.dart';
 import 'fouzy_multiple.dart';
+
 
 class Home_screen extends StatefulWidget {
   const Home_screen({super.key});
@@ -70,13 +72,23 @@ class _HomescreenState extends State<Home_screen> {
                                 var items = value.mainCategorylist[index];
                                 return InkWell(
                                   onTap: (){
-                                    // if(index==0){
-                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => Detailsscreen(id: items.id),));
-                                    // }
-                                    // else if(index==2){
-                                    //
-                                    // }
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => FouzyMultiple(),));
+                                    if(index==0){
+
+                                      callNext(context, FouzyMultiple(from: ''));
+                                    }
+                                    else if(index==1){
+
+                                      callNext(context, FouzyAvilMilkListScreen(id: '',));
+
+                                    }else if(index==2){
+
+                                      callNext(context, IceCreamListScreen());
+
+                                    }else if(index==3){
+                                      value.getJuiceShakesAllItems();
+                                      callNext(context, Juice_ShakesListScreen());
+
+                                    }
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(

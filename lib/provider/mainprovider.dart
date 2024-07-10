@@ -745,6 +745,7 @@ class Mainprovider extends ChangeNotifier {
   }
 
   List<JucieAndShakesItems> juiceshakesitemslist = [];
+  List<JucieAndShakesItems> Juiceshakesalllist = [];
 
   bool getjuiceshakeslistloader = false;
 
@@ -766,6 +767,38 @@ class Mainprovider extends ChangeNotifier {
           Map<dynamic, dynamic> getjucieshakeitemmap = element.data();
 
           juiceshakesitemslist.add(JucieAndShakesItems(
+            getjucieshakeitemmap["JUICE_SHAKES_ID"].toString(),
+            getjucieshakeitemmap["JUICE_SHAKES_NAME"].toString(),
+            getjucieshakeitemmap["JUICE_SHAKES_PRICE"].toString(),
+            getjucieshakeitemmap["JUICE_SHAKES_CATEGORY_ID"].toString(),
+            getjucieshakeitemmap["JUICE_SHAKES_CATEGORY"].toString(),
+            getjucieshakeitemmap["MAIN_CATEGORY_ID"].toString(),
+          ));
+          notifyListeners();
+          print("dfvf" + element.data().toString());
+        }
+      }
+    });
+    notifyListeners();
+  }
+
+  void getJuiceShakesAllItems() {
+    Juiceshakesalllist.clear();
+    print("dcdc");
+    getjuiceshakeslistloader = true;
+    notifyListeners();
+    db
+        .collection("JUICE_SHAKES_ITEMS")
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        getjuiceshakeslistloader = false;
+        notifyListeners();
+
+        for (var element in value.docs) {
+          Map<dynamic, dynamic> getjucieshakeitemmap = element.data();
+
+          Juiceshakesalllist.add(JucieAndShakesItems(
             getjucieshakeitemmap["JUICE_SHAKES_ID"].toString(),
             getjucieshakeitemmap["JUICE_SHAKES_NAME"].toString(),
             getjucieshakeitemmap["JUICE_SHAKES_PRICE"].toString(),
