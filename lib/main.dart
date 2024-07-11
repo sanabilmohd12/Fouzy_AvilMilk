@@ -1,11 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:fouzy/view/bottombar.dart';
-import 'package:fouzy/view/bttmtest.dart';
-import 'package:fouzy/view/categoryspage.dart';
-import 'package:fouzy/view/fouzy_multiple.dart';
-// import 'package:fouzy/view/Home_Screen.dart';
-import 'package:fouzy/view/homescreen.dart';
+
 import 'package:fouzy/view/splashscreen.dart';
 import 'package:provider/provider.dart';
 

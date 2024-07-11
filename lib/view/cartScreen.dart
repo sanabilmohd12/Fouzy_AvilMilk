@@ -7,8 +7,8 @@ import '../constants/colors.dart';
 import '../constants/widgets.dart';
 import '../provider/mainprovider.dart';
 
-class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({super.key});
+class Cart_Screen extends StatelessWidget {
+  const Cart_Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class CategoryScreen extends StatelessWidget {
                                     crossAxisCount: 2,
                                     childAspectRatio: 1),
                             itemBuilder: (context, index) {
-                              // var item = value.avilmilklist[index];
+                              var item = value.avilmilklist[index];
                               return Container(
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 5, vertical: 5),
@@ -121,7 +121,7 @@ class CategoryScreen extends StatelessWidget {
                                             tileColor: Color(0xfff9ea1f),
                                             leading: IconButton(
                                                 onPressed: () {},
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   CustomIcons.minus_circle,
                                                   color: Colors.red,
                                                 )),

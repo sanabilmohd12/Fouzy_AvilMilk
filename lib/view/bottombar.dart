@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/colors.dart';
-import 'package:fouzy/provider/mainprovider.dart';
-import 'package:fouzy/view/homescreen.dart';
-import 'package:fouzy/view/salespage.dart';
-import 'package:fouzy/view/splashscreen.dart';
-import 'package:provider/provider.dart';
 
-import 'categoryspage.dart';
-import 'orderpage.dart';
 
 // class CustomBottomNavigationBar extends StatelessWidget {
 //   final int selectedIndex;
