@@ -239,16 +239,16 @@ class Mainprovider extends ChangeNotifier {
     else {
       print('jhsadjkasd');
       db.collection("FSPAVIL_MILK").doc(id).set(map);
-      ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
-        backgroundColor: cWhite,
-        content: Text("Added Successfully",
-            style: TextStyle(
-              color: cgreen,
-              fontSize: 15,
-              fontWeight: FontWeight.w800,
-            )),
-        duration: Duration(milliseconds: 3000),
-      ));
+      // ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
+      //   backgroundColor: cWhite,
+      //   content: Text("Added Successfully",
+      //       style: TextStyle(
+      //         color: cgreen,
+      //         fontSize: 15,
+      //         fontWeight: FontWeight.w800,
+      //       )),
+      //   duration: Duration(milliseconds: 3000),
+      // ));
     }
     fsploader = false;
 
@@ -409,7 +409,7 @@ class Mainprovider extends ChangeNotifier {
       // ));
     }
     avilloader = false;
-
+    avilmilkclear();
     getavilmilktypes();
     notifyListeners();
   }
@@ -531,7 +531,7 @@ class Mainprovider extends ChangeNotifier {
       }
       notifyListeners();
     });
-    notifyListeners();
+
   }
 
 

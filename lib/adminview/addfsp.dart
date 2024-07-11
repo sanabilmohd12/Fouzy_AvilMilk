@@ -266,6 +266,7 @@ class AddFouzySpecials extends StatelessWidget {
                 Consumer<Mainprovider>(
                     builder: (context,value,child) {
                       return InkWell(onTap: () {
+
                         final FormState? form = _formKey.currentState;
                         if (form!.validate()) {
                           if(value.fspAvilmilkFileImg!=null||value.fspAvilmilkImg!=''){
@@ -279,7 +280,7 @@ class AddFouzySpecials extends StatelessWidget {
                               value.addfspAvilMilk(context,fspavilfrom,fspaviloldid);
 
                               back(context);
-                              value.getavilmilktypes();
+
                             }
                           }else{
                             ScaffoldMessenger.of(context)
@@ -290,7 +291,9 @@ class AddFouzySpecials extends StatelessWidget {
                           }
                         }},
                           child:
-                          savebtn(height/15, width, cgreen, "Save", cWhite, FontWeight.w800, 15));
+                          savebtn(height/15, width, cgreen, "Saved", cWhite, FontWeight.w800, 15)
+
+                      );
                     }
                 )
 
