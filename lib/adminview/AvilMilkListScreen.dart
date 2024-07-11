@@ -86,7 +86,7 @@ class Avil_Milk_Screen extends StatelessWidget {
                       var item = value.avilmilklist[index];
                       return Container(
                         margin:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                            EdgeInsets.symmetric(horizontal: width/100, vertical: 5),
                         width: width,
                         height: height * .12,
                         decoration: BoxDecoration(
@@ -108,7 +108,7 @@ class Avil_Milk_Screen extends StatelessWidget {
                                       ),)
                                     : SizedBox()),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding:  EdgeInsets.symmetric(horizontal: width*.001),
                               child: Row(
                                 // crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
