@@ -103,44 +103,26 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   var item = value.Juiceshakesalllist[index];
                                   return Container(
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 5),
+                                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                                     width: width,
                                     height: height * .12,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: cYellow,
-                                    ),
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: cYellow,),
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 20.0),
                                           child: Row(
                                             // crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              FittedBox(
-                                                  child: text(
-                                                      item.name,
-                                                      FontWeight.w800,
-                                                      cgreen,
-                                                      25)),
-                                              FittedBox(
-                                                  child: text(
-                                                      "₹  " + item.price,
-                                                      FontWeight.w700,
-                                                      cgreen,
-                                                      20)),
-                                            ],
-                                          ),
-                                        ),
-                                        FittedBox(
-                                            child: text(item.categoryname,
-                                                FontWeight.w700, cgreen, 20)),
+                                              FittedBox(child: text(item.name, FontWeight.w800, cgreen, 25)),
+                                              FittedBox(child: text("₹  " + item.price, FontWeight.w700, cgreen, 20)),
+                                                      ],
+                                                     ),
+                                             ),
+                                        FittedBox(child: text(item.categoryname, FontWeight.w700, cgreen, 20)),
                                         SizedBox(),
                                       ],
                                     ),
