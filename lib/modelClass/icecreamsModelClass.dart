@@ -23,4 +23,18 @@ class IceCreamList{
 
 
 
+ class DessertsModel{
+   String id;
+   String name;
+   String price;
+   String icecreamcategoryid;
+   String icecreamcategoryname;
+   String maincategoryid;
+   String type;
+   DessertsModel(this.id,this.name,this.price,this.icecreamcategoryid,this.icecreamcategoryname,this.maincategoryid,this.type);
+
+ }
+
+
+
 

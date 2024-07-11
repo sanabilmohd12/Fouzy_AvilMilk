@@ -26,7 +26,7 @@ class Printerscreen extends StatelessWidget {
         ),
       ),
       child: Scaffold(
-             backgroundColor: Colors.cyan,
+             backgroundColor: Colors.transparent,
         body:  SingleChildScrollView(
           child: Column(
             children: [

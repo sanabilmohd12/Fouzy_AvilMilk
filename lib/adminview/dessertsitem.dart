@@ -43,6 +43,7 @@ class DeseertsItemScreen extends StatelessWidget {
                 backgroundColor: cgreen,
                 child: Icon(Icons.add, color: cWhite, size: 38),
                 onPressed: () {
+                  value.dessertsclear();
                          callNext(context, adddessertsScreen(dessertsfrom: "NEW", dessertsoldid: '',
                            icecategory: icecategory, icecategoryid: icecategoryid, maincategoryid: maincategoryid,));
                 },
@@ -78,18 +79,23 @@ class DeseertsItemScreen extends StatelessWidget {
             children: [
               Consumer<Mainprovider>(
                   builder: (context,value,child) {
-                    return ListView.builder(
-                      physics: ScrollPhysics(),
+                    return  GridView.builder(
+                      itemCount: value.dessertslist.length,
                       shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: value.icecreamlist.length,
+                      physics: ScrollPhysics(),
+                      gridDelegate:
+                      SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 0.5,
+                          crossAxisCount: 2,
+                          childAspectRatio: 1.3),
                       itemBuilder: (context, index) {
-                        var items =value.icecreamlist[index];
+                        var items = value.dessertslist[index];
                         return Container(
                           margin: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
+                              horizontal: 50, vertical: 35),
                           width: width,
-                          height: height*.19,
+                          height: height*.5,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: cWhite,
@@ -98,24 +104,10 @@ class DeseertsItemScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              FittedBox(child: text(items.icecreamfalovour, FontWeight.w800, cgreen, 20)),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  FittedBox(child: text("Single", FontWeight.w700, cgreen, 20)),
+                              FittedBox(child: text(items.name, FontWeight.w800, cgreen, 20)),
+                              FittedBox(child: text("₹"+items.price, FontWeight.w800, cgreen, 20)),
 
-                                  FittedBox(child: text("₹"+items.singleprice, FontWeight.w500, cgreen, 20)),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
 
-                                children: [
-                                  FittedBox(child: text("Double", FontWeight.w700, cgreen, 20)),
-
-                                  FittedBox(child: text("₹"+items.doubleprice, FontWeight.w500, cgreen, 20)),
-                                ],
-                              ),
 
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,7 +130,7 @@ class DeseertsItemScreen extends StatelessWidget {
                                                   Center(
                                                     child: TextButton(
                                                       onPressed: () {
-                                                        value.deleteicelist(items.id,context);
+                                                        value.deletedessert(items.id,context);
                                                         Navigator.of(context).pop();
                                                       },
                                                       child: Container(
@@ -189,10 +181,10 @@ class DeseertsItemScreen extends StatelessWidget {
                                                 child: TextButton(
                                                   onPressed: () {
                                                     print("hgfds0"+items.id);
-                                                    // value.editicelist(items.id, context);
-                                                    // callNext(context, AddIceCreamTypesScreen(iceitemfrom: "EDIT",iceitemoldid: items.id,icecategory: icecategory,icecategoryid: icecategoryid,
-                                                    //     maincategoryid: maincategoryid));
-                                                    //
+                                                    value.editdessertlist(items.id, context);
+                                                    callNext(context, adddessertsScreen(dessertsfrom: "EDIT", dessertsoldid: items.id,
+                                                      icecategory: icecategory, icecategoryid: icecategoryid, maincategoryid: maincategoryid,));
+
 
                                                   },
                                                   child: Container(

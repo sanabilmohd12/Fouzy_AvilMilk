@@ -17,10 +17,6 @@ class Cart_Screen extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-
-
-
-
       floatingActionButtonLocation:
       FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: SizedBox(
@@ -87,7 +83,7 @@ class Cart_Screen extends StatelessWidget {
                             color: cgreen,
                           ))
                         : GridView.builder(
-                            itemCount: value.avilmilklist.length,
+                            itemCount: 2,
                             shrinkWrap: true,
                             physics: ScrollPhysics(),
                             gridDelegate:

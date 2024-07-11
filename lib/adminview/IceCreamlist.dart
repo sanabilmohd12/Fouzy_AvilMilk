@@ -77,18 +77,23 @@ class IceCreamTypesListScreen extends StatelessWidget {
             children: [
               Consumer<Mainprovider>(
                 builder: (context,value,child) {
-                  return ListView.builder(
-                    physics: ScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
+                  return GridView.builder(
                     itemCount: value.icecreamlist.length,
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    gridDelegate:
+                    SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 0.5,
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.3),
                     itemBuilder: (context, index) {
-                      var items =value.icecreamlist[index];
-                      return Container(
+                      var items = value.icecreamlist[index];
+                      return  Container(
                         margin: EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 10),
+                            horizontal: 50, vertical: 35),
                         width: width,
-                        height: height*.19,
+                        height: height*.5,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           color: cWhite,
@@ -101,18 +106,18 @@ class IceCreamTypesListScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                FittedBox(child: text("Single", FontWeight.w700, cgreen, 20)),
+                                FittedBox(child: text("Single  ", FontWeight.w700, cgreen, 20)),
 
-                                FittedBox(child: text("₹"+items.singleprice, FontWeight.w500, cgreen, 20)),
+                                FittedBox(child: text("₹"+items.singleprice, FontWeight.w500, cYellow, 20)),
                               ],
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
 
                               children: [
-                                FittedBox(child: text("Double", FontWeight.w700, cgreen, 20)),
+                                FittedBox(child: text("Double  ", FontWeight.w700, cgreen, 20)),
 
-                                FittedBox(child: text("₹"+items.doubleprice, FontWeight.w500, cgreen, 20)),
+                                FittedBox(child: text("₹"+items.doubleprice, FontWeight.w500, cYellow, 20)),
                               ],
                             ),
 

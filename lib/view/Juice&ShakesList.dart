@@ -53,12 +53,14 @@ class Juice_ShakesListScreen extends StatelessWidget {
             : SizedBox();
       }),
       appBar: AppBar(
+        title: const Text("FOUZY JUICE & SHAKES"),
+        centerTitle: true,
         automaticallyImplyLeading: true,
         toolbarHeight: 100,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/appbar bg1.jpg'),
+              image: AssetImage('assets/bgimg.jpeg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -94,25 +96,26 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                 horizontal: 18.0, vertical: 30),
                             child: Consumer<Mainprovider>(
                                 builder: (context, value, child) {
+                                  print("jhgfdszxcvb"+value.juiceshakesitemslist.length.toString());
+
                               return GridView.builder(
                                 itemCount: value.juiceshakesitemslist.length,
                                 shrinkWrap: true,
                                 physics: ScrollPhysics(),
                                 gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 15,
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisSpacing: 15,
+                                    mainAxisSpacing: 0.5,
                                     crossAxisCount: 2,
-                                    childAspectRatio: 1),
+                                    childAspectRatio: 1.3),
                                 itemBuilder: (context, index) {
                                   var item = value.juiceshakesitemslist[index];
                                   return Container(
                                     margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                                     width: width,
-                                    height: height * .12,
+                                    height: height * .20,
                                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: cYellow,),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         // Container(
                                         //   width: width,
@@ -150,26 +153,9 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                         //             ));
                                         //       }),
                                         // ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20.0),
-                                          child: Row(
-                                            // crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              FittedBox(child: text(item.name, FontWeight.w800, cgreen, 25)),
-                                              FittedBox(child: text("₹  " + item.price, FontWeight.w700, cgreen, 20)),
-                                                      ],
-                                                     ),
-                                             ),
-                                        Column(
-                                          children: [
-                                            //FittedBox(//     child: text(
-                                            //         item.describtion,//         FontWeight.w400,
-                                            //         cgreen,
-                                            //         22)),
-                                          ],
-                                        ),
+                                        FittedBox(child: text(item.name, FontWeight.w800, cgreen, 25)),
+                                        FittedBox(child: text("₹"+item.price, FontWeight.w800, cgreen, 25)),
+
                                         SizedBox(),
                                       ],
                                     ),
