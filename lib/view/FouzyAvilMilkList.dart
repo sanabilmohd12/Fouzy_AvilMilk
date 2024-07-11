@@ -8,9 +8,9 @@ import '../provider/mainprovider.dart';
 import 'cartScreen.dart';
 
 class FouzyAvilMilkListScreen extends StatelessWidget {
-  final String id;
 
-  FouzyAvilMilkListScreen({super.key, required this.id});
+
+  FouzyAvilMilkListScreen({super.key, });
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +54,14 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
             : SizedBox();
       }),
       appBar: AppBar(
+        title: const Text("FOUZY AVILMILK"),
+        centerTitle: true,
         automaticallyImplyLeading: true,
         toolbarHeight: 100,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/appbar bg1.jpg'),
+              image: AssetImage('assets/bgimg.jpeg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -84,123 +86,126 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                   ),
                   child:
                       Consumer<Mainprovider>(builder: (context, value, child) {
-                    return value.getloader
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: cgreen,
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 18.0, vertical: 30),
-                            child: Consumer<Mainprovider>(
-                                builder: (context, value, child) {
-                              return GridView.builder(
-                                itemCount: value.avilmilklist.length,
-                                shrinkWrap: true,
-                                physics: ScrollPhysics(),
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisSpacing: 10,
-                                        mainAxisSpacing: 15,
-                                        crossAxisCount: 2,
-                                        childAspectRatio: 1),
-                                itemBuilder: (context, index) {
-                                  var item = value.avilmilklist[index];
-                                  return Container(
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 5),
-                                    width: width,
-                                    height: height * .12,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: cYellow,
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: width,
-                                          height: 250,
-                                          decoration: BoxDecoration(
-                                              color: Colors.transparent,
-                                              image: DecorationImage(
-                                                  image: item.avilphoto != ""
-                                                      ? NetworkImage(
-                                                          item.avilphoto,
-                                                        )
-                                                      : AssetImage(""))),
-                                          child: Consumer<Mainprovider>(
-                                              builder: (context, value, child) {
-                                            return Align(
-                                                alignment: Alignment.topRight,
-                                                child: Transform.scale(
-                                                  scale: 1.5,
-                                                  child: Checkbox(
-                                                    shape: CircleBorder(),
-                                                    value:
-                                                        value.getCheckboxValue(
-                                                            index),
-                                                    onChanged:
-                                                        (bool? newValue) {
-                                                      value.setCheckboxValue(
-                                                          index,
-                                                          newValue ?? false);
-                                                    },
-                                                    checkColor: Colors.green,
-                                                    fillColor:
-                                                        WidgetStatePropertyAll(
-                                                            Colors.white),
-                                                  ),
-                                                ));
-                                          }),
+                        return value.getloader
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: cgreen,
+                                ),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 18.0, vertical: 30),
+                                child: Consumer<Mainprovider>(
+                                    builder: (context, value, child) {
+                                  return GridView.builder(
+                                    itemCount: value.avilmilklist.length,
+                                    shrinkWrap: true,
+                                    physics: ScrollPhysics(),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisSpacing: 10,
+                                            mainAxisSpacing: 15,
+                                            crossAxisCount: 2,
+                                            childAspectRatio: 1),
+                                    itemBuilder: (context, index) {
+                                      var item = value.avilmilklist[index];
+                                      return Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 5, vertical: 5),
+                                        width: width,
+                                        height: height * .12,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(12),
+                                          color: cYellow,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20.0),
-                                          child: Row(
-                                            // crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              FittedBox(
-                                                  child: text(
-                                                      item.name,
-                                                      FontWeight.w800,
-                                                      cgreen,
-                                                      25)),
-                                              FittedBox(
-                                                  child: text(
-                                                      "₹  " + item.price,
-                                                      FontWeight.w700,
-                                                      cgreen,
-                                                      20)),
-                                            ],
-                                          ),
-                                        ),
-                                        Column(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            FittedBox(
-                                                child: text(
-                                                    item.describtion,
-                                                    FontWeight.w400,
-                                                    cgreen,
-                                                    22)),
+                                            Container(
+                                              width: width,
+                                              height: 250,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  image: DecorationImage(
+                                                      image: item.avilphoto != ""
+                                                          ? NetworkImage(
+                                                              item.avilphoto,
+                                                            )
+                                                          : AssetImage(""))),
+                                              child: Consumer<Mainprovider>(
+                                                  builder: (context, value, child) {
+                                                return Align(
+                                                    alignment: Alignment.topRight,
+                                                    child: Transform.scale(
+                                                      scale: 1.5,
+                                                      child: Checkbox(
+                                                        shape: CircleBorder(),
+                                                        value:
+                                                            value.getCheckboxValue(
+                                                                index),
+                                                        onChanged:
+                                                            (bool? newValue) {
+                                                          value.setCheckboxValue(
+                                                              index,
+                                                              newValue ?? false);
+                                                        },
+                                                        checkColor: Colors.green,
+                                                        fillColor:
+                                                            WidgetStatePropertyAll(
+                                                                Colors.white),
+                                                      ),
+                                                    ));
+                                              }),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 20.0),
+                                              child: Row(
+                                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  FittedBox(
+                                                      child: text(
+                                                          item.name,
+                                                          FontWeight.w800,
+                                                          cgreen,
+                                                          25)),
+                                                  FittedBox(
+                                                      child: text(
+                                                          "₹  " + item.price,
+                                                          FontWeight.w700,
+                                                          cgreen,
+                                                          20)),
+                                                ],
+                                              ),
+                                            ),
+                                            Column(
+                                              children: [
+                                                FittedBox(
+                                                    child: text(
+                                                        item.describtion,
+                                                        FontWeight.w400,
+                                                        cgreen,
+                                                        22)),
+                                              ],
+                                            ),
+                                            SizedBox(),
                                           ],
                                         ),
-                                        SizedBox(),
-                                      ],
-                                    ),
+                                      );
+                                    },
                                   );
-                                },
-                              );
 
-                              //
-                            }),
-                          );
-                  }),
-                )
+                                  //
+                                }),
+                              );
+                      }),
+
+
+                ),
+                SizedBox(height: 50,)
               ],
             ),
           )

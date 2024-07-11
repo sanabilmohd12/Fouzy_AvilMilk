@@ -10,8 +10,8 @@ import '../constants/widgets.dart';
 import 'cartScreen.dart';
 
 class FouzyMultiple extends StatelessWidget {
-  String from;
-  FouzyMultiple({super.key, required this.from});
+
+  FouzyMultiple({super.key, });
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +54,14 @@ class FouzyMultiple extends StatelessWidget {
             : SizedBox();
       }),
       appBar: AppBar(
+        title: const Text("FOUZY SPECIAL AVILMILK"),
+        centerTitle: true,
         automaticallyImplyLeading: true,
         toolbarHeight: 100,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/appbar bg1.jpg'),
+              image: AssetImage('assets/bgimg.jpeg',),
               fit: BoxFit.cover,
             ),
           ),
@@ -95,6 +97,7 @@ class FouzyMultiple extends StatelessWidget {
                                 horizontal: 18.0, vertical: 30),
                             child: Consumer<Mainprovider>(
                                 builder: (context, value, child) {
+                                  print("dddddd"+value.fspavilmilklist.length.toString());
                               return GridView.builder(
                                 itemCount: value.fspavilmilklist.length,
                                 shrinkWrap: true,

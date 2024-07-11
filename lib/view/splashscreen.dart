@@ -59,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
           decoration: const  BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(
-                  'assets/fouzy splash .jpg',
+                  'assets/bgimg.jpeg',
                 ),
                 fit: BoxFit.cover),
           ),

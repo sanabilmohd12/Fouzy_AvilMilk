@@ -90,6 +90,7 @@ class IcrecreamListScreen extends StatelessWidget {
                         callNext(context, IceCreamTypesListScreen(icecategory: icedata.name,icecategoryid: icedata.id,
                           maincategoryid: icedata.maincategoryid,));
                       }else{
+                        value.fetchdessertlist();
                         callNext(context, DeseertsItemScreen(icecategory: icedata.name,icecategoryid: icedata.id,
                           maincategoryid: icedata.maincategoryid,));
                       }

@@ -51,12 +51,13 @@ class adddessertsScreen extends StatelessWidget {
                   if(dessertsfrom=="NEW"){
                     value.dessertsItems(icecategory,icecategoryid, maincategoryid,dessertsfrom,"",context);
 
-                    back(context);
+
                   }else{
                     value.dessertsItems(icecategory,icecategoryid, maincategoryid,dessertsfrom,dessertsoldid,context);
 
-                    back(context);
+
                   }
+                  back(context);
 
                 }
 

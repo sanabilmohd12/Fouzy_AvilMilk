@@ -1242,9 +1242,74 @@ TextEditingController dessertsNameCT = TextEditingController();
 
       ));
     }
-    fetchIceCreamList();
+    fetchdessertlist();
   }
 
+
+
+  void dessertsclear(){
+    dessertsNameCT.clear();
+    dessertspriceCT.clear();
+
+  }
+
+  List<DessertsModel> dessertslist=[];
+
+  bool dessertsloader=false;
+  void fetchdessertlist() {
+    dessertsloader = true;
+    notifyListeners();
+    db.collection("DESSERTS_ITEMS").get().then((value) {
+      if (value.docs.isNotEmpty) {
+        dessertsloader = false;
+        notifyListeners();
+        dessertslist.clear();
+        for (var element in value.docs) {
+          Map<dynamic, dynamic> getmap = element.data();
+          dessertslist.add(DessertsModel(
+            getmap["ID"].toString(),
+            getmap["DESSERTS_NAME"].toString(),
+            getmap["DESSERTS_PRICE"].toString(),
+            getmap["ICE_CATEGORY_ID"].toString(),
+            getmap["ICE_CATEGORY_NAME"].toString(),
+            getmap["MAIN_CATEGORY_ID"].toString(),
+            getmap["TYPE"].toString(),
+          ));
+          notifyListeners();
+        }
+      }
+    });
+    notifyListeners();
+  }
+
+
+  void deletedessert(String id, BuildContext context) {
+    db.collection("DESSERTS_ITEMS").doc(id).delete();
+    fetchdessertlist();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(
+            "Deleted successfully ",
+            style: TextStyle(color: cWhite, fontSize: 15),
+          )),
+    );
+
+    notifyListeners();
+  }
+
+  void editdessertlist(String id, BuildContext context) {
+    db.collection('DESSERTS_ITEMS').doc(id).get().then((value) {
+      Map<dynamic, dynamic> dataMaps = value.data() as Map;
+      if (value.exists) {
+        dessertsNameCT.text = dataMaps["DESSERTS_NAME"].toString();
+        dessertspriceCT .text = dataMaps["DESSERTS_PRICE"].toString();
+      }
+      notifyListeners();
+    });
+    fetchdessertlist();
+    notifyListeners();
+  }
 
 
 
