@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/custom_icons_icons.dart';
+import 'package:fouzy/view/printerScreen.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/colors.dart';
@@ -15,6 +17,38 @@ class Cart_Screen extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
+
+
+
+
+      floatingActionButtonLocation:
+      FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: SizedBox(
+
+        height: 65,
+        width: width / 1.1,
+        child: Consumer<Mainprovider>(builder: (context, value, child) {
+          return   value.loader?CircularProgressIndicator(color: cgreen,):
+          FloatingActionButton(
+            onPressed: () {
+               callNext(context, Printerscreen());
+
+            },
+            elevation: 0,
+            backgroundColor: cWhite,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(42),
+            ),
+            child: text(
+              "Save",
+              FontWeight.w700,
+              cgreen,
+              18,
+            ),
+          );
+        }),
+      ),
+
       backgroundColor: cYellow,
       appBar: AppBar(
         automaticallyImplyLeading: false,

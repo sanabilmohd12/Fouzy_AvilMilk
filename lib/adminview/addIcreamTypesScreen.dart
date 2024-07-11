@@ -38,6 +38,7 @@ class AddIceCreamTypesScreen extends StatelessWidget {
         floatingActionButtonLocation:
         FloatingActionButtonLocation.miniCenterFloat,
         floatingActionButton: SizedBox(
+
             height: 49,
             width: width / 1.1,
             child: Consumer<Mainprovider>(builder: (context, value, child) {

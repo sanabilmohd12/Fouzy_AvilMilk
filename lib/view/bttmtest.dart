@@ -21,8 +21,9 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
   final List<Widget> _screens = [
     Home_screen(),
     Cart_Screen(),
-    SalesScreen(),
+
     OrderScreen(),
+    SalesScreen(),
   ];
 
   int currentIndex = 0;
@@ -134,6 +135,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                               size: 30,
                             ),
                             onPressed: () {
+                              provider.getJuiceShakesAllItems();
                               setBottomBarIndex(3);
                             },
                           ),

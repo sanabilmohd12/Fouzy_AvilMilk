@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/constants/callFunctions.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/colors.dart';
 import '../constants/widgets.dart';
 import '../provider/mainprovider.dart';
+import 'cartScreen.dart';
 
 class IceCreamListScreen extends StatelessWidget {
   const IceCreamListScreen({super.key});
@@ -34,7 +36,9 @@ class IceCreamListScreen extends StatelessWidget {
             return isAnySelected
                 ? FloatingActionButton.extended(
               backgroundColor: Colors.yellow,
-              onPressed: () {},
+              onPressed: () {
+                callNext(context, Cart_Screen());
+              },
               label: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
