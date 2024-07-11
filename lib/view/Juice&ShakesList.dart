@@ -53,7 +53,7 @@ class Juice_ShakesListScreen extends StatelessWidget {
             : SizedBox();
       }),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         toolbarHeight: 100,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -95,17 +95,17 @@ class Juice_ShakesListScreen extends StatelessWidget {
                             child: Consumer<Mainprovider>(
                                 builder: (context, value, child) {
                               return GridView.builder(
-                                itemCount: value.Juiceshakesalllist.length,
+                                itemCount: value.juiceshakesitemslist.length,
                                 shrinkWrap: true,
                                 physics: ScrollPhysics(),
                                 gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisSpacing: 10,
-                                        mainAxisSpacing: 15,
-                                        crossAxisCount: 2,
-                                        childAspectRatio: 1),
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 15,
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 1),
                                 itemBuilder: (context, index) {
-                                  var item = value.Juiceshakesalllist[index];
+                                  var item = value.juiceshakesitemslist[index];
                                   return Container(
                                     margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                                     width: width,
@@ -114,6 +114,42 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
+                                        // Container(
+                                        //   width: width,
+                                        //   height: 250,
+                                        //   decoration: BoxDecoration(
+                                        //       color: Colors.transparent,
+                                        //       image: DecorationImage(
+                                        //           image: item.avilphoto != ""
+                                        //               ? NetworkImage(
+                                        //             item.avilphoto,
+                                        //           )
+                                        //               : AssetImage(""))),
+                                        //   child: Consumer<Mainprovider>(
+                                        //       builder: (context, value, child) {
+                                        //         return Align(
+                                        //             alignment: Alignment.topRight,
+                                        //             child: Transform.scale(
+                                        //               scale: 1.5,
+                                        //               child: Checkbox(
+                                        //                 shape: CircleBorder(),
+                                        //                 value:
+                                        //                 value.getCheckboxValue(
+                                        //                     index),
+                                        //                 onChanged:
+                                        //                     (bool? newValue) {
+                                        //                   value.setCheckboxValue(
+                                        //                       index,
+                                        //                       newValue ?? false);
+                                        //                 },
+                                        //                 checkColor: Colors.green,
+                                        //                 fillColor:
+                                        //                 WidgetStatePropertyAll(
+                                        //                     Colors.white),
+                                        //               ),
+                                        //             ));
+                                        //       }),
+                                        // ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 20.0),
@@ -126,7 +162,14 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                                       ],
                                                      ),
                                              ),
-                                        FittedBox(child: text(item.categoryname, FontWeight.w700, cgreen, 20)),
+                                        Column(
+                                          children: [
+                                            //FittedBox(//     child: text(
+                                            //         item.describtion,//         FontWeight.w400,
+                                            //         cgreen,
+                                            //         22)),
+                                          ],
+                                        ),
                                         SizedBox(),
                                       ],
                                     ),

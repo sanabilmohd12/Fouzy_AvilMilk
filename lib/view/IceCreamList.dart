@@ -55,7 +55,7 @@ class IceCreamListScreen extends StatelessWidget {
           }
       ),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         toolbarHeight: 100,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -97,7 +97,7 @@ class IceCreamListScreen extends StatelessWidget {
                       child: Consumer<Mainprovider>(
                           builder: (context, value, child) {
                             return GridView.builder(
-                              itemCount: value.avilmilklist.length,
+                              itemCount: value.juciecategorylist.length,
                               shrinkWrap: true,
                               physics: ScrollPhysics(),
                               gridDelegate:
@@ -107,7 +107,7 @@ class IceCreamListScreen extends StatelessWidget {
                                   crossAxisCount: 2,
                                   childAspectRatio: 1),
                               itemBuilder: (context, index) {
-                                var item = value.avilmilklist[index];
+                                var item = value.juciecategorylist[index];
                                 return Container(
                                   margin: EdgeInsets.symmetric(
                                       horizontal: 5, vertical: 5),
@@ -124,14 +124,14 @@ class IceCreamListScreen extends StatelessWidget {
                                       Container(
                                         width: width,
                                         height: 250,
-                                        decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            image: DecorationImage(
-                                                image: item.avilphoto != ""
-                                                    ? NetworkImage(
-                                                  item.avilphoto,
-                                                )
-                                                    : AssetImage(""))),
+                                        // decoration: BoxDecoration(
+                                        //     color: Colors.transparent,
+                                        //     image: DecorationImage(
+                                        //         image: item.avilphoto != ""
+                                        //             ? NetworkImage(
+                                        //           item.avilphoto,
+                                        //         )
+                                        //             : AssetImage(""))),
                                         child: Consumer<Mainprovider>(
                                             builder: (context, value, child) {
                                               return Align(
@@ -165,29 +165,29 @@ class IceCreamListScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: [
-                                            FittedBox(
-                                                child: text(
-                                                    item.name,
-                                                    FontWeight.w800,
-                                                    cgreen,
-                                                    25)),
-                                            FittedBox(
-                                                child: text(
-                                                    "₹  " + item.price,
-                                                    FontWeight.w700,
-                                                    cgreen,
-                                                    20)),
+                                            // FittedBox(
+                                            //     child: text(
+                                            //         item.name,
+                                            //         FontWeight.w800,
+                                            //         cgreen,
+                                            //         25)),
+                                            // FittedBox(
+                                            //     child: text(
+                                            //         "₹  " + item.price,
+                                            //         FontWeight.w700,
+                                            //         cgreen,
+                                            //         20)),
                                           ],
                                         ),
                                       ),
                                       Column(
                                         children: [
-                                          FittedBox(
-                                              child: text(
-                                                  item.describtion,
-                                                  FontWeight.w400,
-                                                  cgreen,
-                                                  22)),
+                                          // FittedBox(
+                                          //     child: text(
+                                          //         item.describtion,
+                                          //         FontWeight.w400,
+                                          //         cgreen,
+                                          //         22)),
                                         ],
                                       ),
                                       SizedBox(),

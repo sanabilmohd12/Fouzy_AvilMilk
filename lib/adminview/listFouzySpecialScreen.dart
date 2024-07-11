@@ -11,10 +11,15 @@ import 'addAvilMilk.dart';
 import 'addfsp.dart';
 
 class FouzySpecialScreen extends StatelessWidget {
-  const FouzySpecialScreen({super.key});
+
+
+   FouzySpecialScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
+
+    print("dddfdfdfdf");
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Container(
@@ -61,7 +66,7 @@ class FouzySpecialScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
           centerTitle: true,
           title: text(
-            " Fouzy Avil Milks",
+            " Fouzy Special Avil Milks",
             FontWeight.w700,
             cgreen,
             18,
@@ -80,6 +85,7 @@ class FouzySpecialScreen extends StatelessWidget {
                     mainAxisSpacing: 0.4,
                     childAspectRatio: 0.6),
                 itemBuilder: (BuildContext context, int index) {
+                  print("fffrfrfr"+value.fspavilmilklist.length.toString());
                   var item = value.fspavilmilklist[index];
                   return Container(
                     margin:
@@ -96,14 +102,17 @@ class FouzySpecialScreen extends StatelessWidget {
                         Container(
                             width: width,
                             height: 250,
+                            child: item.avilphoto.isNotEmpty
+                                ? Image.network(
+                              item.avilphoto,
+                              errorBuilder: (context, error, stackTrace) {
+                                print('Error loading image: $error');
+                                return Icon(Icons.error); // or any placeholder widget
+                              },
+                            )
+                                : Icon(Icons.image),
 
-
-                            child: item.avilphoto != ""
-                                ? Image(
-                              image: NetworkImage(
-                                item.avilphoto,
-                              ),)
-                                : SizedBox()),
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Row(
@@ -147,7 +156,7 @@ class FouzySpecialScreen extends StatelessWidget {
                                       Center(
                                         child: TextButton(
                                           onPressed: () {
-                                            value.deleteavilmilk(
+                                            value.deleteSpAvilmilk(
                                                 item.id, context);
 
                                             Navigator.of(context).pop();
@@ -160,7 +169,7 @@ class FouzySpecialScreen extends StatelessWidget {
                                                 borderRadius:
                                                 BorderRadius.circular(
                                                     8),
-                                                boxShadow: [
+                                                boxShadow: const [
                                                   BoxShadow(
                                                     color:
                                                     Color(0x26000000),
@@ -210,13 +219,13 @@ class FouzySpecialScreen extends StatelessWidget {
                                         child: TextButton(
                                           onPressed: () {
                                             print("dbjhbd" + item.id);
-                                            value.editavilmilk(
+                                            value.editFSPAvilMilk(
                                                 item.id, context);
                                             callNext(
                                                 context,
-                                                addAvilMilkScreen(
-                                                  avilfrom: "EDIT",
-                                                  aviloldid: item.id,
+                                                AddFouzySpecials(
+                                                  fspavilfrom: "EDIT",
+                                                  fspaviloldid: item.id,
                                                 ));
 
                                           },

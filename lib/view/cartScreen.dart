@@ -87,7 +87,7 @@ class Cart_Screen extends StatelessWidget {
                             color: cgreen,
                           ))
                         : GridView.builder(
-                            itemCount: 4,
+                            itemCount: value.avilmilklist.length,
                             shrinkWrap: true,
                             physics: ScrollPhysics(),
                             gridDelegate:

@@ -239,16 +239,16 @@ class Mainprovider extends ChangeNotifier {
     else {
       print('jhsadjkasd');
       db.collection("FSPAVIL_MILK").doc(id).set(map);
-      ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
-        backgroundColor: cWhite,
-        content: Text("Added Successfully",
-            style: TextStyle(
-              color: cgreen,
-              fontSize: 15,
-              fontWeight: FontWeight.w800,
-            )),
-        duration: Duration(milliseconds: 3000),
-      ));
+      // ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
+      //   backgroundColor: cWhite,
+      //   content: Text("Added Successfully",
+      //       style: TextStyle(
+      //         color: cgreen,
+      //         fontSize: 15,
+      //         fontWeight: FontWeight.w800,
+      //       )),
+      //   duration: Duration(milliseconds: 3000),
+      // ));
     }
     fsploader = false;
 
@@ -287,36 +287,75 @@ class Mainprovider extends ChangeNotifier {
 
   List<Fouzysp> fspavilmilklist = [];
 
-  void getfsptypes() {
-    getavilloader = true;
-    notifyListeners();
-    db.collection("FSPAVIL_MILK").get().then((value) {
-      if (value.docs.isNotEmpty) {
-        getavilloader = false;
-        notifyListeners();
-        fspavilmilklist.clear();
-        for (var element in value.docs) {
-          Map<dynamic, dynamic> getavilmap = element.data();
+  Future<void> getfsptypes() async {
+      print("asdfghjkl");
+    try {
+      getavilloader = true;
+      notifyListeners();
+
+      final QuerySnapshot snapshot = await db.collection("FSPAVIL_MILK").get();
+
+      fspavilmilklist.clear();
+
+      if (snapshot.docs.isNotEmpty) {
+        for (var doc in snapshot.docs) {
+          print("dscdvvdf");
+          final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
           fspavilmilklist.add(Fouzysp(
-            getavilmap["FSPAVIL_MILK_ID"].toString(),
-            getavilmap["FSPAVIL_MILK_NAME"].toString(),
-            getavilmap["FSPAVIL_MILK_PRICE"].toString(),
-            getavilmap["FSPDISCRETION"].toString(),
-            getavilmap["FSPAVILMILK_CATEGORY"].toString(),
-            getavilmap["FSPMAIN_CATEGORY"].toString(),
-            getavilmap["FSPMAIN_CATEGORY_ID"].toString(),
-            getavilmap["FSPAVILMILK_PHOTO"].toString(),
-
-
+            data["FSPAVIL_MILK_ID"] as String,
+            data["FOUZY_SPECIALS"] as String,
+            data["FSP_AVIL_MILK_PRICE"] as String,
+            data["FSP_DISCRETION"] as String,
+            data["FSP_AVILMILK_CATEGORY"] as String,
+            data["MAIN_CATEGORY"] as String,
+            data["MAIN_CATEGORY_ID"] as String,
+            data["FSpAVILMILK_PHOTO"] as String,
           ));
-          notifyListeners();
         }
       }
+    } catch (e) {
+      print("Error fetching Fouzy Special Avil Milks: $e");
+      // Handle error appropriately
+    } finally {
+      getavilloader = false;
       notifyListeners();
-    });
+    }
+  }
+
+
+
+  void deleteSpAvilmilk(String id, BuildContext context) {
+    db.collection("FSPAVIL_MILK").doc(id).delete();
+    getavilmilktypes();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          backgroundColor: cgreen,
+          content: Text(
+            "Deleted successfully ",
+            style: TextStyle(color: cWhite, fontSize: 15),
+          )),
+    );
     notifyListeners();
   }
 
+  void editFSPAvilMilk(String id, BuildContext context) {
+    db.collection('FSPAVIL_MILK').doc(id).get().then((value) {
+      Map<dynamic, dynamic> dataMaps = value.data() as Map;
+      if (value.exists) {
+        fspNameCt.text = dataMaps["FOUZY_SPECIALS"].toString();
+        fspPriceCt.text = dataMaps["FSP_AVILMILK_CATEGORY"].toString();
+        fspDescriptionCt.text = dataMaps["FSP_DISCRETION"].toString();
+        fspCategoryCt.text = dataMaps["FSP_AVILMILK_CATEGORY"].toString();
+        spmaincategorynameCt.text = dataMaps["MAIN_CATEGORY"].toString();
+        fspAvilmilkImg = dataMaps["FSpAVILMILK_PHOTO"].toString();
+
+
+      }
+      notifyListeners();
+    });
+
+    notifyListeners();
+  }
   /// Avilmilks
 
   TextEditingController avilMilkNameCt = TextEditingController();
@@ -409,7 +448,7 @@ class Mainprovider extends ChangeNotifier {
       // ));
     }
     avilloader = false;
-
+    avilmilkclear();
     getavilmilktypes();
     notifyListeners();
   }
@@ -531,13 +570,13 @@ class Mainprovider extends ChangeNotifier {
       }
       notifyListeners();
     });
-    notifyListeners();
+
   }
 
 
   void deleteavilmilk(String id, BuildContext context) {
     db.collection("AVIL_MILK").doc(id).delete();
-    getavilmilktypes();
+    getfsptypes();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           backgroundColor: Colors.red,
