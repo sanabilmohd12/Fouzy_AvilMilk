@@ -53,7 +53,7 @@ class FouzyMultiple extends StatelessWidget {
     }
     ),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         toolbarHeight: 100,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -95,7 +95,7 @@ class FouzyMultiple extends StatelessWidget {
                             child: Consumer<Mainprovider>(
                                 builder: (context, value, child) {
                               return GridView.builder(
-                                      itemCount: value.avilmilklist.length,
+                                      itemCount: value.fspavilmilklist.length,
                                       shrinkWrap: true,
                                       physics: ScrollPhysics(),
                                       gridDelegate:
@@ -105,7 +105,7 @@ class FouzyMultiple extends StatelessWidget {
                                               crossAxisCount: 2,
                                               childAspectRatio: 1),
                                       itemBuilder: (context, index) {
-                                        var item = value.avilmilklist[index];
+                                        var item = value.fspavilmilklist[index];
                                         return Container(
                                           margin: EdgeInsets.symmetric(
                                               horizontal: 5, vertical: 5),

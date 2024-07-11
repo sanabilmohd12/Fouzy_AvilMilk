@@ -212,7 +212,7 @@ class Avil_Milk_Screen extends StatelessWidget {
                                           Center(
                                             child: TextButton(
                                               onPressed: () {
-                                                print("dbjhbd" + item.id);
+                                                print("editttttt" + item.id);
                                                 value.editavilmilk(
                                                     item.id, context);
                                                 callNext(

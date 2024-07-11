@@ -52,7 +52,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
           }
       ),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         toolbarHeight: 100,
         flexibleSpace: Container(
           decoration: const BoxDecoration(

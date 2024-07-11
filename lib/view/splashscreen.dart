@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(const Duration(seconds: 3), () {
       mainProvider.getMainCategoy();
-      callNext(context,  BottomNavBarV2()
+      callNextReplacement(context,  BottomNavBarV2()
       );
     });
 
