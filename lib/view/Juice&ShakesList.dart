@@ -68,11 +68,7 @@ class Juice_ShakesListScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
+      body: 
                 Container(
                   height: height,
                   width: width,
@@ -170,11 +166,7 @@ class Juice_ShakesListScreen extends StatelessWidget {
                           );
                   }),
                 )
-              ],
-            ),
-          )
-        ],
-      ),
+
     );
   }
 }

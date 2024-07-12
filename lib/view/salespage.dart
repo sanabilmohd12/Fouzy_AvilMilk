@@ -26,11 +26,7 @@ class SalesScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
+      body:
                 Container(
                   height: height,
                   width: width,
@@ -151,11 +147,7 @@ class SalesScreen extends StatelessWidget {
                             ),
                           ),
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
+
     );
   }
 
