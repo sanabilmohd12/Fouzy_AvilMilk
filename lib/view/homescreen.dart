@@ -60,28 +60,35 @@ class _HomescreenState extends State<Home_screen> {
                   color: cgreen,
                 ),
               )
-                  : ListView.builder(
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: value.mainCategorylist.length,
-                itemBuilder: (context, index) {
-                  print("ffvfvfv" +
-                      value.mainCategorylist.length.toString());
-                  var items = value.mainCategorylist[index];
-                  return InkWell(
-                    onTap: () {
-                      if (index == 0) {
-                        value.getfsptypes();
-                        callNext(context, FouzyMultiple());
-                      } else if (index == 1) {
-                        value.getavilmilktypes();
-                        callNext(context, FouzyAvilMilkListScreen());
-                      } else if (index == 2) {
-                        value.fetchIceCreamList();
-                        value.fetchdessertlist();
-                        callNext(context, IceCreamListScreen());
-                      } else if (index == 3) {
+                            : ListView.builder(
+                                physics: ScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: value.mainCategorylist.length,
+                                itemBuilder: (context, index) {
+                                  print("ffvfvfv" +
+                                      value.mainCategorylist.length.toString());
+                                  var items = value.mainCategorylist[index];
+                                  return InkWell(
+                                    onTap: (){
+                                      if(index==0){
+                                        value.checkboxStates={};
+                                           value.getfsptypes();
+                                        callNext(context, FouzyMultiple());
+
+                      } else if(index==1){
+                                            value.getavilmilktypes();
+                                            value.checkboxStates={};
+                                        callNext(context, FouzyAvilMilkListScreen());
+
+                                      }else if(index==2){
+                                        value.checkboxStates={};
+                                              value.fetchIceCreamList();
+                                              value.fetchdessertlist();
+                                        callNext(context, IceCreamListScreen());
+
+                                      }else if(index==3){
+                                        value.checkboxStates={};
                         value.getJuiceShakesAllItems();
                         callNext(context, Juice_ShakesListScreen());
                       }
@@ -124,6 +131,8 @@ class _HomescreenState extends State<Home_screen> {
   }
 }
 
+
+
 // The showExitPopup function remains unchanged
 Future<bool> showExitPopup(BuildContext CONTXT) async {
 
@@ -137,10 +146,9 @@ Future<bool> showExitPopup(BuildContext CONTXT) async {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                    "Do you want to EXIT ?",style: TextStyle(
+                Text("Do you want to EXIT ?",
+                    style: TextStyle(
                     fontSize:17,
-
                     fontFamily:'ink nut',
                     fontWeight: FontWeight.w700,
                     color: cgreen)),

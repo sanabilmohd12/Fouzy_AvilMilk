@@ -68,12 +68,7 @@ class Avil_Milk_Screen extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Consumer<Mainprovider>(builder: (context, value, child) {
-            return value.getavilloader
-                ? Center(
-                    child: CircularProgressIndicator(
-                    color: cgreen,
-                  ))
-                : GridView.builder(
+            return GridView.builder(
                     itemCount: value.avilmilklist.length,
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
@@ -100,11 +95,10 @@ class Avil_Milk_Screen extends StatelessWidget {
                                 width: width,
                                 height: 250,
 
-
                                 child: item.avilphoto != ""
                                     ? Image(
                                         image: NetworkImage(
-                                        item.avilphoto,
+                                        item.avilphoto,scale: 0.5
                                       ),)
                                     : SizedBox()),
                             Padding(
@@ -113,13 +107,10 @@ class Avil_Milk_Screen extends StatelessWidget {
                                 // crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  FittedBox(
-                                      child: text(
-                                          item.name, FontWeight.w800, cgreen, 25)),
+                                  FittedBox(child: text(item.name, FontWeight.w800, cgreen, item.name.length<18?18:14)),
                                   FittedBox(
                                       child: text("₹  " + item.price, FontWeight.w700,
                                           cgreen, 20)),
-
                                 ],
                               ),
                             ),

@@ -846,7 +846,6 @@ class Mainprovider extends ChangeNotifier {
             getjucieshakeitemmap["MAIN_CATEGORY_ID"].toString(),
           ));
           notifyListeners();
-          print("dfvf" + element.data().toString());
         }
       }
     });
@@ -1327,6 +1326,52 @@ TextEditingController dessertsNameCT = TextEditingController();
   void setCheckboxValue(int index, bool value) {
     checkboxStates[index] = value;
     notifyListeners();
+  }
+
+
+
+ /// login
+
+
+   TextEditingController loginCT=TextEditingController();
+
+
+  // add to cart
+
+  void AddCartdetails(String name, String itemsid, String price,String itemname,
+      BuildContext context,  ) {
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Map<String, Object> map = HashMap();
+
+    map["CART_ID"]=id;
+    map["DATE_TIME"]=DateTime.now();
+    map["ITEMS_NAME"]=name;
+    map["ITEMS_ID"]=itemsid;
+    map["ITEMS_PRICE"]=price;
+    map["ITEMS_CATEGORY"]=itemname;
+    db.collection("CART").doc(id).set(map,SetOptions(merge: true));
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Center(
+          child: Text("Added to cart",
+              style: TextStyle(
+                  color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
+      backgroundColor: cgreen,
+      elevation: 10,
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.all(5),
+    ));
+    notifyListeners();
+  }
+
+
+  //CHECKBOK
+  bool flavour=false;
+  void radioButtonChanges(bool bool){
+    flavour=bool;
+    notifyListeners();
+
   }
 
 }

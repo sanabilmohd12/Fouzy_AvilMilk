@@ -38,7 +38,18 @@ class IceCreamListScreen extends StatelessWidget {
               ? FloatingActionButton.extended(
                   backgroundColor: Colors.yellow,
                   onPressed: () {
-                    callNext(context, Cart_Screen());
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: cWhite,
+                      content: Center(
+                        child: Text("Added to cart",
+                            style: TextStyle(
+                              color: cgreen,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                            )),
+                      ),
+                      duration: Duration(milliseconds: 3000),
+                    ));
                   },
                   label: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -86,91 +97,204 @@ class IceCreamListScreen extends StatelessWidget {
               ),
             ),
           ),
-          child: Consumer<Mainprovider>(builder: (context, value, child) {
-            return value.getloader
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: cgreen,
-                    ),
-                  )
-                : Consumer<Mainprovider>(builder: (context, value, child) {
-                    return GridView.builder(
-                      itemCount: value.icecreamlist.length,
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 15,
-                          crossAxisCount: 2,
-                          childAspectRatio: 1),
-                      itemBuilder: (context, index) {
-                        var items = value.icecreamlist[index];
-                        return GestureDetector(
+          child:   SingleChildScrollView(
+            child: Column(
+
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Text("ICE CREAMS",style: TextStyle(color: cWhite,fontWeight: FontWeight.w800,fontSize: 25),),
+                Consumer<Mainprovider>(builder: (context, value, child) {
+                          return GridView.builder(
+                            itemCount: value.icecreamlist.length,
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 18,
+                                mainAxisSpacing: 0.4,
+                                childAspectRatio: 0.90
+                            ),
+                            itemBuilder: (context, index) {
+                              var items = value.icecreamlist[index];
+                              return GestureDetector(
                           onTap: (){
                             value.setCheckboxValue(index, !value.getCheckboxValue(index));
 
                           },
-                          child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 5),
-                              width: 200,
-                              height: height * .12,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: cYellow,
-                              ),
-                              child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: width,
+                          child:Container(
+                                  margin: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
 
-                                      // decoration: BoxDecoration(
-                                      //     color: Colors.transparent,
-                                      //     image: DecorationImage(
-                                      //         image: item.avilphoto != ""
-                                      //             ? NetworkImage(
-                                      //           item.avilphoto,
-                                      //         )
-                                      //             : AssetImage(""))),
-                                      child: Consumer<Mainprovider>(
-                                          builder: (context, value, child) {
-                                        return Align(
-                                            alignment: Alignment.topRight,
-                                            child: Transform.scale(
-                                              scale: 1.5,
-                                              child: Checkbox(
-                                                shape: CircleBorder(),
-                                                value:
-                                                    value.getCheckboxValue(index),
-                                                onChanged: (bool? newValue) {
-                                                  value.setCheckboxValue(
-                                                      index, newValue ?? false);
-                                                },
-                                                checkColor: Colors.green,
-                                                fillColor: WidgetStatePropertyAll(
-                                                    Colors.white),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: cYellow,
+                                  ),
+                                  child: Column(
+
+                                      children: [
+                                        Container(
+                                          width: width,
+
+                                          // decoration: BoxDecoration(
+                                          //     color: Colors.transparent,
+                                          //     image: DecorationImage(
+                                          //         image: item.avilphoto != ""
+                                          //             ? NetworkImage(
+                                          //           item.avilphoto,
+                                          //         )
+                                          //             : AssetImage(""))),
+                                          child: Consumer<Mainprovider>(
+                                              builder: (context, value, child) {
+                                            return Align(
+                                                alignment: Alignment.topRight,
+                                                child: Transform.scale(
+                                                  scale: 1.5,
+                                                  child: Checkbox(
+                                                    shape: CircleBorder(),
+                                                    value:
+                                                        value.getCheckboxValue(index),
+                                                    onChanged: (bool? newValue) {
+                                                      value.setCheckboxValue(
+                                                          index, newValue ?? false);
+                                                    },
+                                                    checkColor: Colors.green,
+                                                    fillColor: WidgetStatePropertyAll(
+                                                        Colors.white),
+                                                  ),
+                                                ));
+                                          }),
+                                        ),
+                                        FittedBox(
+                                            child: text(items.icecreamfalovour,
+                                                FontWeight.w800, cgreen, 25)),
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding:  EdgeInsets.only(left: 20.0),
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Checkbox(
+                                                  // shape: const CircleBorder(),
+                                                  checkColor: Colors.white,
+                                                  activeColor:  cgreen,
+                                                  value: value.flavour,
+                                                  onChanged: (val) {
+                                                    value.radioButtonChanges(val!);
+                                                  },
+                                                ),
                                               ),
-                                            ));
-                                      }),
-                                    ),
-                                    FittedBox(
-                                        child: text(items.icecreamfalovour,
-                                            FontWeight.w800, cgreen, 25)),
-                                    FittedBox(
-                                        child: text("₹  " + items.singleprice,
-                                            FontWeight.w700, cgreen, 20)),
-                                    FittedBox(
-                                        child: text("₹  " + items.doubleprice,
-                                            FontWeight.w700, cgreen, 20)),
-                                  ])),
-                        );
-                      },
-                    );
+                                            ),
+                                            FittedBox(
+                                                child: text("Single   ₹  " + items.singleprice,
+                                                    FontWeight.w700, cgreen, 20)),
+                                          ],
+                                        ), Row(
+                                          children: [
+                                            Padding(
+                                              padding:  EdgeInsets.only(left: 20.0),
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Checkbox(
+                                                  // shape: const CircleBorder(),
+                                                  checkColor: Colors.white,
+                                                  activeColor:  cgreen,
+                                                  value: value.flavour,
+                                                  onChanged: (val) {
+                                                    value.radioButtonChanges(val!);
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            FittedBox(
+                                                child: text( "Double ₹  " + items.doubleprice,
+                                                    FontWeight.w700, cgreen, 20)),
+                                          ],
+                                        ),
 
-                    //
-                  });
-          }),
+
+                                      ])));
+                            },
+                          );
+      ///
+                          //
+
+                }),
+                SizedBox(
+                  height: 20,
+                ),
+                Text("DESSERTS",style: TextStyle(color: cWhite,fontWeight: FontWeight.w800,fontSize: 25),),
+
+                Consumer<Mainprovider>(builder: (context, value, child) {
+                          return GridView.builder(
+                            itemCount: value.dessertslist.length,
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 18,
+                                mainAxisSpacing: 0.4,
+                                childAspectRatio: 0.90),
+                            itemBuilder: (context, index) {
+                              var items = value.dessertslist[index];
+                              return Container(
+                                  margin: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: cYellow,
+                                  ),
+                                  child: Column(
+
+                                      children: [
+                                        Container(
+                                          width: width,
+
+                                          // decoration: BoxDecoration(
+                                          //     color: Colors.transparent,
+                                          //     image: DecorationImage(
+                                          //         image: item.avilphoto != ""
+                                          //             ? NetworkImage(
+                                          //           item.avilphoto,
+                                          //         )
+                                          //             : AssetImage(""))),
+                                          child: Consumer<Mainprovider>(
+                                              builder: (context, value, child) {
+                                            return Align(
+                                                alignment: Alignment.topRight,
+                                                child: Transform.scale(
+                                                  scale: 1.5,
+                                                  child: Checkbox(
+                                                    shape: CircleBorder(),
+                                                    value:
+                                                        value.getCheckboxValue(index),
+                                                    onChanged: (bool? newValue) {
+                                                      value.setCheckboxValue(
+                                                          index, newValue ?? false);
+                                                    },
+                                                    checkColor: Colors.green,
+                                                    fillColor: WidgetStatePropertyAll(
+                                                        Colors.white),
+                                                  ),
+                                                ));
+                                          }),
+                                        ),
+                                        FittedBox(
+                                            child: text(items. name,
+                                                FontWeight.w800, cgreen, 25)),
+                                        FittedBox(
+                                            child: text("₹  " + items.price,
+                                                FontWeight.w700, cgreen, 20)),
+
+                                      ]));
+                            },
+                          );
+
+                          //
+
+                }),
+              ],
+            ),
+          ),
         ));
   }
 }

@@ -32,14 +32,14 @@ class Cart_Screen extends StatelessWidget {
                     callNext(context, Printerscreen());
                   },
                   elevation: 0,
-                  backgroundColor: Colors.black,
+                  backgroundColor:cgreen,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(42),
                   ),
                   child: text(
                     "Save",
                     FontWeight.w700,
-                    cgreen,
+                    cWhite,
                     18,
                   ),
                 );
@@ -77,7 +77,7 @@ class Cart_Screen extends StatelessWidget {
                   color: cgreen,
                 ))
               : GridView.builder(
-                  itemCount: 2,
+                  itemCount: value.avilmilklist.length,
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
