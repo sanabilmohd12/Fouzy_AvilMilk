@@ -99,7 +99,7 @@ class IceCreamListScreen extends StatelessWidget {
           ),
           child:   SingleChildScrollView(
             child: Column(
-              
+
               children: [
                 SizedBox(
                   height: 10,
@@ -118,7 +118,12 @@ class IceCreamListScreen extends StatelessWidget {
                             ),
                             itemBuilder: (context, index) {
                               var items = value.icecreamlist[index];
-                              return Container(
+                              return GestureDetector(
+                          onTap: (){
+                            value.setCheckboxValue(index, !value.getCheckboxValue(index));
+
+                          },
+                          child:Container(
                                   margin: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
 
                                   decoration: BoxDecoration(
