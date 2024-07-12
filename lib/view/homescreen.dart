@@ -143,7 +143,7 @@ class _HomescreenState extends State<Home_screen> {
       context: CONTXT,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: cWhite,
+          backgroundColor: cYellow,
           content: SizedBox(
             height: 95,
             child: Column(

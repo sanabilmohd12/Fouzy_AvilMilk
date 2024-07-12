@@ -72,7 +72,7 @@ class AddFouzySpecials extends StatelessWidget {
                     child: value.fspAvilmilkFileImg != null
                         ? Container(
                             margin: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
+                                horizontal: 30, vertical: 10),
                             width: 200,
                             height: 200,
                             decoration: BoxDecoration(
