@@ -18,33 +18,33 @@ class Cart_Screen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButtonLocation:
-      FloatingActionButtonLocation.miniCenterFloat,
+          FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: SizedBox(
-
         height: 65,
         width: width / 1.1,
         child: Consumer<Mainprovider>(builder: (context, value, child) {
-          return   value.loader?CircularProgressIndicator(color: cgreen,):
-          FloatingActionButton(
-            onPressed: () {
-               callNext(context, Printerscreen());
-
-            },
-            elevation: 0,
-            backgroundColor: cWhite,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(42),
-            ),
-            child: text(
-              "Save",
-              FontWeight.w700,
-              cgreen,
-              18,
-            ),
-          );
+          return value.loader
+              ? CircularProgressIndicator(
+                  color: cgreen,
+                )
+              : FloatingActionButton(
+                  onPressed: () {
+                    callNext(context, Printerscreen());
+                  },
+                  elevation: 0,
+                  backgroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(42),
+                  ),
+                  child: text(
+                    "Save",
+                    FontWeight.w700,
+                    cgreen,
+                    18,
+                  ),
+                );
         }),
       ),
-
       backgroundColor: cYellow,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -58,140 +58,123 @@ class Cart_Screen extends StatelessWidget {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  height: height,
-                  width: width,
-                  decoration: ShapeDecoration(
-                    color: cgreen,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                    ),
-                  ),
-                  child:
-                      Consumer<Mainprovider>(builder: (context, value, child) {
-                    return value.getloader
-                        ? Center(
-                            child: CircularProgressIndicator(
-                            color: cgreen,
-                          ))
-                        : GridView.builder(
-                            itemCount: 2,
-                            shrinkWrap: true,
-                            physics: ScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 15,
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 1),
-                            itemBuilder: (context, index) {
-                              var item = value.avilmilklist[index];
-                              return Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 5),
-                                width: width,
-                                height: height * .12,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Color(0xffFFF89A),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      width: width,
-                                      height: 250,
-                                      decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/Sundae (1).png"))),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      child: Row(
-                                        // crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          FittedBox(
-                                              child: text("NAME",
-                                                  FontWeight.w800, cgreen, 25)),
-                                          FittedBox(
-                                              child: text("₹  ",
-                                                  FontWeight.w700, cgreen, 2)),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: height / 55,
-                                    ),
-                                    Container(
-                                        height: height / 19,
-                                        width: width,
-                                        color: Color(0xfff9ea1f),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 15.0),
-                                          child: ListTile(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.vertical(
-                                                        bottom: Radius.circular(
-                                                            10))),
-                                            tileColor: Color(0xfff9ea1f),
-                                            leading: IconButton(
-                                                onPressed: () {},
-                                                icon: const Icon(
-                                                  CustomIcons.minus_circle,
-                                                  color: Colors.red,
-                                                )),
-                                            title: Center(
-                                              child: text("000",
-                                                  FontWeight.w400, cgreen, 20),
-                                            ),
-                                            trailing: IconButton(
-                                                onPressed: () {},
-                                                icon: Icon(
-                                                  CustomIcons.plus_circle,
-                                                  color: cgreen,
-                                                )),
-                                          ),
-                                        )
-
-                                        // Row(
-                                        //   children: [
-                                        //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.minus_circle,color: Colors.red,)),
-                                        //     FittedBox(
-                                        //         child: text(
-                                        //             "000",
-                                        //             FontWeight.w400,
-                                        //             cgreen,
-                                        //             30)),
-                                        //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.plus_circle,color: cgreen,))
-                                        //   ],
-                                        // ),
-                                        ),
-                                  ],
-                                ),
-                              );
-                            },
-                          );
-                  }),
-                ),
-              ],
+      body: Container(
+        height: height,
+        width: width,
+        decoration: ShapeDecoration(
+          color: cgreen,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
             ),
           ),
-        ],
+        ),
+        child: Consumer<Mainprovider>(builder: (context, value, child) {
+          return value.getloader
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: cgreen,
+                ))
+              : GridView.builder(
+                  itemCount: 2,
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 15,
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.0),
+                  itemBuilder: (context, index) {
+                    var item = value.avilmilklist[index];
+                    return Container(
+                      // margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      width: width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Color(0xffFFF89A),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: width,
+                            height: 250,
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              image: DecorationImage(
+                                image: AssetImage("assets/Sundae (1).png"),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Row(
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FittedBox(
+                                    child: text(
+                                        "NAME", FontWeight.w800, cgreen, 25)),
+                                FittedBox(
+                                    child: text(
+                                        "₹  ", FontWeight.w700, cgreen, 2)),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: height / 55,
+                          ),
+                          Container(
+                              height: height / 19,
+                              width: width,
+                              color: Color(0xfff9ea1f),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 15.0),
+                                child: ListTile(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                          bottom: Radius.circular(10))),
+                                  tileColor: Color(0xfff9ea1f),
+                                  leading: IconButton(
+                                      onPressed: () {},
+                                      icon: const Icon(
+                                        CustomIcons.minus_circle,
+                                        color: Colors.red,
+                                      )),
+                                  title: Center(
+                                    child: text(
+                                        "000", FontWeight.w400, cgreen, 20),
+                                  ),
+                                  trailing: IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        CustomIcons.plus_circle,
+                                        color: cgreen,
+                                      )),
+                                ),
+                              )
+
+                              // Row(
+                              //   children: [
+                              //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.minus_circle,color: Colors.red,)),
+                              //     FittedBox(
+                              //         child: text(
+                              //             "000",
+                              //             FontWeight.w400,
+                              //             cgreen,
+                              //             30)),
+                              //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.plus_circle,color: cgreen,))
+                              //   ],
+                              // ),
+                              ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+        }),
       ),
     );
   }

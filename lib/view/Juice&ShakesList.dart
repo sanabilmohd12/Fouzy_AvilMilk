@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/callFunctions.dart';
@@ -53,7 +55,7 @@ class Juice_ShakesListScreen extends StatelessWidget {
             : SizedBox();
       }),
       appBar: AppBar(
-        title: const Text("FOUZY JUICE & SHAKES"),
+        title: const Text("FOUZY JUICE & SHAKES",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 32),),
         centerTitle: true,
         automaticallyImplyLeading: true,
         toolbarHeight: 100,
