@@ -137,8 +137,8 @@ class _HomescreenState extends State<Home_screen> {
     );
   }
 }
-Future<bool> showExitPopup(BuildContext CONTXT) async {
 
+  Future<bool> showExitPopup(BuildContext CONTXT) async {
   return await showDialog(
       context: CONTXT,
       builder: (BuildContext context) {
@@ -149,10 +149,9 @@ Future<bool> showExitPopup(BuildContext CONTXT) async {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                    "Do you want to EXIT ?",style: TextStyle(
+                Text("Do you want to EXIT ?",
+                    style: TextStyle(
                     fontSize:17,
-
                     fontFamily:'ink nut',
                     fontWeight: FontWeight.w700,
                     color: cgreen)),
