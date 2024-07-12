@@ -79,19 +79,23 @@ class _HomescreenState extends State<Home_screen> {
                                   return InkWell(
                                     onTap: (){
                                       if(index==0){
+                                        value.checkboxStates={};
                                            value.getfsptypes();
                                         callNext(context, FouzyMultiple());
                                       }
                                       else if(index==1){
                                             value.getavilmilktypes();
+                                            value.checkboxStates={};
                                         callNext(context, FouzyAvilMilkListScreen());
       
                                       }else if(index==2){
+                                        value.checkboxStates={};
                                               value.fetchIceCreamList();
                                               value.fetchdessertlist();
                                         callNext(context, IceCreamListScreen());
       
                                       }else if(index==3){
+                                        value.checkboxStates={};
                                         value.getJuiceShakesAllItems();
                                         callNext(context, Juice_ShakesListScreen());
       

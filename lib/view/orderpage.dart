@@ -47,13 +47,7 @@ class OrderScreen extends StatelessWidget {
                       child:  Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Column(children: [
-                          SizedBox(height: 16,),
-                          Center(
 
-                            child: Text("History",style: TextStyle(
-                                fontWeight: FontWeight.w500,fontSize: 12,color:Colors.blue
-                            ),),
-                          ),
                           SizedBox(height: 16,),
                           Container(
                               height: height/15,

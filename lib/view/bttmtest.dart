@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../adminview/AdminHomeScreen.dart';
 import '../constants/colors.dart';
+import '../loginScreen.dart';
 import 'bottombar.dart';
 import 'cartScreen.dart';
 import 'homescreen.dart';
@@ -63,7 +64,8 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                     painter: BNBCustomPainter(),
                   ),
             InkWell(onTap: () {
-              callNext(context, Admin_Home_Screen());
+              provider.loginCT.clear();
+              callNext(context, LoginScreen());
             },
               child: Center(
                         heightFactor: .8,
