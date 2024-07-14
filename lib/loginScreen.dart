@@ -53,8 +53,6 @@ class LoginScreen extends StatelessWidget {
                    duration: Duration(milliseconds: 3000),
                  ));
                }
-
-
               },
               elevation: 0,
               backgroundColor: cgreen,

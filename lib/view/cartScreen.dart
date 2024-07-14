@@ -18,31 +18,31 @@ class Cart_Screen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
+      FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: SizedBox(
         height: 65,
         width: width / 1.1,
         child: Consumer<Mainprovider>(builder: (context, value, child) {
           return value.loader
               ? CircularProgressIndicator(
-                  color: cgreen,
-                )
+            color: cgreen,
+          )
               : FloatingActionButton(
-                  onPressed: () {
-                    callNext(context, Printerscreen());
-                  },
-                  elevation: 0,
-                  backgroundColor:cgreen,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(42),
-                  ),
-                  child: text(
-                    "Save",
-                    FontWeight.w700,
-                    cWhite,
-                    18,
-                  ),
-                );
+            onPressed: () {
+              callNext(context, Printerscreen());
+            },
+            elevation: 0,
+            backgroundColor:cgreen,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(42),
+            ),
+            child: text(
+              "Save",
+              FontWeight.w700,
+              cWhite,
+              18,
+            ),
+          );
         }),
       ),
       backgroundColor: cYellow,
@@ -71,113 +71,121 @@ class Cart_Screen extends StatelessWidget {
           ),
         ),
         child: Consumer<Mainprovider>(builder: (context, value, child) {
+          if (value.cartItems.isEmpty) {
+            return Center(child: Text("Your cart is empty"));
+          }
           return value.getloader
               ? Center(
-                  child: Image.asset(
-                    "assets/Animation - 1720805331209.json",
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.fill,
+              child: Image.asset(
+                "assets/Animation - 1720805331209.json",
+                width: 200,
+                height: 200,
+                fit: BoxFit.fill,
 
-                ))
+              ))
               : GridView.builder(
-                  itemCount: value.avilmilklist.length,
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 15,
-                      crossAxisCount: 2,
-                      childAspectRatio: 1.0),
-                  itemBuilder: (context, index) {
-                    var item = value.avilmilklist[index];
-                    return Container(
-                      // margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      width: width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Color(0xffFFF89A),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: width,
-                            height: 250,
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              image: DecorationImage(
-                                image: AssetImage("assets/Sundae (1).png"),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Row(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                FittedBox(
-                                    child: text(
-                                        "NAME", FontWeight.w800, cgreen, 25)),
-                                FittedBox(
-                                    child: text(
-                                        "₹  ", FontWeight.w700, cgreen, 2)),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: height / 55,
-                          ),
-                          Container(
-                              height: height / 19,
-                              width: width,
-                              color: Color(0xfff9ea1f),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 15.0),
-                                child: ListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          bottom: Radius.circular(10))),
-                                  tileColor: Color(0xfff9ea1f),
-                                  leading: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        CustomIcons.minus_circle,
-                                        color: Colors.red,
-                                      )),
-                                  title: Center(
-                                    child: text(
-                                        "000", FontWeight.w400, cgreen, 20),
-                                  ),
-                                  trailing: IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        CustomIcons.plus_circle,
-                                        color: cgreen,
-                                      )),
-                                ),
-                              )
+            itemCount: value.cartItems.length,
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 15,
+                crossAxisCount: 2,
+                childAspectRatio: 1.0
+            ),
+            itemBuilder: (context, index) {
+              String key = value.cartItems.keys.elementAt(index);
+              var item = value.cartItems[key];
+              List<String> parts = key.split(':');
+              String collection = parts[0];
+              String firebaseId = parts[1];
 
-                              // Row(
-                              //   children: [
-                              //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.minus_circle,color: Colors.red,)),
-                              //     FittedBox(
-                              //         child: text(
-                              //             "000",
-                              //             FontWeight.w400,
-                              //             cgreen,
-                              //             30)),
-                              //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.plus_circle,color: cgreen,))
-                              //   ],
-                              // ),
-                              ),
+              return Container(
+                width: width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Color(0xffFFF89A),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: width,
+                      height: 250,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                          image: AssetImage("assets/Sundae (1).png"),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          FittedBox(
+                              child: text(item['name'] ?? "NAME", FontWeight.w800, cgreen, 25)
+                          ),
+                          FittedBox(
+                              child: text("₹ ${item['price'] ?? ''}", FontWeight.w700, cgreen, 20)
+                          ),
                         ],
                       ),
-                    );
-                  },
-                );
+                    ),
+                    SizedBox(
+                      height: height / 55,
+                    ),
+                    Container(
+                      height: height / 19,
+                      width: width,
+                      color: Color(0xfff9ea1f),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 15.0),
+                        child: ListTile(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))
+                          ),
+                          tileColor: Color(0xfff9ea1f),
+                          leading: IconButton(
+                              onPressed: () {
+                                value.cartItemsControlls(collection, firebaseId, item);
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: cWhite,
+                                  content: Text("Removed from cart",
+                                      style: TextStyle(
+                                        color: cgreen,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w800,
+                                      )),
+                                  duration: Duration(milliseconds: 3000),
+                                ));
+                              },
+                              icon: const Icon(
+                                CustomIcons.minus_circle,
+                                color: Colors.red,
+                              )
+                          ),
+                          title: Center(
+                            child: text(item['quantity']?.toString() ?? "000", FontWeight.w400, cgreen, 20),
+                          ),
+                          trailing: IconButton(
+                              onPressed: () {
+                                // Implement quantity increase logic here
+                              },
+                              icon: Icon(
+                                CustomIcons.plus_circle,
+                                color: cgreen,
+                              )
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
         }),
       ),
     );

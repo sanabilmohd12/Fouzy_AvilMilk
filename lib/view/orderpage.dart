@@ -16,6 +16,9 @@ class OrderScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: cYellow,
       appBar: AppBar(
+        title: const Text("ORDER SUMMERY",
+            style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800)),
+        centerTitle: true,
         automaticallyImplyLeading: false,
         toolbarHeight: 100,
         flexibleSpace: Container(
@@ -44,9 +47,8 @@ class OrderScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Column(children: [
 
-                          SizedBox(height: 16,),
+                          SizedBox(height: 20,),
                           Container(
-                              height: height/15,
                               // width: width,
                               decoration: BoxDecoration(
                                   color: Colors.white,
@@ -88,80 +90,8 @@ class OrderScreen extends StatelessWidget {
                                   }
                               )
                           ),
-                          SizedBox(height: 16,),
-                          SizedBox(
-                            height: height / 18,
-                            width: width,
-                            child: ListView.separated(
+                          SizedBox(height: 18,),
 
-                              scrollDirection: Axis.horizontal,
-                              itemCount:5,
-                              separatorBuilder: (context, index) {
-                                return SizedBox(
-                                  width: width / 80,
-                                );
-                              },
-                              itemBuilder: (context, index) {
-                                // var item=names[index];
-                                return Container(
-                                  height:37,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(43),
-                                      // border: Border.all(width:1),
-                                      gradient:  LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            syellow,
-                                            syellow,
-                                          ])),
-                                  child: InkWell(
-                                    onTap: () {
-                                      // adminProvider.filterBoyOrderfun(item);
-                                      // setState(() {
-                                      //   selectedContainerIndex =
-                                      //       index; // Set the index of the tapped container
-                                      // });
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.all(1),
-                                      height: 37,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(50),
-                                        gradient: selectedContainerIndex ==
-                                            index
-                                            ? LinearGradient(
-                                            colors: [
-                                              syellow,
-                                              syellow,
-                                            ])
-                                            : null, // Apply gradient only to the selected container
-                                        color: selectedContainerIndex != index
-                                            ? cWhite
-                                            : null,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 10,right: 10),
-                                        child: Center(
-                                          child: Text(
-                                            "names[index]",
-                                            style:  TextStyle(
-                                              // fontFamily: fontMedium,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              color: selectedContainerIndex == index ? cWhite:cBlue,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 16,),
                           Consumer<Mainprovider>(
                               builder: (context,value2,child) {
                                 return Flexible(
@@ -266,20 +196,7 @@ class OrderScreen extends StatelessWidget {
                                                                 //   ),
                                                                 // ),
 
-                                                                ShaderMask(
-                                                                  shaderCallback: (Rect bounds) {
-                                                                    return LinearGradient(
-                                                                      colors: [cBlue,cWhite ], // Gradient colors
-                                                                      begin: Alignment.topLeft,
-                                                                      end: Alignment.bottomRight,
-                                                                    ).createShader(bounds);
-                                                                  },
-                                                                  child: Icon(
-                                                                    Icons.location_on_outlined,
-                                                                    size: 26,
-                                                                    color: Colors.white, // Set the color to white or any color you prefer
-                                                                  ),
-                                                                ),
+
                                                               ],
                                                             ),
                                                             SizedBox(width: 7,),

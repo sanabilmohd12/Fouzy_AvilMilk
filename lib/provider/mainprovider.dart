@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fouzy/constants/colors.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import '../constants/callFunctions.dart';
 import '../modelClass/MainCategoryModelClass.dart';
 import '../modelClass/avilmilktypesModelClass.dart';
 import '../modelClass/fouzysp.dart';
@@ -50,6 +52,36 @@ class Mainprovider extends ChangeNotifier {
 //     print(avilmilklist[index].count.toString()+"decr");
 //     notifyListeners();
 // }
+
+
+  ///
+  Map<String,dynamic> cartItems= {};
+
+
+  void cartItemsControlls(String collection, String firebaseId, dynamic item) {
+    String key = "$collection:$firebaseId";
+    if (cartItems.containsKey(key)) {
+      cartItems.remove(key);
+      print("Removed from cart: $key");
+    } else {
+      cartItems[key] = item;
+      print("Added to cart: $key");
+    }
+    print("Current cart items: ${cartItems.length}");
+    notifyListeners();
+  }
+  bool isInCart(String collection, String firebaseId) {
+    String key = "$collection:$firebaseId";
+    return cartItems.containsKey(key);
+  }
+
+
+
+
+
+
+
+
 
   TextEditingController priceCt = TextEditingController();
   /// maincategory
@@ -1390,11 +1422,14 @@ TextEditingController dessertsNameCT = TextEditingController();
     map["ITEMS_CATEGORY"]=itemname;
     db.collection("CART").doc(id).set(map,SetOptions(merge: true));
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Center(
-          child: Text("Added to cart",
-              style: TextStyle(
-                  color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Center(
+               child: Text("Added to cart",
+               style: TextStyle(
+                  color: cWhite, fontSize: 15, fontWeight: FontWeight.bold)
+               )
+           ),
       backgroundColor: cgreen,
       elevation: 10,
       behavior: SnackBarBehavior.floating,
@@ -1412,4 +1447,164 @@ TextEditingController dessertsNameCT = TextEditingController();
 
   }
 
+
+
+
+  // datepicker
+
+
+
+  DateRangePickerController dateRangePickerController =
+  DateRangePickerController();
+
+  DateRangePickerController joiningDateTime = DateRangePickerController();
+  DateTime _startDate = DateTime.now();
+  DateTime _endDate = DateTime.now();
+  DateTime firstDate = DateTime.now();
+  DateTime secondDate = DateTime.now();
+  String startDateFormat = '';
+  String endDateFormat = '';
+  String showSelectedDate = '';
+  String sortStartDate = "";
+  String sortEndDate = "";
+  bool isDateSelected = false;
+  DateRangePickerController attedancePickerController =
+  DateRangePickerController();
+  DateRangePickerController attedancereport = DateRangePickerController();
+  var outputDayNode1 = DateFormat('dd/MM/yyy');
+  DateTime attedance = DateTime.now();
+  int sundays = 0;
+
+
+  void salesReport(
+      BuildContext context, ) {
+    Widget calendarWidget() {
+      return SizedBox(
+        width: 300,
+        height: 300,
+        child: SfDateRangePicker(
+          selectionMode: DateRangePickerSelectionMode.range,
+          controller: attedancePickerController,
+          initialSelectedRange: PickerDateRange(_startDate, _endDate),
+          allowViewNavigation: true,
+          headerHeight: 20.0,
+          showTodayButton: true,
+          headerStyle: const DateRangePickerHeaderStyle(
+            textAlign: TextAlign.center,
+          ),
+          initialSelectedDate: DateTime.now(),
+          navigationMode: DateRangePickerNavigationMode.snap,
+          monthCellStyle: const DateRangePickerMonthCellStyle(
+              todayTextStyle: TextStyle(fontWeight: FontWeight.bold)),
+          showActionButtons: true,
+          onSubmit: (Object? val) async {
+            isDateSelected = true;
+
+            // isDateSelected = true;
+            attedancePickerController.selectedRange = val as PickerDateRange?;
+
+            if (attedancePickerController.selectedRange!.endDate == null) {
+              ///single date picker
+              firstDate = attedancePickerController.selectedRange!.startDate!;
+              secondDate = attedancePickerController.selectedRange!.startDate!;
+              _endDate = secondDate.add(const Duration(hours: 24));
+              DateTime firstDate2 = firstDate.subtract(Duration(
+                  hours: firstDate.hour,
+                  minutes: firstDate.minute,
+                  seconds: firstDate.second));
+
+              final formatter = DateFormat('dd/MM/yyyy');
+              showSelectedDate = formatter.format(firstDate);
+              sortStartDate = formatter.format(firstDate);
+
+              notifyListeners();
+            } else {
+              ///two dates select picker
+              firstDate = attedancePickerController.selectedRange!.startDate!;
+              secondDate = attedancePickerController.selectedRange!.endDate!;
+              _endDate = secondDate.add(const Duration(hours: 24));
+              DateTime firstDate2 = firstDate.subtract(Duration(
+                  hours: firstDate.hour,
+                  minutes: firstDate.minute,
+                  seconds: firstDate.second));
+              print("jhbjdbvv" + _endDate.toString());
+              print("Number of Sundays: $sundays");
+              // getStaffData(companyid,subcompany);
+              // getData(companyid,subcompany);
+
+
+
+              // if (from == "User_attendance") {
+              //   getUserAttendance(userId, firstDate2, endDate2);
+              // } else {
+              //   getStaffAttendance(
+              //       firstDate2, endDate2, from, userId, companyid);
+              // }
+              isDateSelected = true;
+              final formatter = DateFormat('dd/MM/yyyy');
+              startDateFormat = formatter.format(firstDate);
+              endDateFormat = formatter.format(secondDate);
+              if (startDateFormat != endDateFormat) {
+                showSelectedDate = "$startDateFormat - $endDateFormat";
+              } else {
+                showSelectedDate = startDateFormat;
+              }
+
+              notifyListeners();
+            }
+            back(context);
+          },
+          onCancel: () {
+            isDateSelected = false;
+
+            attedancePickerController.selectedRange = null;
+            attedancePickerController.selectedDate = null;
+            showSelectedDate = '';
+
+            DateTime date = DateTime.now();
+            DateTime date1 = date.subtract(Duration(
+                hours: date.hour, minutes: date.minute, seconds: date.second));
+
+            DateTime date2 = date.add(const Duration(hours: 24));
+            // getStaffData(companyid,subcompany);
+            // getData(companyid,subcompany);
+            //
+            // if (from != "graph") {
+            //   getattadencelist(date1, date2, companyid,subcompany);
+            // } else if (from == "projectwise") {
+            //   getprojectwisereport(date1, date2, companyid);
+            // } else if (from == "empprojectwise") {
+            //   getempprojectreport(date1, date2, companyid, emplid);
+            // } else {
+            //   graphreports(date1, date2, companyid);
+            // }
+
+            // if (from == "User_attendance") {
+            //   getUserAttendance(userId, date1, date2);
+            // } else {
+            //   getStaffAttendance(date1, date2, "All", "", companyid);
+            // }
+            notifyListeners();
+            back(context);
+          },
+        ),
+      );
+    }
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.0))),
+            contentPadding: const EdgeInsets.only(
+              top: 10.0,
+            ),
+            // title: Container(
+            //     child: Text('Printers', style: TextStyle(color: my_white))),
+            content: calendarWidget(),
+          );
+        });
+    notifyListeners();
+  }
 }
