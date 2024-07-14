@@ -15,6 +15,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../constants/callFunctions.dart';
 import '../modelClass/MainCategoryModelClass.dart';
 import '../modelClass/avilmilktypesModelClass.dart';
+import '../modelClass/cartmodelclas.dart';
 import '../modelClass/fouzysp.dart';
 import '../modelClass/icecreamsModelClass.dart';
 import '../modelClass/jucieandshakesCateModelClass.dart';
@@ -1372,9 +1373,11 @@ TextEditingController dessertsNameCT = TextEditingController();
     map["ITEMS_PRICE"]=price;
     map["ITEMS_CATEGORY"]=itemname;
     map["ITEMS_PHOTO"]=photo;
+    map["COUNT"]=0;
 
     itemStatus = await checkItemExist(itemsid);
     if(!itemStatus){
+      print("fvfbb");
       db.collection("CART").doc(id).set(map,SetOptions(merge: true));
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -1401,15 +1404,63 @@ TextEditingController dessertsNameCT = TextEditingController();
         ),
       ));
     }
-
     notifyListeners();
   }
+ List<cartItemsDetails>cartitemslist=[];
 
-  void delefromtecart(String id) {
 
-    // print(id + "123456");
+  bool getcart=false;
+
+
+void getCartItems(){
+  getcart = true;
+  notifyListeners();
+    db.collection("CART").get().then((value) {
+      if(value.docs.isNotEmpty){
+        getcart=true;
+        notifyListeners();
+        cartitemslist.clear();
+        for(var element in value.docs){
+          Map<dynamic,dynamic> getcart=element.data();
+          cartitemslist.add(cartItemsDetails(
+            getcart["CART_ID"].toString(),
+              DateFormat("dd-MM-yyyy hh:mm a").format(getcart["DATE_TIME"].toDate()),
+              getcart["ITEMS_CATEGORY"].toString(),
+              getcart["ITEMS_ID"].toString(),
+              getcart["ITEMS_NAME"].toString(),
+              getcart["ITEMS_PHOTO"].toString(),
+              getcart["ITEMS_PRICE"].toString(),
+              ));
+          notifyListeners();
+        }
+      }
+      },);
+    notifyListeners();
+}
+
+
+
+
+
+
+  void delefromtecart(String id,BuildContext context) {
+
+    print(id + "123456");
 
     db.collection("CART").doc(id).delete();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.red,
+      content: Center(
+        child: Text("Deleted Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            )),
+      ),
+      duration: Duration(milliseconds: 3000),
+    ));
+    getCartItems();
     notifyListeners();
   }
 
@@ -1425,6 +1476,19 @@ TextEditingController dessertsNameCT = TextEditingController();
     notifyListeners();
 
   }
+
+
+  int count=0;
+  void additems(){
+    count++;
+    notifyListeners();
+  }
+  void minusitems(){
+    count--;
+    notifyListeners();
+  }
+
+
 
 
 

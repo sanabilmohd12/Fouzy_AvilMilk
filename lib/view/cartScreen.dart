@@ -18,35 +18,41 @@ class Cart_Screen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
-      floatingActionButton: SizedBox(
-        height: 65,
-        width: width / 1.1,
-        child: Consumer<Mainprovider>(builder: (context, value, child) {
-          return value.loader
-              ? CircularProgressIndicator(
-                  color: cgreen,
-                )
-              : FloatingActionButton(
-                  onPressed: () {
-                    callNext(context, Printerscreen());
-                  },
-                  elevation: 0,
-                  backgroundColor:cgreen,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(42),
-                  ),
-                  child: text(
-                    "Save",
-                    FontWeight.w700,
-                    cWhite,
-                    18,
-                  ),
-                );
-        }),
+          FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 150),
+        child: SizedBox(
+          height: 65,
+          width: width / 1.1,
+          child: Consumer<Mainprovider>(builder: (context, value, child) {
+            return value.loader
+                ? CircularProgressIndicator(
+                    color: cgreen,
+                  )
+                : FloatingActionButton(
+                    onPressed: () {
+                      callNext(context, Printerscreen());
+                    },
+                    elevation: 0,
+                    backgroundColor:cgreen,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(42),
+                    ),
+                    child: text(
+                      "Save",
+                      FontWeight.w700,
+                      cWhite,
+                      18,
+                    ),
+                  );
+          }),
+        ),
       ),
       backgroundColor: cYellow,
       appBar: AppBar(
+        title: const Text("Items",
+            style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800)),
+        centerTitle: true,
         automaticallyImplyLeading: false,
         toolbarHeight: 100,
         flexibleSpace: Container(
@@ -71,13 +77,15 @@ class Cart_Screen extends StatelessWidget {
           ),
         ),
         child: Consumer<Mainprovider>(builder: (context, value, child) {
-          return value.getloader
-              ? Center(
-                  child: CircularProgressIndicator(
-                  color: cgreen,
-                ))
-              : GridView.builder(
-                  itemCount: value.avilmilklist.length,
+          return
+            // value.getcart
+            //   ? Center(
+            //       child: CircularProgressIndicator(
+            //       color: cgreen,
+            //     ))
+            //   :
+            value.cartitemslist.isNotEmpty?GridView.builder(
+                  itemCount: value.cartitemslist.length,
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -86,7 +94,7 @@ class Cart_Screen extends StatelessWidget {
                       crossAxisCount: 2,
                       childAspectRatio: 1.0),
                   itemBuilder: (context, index) {
-                    var item = value.avilmilklist[index];
+                    var items = value.cartitemslist[index];
                     return Container(
                       // margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                       width: width,
@@ -97,29 +105,56 @@ class Cart_Screen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
+                          items.itemphoto==""?
                           Container(
                             width: width,
                             height: 250,
+
                             decoration: BoxDecoration(
                               color: Colors.transparent,
                               image: DecorationImage(
                                 image: AssetImage("assets/Sundae (1).png"),
                               ),
                             ),
+                            child: Align(alignment: Alignment.topRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(onTap: () {
+                                    value.delefromtecart(items.cartid,context);
+
+                                  },
+                                      child: Icon(Icons.delete,size: 35,)),
+                                )),
+                          ): Container(
+                            width: width,
+                            height: 250,
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              image: DecorationImage(
+                                image: NetworkImage(items.itemphoto),
+                              ),
+                            ),
+                            child: Align(alignment: Alignment.topRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(onTap: () {
+                                    value.delefromtecart(items.cartid,context);
+                                  },
+                                      child: Icon(Icons.delete,size: 35,)),
+                                )),
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Row(
                               // crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 FittedBox(
-                                    child: text(
-                                        "NAME", FontWeight.w800, cgreen, 25)),
-                                FittedBox(
-                                    child: text(
-                                        "₹  ", FontWeight.w700, cgreen, 2)),
+                                  child: text(
+                                      items.itemname, FontWeight.w800, cgreen,  items. itemname.length>=15?20:25),
+                                ),
+                                text(
+                                    "₹  "+ items.itemprice, FontWeight.w700, cgreen, 25),
                               ],
                             ),
                           ),
@@ -138,17 +173,21 @@ class Cart_Screen extends StatelessWidget {
                                           bottom: Radius.circular(10))),
                                   tileColor: Color(0xfff9ea1f),
                                   leading: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        value.additems();
+                                      },
                                       icon: const Icon(
                                         CustomIcons.minus_circle,
                                         color: Colors.red,
                                       )),
                                   title: Center(
                                     child: text(
-                                        "000", FontWeight.w400, cgreen, 20),
+                                        value.count.toString(), FontWeight.w400, cgreen, 20),
                                   ),
                                   trailing: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                                   value.minusitems();
+                                      },
                                       icon: Icon(
                                         CustomIcons.plus_circle,
                                         color: cgreen,
@@ -173,7 +212,7 @@ class Cart_Screen extends StatelessWidget {
                       ),
                     );
                   },
-                );
+                ):Center(child: Text("order something"));
         }),
       ),
     );

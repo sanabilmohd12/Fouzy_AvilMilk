@@ -25,19 +25,19 @@ class Juice_ShakesListScreen extends StatelessWidget {
     final int index1;
     return Scaffold(
         backgroundColor: cYellow,
-        floatingActionButton:
-            Consumer<Mainprovider>(builder: (context, value, child) {
-          bool isAnySelected = false;
-          for (int i = 0; i < value.avilmilklist.length; i++) {
-            if (value.getCheckboxValue(i) == true) {
-              isAnySelected = true;
-              break;
-            }
-          }
-          return isAnySelected
-              ? SizedBox()
-              : SizedBox();
-        }),
+        // floatingActionButton:
+        //     Consumer<Mainprovider>(builder: (context, value, child) {
+        //   bool isAnySelected = false;
+        //   for (int i = 0; i < value.avilmilklist.length; i++) {
+        //     if (value.getCheckboxValue(i) == true) {
+        //       isAnySelected = true;
+        //       break;
+        //     }
+        //   }
+        //   return isAnySelected
+        //       ?Container(height: 100,width: 500,color: Colors.red,)
+        //       : SizedBox();
+        // }),
         appBar: AppBar(
           title: const Text(
             "FOUZY JUICE & SHAKES",
@@ -97,10 +97,7 @@ class Juice_ShakesListScreen extends StatelessWidget {
                           return GestureDetector(
                             onTap: () {
                               value.AddCartdetails(item.name,item.id,item.price,item.categoryname,"",context);
-
-
-                              value.setCheckboxValue(
-                                  index, !value.getCheckboxValue(index));
+                              value.setCheckboxValue(index, !value.getCheckboxValue(index));
                             },
                             child: Container(
                               margin: const EdgeInsets.symmetric(
@@ -135,9 +132,10 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                                   value:
                                                   value.getCheckboxValue(index),
                                                   onChanged: (bool? newValue) {
+                                                    value.AddCartdetails(item.name,item.id,item.price,item.categoryname,"",context);
                                                     value.setCheckboxValue(index, newValue ?? false);
 
-                                                  },
+                                                    },
                                                   checkColor: Colors.green,
                                                   fillColor:
                                                   WidgetStatePropertyAll(

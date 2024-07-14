@@ -16,45 +16,45 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Mainprovider provider = Provider.of<Mainprovider>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      provider.getavilmilktypes();
-    });
+    // Mainprovider provider = Provider.of<Mainprovider>(context, listen: false);
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   provider.getavilmilktypes();
+    // });
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     final int index1;
     return Scaffold(
       backgroundColor: cYellow,
-      floatingActionButton:
-          Consumer<Mainprovider>(builder: (context, value, child) {
-        bool isAnySelected = false;
-        for (int i = 0; i < value.avilmilklist.length; i++) {
-          if (value.getCheckboxValue(i) == true) {
-            isAnySelected = true;
-            break;
-          }
-        }
-        return isAnySelected
-            ? FloatingActionButton.extended(
-                backgroundColor: Colors.yellow,
-                onPressed: () {
-                  callNext(context, Cart_Screen());
-                },
-                label: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    'Add To Cart',
-                    style: TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-                icon: Icon(Icons.shopping_cart, color: cgreen),
-              )
-            : SizedBox();
-      }),
+      // floatingActionButton:
+      //     Consumer<Mainprovider>(builder: (context, value, child) {
+      //   bool isAnySelected = false;
+      //   for (int i = 0; i < value.avilmilklist.length; i++) {
+      //     if (value.getCheckboxValue(i) == true) {
+      //       isAnySelected = true;
+      //       break;
+      //     }
+      //   }
+      //   return isAnySelected
+      //       ? FloatingActionButton.extended(
+      //           backgroundColor: Colors.yellow,
+      //           onPressed: () {
+      //             callNext(context, Cart_Screen());
+      //           },
+      //           label: const Padding(
+      //             padding: EdgeInsets.symmetric(horizontal: 8.0),
+      //             child: Text(
+      //               'Add To Cart',
+      //               style: TextStyle(
+      //                 fontSize: 19,
+      //                 fontWeight: FontWeight.w800,
+      //               ),
+      //             ),
+      //           ),
+      //           icon: Icon(Icons.shopping_cart, color: cgreen),
+      //         )
+      //       : SizedBox();
+      // }),
       appBar: AppBar(
         title: const Text(
           "FOUZY AVILMILK",
@@ -118,6 +118,9 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                   builder: (context, value, child) {
                                 return GestureDetector(
                                   onTap: () {
+
+                                    value.AddCartdetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+
                                     value.setCheckboxValue(
                                         index, !value.getCheckboxValue(index));
                                   },
@@ -157,9 +160,9 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                         value.getCheckboxValue(
                                                             index),
                                                     onChanged: (bool? newValue) {
-                                                      value.setCheckboxValue(
-                                                          index,
-                                                          newValue ?? false);
+                                                      value.AddCartdetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+
+                                                      value.setCheckboxValue(index, newValue ?? false);
                                                     },
                                                     checkColor: Colors.green,
                                                     fillColor:

@@ -22,49 +22,49 @@ class IceCreamListScreen extends StatelessWidget {
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    final int index1;
+
     return Scaffold(
         backgroundColor: cYellow,
-        floatingActionButton:
-            Consumer<Mainprovider>(builder: (context, value, child) {
-          bool isAnySelected = false;
-          for (int i = 0; i < value.avilmilklist.length; i++) {
-            if (value.getCheckboxValue(i) == true) {
-              isAnySelected = true;
-              break;
-            }
-          }
-          return isAnySelected
-              ? FloatingActionButton.extended(
-                  backgroundColor: Colors.yellow,
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      backgroundColor: cWhite,
-                      content: Center(
-                        child: Text("Added to cart",
-                            style: TextStyle(
-                              color: cgreen,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w800,
-                            )),
-                      ),
-                      duration: Duration(milliseconds: 3000),
-                    ));
-                  },
-                  label: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      'Add To Cart',
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                  icon: Icon(Icons.shopping_cart, color: cgreen),
-                )
-              : SizedBox();
-        }),
+        // floatingActionButton:
+        //     Consumer<Mainprovider>(builder: (context, value, child) {
+        //   bool isAnySelected = false;
+        //   for (int i = 0; i < value.avilmilklist.length; i++) {
+        //     if (value.getCheckboxValue(i) == true) {
+        //       isAnySelected = true;
+        //       break;
+        //     }
+        //   }
+        //   return isAnySelected
+        //       ? FloatingActionButton.extended(
+        //           backgroundColor: Colors.yellow,
+        //           onPressed: () {
+        //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //               backgroundColor: cWhite,
+        //               content: Center(
+        //                 child: Text("Added to cart",
+        //                     style: TextStyle(
+        //                       color: cgreen,
+        //                       fontSize: 15,
+        //                       fontWeight: FontWeight.w800,
+        //                     )),
+        //               ),
+        //               duration: Duration(milliseconds: 3000),
+        //             ));
+        //           },
+        //           label: Padding(
+        //             padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        //             child: Text(
+        //               'Add To Cart',
+        //               style: TextStyle(
+        //                 fontSize: 19,
+        //                 fontWeight: FontWeight.w800,
+        //               ),
+        //             ),
+        //           ),
+        //           icon: Icon(Icons.shopping_cart, color: cgreen),
+        //         )
+        //       : SizedBox();
+        // }),
         appBar: AppBar(
           title: const Text(
             "FOUZY ICE CREAMS",

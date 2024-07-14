@@ -26,39 +26,42 @@ class FouzyMultiple extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: cYellow,
-      floatingActionButton:
-          Consumer<Mainprovider>(builder: (context, value, child) {
-        bool isAnySelected = value.avilmilklist.any(
-            (item) => value.getCheckboxValue(value.avilmilklist.indexOf(item)));
-        return isAnySelected
-            ? FloatingActionButton.extended(
-                backgroundColor: Colors.yellow,
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: cWhite,
-                    content: Text("Added to cart",
-                        style: TextStyle(
-                          color: cgreen,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
-                        )),
-                    duration: Duration(milliseconds: 3000),
-                  ));
-                },
-                label: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    'Add To Cart',
-                    style: TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-                icon: Icon(Icons.shopping_cart, color: cgreen),
-              )
-            : SizedBox();
-      }),
+      // floatingActionButton:
+      //     Consumer<Mainprovider>(builder: (context, value, child) {
+      //
+      //   bool isAnySelected = value.avilmilklist.any(
+      //       (item) => value.getCheckboxValue(value.avilmilklist.indexOf(item))
+      //
+      //   );
+      //   return isAnySelected
+      //       ? FloatingActionButton.extended(
+      //           backgroundColor: Colors.yellow,
+      //           onPressed: () {
+      //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //               backgroundColor: cWhite,
+      //               content: Text("Added to cart",
+      //                   style: TextStyle(
+      //                     color: cgreen,
+      //                     fontSize: 15,
+      //                     fontWeight: FontWeight.w800,
+      //                   )),
+      //               duration: Duration(milliseconds: 3000),
+      //             ));
+      //           },
+      //           label: Padding(
+      //             padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      //             child: Text(
+      //               'Add To Cart',
+      //               style: TextStyle(
+      //                 fontSize: 19,
+      //                 fontWeight: FontWeight.w800,
+      //               ),
+      //             ),
+      //           ),
+      //           icon: Icon(Icons.shopping_cart, color: cgreen),
+      //         )
+      //       : SizedBox();
+      // }),
       appBar: AppBar(
         title: const Text("FOUZY SPECIAL AVILMILK",
             style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800)),
@@ -127,8 +130,10 @@ class FouzyMultiple extends StatelessWidget {
                                   var item = value.fspavilmilklist[index];
                                   return GestureDetector(
                                     onTap: () {
-                                      value.setCheckboxValue(index,
-                                          !value.getCheckboxValue(index));
+                                      value.AddCartdetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+
+                                      value.setCheckboxValue(index, !value.getCheckboxValue(index));
+
                                     },
                                     child: Container(
                                       margin: EdgeInsets.symmetric(
@@ -168,7 +173,9 @@ class FouzyMultiple extends StatelessWidget {
                                                               index),
                                                       onChanged:
                                                           (bool? newValue) {
-                                                        value.setCheckboxValue(
+                                                            value.AddCartdetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+
+                                                            value.setCheckboxValue(
                                                             index,
                                                             newValue ?? false);
                                                       },
