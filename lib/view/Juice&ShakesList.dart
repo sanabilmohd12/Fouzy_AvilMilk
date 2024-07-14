@@ -27,9 +27,9 @@ class Juice_ShakesListScreen extends StatelessWidget {
       backgroundColor: cYellow,
       floatingActionButton:
           Consumer<Mainprovider>(builder: (context, value, child) {
-        bool isAnySelected = false;
-        for (int i = 0; i < value.avilmilklist.length; i++) {
-          if (value.getCheckboxValue(i) == true) {
+            bool isAnySelected = false;
+            for (int i = 0; i < value.avilmilklist.length; i++) {
+            if (value.getCheckboxValue(i) == true) {
             isAnySelected = true;
             break;
           }
@@ -167,6 +167,7 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                           //             ));
                                           //       }),
                                           // ),
+
                                           FittedBox(child: text(item.name, FontWeight.w800, cgreen, 25)),
                                           FittedBox(child: text("₹"+item.price, FontWeight.w800, cgreen, 25)),
 

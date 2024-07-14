@@ -41,8 +41,8 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                 onPressed: () {
                   callNext(context, Cart_Screen());
                 },
-                label: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                label: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
                     'Add To Cart',
                     style: TextStyle(
@@ -107,7 +107,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisSpacing: 10,
                                     mainAxisSpacing: 15,
                                     crossAxisCount: 2,
@@ -122,7 +122,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                       value.setCheckboxValue(index, !value.getCheckboxValue(index));
                                     },
                                     child: Container(
-                                      margin: EdgeInsets.symmetric(
+                                      margin: const EdgeInsets.symmetric(
                                           horizontal: 5, vertical: 5),
                                       width: width,
                                       height: height * .12,
@@ -154,18 +154,15 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                     scale: 1.5,
                                                     child: Checkbox(
                                                       shape: CircleBorder(),
-                                                      value: value
-                                                          .getCheckboxValue(index),
+                                                      value: value.getCheckboxValue(index),
                                                       onChanged: (bool? newValue) {
-                                                        value.setCheckboxValue(
-                                                            index, newValue ?? false);
+                                                        value.setCheckboxValue(index, newValue ?? false);
                                                       },
                                                       checkColor: Colors.green,
-                                                      fillColor:
-                                                          WidgetStatePropertyAll(
-                                                              Colors.white),
+                                                      fillColor: WidgetStatePropertyAll(Colors.white),
                                                     ),
-                                                  ));
+                                                  )
+                                                  );
                                             }),
                                           ),
                                           Padding(
