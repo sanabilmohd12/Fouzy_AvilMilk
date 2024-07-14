@@ -156,8 +156,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                     value:
                                                         value.getCheckboxValue(
                                                             index),
-                                                    onChanged:
-                                                        (bool? newValue) {
+                                                    onChanged: (bool? newValue) {
                                                       value.setCheckboxValue(
                                                           index,
                                                           newValue ?? false);
@@ -168,6 +167,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                             Colors.white),
                                                   ),
                                                 ));
+
                                           }),
                                         ),
                                         Padding(

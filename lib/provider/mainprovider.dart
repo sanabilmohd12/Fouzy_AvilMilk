@@ -1341,8 +1341,26 @@ TextEditingController dessertsNameCT = TextEditingController();
 
   // add to cart
 
-  void AddCartdetails(String name, String itemsid, String price,String itemname,
-      BuildContext context,  ) {
+
+  Future<bool> checkItemExist(String itemid) async {
+    print(itemid + ' hhhh');
+    var D = await db
+        .collection("CART")
+        .where("ITEMS_ID", isEqualTo: itemid)
+        .get();
+    if (D.docs.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  bool itemStatus = false;
+
+  Future<void> AddCartdetails(String name, String itemsid, String price,String itemname,String photo,
+      BuildContext context,  ) async {
+    print("kjhgfcvbn");
     String id = DateTime.now().millisecondsSinceEpoch.toString();
 
     Map<String, Object> map = HashMap();
@@ -1353,23 +1371,51 @@ TextEditingController dessertsNameCT = TextEditingController();
     map["ITEMS_ID"]=itemsid;
     map["ITEMS_PRICE"]=price;
     map["ITEMS_CATEGORY"]=itemname;
-    db.collection("CART").doc(id).set(map,SetOptions(merge: true));
+    map["ITEMS_PHOTO"]=photo;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Center(
-               child: Text("Added to cart",
-               style: TextStyle(
-                  color: cWhite, fontSize: 15, fontWeight: FontWeight.bold)
-               )
-           ),
-      backgroundColor: cgreen,
-      elevation: 10,
-      behavior: SnackBarBehavior.floating,
-      margin: EdgeInsets.all(5),
-    ));
+    itemStatus = await checkItemExist(itemsid);
+    if(!itemStatus){
+      db.collection("CART").doc(id).set(map,SetOptions(merge: true));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Center(
+                child: Text("Added to cart",
+                    style: TextStyle(
+                        color: cWhite, fontSize: 15, fontWeight: FontWeight.bold)
+                )
+            ),
+            backgroundColor: cYellow,
+            elevation: 10,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.all(5),
+          ));
+      notifyListeners();
+    }else{
+      print("djiidi");
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        backgroundColor: Colors.red,
+        content: Center(
+          child: Text(
+            "Item Already Exist",
+          ),
+        ),
+      ));
+    }
+
     notifyListeners();
   }
+
+  void delefromtecart(String id) {
+
+    // print(id + "123456");
+
+    db.collection("CART").doc(id).delete();
+    notifyListeners();
+  }
+
+
+
+
 
 
   //CHECKBOK
