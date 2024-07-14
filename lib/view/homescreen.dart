@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/colors.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../provider/mainprovider.dart';
 import 'FouzyAvilMilkList.dart';
@@ -56,8 +57,13 @@ class _HomescreenState extends State<Home_screen> {
             builder: (context, value, child) {
               return value.getloader
                   ? Center(
-                child: CircularProgressIndicator(
-                  color: cgreen,
+                child: Lottie.asset(
+                  'assets/Animation - 1720805331209.json',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.fill,
+                  repeat: true,
+                  reverse: true,
                 ),
               )
                             : ListView.builder(

@@ -73,8 +73,12 @@ class Cart_Screen extends StatelessWidget {
         child: Consumer<Mainprovider>(builder: (context, value, child) {
           return value.getloader
               ? Center(
-                  child: CircularProgressIndicator(
-                  color: cgreen,
+                  child: Image.asset(
+                    "assets/Animation - 1720805331209.json",
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.fill,
+
                 ))
               : GridView.builder(
                   itemCount: value.avilmilklist.length,

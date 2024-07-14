@@ -41,7 +41,7 @@ class Mainprovider extends ChangeNotifier {
 // print(avilmilklist[index].count.toString()+"incr");
 // notifyListeners();
 // }
-//
+
 // void countDecrement(int index){
 //     if(avilmilklist[index].count>0){
 // avilmilklist[index].count--;
@@ -51,6 +51,7 @@ class Mainprovider extends ChangeNotifier {
 //     notifyListeners();
 // }
 
+  TextEditingController priceCt = TextEditingController();
   /// maincategory
 
 
@@ -239,7 +240,7 @@ class Mainprovider extends ChangeNotifier {
     else {
       print('jhsadjkasd');
       db.collection("FSPAVIL_MILK").doc(id).set(map);
-      // ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
+        // ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
       //   backgroundColor: cWhite,
       //   content: Text("Added Successfully",
       //       style: TextStyle(
@@ -314,8 +315,7 @@ class Mainprovider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print("Error fetching Fouzy Special Avil Milks: $e");
-      // Handle error appropriately
+      print("Error founding on  FSP: $e");
     } finally {
       getavilloader = false;
       notifyListeners();
@@ -324,18 +324,55 @@ class Mainprovider extends ChangeNotifier {
 
 
 
-  void deleteSpAvilmilk(String id, BuildContext context) {
-    db.collection("FSPAVIL_MILK").doc(id).delete();
-    getavilmilktypes();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          backgroundColor: cgreen,
+  Future<void> deleteSpAvilmilk(String itemId, BuildContext context) async {
+    try {
+
+      fsploader = true;
+      notifyListeners();
+
+      await db.collection("FSPAVIL_MILK").doc(itemId).delete();
+
+      fspavilmilklist.removeWhere((item) => item.id == itemId);
+
+      notifyListeners();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: cWhite,
           content: Text(
-            "Deleted successfully ",
-            style: TextStyle(color: cWhite, fontSize: 15),
-          )),
-    );
-    notifyListeners();
+            "Deleted Successfully",
+            style: TextStyle(
+              color: cgreen,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          duration: Duration(milliseconds: 3000),
+        ),
+      );
+
+    } catch (e) {
+      print("Error deleting Fouzy Special Avil Milk: $e");
+      // Show an error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: cWhite,
+          content: Text(
+            "Error deleting item",
+            style: TextStyle(
+              color: myRed,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          duration: Duration(milliseconds: 3000),
+        ),
+      );
+    } finally {
+
+      fsploader = false;
+      notifyListeners();
+    }
   }
 
   void editFSPAvilMilk(String id, BuildContext context) {
@@ -343,7 +380,7 @@ class Mainprovider extends ChangeNotifier {
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
         fspNameCt.text = dataMaps["FOUZY_SPECIALS"].toString();
-        fspPriceCt.text = dataMaps["FSP_AVILMILK_CATEGORY"].toString();
+        fspPriceCt.text = dataMaps["FSP_AVIL_MILK_PRICE"].toString();
         fspDescriptionCt.text = dataMaps["FSP_DISCRETION"].toString();
         fspCategoryCt.text = dataMaps["FSP_AVILMILK_CATEGORY"].toString();
         spmaincategorynameCt.text = dataMaps["MAIN_CATEGORY"].toString();
@@ -363,7 +400,7 @@ class Mainprovider extends ChangeNotifier {
   TextEditingController avilMilkDescribtionCt = TextEditingController();
   TextEditingController avilMilkCategoryCt = TextEditingController();
   TextEditingController maincategorynameCt = TextEditingController();
-  TextEditingController priceCt = TextEditingController();
+  // TextEditingController priceCt = TextEditingController();
 
 
 
@@ -399,6 +436,7 @@ class Mainprovider extends ChangeNotifier {
     mainCategorySelectedId.isNotEmpty ? mainCategorySelectedId : null;
     map["ADDED_TIME"] = DateTime.now();
     map["COUNT"] = "";
+
 
     if (AvilmilkFileImg != null) {
       String photoId = DateTime

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fouzy/provider/mainprovider.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/callfunctions.dart';
@@ -11,14 +12,10 @@ import 'addAvilMilk.dart';
 import 'addfsp.dart';
 
 class FouzySpecialScreen extends StatelessWidget {
-
-
-   FouzySpecialScreen({super.key});
-
+  FouzySpecialScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     print("dddfdfdfdf");
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -35,7 +32,7 @@ class FouzySpecialScreen extends StatelessWidget {
       ),
       child: Scaffold(
         floatingActionButton:
-        Consumer<Mainprovider>(builder: (context, value, child) {
+            Consumer<Mainprovider>(builder: (context, value, child) {
           return FloatingActionButton(
             backgroundColor: cgreen,
             child: Icon(Icons.add, color: cWhite, size: 38),
@@ -74,213 +71,234 @@ class FouzySpecialScreen extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Consumer<Mainprovider>(builder: (context, value, child) {
-            return
-                 GridView.builder(
-                itemCount: value.fspavilmilklist.length,
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 0.5,
-                    mainAxisSpacing: 0.4,
-                    childAspectRatio: 0.6),
-                itemBuilder: (BuildContext context, int index) {
-                  print("fffrfrfr"+value.fspavilmilklist.length.toString());
-                  var item = value.fspavilmilklist[index];
-                  return Container(
-                    margin:
-                    EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    width: width,
-                    height: height * .12,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: cWhite,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+            return value.getloader
+                ? Center(
+              child: Lottie.asset(
+                "assets/Animation - 1720805331209.json",
+                width: 200,
+                height: 200,
+                fit: BoxFit.fill,
+              ),
+                )
+
+
+                : GridView.builder(
+                    itemCount: value.fspavilmilklist.length,
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 0.5,
+                        mainAxisSpacing: 0.4,
+                        childAspectRatio: 0.6),
+                    itemBuilder: (BuildContext context, int index) {
+                      print(
+                          "fffrfrfr" + value.fspavilmilklist.length.toString());
+                      var item = value.fspavilmilklist[index];
+                      return value.fsploader ?
+                     Center(
+                       child: Lottie.asset("assets/mixer-lottie.json",
+
+                       width: 200,
+                         height: 200,
+                         fit: BoxFit.fill,repeat: true,
+
+                       ),
+
+                     ):
+
                         Container(
-                            width: width,
-                            height: 250,
-                            child: item.avilphoto.isNotEmpty
-                                ? Image.network(
-                              item.avilphoto,
-                              errorBuilder: (context, error, stackTrace) {
-                                print('Error loading image: $error');
-                                return Icon(Icons.error); // or any placeholder widget
-                              },
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        width: width,
+                        height: height * .12,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: cWhite,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: width,
+                              height: 250,
+                              child: item.avilphoto.isNotEmpty
+                                  ? Image.network(
+                                      item.avilphoto,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        print('Error loading image: $error');
+                                        return Icon(Icons
+                                            .error); // or any placeholder widget
+                                      },
+                                    )
+                                  : Icon(Icons.image),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  FittedBox(
+                                      child: text(item.name, FontWeight.w800,
+                                          cgreen, 25)),
+                                  FittedBox(
+                                      child: text("₹  " + item.price,
+                                          FontWeight.w700, cgreen, 20)),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                FittedBox(
+                                    child: text(item.describtion,
+                                        FontWeight.w400, cgreen, 22)),
+                              ],
+                            ),
+                            SizedBox(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: Text("Do you want to DELETE ?",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w600,
+                                                color: cBlack)),
+                                        actions: <Widget>[
+                                          Center(
+                                            child: TextButton(
+                                              onPressed: () {
+
+                                                value.deleteSpAvilmilk(
+                                                    item.id, context);
+
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Container(
+                                                height: 45,
+                                                width: 90,
+                                                decoration: BoxDecoration(
+                                                    color: myRed,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x26000000),
+                                                        blurRadius:
+                                                            2.0, // soften the shadow
+                                                        spreadRadius:
+                                                            1.0, //extend the shadow
+                                                      ),
+                                                    ]),
+                                                child: Center(
+                                                    child: Text("Delete",
+                                                        style: TextStyle(
+                                                            color: cWhite,
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700))),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.delete_outline,
+                                    size: 30,
+                                    color: myRed,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 40,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: Text("Do you want to EDIT ?",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w600,
+                                                color: cBlack)),
+                                        actions: <Widget>[
+                                          Center(
+                                            child: TextButton(
+                                              onPressed: () {
+                                                print("dbjhbd" + item.id);
+                                                value.editFSPAvilMilk(
+                                                    item.id, context);
+                                                callNext(
+                                                    context,
+                                                    AddFouzySpecials(
+                                                      fspavilfrom: "EDIT",
+                                                      fspaviloldid: item.id,
+                                                    ));
+                                              },
+                                              child: Container(
+                                                height: 45,
+                                                width: 90,
+                                                decoration: BoxDecoration(
+                                                    color: cgreen,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x26000000),
+                                                        blurRadius:
+                                                            2.0, // soften the shadow
+                                                        spreadRadius:
+                                                            1.0, //extend the shadow
+                                                      ),
+                                                    ]),
+                                                child: Center(
+                                                    child: Text("Edit",
+                                                        style: TextStyle(
+                                                            color: cWhite,
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700))),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.edit_outlined,
+                                    size: 30,
+                                    color: cgreen,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 2,
                             )
-                                : Icon(Icons.image),
-
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              FittedBox(
-                                  child: text(
-                                      item.name, FontWeight.w800, cgreen, 25)),
-                              FittedBox(
-                                  child: text("₹  " + item.price, FontWeight.w700,
-                                      cgreen, 20)),
-
-                            ],
-                          ),
-                        ),
-
-                        Column(
-                          children: [
-                            FittedBox(
-                                child: text(item.describtion, FontWeight.w400,
-                                    cgreen, 22)),
                           ],
                         ),
-
-                        SizedBox(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    content: Text("Do you want to DELETE ?",
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600,
-                                            color: cBlack)),
-                                    actions: <Widget>[
-                                      Center(
-                                        child: TextButton(
-                                          onPressed: () {
-                                            value.deleteSpAvilmilk(
-                                                item.id, context);
-
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Container(
-                                            height: 45,
-                                            width: 90,
-                                            decoration: BoxDecoration(
-                                                color: myRed,
-                                                borderRadius:
-                                                BorderRadius.circular(
-                                                    8),
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                    color:
-                                                    Color(0x26000000),
-                                                    blurRadius:
-                                                    2.0, // soften the shadow
-                                                    spreadRadius:
-                                                    1.0, //extend the shadow
-                                                  ),
-                                                ]),
-                                            child: Center(
-                                                child: Text("Delete",
-                                                    style: TextStyle(
-                                                        color: cWhite,
-                                                        fontSize: 17,
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .w700))),
-
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              child: Icon(
-                                Icons.delete_outline,
-                                size: 30,
-                                color: myRed,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 40,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    content: Text("Do you want to EDIT ?",
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600,
-                                            color: cBlack)),
-                                    actions: <Widget>[
-                                      Center(
-                                        child: TextButton(
-                                          onPressed: () {
-                                            print("dbjhbd" + item.id);
-                                            value.editFSPAvilMilk(
-                                                item.id, context);
-                                            callNext(
-                                                context,
-                                                AddFouzySpecials(
-                                                  fspavilfrom: "EDIT",
-                                                  fspaviloldid: item.id,
-                                                ));
-
-                                          },
-                                          child: Container(
-                                            height: 45,
-                                            width: 90,
-                                            decoration: BoxDecoration(
-                                                color: cgreen,
-                                                borderRadius:
-                                                BorderRadius.circular(
-                                                    8),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color:
-                                                    Color(0x26000000),
-                                                    blurRadius:
-                                                    2.0, // soften the shadow
-                                                    spreadRadius:
-                                                    1.0, //extend the shadow
-                                                  ),
-                                                ]),
-                                            child: Center(
-                                                child: Text("Edit",
-                                                    style: TextStyle(
-                                                        color: cWhite,
-                                                        fontSize: 17,
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .w700))),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              child: Icon(
-                                Icons.edit_outlined,
-                                size: 30,
-                                color: cgreen,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                          ],
-
-                        ),
-                        SizedBox(
-                          height: 2,
-                        )
-                      ],
-                    ),
-                  );
-                });
+                      );
+                    });
           }),
         ),
       ),
