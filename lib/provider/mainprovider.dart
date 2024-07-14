@@ -1355,11 +1355,14 @@ TextEditingController dessertsNameCT = TextEditingController();
     map["ITEMS_CATEGORY"]=itemname;
     db.collection("CART").doc(id).set(map,SetOptions(merge: true));
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Center(
-          child: Text("Added to cart",
-              style: TextStyle(
-                  color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Center(
+               child: Text("Added to cart",
+               style: TextStyle(
+                  color: cWhite, fontSize: 15, fontWeight: FontWeight.bold)
+               )
+           ),
       backgroundColor: cgreen,
       elevation: 10,
       behavior: SnackBarBehavior.floating,
