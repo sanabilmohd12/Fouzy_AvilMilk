@@ -49,6 +49,7 @@ class AddIceCreamTypesScreen extends StatelessWidget {
                 if (form!.validate()) {
 
                 if(iceitemfrom=="NEW"){
+                  print('ahgshdjk');
                   value.icecreamitem(icecategory,icecategoryid,maincategoryid,iceitemfrom,"",context);
 
                 }else{

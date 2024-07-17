@@ -49,6 +49,7 @@ dependencies:
   screenshot: ^3.0.0
   syncfusion_flutter_datepicker: ^24.2.6
   lottie: ^3.1.2
+  shimmer: ^3.0.0
 
 
 

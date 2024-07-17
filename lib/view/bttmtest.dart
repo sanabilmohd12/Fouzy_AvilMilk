@@ -114,6 +114,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                               size: 30,
                             ),
                             onPressed: () {
+                              provider.getCartItems();
                               setBottomBarIndex(1);
                             },
                           ),

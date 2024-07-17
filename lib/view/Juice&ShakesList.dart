@@ -25,44 +25,19 @@ class Juice_ShakesListScreen extends StatelessWidget {
     final int index1;
     return Scaffold(
         backgroundColor: cYellow,
-        floatingActionButton:
-            Consumer<Mainprovider>(builder: (context, value, child) {
-          bool isAnySelected = false;
-          for (int i = 0; i < value.avilmilklist.length; i++) {
-            if (value.getCheckboxValue(i) == true) {
-              isAnySelected = true;
-              break;
-            }
-          }
-          return isAnySelected
-              ? FloatingActionButton.extended(
-                  backgroundColor: Colors.yellow,
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      backgroundColor: cWhite,
-                      content: Text("Added to cart",
-                          style: TextStyle(
-                            color: cgreen,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w800,
-                          )),
-                      duration: Duration(milliseconds: 3000),
-                    ));
-                  },
-                  label: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      'Add To Cart',
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                  icon: Icon(Icons.shopping_cart, color: cgreen),
-                )
-              : SizedBox();
-        }),
+        // floatingActionButton:
+        //     Consumer<Mainprovider>(builder: (context, value, child) {
+        //   bool isAnySelected = false;
+        //   for (int i = 0; i < value.avilmilklist.length; i++) {
+        //     if (value.getCheckboxValue(i) == true) {
+        //       isAnySelected = true;
+        //       break;
+        //     }
+        //   }
+        //   return isAnySelected
+        //       ?Container(height: 100,width: 500,color: Colors.red,)
+        //       : SizedBox();
+        // }),
         appBar: AppBar(
           title: const Text(
             "FOUZY JUICE & SHAKES",
@@ -121,14 +96,14 @@ class Juice_ShakesListScreen extends StatelessWidget {
                           var item = value.Juiceshakesalllist[index];
                           return GestureDetector(
                             onTap: () {
-                              // value.AddCartdetails();
-                              // value.setCheckboxValue(
-                              //     index, !value.getCheckboxValue(index));
+                              value.AddCartdetails(item.name,item.id,item.price,item.categoryname,"",context);
+                              value.setCheckboxValue(index, !value.getCheckboxValue(index));
                             },
                             child: Container(
                               margin: const EdgeInsets.symmetric(
                                   horizontal: 5, vertical: 5),
                               width: width,
+                              height: height * .12,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 color: cYellow,
@@ -136,42 +111,39 @@ class Juice_ShakesListScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  // Container(
-                                  //   width: width,
-                                  //   height: 250,
-                                  //   decoration: BoxDecoration(
-                                  //       color: Colors.transparent,
-                                  //       image: DecorationImage(
-                                  //           image: item.avilphoto != ""
-                                  //               ? NetworkImage(
-                                  //             item.avilphoto,
-                                  //           )
-                                  //               : AssetImage(""))),
-                                  //   child: Consumer<Mainprovider>(
-                                  //       builder: (context, value, child) {
-                                  //         return Align(
-                                  //             alignment: Alignment.topRight,
-                                  //             child: Transform.scale(
-                                  //               scale: 1.5,
-                                  //               child: Checkbox(
-                                  //                 shape: CircleBorder(),
-                                  //                 value:
-                                  //                 value.getCheckboxValue(
-                                  //                     index),
-                                  //                 onChanged:
-                                  //                     (bool? newValue) {
-                                  //                   value.setCheckboxValue(
-                                  //                       index,
-                                  //                       newValue ?? false);
-                                  //                 },
-                                  //                 checkColor: Colors.green,
-                                  //                 fillColor:
-                                  //                 WidgetStatePropertyAll(
-                                  //                     Colors.white),
-                                  //               ),
-                                  //             ));
-                                  //       }),
-                                  // ),
+                                  Container(
+
+                                    // decoration: BoxDecoration(
+                                    //     color: Colors.transparent,
+                                    //     image: DecorationImage(
+                                    //         image: item.avilphoto != ""
+                                    //             ? NetworkImage(
+                                    //           item.avilphoto,
+                                    //         )
+                                    //             : AssetImage(""))),
+                                    child: Consumer<Mainprovider>(
+                                        builder: (context, value, child) {
+                                          return Align(
+                                              alignment: Alignment.topRight,
+                                              child: Transform.scale(
+                                                scale: 1.5,
+                                                child: Checkbox(
+                                                  shape: CircleBorder(),
+                                                  value:
+                                                  value.getCheckboxValue(index),
+                                                  onChanged: (bool? newValue) {
+                                                    value.AddCartdetails(item.name,item.id,item.price,item.categoryname,"",context);
+                                                    value.setCheckboxValue(index, newValue ?? false);
+
+                                                    },
+                                                  checkColor: Colors.green,
+                                                  fillColor:
+                                                  WidgetStatePropertyAll(
+                                                      Colors.white),
+                                                ),
+                                              ));
+                                        }),
+                                  ),
 
                                   FittedBox(
                                       child: text(item.name, FontWeight.w800,

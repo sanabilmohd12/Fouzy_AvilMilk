@@ -102,13 +102,13 @@ class IceCreamTypesListScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            FittedBox(child: text(items.icecreamfalovour, FontWeight.w800, cgreen, 20)),
+                            // FittedBox(child: text(items.icecreamfalovour, FontWeight.w800, cgreen, 20)),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 FittedBox(child: text("Single  ", FontWeight.w700, cgreen, 20)),
 
-                                FittedBox(child: text("₹"+items.singleprice, FontWeight.w500, cYellow, 20)),
+                                // FittedBox(child: text("₹"+items.singleprice, FontWeight.w500, cYellow, 20)),
                               ],
                             ),
                             Row(
@@ -117,7 +117,7 @@ class IceCreamTypesListScreen extends StatelessWidget {
                               children: [
                                 FittedBox(child: text("Double  ", FontWeight.w700, cgreen, 20)),
 
-                                FittedBox(child: text("₹"+items.doubleprice, FontWeight.w500, cYellow, 20)),
+                                // FittedBox(child: text("₹"+items.doubleprice, FontWeight.w500, cYellow, 20)),
                               ],
                             ),
 

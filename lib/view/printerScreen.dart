@@ -138,6 +138,7 @@ class Printerscreen extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+
                                     // Text(
                                     //   "Spark of Modesty",
                                     //   style: TextStyle(
@@ -145,6 +146,7 @@ class Printerscreen extends StatelessWidget {
                                     //       fontSize: textSize16,
                                     //       fontFamily: fontRegular),
                                     // ),
+
                                     Text(
                                      " customerRecentShipmentList.pickupaddress",
                                       style: TextStyle(
@@ -179,6 +181,9 @@ class Printerscreen extends StatelessWidget {
                       ),
                     ),
                   )),
+
+
+
               Screenshot(
                 controller: screenshotController,
                 child: Container(
@@ -477,11 +482,7 @@ class Printerscreen extends StatelessWidget {
                               color: Colors.grey),
                         ),
                         SizedBox(width: width / 80),
-                        const Image(
-                          image: AssetImage(
-                              "assets/images/PITONSOFT TEXTGO-23 1 (1).png"),
-                          height: 15,
-                        )
+
                       ],
                     ),
                     const SizedBox(height: 8),
