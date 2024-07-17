@@ -130,10 +130,16 @@ class FouzyMultiple extends StatelessWidget {
                                   var item = value.fspavilmilklist[index];
                                   return GestureDetector(
                                     onTap: () {
-                                      value.AddCartdetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+                                      value.AddCartDetails(
+                                          item.name,
+                                          item.id,
+                                          item.price,
+                                          item.maincatrgoryname,
+                                          item.avilphoto,
+                                          context);
 
-                                      value.setCheckboxValue(index, !value.getCheckboxValue(index));
-
+                                      value.setCheckboxValue(index,
+                                          !value.getCheckboxValue(index));
                                     },
                                     child: Container(
                                       margin: EdgeInsets.symmetric(
@@ -173,9 +179,15 @@ class FouzyMultiple extends StatelessWidget {
                                                               index),
                                                       onChanged:
                                                           (bool? newValue) {
-                                                            value.AddCartdetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+                                                        value.AddCartDetails(
+                                                            item.name,
+                                                            item.id,
+                                                            item.price,
+                                                            item.maincatrgoryname,
+                                                            item.avilphoto,
+                                                            context);
 
-                                                            value.setCheckboxValue(
+                                                        value.setCheckboxValue(
                                                             index,
                                                             newValue ?? false);
                                                       },

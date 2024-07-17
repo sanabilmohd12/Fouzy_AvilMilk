@@ -19,34 +19,159 @@ class Cart_Screen extends StatelessWidget {
     return Scaffold(
       floatingActionButtonLocation:
           FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 150),
-        child: SizedBox(
-          height: 65,
-          width: width / 1.1,
-          child: Consumer<Mainprovider>(builder: (context, value, child) {
-            return value.loader
-                ? CircularProgressIndicator(
-                    color: cgreen,
-                  )
-                : FloatingActionButton(
-                    onPressed: () {
-                      callNext(context, Printerscreen());
-                    },
-                    elevation: 0,
-                    backgroundColor:cgreen,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(42),
-                    ),
-                    child: text(
-                      "Save",
-                      FontWeight.w700,
-                      cWhite,
-                      18,
-                    ),
-                  );
-          }),
-        ),
+      floatingActionButton: Consumer<Mainprovider>(builder: (context, value, child) {
+          return  value.cartitemslist.isNotEmpty?Padding(
+            padding: const EdgeInsets.only(bottom: 150),
+            child: SizedBox(
+              height: 65,
+              width: width / 1.1,
+              child: Consumer<Mainprovider>(builder: (context, value, child) {
+                return value.loader
+                    ? CircularProgressIndicator(
+                        color: cgreen,
+                      )
+                    : FloatingActionButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  surfaceTintColor: cYellow,
+                                  title: const Center(
+                                    child: Text(
+                                      "Add details",
+                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  content: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const SizedBox(height: 20),
+
+
+
+                                          Text("dateandtime"),
+
+                                          const SizedBox(height: 10),
+                                          Text("no.of items "),
+                                          const SizedBox(height: 10),
+
+                                          TextFormField(
+                                            keyboardType: TextInputType.number,
+                                            // controller: deliveryBoyDeliveryChargeCT,
+                                            decoration: InputDecoration(
+                                              fillColor: Colors.transparent,
+                                              labelText: 'Name',
+                                              isDense: true,
+                                              labelStyle: const TextStyle(
+                                                // fontFamily: fontRegular,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(22),
+                                                borderSide: const BorderSide(color: clblack),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(22),
+                                                borderSide: const BorderSide(color: clblack),
+                                              ),
+                                            ),
+                                            validator: (value) {
+                                              // if (value == null || value.isEmpty) {
+                                              //   return 'Please enter delivery charge';
+                                              // }
+                                              // return null;
+                                            },
+                                            style: const TextStyle(color: clblack),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          // customer remark
+                                          TextFormField(
+                                            keyboardType: TextInputType.name,
+                                            // controller: customerremarksCT,
+                                            decoration: InputDecoration(
+                                              fillColor: Colors.transparent,
+                                              labelText: 'Desk',
+                                              isDense: true,
+                                              labelStyle: const TextStyle(
+                                                // fontFamily: fontRegular,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(22),
+                                                borderSide: const BorderSide(color: clblack),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(22),
+                                                borderSide: const BorderSide(color: clblack),
+                                              ),
+                                            ),
+
+                                            style: const TextStyle(color: clblack),
+                                          ),
+
+                                          const SizedBox(height: 10),
+
+                                          // checkbox
+
+
+                                        ],
+                                      )),
+                                  actions: [
+                                    //Submit
+                                    Consumer<Mainprovider>(builder: (context, adminProVal, child) {
+                                      return InkWell(
+                                        onTap: () async {
+                                          callNext(context, Printerscreen());
+
+                                        },
+                                        child: Container(
+                                          // width: width,
+                                          height: 50,
+                                          alignment: Alignment.center,
+                                          decoration: ShapeDecoration(
+                                          color: cgreen,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(70),
+                                            ),
+                                          ),
+                                          child: const Text(
+                                            'Submit',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    })
+                                  ],
+                                );
+                              });
+                        },
+                        elevation: 0,
+                        backgroundColor:cgreen,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(42),
+                        ),
+                        child: text(
+                          "Save",
+                          FontWeight.w700,
+                          cWhite,
+                          18,
+                        ),
+                      );
+              }),
+            ),
+          ):SizedBox();
+        }
       ),
       backgroundColor: cYellow,
       appBar: AppBar(
@@ -76,144 +201,157 @@ class Cart_Screen extends StatelessWidget {
             ),
           ),
         ),
-        child: Consumer<Mainprovider>(builder: (context, value, child) {
-          return
-            // value.getcart
-            //   ? Center(
-            //       child: CircularProgressIndicator(
-            //       color: cgreen,
-            //     ))
-            //   :
-            value.cartitemslist.isNotEmpty?GridView.builder(
-                  itemCount: value.cartitemslist.length,
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 15,
-                      crossAxisCount: 2,
-                      childAspectRatio: 1.0),
-                  itemBuilder: (context, index) {
-                    var items = value.cartitemslist[index];
-                    return Container(
-                      // margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      width: width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Color(0xffFFF89A),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          items.itemphoto==""?
-                          Container(
-                            width: width,
-                            height: 250,
+        child: Column(
+          children: [
+            Consumer<Mainprovider>(builder: (context, value, child) {
+              return
+                // value.getcart
+                //   ? Center(
+                //       child: CircularProgressIndicator(
+                //       color: cgreen,
+                //     ))
+                //   :
+                value.cartitemslist.isNotEmpty?GridView.builder(
+                      itemCount: value.cartitemslist.length,
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 15,
+                          crossAxisCount: 2,
+                          childAspectRatio: 1.0),
+                      itemBuilder: (context, index) {
 
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              image: DecorationImage(
-                                image: AssetImage("assets/Sundae (1).png"),
-                              ),
-                            ),
-                            child: Align(alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: InkWell(onTap: () {
-                                    value.delefromtecart(items.cartid,context);
+                         var items = value.cartitemslist[index];
+                         // var itemcountprice= items.itemprice+int.parse(value.count.toString();
+                        return Container(
+                          // margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Color(0xffFFF89A),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              items.itemphoto==""?
+                              Container(
+                                width: width,
+                                height: 250,
 
-                                  },
-                                      child: Icon(Icons.delete,size: 35,)),
-                                )),
-                          ): Container(
-                            width: width,
-                            height: 250,
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              image: DecorationImage(
-                                image: NetworkImage(items.itemphoto),
-                              ),
-                            ),
-                            child: Align(alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: InkWell(onTap: () {
-                                    value.delefromtecart(items.cartid,context);
-                                  },
-                                      child: Icon(Icons.delete,size: 35,)),
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                FittedBox(
-                                  child: text(
-                                      items.itemname, FontWeight.w800, cgreen,  items. itemname.length>=15?20:25),
-                                ),
-                                text(
-                                    "₹  "+ items.itemprice, FontWeight.w700, cgreen, 25),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: height / 55,
-                          ),
-                          Container(
-                              height: height / 19,
-                              width: width,
-                              color: Color(0xfff9ea1f),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 15.0),
-                                child: ListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          bottom: Radius.circular(10))),
-                                  tileColor: Color(0xfff9ea1f),
-                                  leading: IconButton(
-                                      onPressed: () {
-                                        value.additems();
-                                      },
-                                      icon: const Icon(
-                                        CustomIcons.minus_circle,
-                                        color: Colors.red,
-                                      )),
-                                  title: Center(
-                                    child: text(
-                                        value.count.toString(), FontWeight.w400, cgreen, 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  image: DecorationImage(
+                                    image: AssetImage("assets/Sundae (1).png"),
                                   ),
-                                  trailing: IconButton(
-                                      onPressed: () {
-                                                   value.minusitems();
-                                      },
-                                      icon: Icon(
-                                        CustomIcons.plus_circle,
-                                        color: cgreen,
-                                      )),
                                 ),
-                              )
+                                child: Align(alignment: Alignment.topRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: InkWell(onTap: () {
+                                        value.delefromtecart(items.cartid,context);
 
-                              // Row(
-                              //   children: [
-                              //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.minus_circle,color: Colors.red,)),
-                              //     FittedBox(
-                              //         child: text(
-                              //             "000",
-                              //             FontWeight.w400,
-                              //             cgreen,
-                              //             30)),
-                              //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.plus_circle,color: cgreen,))
-                              //   ],
-                              // ),
+                                      },
+                                          child: Icon(Icons.delete,size: 35,)),
+                                    )),
+                              ): Container(
+                                width: width,
+                                height: 250,
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  image: DecorationImage(
+                                    image: NetworkImage(items.itemphoto),
+                                  ),
+                                ),
+                                child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: InkWell(onTap: () {
+                                        value.delefromtecart(items.cartid,context);
+                                      },
+                                          child: Icon(Icons.delete,size: 35,)),
+                                    )),
                               ),
-                        ],
-                      ),
-                    );
-                  },
-                ):Center(child: Text("order something"));
-        }),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    FittedBox(
+                                      child: text(
+                                          items.itemname, FontWeight.w800, cgreen,  items. itemname.length>=15?20:25),
+                                    ),
+                                    // itemcountprice==0?
+                                    // text(
+                                    //     "₹  "+ items.itemprice, FontWeight.w700, cgreen, 25):text(
+                                    //     "₹  "+itemcountprice, FontWeight.w700, cgreen, 25),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: height / 55,
+                              ),
+                              Container(
+                                  height: height / 19,
+                                  width: width,
+                                  color: Color(0xfff9ea1f),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 15.0),
+                                    child: ListTile(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.vertical(
+                                              bottom: Radius.circular(10))),
+                                      tileColor: Color(0xfff9ea1f),
+                                      leading: IconButton(
+                                          onPressed: () {
+                                            value.additems();
+                                          },
+                                          icon: const Icon(
+                                            CustomIcons.minus_circle,
+                                            color: Colors.red,
+                                          )),
+                                      title: Center(
+                                        child: text(
+                                            value.count.toString(), FontWeight.w400, cgreen, 20),
+                                      ),
+                                      trailing: IconButton(
+                                          onPressed: () {
+                                                       value.minusitems();
+                                          },
+                                          icon: Icon(
+                                            CustomIcons.plus_circle,
+                                            color: cgreen,
+                                          )),
+                                    ),
+                                  )
+
+                                  // Row(
+                                  //   children: [
+                                  //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.minus_circle,color: Colors.red,)),
+                                  //     FittedBox(
+                                  //         child: text(
+                                  //             "000",
+                                  //             FontWeight.w400,
+                                  //             cgreen,
+                                  //             30)),
+                                  //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.plus_circle,color: cgreen,))
+                                  //   ],
+                                  // ),
+                                  ),
+                            ],
+                          ),
+                        );
+                      },
+                    ):Center(child: Text("order something"));
+
+
+
+
+            }),
+          ],
+        ),
       ),
     );
   }

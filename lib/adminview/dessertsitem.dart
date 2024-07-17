@@ -130,7 +130,7 @@ class DeseertsItemScreen extends StatelessWidget {
                                                   Center(
                                                     child: TextButton(
                                                       onPressed: () {
-                                                        value.deletedessert(items.id,context);
+                                                        value.deleteDessert(items.id,context);
                                                         Navigator.of(context).pop();
                                                       },
                                                       child: Container(
@@ -181,7 +181,7 @@ class DeseertsItemScreen extends StatelessWidget {
                                                 child: TextButton(
                                                   onPressed: () {
                                                     print("hgfds0"+items.id);
-                                                    value.editdessertlist(items.id, context);
+                                                    value.editDessertList(items.id, context);
                                                     callNext(context, adddessertsScreen(dessertsfrom: "EDIT", dessertsoldid: items.id,
                                                       icecategory: icecategory, icecategoryid: icecategoryid, maincategoryid: maincategoryid,));
 
