@@ -58,7 +58,7 @@ class _HomescreenState extends State<Home_screen> {
               return value.getloader
                   ? Center(
                 child: Lottie.asset(
-                  'assets/Animation - 1720805331209.json',
+                  'assets/bananalottie.json',
                   width: 200,
                   height: 200,
                   fit: BoxFit.fill,
