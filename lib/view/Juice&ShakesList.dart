@@ -95,72 +95,75 @@ class Juice_ShakesListScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           var item = value.Juiceshakesalllist[index];
                           return GestureDetector(
-                            onTap: () {
-                              value.AddCartdetails(item.name,item.id,item.price,item.categoryname,"",context);
-                              value.setCheckboxValue(index, !value.getCheckboxValue(index));
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 5),
-                              width: width,
-                              height: height * .12,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: cYellow,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
+                              onTap: () {
+                                value.AddCartDetails(item.name, item.id,
+                                    item.price, item.categoryname, "", context);
+                                value.setCheckboxValue(
+                                    index, !value.getCheckboxValue(index));
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 5),
+                                width: width,
+                                height: height * .12,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: cYellow,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      // decoration: BoxDecoration(
+                                      //     color: Colors.transparent,
+                                      //     image: DecorationImage(
+                                      //         image: item.avilphoto != ""
+                                      //             ? NetworkImage(
+                                      //           item.avilphoto,
+                                      //         )
+                                      //             : AssetImage(""))),
 
-                                    // decoration: BoxDecoration(
-                                    //     color: Colors.transparent,
-                                    //     image: DecorationImage(
-                                    //         image: item.avilphoto != ""
-                                    //             ? NetworkImage(
-                                    //           item.avilphoto,
-                                    //         )
-                                    //             : AssetImage(""))),
-                                    child: Consumer<Mainprovider>(
-                                        builder: (context, value, child) {
-                                          return Align(
-                                              alignment: Alignment.topRight,
-                                              child: Transform.scale(
-                                                scale: 1.5,
-                                                child: Checkbox(
-                                                  shape: CircleBorder(),
-                                                  value:
-                                                  value.getCheckboxValue(index),
-                                                  onChanged: (bool? newValue) {
-                                                    value.AddCartdetails(item.name,item.id,item.price,item.categoryname,"",context);
-                                                    value.setCheckboxValue(index, newValue ?? false);
-
-                                                    },
-                                                  checkColor: Colors.green,
-                                                  fillColor:
-                                                  WidgetStatePropertyAll(
-                                                      Colors.white),
-                                                ),
-                                              ));
-                                        }),
-                                  ),
-
-                                  FittedBox(
-                                      child: text(item.name, FontWeight.w800,
-                                          cgreen, 25)),
-                                  FittedBox(
-                                      child: text("₹" + item.price,
-                                          FontWeight.w800, cgreen, 25)),
-
-                                  SizedBox(),
-                                ],
-                              ),
-                            ),
-                          );
+                                      child: Consumer<Mainprovider>(
+                                          builder: (context, value, child) {
+                                        return Align(
+                                            alignment: Alignment.topRight,
+                                            child: Transform.scale(
+                                              scale: 1.5,
+                                              child: Checkbox(
+                                                shape: CircleBorder(),
+                                                value: value
+                                                    .getCheckboxValue(index),
+                                                onChanged: (bool? newValue) {
+                                                  value.AddCartDetails(
+                                                      item.name,
+                                                      item.id,
+                                                      item.price,
+                                                      item.categoryname,
+                                                      "",
+                                                      context);
+                                                  value.setCheckboxValue(
+                                                      index, newValue ?? false);
+                                                },
+                                                checkColor: Colors.green,
+                                                fillColor:
+                                                    WidgetStatePropertyAll(
+                                                        Colors.white),
+                                              ),
+                                            ));
+                                      }),
+                                    ),
+                                    FittedBox(
+                                        child: text(item.name, FontWeight.w800,
+                                            cgreen, 25)),
+                                    FittedBox(
+                                        child: text("₹" + item.price,
+                                            FontWeight.w800, cgreen, 25)),
+                                    SizedBox(),
+                                  ],
+                                ),
+                              ));
                         },
                       );
-
-                      //
                     }),
                   );
           }),

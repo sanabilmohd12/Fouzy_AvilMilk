@@ -30,157 +30,7 @@ class Printerscreen extends StatelessWidget {
         body:  SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                  color: Colors.white,
-                  height: height / 2.8,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey, borderRadius: BorderRadius.circular(30)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "Tracking ID",
-                                  style: TextStyle(
-                                      fontSize: 125,
-                                      color: Colors.cyan,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: Text(
-                                    "outputDayNode3.format(customerRecentShipmentList.date)",
-                                    // style: const TextStyle(
-                                    //     fontFamily: fontRegular,
-                                    //     fontSize: textSize14,
-                                    //     color: fontgrey2,
-                                    //     fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 5),
-                                        height: 20,
-                                        width: 20,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(3.5),
-                                          child: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration:  BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: cWhite,
-                                            ),
-                                          ),
-                                        ),
-                                        decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            gradient: LinearGradient(colors: [
-                                              clblack
-                                            ])),
-                                      ),
-                                      // SizedBox(
-                                      //   height: 65,
-                                      //   child: CustomPaint(
-                                      //     painter: GradientDashPainter(
-                                      //       direction: Axis.vertical,
-                                      //       length: 77,
-                                      //       dashLength: 6,
-                                      //       dashGradient: const LinearGradient(
-                                      //         colors: [
-                                      //           primarygrad1,
-                                      //           primarycgrad2
-                                      //         ], // Gradient colors
-                                      //         begin: Alignment.topCenter,
-                                      //         end: Alignment.bottomCenter,
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      ShaderMask(
-                                        shaderCallback: (Rect bounds) {
-                                          return const LinearGradient(
-                                            colors: [
-                                              Colors.white70
-                                            ], // Gradient colors
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight,
-                                          ).createShader(bounds);
-                                        },
-                                        child: const Icon(
-                                          Icons.location_on_outlined,
-                                          size: 26,
-                                          color: Colors
-                                              .white, // Set the color to white or any color you prefer
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-
-                                    // Text(
-                                    //   "Spark of Modesty",
-                                    //   style: TextStyle(
-                                    //       fontWeight: FontWeight.w400,
-                                    //       fontSize: textSize16,
-                                    //       fontFamily: fontRegular),
-                                    // ),
-
-                                    Text(
-                                     " customerRecentShipmentList.pickupaddress",
-                                      style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey),
-                                    ),
-                                    // Text(
-                                    //   "Abu dhabi | 500 | Apartment Name | 676765",
-                                    //   style: TextStyle(
-                                    //       fontFamily: fontRegular,
-                                    //       fontSize: 11,
-                                    //       fontWeight: FontWeight.w400,
-                                    //       color: fontgrey2),
-                                    // ),
-                                    // Text("(265)523565 , (265)125625",
-                                    //     style: TextStyle(
-                                    //         fontFamily: fontRegular,
-                                    //         fontSize: 11,
-                                    //         fontWeight: FontWeight.w400,
-                                    //         color: fontgrey2)),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )),
+              SizedBox(height: 15,),
 
 
 
@@ -224,27 +74,30 @@ class Printerscreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 11),
-                      Text("dcdcd",
-                        style:  TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: cBlue,
-                            fontSize: 19),
+                      Text(
+                        'FOUZY AVIL MILK',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xff119246),
+                        ),
                       ),
+                      Image.asset('assets/fouzylogo.png',scale: 15,),
+
                       const Padding(
                         padding: EdgeInsets.only(right: 50),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Bill to"
-                              ,
+                              "Receipt No:",
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.grey),
                             ),
                             Text(
-                              "Muhammed Al Wariz P...",
+                              "Name :",
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
@@ -440,62 +293,7 @@ class Printerscreen extends StatelessWidget {
                 ),
               ),
 
-              const Padding(
-                padding: EdgeInsets.only(right: 55),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Terms & Conditions",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey),
-                    ),
-                    Text(
-                      "The invoice generated for courier charge only.\nAny Kind of product related Invoice will be different.",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 21),
-              Container(
-                height: 75,
-                width: width / 1.1,
-                decoration: BoxDecoration(
-                    color: cBlue, borderRadius: BorderRadius.circular(7)),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 11),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Powered by",
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey),
-                        ),
-                        SizedBox(width: width / 80),
 
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      "     The invoice generated for courier charge only.\nAny Kind of product related Invoice will be different.",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),

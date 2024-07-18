@@ -27,12 +27,10 @@ class Mainprovider extends ChangeNotifier {
   int _selectedindex = 0;
   int get selectedindex => _selectedindex;
 
-  void selectindex (int index){
+  void selectindex(int index) {
     _selectedindex = index;
     notifyListeners();
   }
-
-
 
   /// Count
 
@@ -87,7 +85,6 @@ class Mainprovider extends ChangeNotifier {
   TextEditingController priceCt = TextEditingController();
   /// maincategory
 
-
   TextEditingController addCategorynameCt = TextEditingController();
 
   bool loader = false;
@@ -95,10 +92,7 @@ class Mainprovider extends ChangeNotifier {
   void addMainCategory(BuildContext context, String from, String oldId) {
     loader = true;
     notifyListeners();
-    String id = DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString();
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
     Map<String, dynamic> map = HashMap();
     map["MAIN_CATEGORY_NAME"] = addCategorynameCt.text;
 
@@ -192,10 +186,7 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   ///FouzySp
-
 
   TextEditingController fspNameCt = TextEditingController();
   TextEditingController fspPriceCt = TextEditingController();
@@ -208,38 +199,32 @@ class Mainprovider extends ChangeNotifier {
   File? fspAvilmilkFileImg = null;
   String fspAvilmilkImg = '';
 
-  Future<void> addfspAvilMilk(BuildContext context1 , String from, String oldId) async {
+  Future<void> addfspAvilMilk(
+      BuildContext context1, String from, String oldId) async {
     print('zkxhckzxckjzj');
 
     fsploader = true;
     notifyListeners();
 
     print("dcdcfdc");
-    String id = DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString();
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
     HashMap<String, dynamic> map = HashMap();
 
-    map["FOUZY_SPECIALS"] =
-    fspNameCt.text.isNotEmpty ? fspNameCt.text : null;
+    map["FOUZY_SPECIALS"] = fspNameCt.text.isNotEmpty ? fspNameCt.text : null;
     map["FSP_AVIL_MILK_PRICE"] =
-    fspPriceCt.text.isNotEmpty ? fspPriceCt.text : null;
+        fspPriceCt.text.isNotEmpty ? fspPriceCt.text : null;
     map["FSP_DISCRETION"] =
-    fspDescriptionCt.text.isNotEmpty ? fspDescriptionCt.text : null;
+        fspDescriptionCt.text.isNotEmpty ? fspDescriptionCt.text : null;
     map["FSP_AVILMILK_CATEGORY"] =
-    fspCategoryCt.text.isNotEmpty ? fspCategoryCt.text : null;
+        fspCategoryCt.text.isNotEmpty ? fspCategoryCt.text : null;
     map["MAIN_CATEGORY"] =
-    spmaincategorynameCt.text.isNotEmpty ? spmaincategorynameCt.text : null;
-    map["MAIN_CATEGORY_ID"] =fspmainCategorySelectedId;
+        spmaincategorynameCt.text.isNotEmpty ? spmaincategorynameCt.text : null;
+    map["MAIN_CATEGORY_ID"] = fspmainCategorySelectedId;
     map["ADDED_TIME"] = DateTime.now();
     map["COUNT"] = "";
 
     if (fspAvilmilkFileImg != null) {
-      String photoId = DateTime
-          .now()
-          .millisecondsSinceEpoch
-          .toString();
+      String photoId = DateTime.now().millisecondsSinceEpoch.toString();
       ref = FirebaseStorage.instance.ref().child(photoId);
       await ref.putFile(fspAvilmilkFileImg!).whenComplete(() async {
         await ref.getDownloadURL().then((value) {
@@ -269,8 +254,7 @@ class Mainprovider extends ChangeNotifier {
       //       )),
       //   duration: Duration(milliseconds: 3000),
       // ));
-    }
-    else {
+    } else {
       print('jhsadjkasd');
       db.collection("FSPAVIL_MILK").doc(id).set(map);
         // ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
@@ -290,7 +274,6 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void setImages(File image) {
     fspAvilmilkFileImg = image;
     notifyListeners();
@@ -299,7 +282,7 @@ class Mainprovider extends ChangeNotifier {
   Future getImggalleryf() async {
     final imagePicker = ImagePicker();
     final pickedImage =
-    await imagePicker.pickImage(source: ImageSource.gallery);
+        await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       setImages(File(pickedImage.path));
@@ -322,7 +305,7 @@ class Mainprovider extends ChangeNotifier {
   List<Fouzysp> fspavilmilklist = [];
 
   Future<void> getfsptypes() async {
-      print("asdfghjkl");
+    print("asdfghjkl");
     try {
       getavilloader = true;
       notifyListeners();
@@ -418,14 +401,13 @@ class Mainprovider extends ChangeNotifier {
         fspCategoryCt.text = dataMaps["FSP_AVILMILK_CATEGORY"].toString();
         spmaincategorynameCt.text = dataMaps["MAIN_CATEGORY"].toString();
         fspAvilmilkImg = dataMaps["FSpAVILMILK_PHOTO"].toString();
-
-
       }
       notifyListeners();
     });
 
     notifyListeners();
   }
+
   /// Avilmilks
 
   TextEditingController avilMilkNameCt = TextEditingController();
@@ -435,9 +417,6 @@ class Mainprovider extends ChangeNotifier {
   TextEditingController maincategorynameCt = TextEditingController();
   // TextEditingController priceCt = TextEditingController();
 
-
-
-
   String mainCategorySelectedId = '';
 
   bool avilloader = false;
@@ -445,37 +424,32 @@ class Mainprovider extends ChangeNotifier {
 
   String avilmilkimg = '';
 
-
-  Future<void> addAvilMilkItems(BuildContext context1 , String from, String oldId) async {
+  Future<void> addAvilMilkItems(
+      BuildContext context1, String from, String oldId) async {
     avilloader = true;
     notifyListeners();
-    String id = DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString();
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
     HashMap<String, dynamic> map = HashMap();
 
     map["AVIL_MILK_NAME"] =
-    avilMilkNameCt.text.isNotEmpty ? avilMilkNameCt.text : null;
+        avilMilkNameCt.text.isNotEmpty ? avilMilkNameCt.text : null;
     map["AVIL_MILK_PRICE"] =
-    avilMilkPriceCt.text.isNotEmpty ? avilMilkPriceCt.text : null;
-    map["DISCRETION"] =
-    avilMilkDescribtionCt.text.isNotEmpty ? avilMilkDescribtionCt.text : null;
+        avilMilkPriceCt.text.isNotEmpty ? avilMilkPriceCt.text : null;
+    map["DISCRETION"] = avilMilkDescribtionCt.text.isNotEmpty
+        ? avilMilkDescribtionCt.text
+        : null;
     map["AVILMILK_CATEGORY"] =
-    avilMilkCategoryCt.text.isNotEmpty ? avilMilkCategoryCt.text : null;
+        avilMilkCategoryCt.text.isNotEmpty ? avilMilkCategoryCt.text : null;
     map["MAIN_CATEGORY"] =
-    maincategorynameCt.text.isNotEmpty ? maincategorynameCt.text : null;
+        maincategorynameCt.text.isNotEmpty ? maincategorynameCt.text : null;
     map["MAIN_CATEGORY_ID"] =
-    mainCategorySelectedId.isNotEmpty ? mainCategorySelectedId : null;
+        mainCategorySelectedId.isNotEmpty ? mainCategorySelectedId : null;
     map["ADDED_TIME"] = DateTime.now();
     map["COUNT"] = "";
 
 
     if (AvilmilkFileImg != null) {
-      String photoId = DateTime
-          .now()
-          .millisecondsSinceEpoch
-          .toString();
+      String photoId = DateTime.now().millisecondsSinceEpoch.toString();
       ref = FirebaseStorage.instance.ref().child(photoId);
       await ref.putFile(AvilmilkFileImg!).whenComplete(() async {
         await ref.getDownloadURL().then((value) {
@@ -532,7 +506,7 @@ class Mainprovider extends ChangeNotifier {
   Future getImggallery() async {
     final imagePicker = ImagePicker();
     final pickedImage =
-    await imagePicker.pickImage(source: ImageSource.gallery);
+        await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       setImage(File(pickedImage.path));
@@ -593,21 +567,19 @@ class Mainprovider extends ChangeNotifier {
   // }
 
   void avilmilkclear() {
-      avilMilkNameCt.clear();
+    avilMilkNameCt.clear();
     avilMilkPriceCt.clear();
     avilMilkDescribtionCt.clear();
     avilMilkCategoryCt.clear();
     mainCategorylist.clear();
     avilmilkimg = '';
     AvilmilkFileImg = null;
-      fspNameCt.clear();
-      fspPriceCt.clear();
-      fspDescriptionCt.clear();
-      fspCategoryCt.clear();
-      fspAvilmilkFileImg = null;
-      fspAvilmilkImg= '';
-
-
+    fspNameCt.clear();
+    fspPriceCt.clear();
+    fspDescriptionCt.clear();
+    fspCategoryCt.clear();
+    fspAvilmilkFileImg = null;
+    fspAvilmilkImg = '';
   }
 
   List<AvilMilkTypes> avilmilklist = [];
@@ -633,17 +605,13 @@ class Mainprovider extends ChangeNotifier {
             getavilmap["MAIN_CATEGORY"].toString(),
             getavilmap["MAIN_CATEGORY_ID"].toString(),
             getavilmap["AVILMILK_PHOTO"].toString(),
-
-
           ));
           notifyListeners();
         }
       }
       notifyListeners();
     });
-
   }
-
 
   void deleteavilmilk(String id, BuildContext context) {
     db.collection("AVIL_MILK").doc(id).delete();
@@ -690,10 +658,7 @@ class Mainprovider extends ChangeNotifier {
   void addJucieCategory(BuildContext context, String from, String oldId) {
     jucieloader = true;
     notifyListeners();
-    String id = DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString();
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
     Map<String, dynamic> map = HashMap();
     map["JUICE_CATEGORY_NAME"] = juciecategoryCt.text;
     map["MAIN_CATEGORY"] = MainCategoryjucieyCt.text;
@@ -809,10 +774,7 @@ class Mainprovider extends ChangeNotifier {
       String jucietypesid, String jucietypesname, String maincategory) {
     addjucieshakesloader = true;
     notifyListeners();
-    String id = DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString();
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
     Map<String, dynamic> map = HashMap();
     map["JUICE_SHAKES_NAME"] = jucieandShakesnameCt.text;
     map["JUICE_SHAKES_PRICE"] = jucieandShakespriceCt.text;
@@ -897,10 +859,7 @@ class Mainprovider extends ChangeNotifier {
     print("dcdc");
     getjuiceshakeslistloader = true;
     notifyListeners();
-    db
-        .collection("JUICE_SHAKES_ITEMS")
-        .get()
-        .then((value) {
+    db.collection("JUICE_SHAKES_ITEMS").get().then((value) {
       if (value.docs.isNotEmpty) {
         getjuiceshakeslistloader = false;
         notifyListeners();
@@ -963,8 +922,6 @@ class Mainprovider extends ChangeNotifier {
   TextEditingController addicecreamcategoryCt = TextEditingController();
   TextEditingController maincategoryIceCt = TextEditingController();
 
-
-
   String checkvalue = "";
 
   void icetypes(String? val) {
@@ -979,10 +936,7 @@ class Mainprovider extends ChangeNotifier {
   void addIceCategory(BuildContext context, String from, String oldId) {
     iceloader = true;
     notifyListeners();
-    String id = DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString();
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
     Map<String, dynamic> map = HashMap();
     map["ICE_CATEGORY_NAME"] = addicecreamcategoryCt.text;
     map["MAIN_CATEGORY_NAME"] = maincategoryIceCt.text;
@@ -1023,11 +977,9 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   void iceCategoryclear() {
     addicecreamcategoryCt.clear();
-    checkvalue='';
+    checkvalue = '';
   }
 
   List<IceCreamCategoryModel> icecategorylist = [];
@@ -1078,7 +1030,7 @@ class Mainprovider extends ChangeNotifier {
       if (value.exists) {
         addicecreamcategoryCt.text = dataMaps["ICE_CATEGORY_NAME"].toString();
         maincategoryIceCt.text = dataMaps["MAIN_CATEGORY_NAME"].toString();
-        checkvalue=dataMaps["TYPE"].toString();
+        checkvalue = dataMaps["TYPE"].toString();
       }
       notifyListeners();
     });
@@ -1094,10 +1046,7 @@ class Mainprovider extends ChangeNotifier {
 
   Future<void> icecreamitem(String icecate, String icecategid, String maincateid,
       String from, String oldid, BuildContext context) async {
-    String id = DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString();
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
 
     Map<String, Object> map = HashMap();
 
@@ -1127,64 +1076,44 @@ class Mainprovider extends ChangeNotifier {
       db.collection("ICE_CREAM_ITEMS").doc(oldid).update(map);
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-
         backgroundColor: cWhite,
-
         content: Text("Updated Successfully",
-
             style: TextStyle(
-
               color: cgreen,
-
               fontSize: 15,
-
               fontWeight: FontWeight.w800,
-
             )),
-
         duration: Duration(milliseconds: 3000),
-
       ));
-
     } else {
       print('hgfhjklm,');
 
       db.collection("ICE_CREAM_ITEMS").doc(id).set(map);
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-
         backgroundColor: cWhite,
-
         content: Text("Added Successfully",
-
             style: TextStyle(
-
               color: cgreen,
-
               fontSize: 15,
-
               fontWeight: FontWeight.w800,
-
             )),
-
         duration: Duration(milliseconds: 3000),
-
       ));
     }
     fetchIceCreamList();
   }
 
-
-  void icelistclear(){
+  void icelistclear() {
     icecremaflavourCT.clear();
     icecremaSingleCT.clear();
     icecremDoubleCT.clear();
   }
 
-  List<IceCreamList> icecreamlist=[];
+  List<IceCreamList> icecreamlist = [];
   List<ScoopsList> scoopsSized=[];
 
-  bool geticelist=false;
+  bool geticelist = false;
   Future<void> fetchIceCreamList() async {
     // isLoading = true;
     notifyListeners();
@@ -1215,7 +1144,6 @@ class Mainprovider extends ChangeNotifier {
         }
         notifyListeners();
         print(icecreamlist.length.toString()+'as;lkfjaslkd');
-
       }
 
     print(icecreamlist.length.toString()+'jhhknkl');
@@ -1251,22 +1179,18 @@ notifyListeners();
     notifyListeners();
   }
 
-TextEditingController dessertsNameCT = TextEditingController();
+  TextEditingController dessertsNameCT = TextEditingController();
   TextEditingController dessertspriceCT = TextEditingController();
 
   void dessertsItems(String icecate, String icecategid, String maincateid,
       String from, String oldid, BuildContext context) {
-    String id = DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString();
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
 
     Map<String, Object> map = HashMap();
 
     map["DESSERTS_NAME"] = dessertsNameCT.text;
 
     map["DESSERTS_PRICE"] = dessertspriceCT.text;
-
 
     map["ICE_CATEGORY_NAME"] = icecate;
 
@@ -1284,64 +1208,42 @@ TextEditingController dessertsNameCT = TextEditingController();
       db.collection("DESSERTS_ITEMS").doc(oldid).update(map);
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-
         backgroundColor: cWhite,
-
         content: Text("Updated Successfully",
-
             style: TextStyle(
-
               color: cgreen,
-
               fontSize: 15,
-
               fontWeight: FontWeight.w800,
-
             )),
-
         duration: Duration(milliseconds: 3000),
-
       ));
-
     } else {
-
       db.collection("DESSERTS_ITEMS").doc(id).set(map);
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-
         backgroundColor: cWhite,
-
         content: Text("Added Successfully",
-
             style: TextStyle(
-
               color: cgreen,
-
               fontSize: 15,
-
               fontWeight: FontWeight.w800,
-
             )),
-
         duration: Duration(milliseconds: 3000),
-
       ));
     }
-    fetchdessertlist();
+    fetchDessertList();
   }
 
-
-
-  void dessertsclear(){
+  void dessertsclear() {
     dessertsNameCT.clear();
     dessertspriceCT.clear();
-
   }
 
-  List<DessertsModel> dessertslist=[];
+  List<DessertsModel> dessertslist = [];
 
-  bool dessertsloader=false;
-  void fetchdessertlist() {
+  bool dessertsloader = false;
+
+  void fetchDessertList() {
     dessertsloader = true;
     notifyListeners();
     db.collection("DESSERTS_ITEMS").get().then((value) {
@@ -1367,10 +1269,9 @@ TextEditingController dessertsNameCT = TextEditingController();
     notifyListeners();
   }
 
-
-  void deletedessert(String id, BuildContext context) {
+  void deleteDessert(String id, BuildContext context) {
     db.collection("DESSERTS_ITEMS").doc(id).delete();
-    fetchdessertlist();
+    fetchDessertList();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           backgroundColor: Colors.red,
@@ -1383,23 +1284,18 @@ TextEditingController dessertsNameCT = TextEditingController();
     notifyListeners();
   }
 
-  void editdessertlist(String id, BuildContext context) {
+  void editDessertList(String id, BuildContext context) {
     db.collection('DESSERTS_ITEMS').doc(id).get().then((value) {
       Map<dynamic, dynamic> dataMaps = value.data() as Map;
       if (value.exists) {
         dessertsNameCT.text = dataMaps["DESSERTS_NAME"].toString();
-        dessertspriceCT .text = dataMaps["DESSERTS_PRICE"].toString();
+        dessertspriceCT.text = dataMaps["DESSERTS_PRICE"].toString();
       }
       notifyListeners();
     });
-    fetchdessertlist();
+    fetchDessertList();
     notifyListeners();
   }
-
-
-
-
-
 
   /// CheckBox ** //
 
@@ -1408,7 +1304,9 @@ TextEditingController dessertsNameCT = TextEditingController();
   Map<int, bool> dessertCheckboxStates = {};
 
 
-  bool getCheckboxValue(int index1,) {
+  bool getCheckboxValue(
+    int index1,
+  ) {
     return checkboxStates[index1] ?? false;
   }
 
@@ -1483,19 +1381,14 @@ TextEditingController dessertsNameCT = TextEditingController();
 
   /// login
 
+  TextEditingController loginCT = TextEditingController();
 
-   TextEditingController loginCT=TextEditingController();
-
-
-  // add to cart
-
+  /// add to cart
 
   Future<bool> checkItemExist(String itemid) async {
     print(itemid + ' hhhh');
-    var D = await db
-        .collection("CART")
-        .where("ITEMS_ID", isEqualTo: itemid)
-        .get();
+    var D =
+        await db.collection("CART").where("ITEMS_ID", isEqualTo: itemid).get();
     if (D.docs.isNotEmpty) {
       return true;
     } else {
@@ -1503,46 +1396,50 @@ TextEditingController dessertsNameCT = TextEditingController();
     }
   }
 
-
   bool itemStatus = false;
 
-  Future<void> AddCartdetails(String name, String itemsid, String price,String itemname,String photo,
-      BuildContext context,  ) async {
+  Future<void> AddCartDetails(
+    String name,
+    String itemsid,
+    String price,
+    String itemname,
+    String photo,
+    BuildContext context,
+  ) async {
     print("kjhgfcvbn");
     String id = DateTime.now().millisecondsSinceEpoch.toString();
 
     Map<String, Object> map = HashMap();
 
-    map["CART_ID"]=id;
-    map["DATE_TIME"]=DateTime.now();
-    map["ITEMS_NAME"]=name;
-    map["ITEMS_ID"]=itemsid;
-    map["ITEMS_PRICE"]=price;
-    map["ITEMS_CATEGORY"]=itemname;
-    map["ITEMS_PHOTO"]=photo;
-    map["COUNT"]=0;
+    map["CART_ID"] = id;
+    map["DATE_TIME"] = DateTime.now();
+    map["ITEMS_NAME"] = name;
+    map["ITEMS_ID"] = itemsid;
+    map["ITEMS_PRICE"] = price;
+    map["ITEMS_CATEGORY"] = itemname;
+    map["ITEMS_PHOTO"] = photo;
+    map["QTY"] = 0;
+    map["TOTAL_PRICE"] = 0;
 
     itemStatus = await checkItemExist(itemsid);
-    if(!itemStatus){
-      print("fvfbb");
+    if (!itemStatus) {
+      print("heeloooooooi");
       db.collection("CART").doc(id).set(map,SetOptions(merge: true));
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
 
             content: Container(
               height: 90,
-                child: Text("Added to cart",
-                    style: TextStyle(
-                        color: cWhite, fontSize: 15, fontWeight: FontWeight.bold)
-                )
-            ),
-            backgroundColor: cYellow,
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.all(5),
-          ));
+            child: Text("Added to cart",
+                style: TextStyle(
+                    color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
+        backgroundColor: cYellow,
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(5),
+      ));
       notifyListeners();
-    }else{
+    } else {
       print("djiidi");
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         backgroundColor: Colors.red,
@@ -1555,45 +1452,41 @@ TextEditingController dessertsNameCT = TextEditingController();
     }
     notifyListeners();
   }
- List<cartItemsDetails>cartitemslist=[];
 
+  List<cartItemsDetails> cartitemslist = [];
 
-  bool getcart=false;
+  bool getcart = false;
 
-
-void getCartItems(){
-  getcart = true;
-  notifyListeners();
-    db.collection("CART").get().then((value) {
-      if(value.docs.isNotEmpty){
-        getcart=true;
-        notifyListeners();
-        cartitemslist.clear();
-        for(var element in value.docs){
-          Map<dynamic,dynamic> getcart=element.data();
-          cartitemslist.add(cartItemsDetails(
-            getcart["CART_ID"].toString(),
-              DateFormat("dd-MM-yyyy hh:mm a").format(getcart["DATE_TIME"].toDate()),
+  void getCartItems() {
+    getcart = true;
+    notifyListeners();
+    db.collection("CART").get().then(
+      (value) {
+        if (value.docs.isNotEmpty) {
+          getcart = true;
+          notifyListeners();
+          cartitemslist.clear();
+          for (var element in value.docs) {
+            Map<dynamic, dynamic> getcart = element.data();
+            cartitemslist.add(cartItemsDetails(
+              getcart["CART_ID"].toString(),
+              DateFormat("dd-MM-yyyy hh:mm a")
+                  .format(getcart["DATE_TIME"].toDate()),
               getcart["ITEMS_CATEGORY"].toString(),
               getcart["ITEMS_ID"].toString(),
               getcart["ITEMS_NAME"].toString(),
               getcart["ITEMS_PHOTO"].toString(),
               getcart["ITEMS_PRICE"].toString(),
-              ));
-          notifyListeners();
+            ));
+            notifyListeners();
+          }
         }
-      }
-      },);
+      },
+    );
     notifyListeners();
-}
+  }
 
-
-
-
-
-
-  void delefromtecart(String id,BuildContext context) {
-
+  void delefromtecart(String id, BuildContext context) {
     print(id + "123456");
 
     db.collection("CART").doc(id).delete();
@@ -1613,41 +1506,29 @@ void getCartItems(){
     notifyListeners();
   }
 
+  ///CHECKBOK
 
-
-
-
-
-  //CHECKBOK
-  bool flavour=false;
-  void radioButtonChanges(bool bool){
-    flavour=bool;
+  bool flavour = false;
+  void radioButtonChanges(bool bool) {
+    flavour = bool;
     notifyListeners();
-
   }
 
-
-  int count=0;
-  void additems(){
+  int count = 0;
+  void additems() {
     count++;
     notifyListeners();
   }
-  void minusitems(){
+
+  void minusitems() {
     count--;
     notifyListeners();
   }
 
-
-
-
-
-
-  // datepicker
-
-
+  /// datepicker
 
   DateRangePickerController dateRangePickerController =
-  DateRangePickerController();
+      DateRangePickerController();
 
   DateRangePickerController joiningDateTime = DateRangePickerController();
   DateTime _startDate = DateTime.now();
@@ -1661,15 +1542,15 @@ void getCartItems(){
   String sortEndDate = "";
   bool isDateSelected = false;
   DateRangePickerController attedancePickerController =
-  DateRangePickerController();
+      DateRangePickerController();
   DateRangePickerController attedancereport = DateRangePickerController();
   var outputDayNode1 = DateFormat('dd/MM/yyy');
   DateTime attedance = DateTime.now();
   int sundays = 0;
 
-
   void salesReport(
-      BuildContext context, ) {
+    BuildContext context,
+  ) {
     Widget calendarWidget() {
       return SizedBox(
         width: 300,
@@ -1723,8 +1604,6 @@ void getCartItems(){
               print("Number of Sundays: $sundays");
               // getStaffData(companyid,subcompany);
               // getData(companyid,subcompany);
-
-
 
               // if (from == "User_attendance") {
               //   getUserAttendance(userId, firstDate2, endDate2);

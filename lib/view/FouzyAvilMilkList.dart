@@ -119,7 +119,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                   return GestureDetector(
                                     onTap: () {
 
-                                      value.AddCartdetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+                                      value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
 
                                       value.setCheckboxValue(
                                           index, !value.getCheckboxValue(index));
@@ -147,7 +147,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                         ? NetworkImage(
                                                       item.avilphoto,
                                                     )
-                                                        : AssetImage(""))),
+                                                        : const AssetImage(""))),
                                             child: Consumer<Mainprovider>(
                                                 builder: (context, value, child) {
                                                   return Align(
@@ -155,18 +155,18 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                       child: Transform.scale(
                                                         scale: 1.5,
                                                         child: Checkbox(
-                                                          shape: CircleBorder(),
+                                                          shape: const CircleBorder(),
                                                           value:
                                                           value.getCheckboxValue(
                                                               index),
                                                           onChanged: (bool? newValue) {
-                                                            value.AddCartdetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+                                                            value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
 
                                                             value.setCheckboxValue(index, newValue ?? false);
                                                           },
                                                           checkColor: Colors.green,
                                                           fillColor:
-                                                          WidgetStatePropertyAll(
+                                                          constWidgetStatePropertyAll(
                                                               Colors.white),
                                                         ),
                                                       ));
@@ -189,7 +189,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                         25)),
                                                 FittedBox(
                                                     child: text(
-                                                        "₹  " + item.price,
+                                                        "₹  ${item.price}",
                                                         FontWeight.w700,
                                                         cgreen,
                                                         20)),
@@ -206,7 +206,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                       22)),
                                             ],
                                           ),
-                                          SizedBox(),
+                                          constSizedBox(),
                                         ],
                                       ),
                                     ),

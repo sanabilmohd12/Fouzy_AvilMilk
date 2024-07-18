@@ -19,7 +19,8 @@ class Cart_Screen extends StatelessWidget {
     return Scaffold(
       floatingActionButtonLocation:
       FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
+      floatingActionButton: Consumer<Mainprovider>(builder: (context, value, child) {
+          return  value.cartitemslist.isNotEmpty?Padding(
         padding: const EdgeInsets.only(bottom: 150),
         child: SizedBox(
           height: 65,
@@ -31,9 +32,129 @@ class Cart_Screen extends StatelessWidget {
             )
                 : FloatingActionButton(
               onPressed: () {
-                callNext(context, Printerscreen());
+                showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  surfaceTintColor: cYellow,
+                                  title: const Center(
+                                    child: Text(
+                                      "Add details",
+                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  content: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const SizedBox(height: 20),
+
+
+
+                                          Text("dateandtime"),
+
+                                          const SizedBox(height: 10),
+                                          Text("no.of items "),
+                                          const SizedBox(height: 10),
+
+                                          TextFormField(
+                                            keyboardType: TextInputType.number,
+                                            // controller: deliveryBoyDeliveryChargeCT,
+                                            decoration: InputDecoration(
+                                              fillColor: Colors.transparent,
+                                              labelText: 'Name',
+                                              isDense: true,
+                                              labelStyle: const TextStyle(
+                                                // fontFamily: fontRegular,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(22),
+                                                borderSide: const BorderSide(color: clblack),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(22),
+                                                borderSide: const BorderSide(color: clblack),
+                                              ),
+                                            ),
+                                            validator: (value) {
+                                              // if (value == null || value.isEmpty) {
+                                              //   return 'Please enter delivery charge';
+                                              // }
+                                              // return null;
+                                            },
+                                            style: const TextStyle(color: clblack),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          // customer remark
+                                          TextFormField(
+                                            keyboardType: TextInputType.name,
+                                            // controller: customerremarksCT,
+                                            decoration: InputDecoration(
+                                              fillColor: Colors.transparent,
+                                              labelText: 'Desk',
+                                              isDense: true,
+                                              labelStyle: const TextStyle(
+                                                // fontFamily: fontRegular,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(22),
+                                                borderSide: const BorderSide(color: clblack),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(22),
+                                                borderSide: const BorderSide(color: clblack),
+                                              ),
+                                            ),
+
+                                            style: const TextStyle(color: clblack),
+                                          ),
+
+                                          const SizedBox(height: 10),
+
+                                          // checkbox
+
+
+                                        ],
+                                      )),
+                                  actions: [
+                                    //Submit
+                                    Consumer<Mainprovider>(builder: (context, adminProVal, child) {
+                                      return InkWell(
+                                        onTap: () async {callNext(context, Printerscreen());
+
               },
-              elevation: 0,
+                                        child: Container(
+                                          // width: width,
+                                          height: 50,
+                                          alignment: Alignment.center,
+                                          decoration: ShapeDecoration(
+                                          color: cgreen,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(70),
+                                            ),
+                                          ),
+                                          child: const Text(
+                                            'Submit',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    })
+                                  ],
+                                );
+                              });
+                        },elevation: 0,
               backgroundColor:cgreen,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(42),
@@ -46,7 +167,8 @@ class Cart_Screen extends StatelessWidget {
               ),
             );
           }),
-        ),
+        ),):SizedBox();
+        }
       ),
       backgroundColor: cYellow,
       appBar: AppBar(
@@ -76,7 +198,8 @@ class Cart_Screen extends StatelessWidget {
             ),
           ),
         ),
-        child: Consumer<Mainprovider>(builder: (context, value, child) {
+        child: Column(
+          children: [Consumer<Mainprovider>(builder: (context, value, child) {
           return
             // value.getcart
             //   ? Center(
@@ -215,6 +338,8 @@ class Cart_Screen extends StatelessWidget {
               },
             ):Center(child: Text("order something"));
         }),
+          ],
+        ),
       ),
     );
   }
