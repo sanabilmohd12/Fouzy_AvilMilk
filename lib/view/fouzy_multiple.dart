@@ -175,8 +175,11 @@ class FouzyMultiple extends StatelessWidget {
                                                     child: Checkbox(
                                                       shape: CircleBorder(),
                                                       value: value
-                                                          .getCheckboxValue(
-                                                              index),
+                                                              .getCheckboxValue(
+                                                                  index) ||
+                                                          value.isInCart(
+                                                              "AVIL_MILK",
+                                                              item.id),
                                                       onChanged:
                                                           (bool? newValue) {
                                                         value.AddCartDetails(
@@ -190,6 +193,40 @@ class FouzyMultiple extends StatelessWidget {
                                                         value.setCheckboxValue(
                                                             index,
                                                             newValue ?? false);
+
+                                                        if (newValue == true) {
+                                                          // Add to cart
+                                                          value
+                                                              .cartItemsControlls(
+                                                                  'AVIL_MILK',
+                                                                  item.id,
+                                                                  item);
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  SnackBar(
+                                                            content: Text(
+                                                                "Item added to cart"),
+                                                            duration: Duration(
+                                                                seconds: 2),
+                                                          ));
+                                                        } else {
+                                                          // Remove from cart
+                                                          value
+                                                              .cartItemsControlls(
+                                                                  'AVIL_MILK',
+                                                                  item.id,
+                                                                  item);
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  SnackBar(
+                                                            content: Text(
+                                                                "Item removed from cart"),
+                                                            duration: Duration(
+                                                                seconds: 2),
+                                                          ));
+                                                        }
                                                       },
                                                       checkColor: Colors.green,
                                                       fillColor:

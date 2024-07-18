@@ -7,17 +7,31 @@ class IceCreamCategoryModel{
   IceCreamCategoryModel(this.id,this.name,this.maincategoryid,this.maincategoryname,this.type);
 }
 
+//
+// class IceCreamList{
+//   String id;
+//   String singleprice;
+//   String doubleprice;
+//   String icecreamcategoryid;
+//   String icecreamcategoryname;
+//   String icecreamfalovour;
+//   String maincategoryid;
+//   String type;
+//   IceCreamList(this.id,this.singleprice,this.doubleprice,this.icecreamcategoryid,this.icecreamcategoryname,this.icecreamfalovour,this.maincategoryid,this.type);
+// }
 
 class IceCreamList{
   String id;
-  String singleprice;
-  String doubleprice;
-  String icecreamcategoryid;
-  String icecreamcategoryname;
-  String icecreamfalovour;
-  String maincategoryid;
-  String type;
-  IceCreamList(this.id,this.singleprice,this.doubleprice,this.icecreamcategoryid,this.icecreamcategoryname,this.icecreamfalovour,this.maincategoryid,this.type);
+  String flavourName;
+  List<ScoopsList>scoops ;
+  IceCreamList(this.id,this.flavourName,this.scoops);
+}
+
+class ScoopsList{
+  String name;
+  double price;
+  bool isClicked;
+  ScoopsList(this.name,this.price,this.isClicked);
 }
 
 

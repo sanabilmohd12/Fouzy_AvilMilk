@@ -93,59 +93,63 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
               Consumer<Mainprovider>(builder: (context, value, child) {
                 return value.getloader
                     ? Center(
-                        child: CircularProgressIndicator(
-                          color: cgreen,
-                        ),
-                      )
+                  child: CircularProgressIndicator(
+                    color: cgreen,
+                  ),
+                )
                     : Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 18.0, vertical: 30),
-                        child: Consumer<Mainprovider>(
-                            builder: (context, value, child) {
-                          return GridView.builder(
-                            itemCount: value.avilmilklist.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 15,
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 1),
-                            itemBuilder: (context, index) {
-                              var item = value.avilmilklist[index];
-                              return Consumer<Mainprovider>(
-                                  builder: (context, value, child) {
-                                return GestureDetector(
-                                  onTap: () {
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 18.0, vertical: 30),
+                  child: Consumer<Mainprovider>(
+                      builder: (context, value, child) {
+                        return GridView.builder(
+                          itemCount: value.avilmilklist.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                           SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 15,
+                              crossAxisCount: 2,
+                              childAspectRatio: height/1000),
+                          itemBuilder: (context, index) {
+                            var item = value.avilmilklist[index];
+                            return Consumer<Mainprovider>(
+                                builder: (context, value, child) {
+                                  return GestureDetector(
+                                    onTap: () {
 
-                                    value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+                                      value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
 
-                                    value.setCheckboxValue(
-                                        index, !value.getCheckboxValue(index));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 5),
-                                    width: width,
-                                    height: height * .12,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: cYellow,
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: width,
-                                          height: 250,
-                                          decoration: BoxDecoration(
-                                              color: Colors.transparent,
-                                              image: DecorationImage(
-                                                  image: item.avilphoto != ""
-                                                      ? NetworkImage(
-                                                          item.avilphoto,
+
+                                      value.setCheckboxValue(
+                                          index, !value.getCheckboxValue(index));
+                                    },
+                                    child: Container(
+                                      // padding: EdgeInsets.symmetric(horizontal: 300,vertical: 200),
+                                      // height: height/5,
+                                      // width: 300,
+                                      // margin: EdgeInsets.symmetric(
+                                      //     horizontal: width/20, vertical: height/120),
+
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: cYellow,
+                                      ),
+                                      child: Column(
+                                        // mainAxisAlignment:
+                                        // MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            width: width,
+                                            height: height/6,
+                                            decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                image: DecorationImage(
+                                                    image: item.avilphoto != ""
+                                                        ? NetworkImage(
+                                                      item.avilphoto,
+                                                      // scale: height/100,
                                                         )
                                                       : const AssetImage(""))),
                                           child: Consumer<Mainprovider>(
@@ -161,62 +165,64 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                     onChanged: (bool? newValue) {
                                                       value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
 
-                                                      value.setCheckboxValue(index, newValue ?? false);
-                                                    },
-                                                    checkColor: Colors.green,
-                                                    fillColor:
-                                                        const WidgetStatePropertyAll(
-                                                            Colors.white),
-                                                  ),
-                                                ));
+                                                            value.setCheckboxValue(index, newValue ?? false);
+                                                          },
+                                                          checkColor: Colors.green,
+                                                          fillColor: const WidgetStatePropertyAll(
+                                                              Colors.white),
+                                                        ),
+                                                      ));
 
-                                          }),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20.0),
-                                          child: Row(
-                                            // crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              FittedBox(
-                                                  child: text(
-                                                      item.name,
-                                                      FontWeight.w800,
-                                                      cgreen,
-                                                      25)),
-                                              FittedBox(
-                                                  child: text(
-                                                      "₹  ${item.price}",
-                                                      FontWeight.w700,
-                                                      cgreen,
-                                                      20)),
-                                            ],
+                                                }),
                                           ),
-                                        ),
-                                        Column(
-                                          children: [
-                                            FittedBox(
-                                                child: text(
-                                                    item.describtion,
-                                                    FontWeight.w400,
-                                                    cgreen,
-                                                    22)),
-                                          ],
-                                        ),
-                                        const SizedBox(),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              });
-                            },
-                          );
 
-                          //
-                        }),
-                      );
+                                          Padding(
+                                            padding:  EdgeInsets.only(left: width/50,),
+                                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    text(
+                                                        item.name,
+                                                        FontWeight.w800,
+                                                        cgreen,
+                                                        25),
+                                                    text(
+                                                        item.describtion,
+                                                        FontWeight.w400,
+                                                        cgreen,
+                                                        22),
+                                                  ],
+                                                ),
+
+                                                Container(
+                                                  height: 50,
+                                                  width: width/12,
+                                                  decoration: BoxDecoration(color: cgreen,borderRadius: BorderRadius.horizontal(left: Radius.circular(12))),
+                                                  child: Center(
+                                                    child: text(
+                                                        "₹ ${item.price}",
+                                                        FontWeight.w700,
+                                                        cWhite,
+                                                        20),
+                                                  ),
+                                                ),
+
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+                          },
+                        );
+
+                        //
+                      }),
+                );
               }),
               // SizedBox(height: 200,)
             ],
