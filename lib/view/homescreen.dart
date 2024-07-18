@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/colors.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../provider/mainprovider.dart';
 import 'FouzyAvilMilkList.dart';
@@ -57,13 +56,8 @@ class _HomescreenState extends State<Home_screen> {
             builder: (context, value, child) {
               return value.getloader
                   ? Center(
-                      child: Lottie.asset(
-                  'assets/bananalottie.json',
-                        width: 200,
-                  height: 200,
-                  fit: BoxFit.fill,
-                  repeat: true,
-                  reverse: true,
+                      child: CircularProgressIndicator(
+                        color: cgreen,
                       ),
                     )
                   : ListView.builder(
@@ -78,20 +72,16 @@ class _HomescreenState extends State<Home_screen> {
                         return InkWell(
                           onTap: () {
                             if (index == 0) {
-                              value.checkboxStates = {};
                               value.getfsptypes();
                               callNext(context, FouzyMultiple());
                             } else if (index == 1) {
                               value.getavilmilktypes();
-                              value.checkboxStates = {};
                               callNext(context, FouzyAvilMilkListScreen());
                             } else if (index == 2) {
-                              value.checkboxStates = {};
                               value.fetchIceCreamList();
                               value.fetchDessertList();
                               callNext(context, IceCreamListScreen());
                             } else if (index == 3) {
-                              value.checkboxStates = {};
                               value.getJuiceShakesAllItems();
                               callNext(context, Juice_ShakesListScreen());
                             }

@@ -7,7 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fouzy/constants/colors.dart';
+import 'package:fouzy/view/flashsnackbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -52,10 +54,8 @@ class Mainprovider extends ChangeNotifier {
 //     notifyListeners();
 // }
 
-
   ///
-  Map<String,dynamic> cartItems= {};
-
+  Map<String, dynamic> cartItems = {};
 
   void cartItemsControlls(String collection, String firebaseId, dynamic item) {
     String key = "$collection:$firebaseId";
@@ -69,20 +69,14 @@ class Mainprovider extends ChangeNotifier {
     print("Current cart items: ${cartItems.length}");
     notifyListeners();
   }
+
   bool isInCart(String collection, String firebaseId) {
     String key = "$collection:$firebaseId";
     return cartItems.containsKey(key);
   }
 
-
-
-
-
-
-
-
-
   TextEditingController priceCt = TextEditingController();
+
   /// maincategory
 
   TextEditingController addCategorynameCt = TextEditingController();
@@ -257,7 +251,7 @@ class Mainprovider extends ChangeNotifier {
     } else {
       print('jhsadjkasd');
       db.collection("FSPAVIL_MILK").doc(id).set(map);
-        // ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
+      // ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
       //   backgroundColor: cWhite,
       //   content: Text("Added Successfully",
       //       style: TextStyle(
@@ -338,11 +332,8 @@ class Mainprovider extends ChangeNotifier {
     }
   }
 
-
-
   Future<void> deleteSpAvilmilk(String itemId, BuildContext context) async {
     try {
-
       fsploader = true;
       notifyListeners();
 
@@ -366,7 +357,6 @@ class Mainprovider extends ChangeNotifier {
           duration: Duration(milliseconds: 3000),
         ),
       );
-
     } catch (e) {
       print("Error deleting Fouzy Special Avil Milk: $e");
       // Show an error message
@@ -385,7 +375,6 @@ class Mainprovider extends ChangeNotifier {
         ),
       );
     } finally {
-
       fsploader = false;
       notifyListeners();
     }
@@ -446,7 +435,6 @@ class Mainprovider extends ChangeNotifier {
         mainCategorySelectedId.isNotEmpty ? mainCategorySelectedId : null;
     map["ADDED_TIME"] = DateTime.now();
     map["COUNT"] = "";
-
 
     if (AvilmilkFileImg != null) {
       String photoId = DateTime.now().millisecondsSinceEpoch.toString();
@@ -1044,8 +1032,13 @@ class Mainprovider extends ChangeNotifier {
 
   TextEditingController icecremDoubleCT = TextEditingController();
 
-  Future<void> icecreamitem(String icecate, String icecategid, String maincateid,
-      String from, String oldid, BuildContext context) async {
+  Future<void> icecreamitem(
+      String icecate,
+      String icecategid,
+      String maincateid,
+      String from,
+      String oldid,
+      BuildContext context) async {
     String id = DateTime.now().millisecondsSinceEpoch.toString();
 
     Map<String, Object> map = HashMap();
@@ -1053,7 +1046,6 @@ class Mainprovider extends ChangeNotifier {
     Map<String, Object> nestedMap = {
       'SINGLE': icecremaSingleCT.text,
       'DOUBLE': icecremDoubleCT.text,
-
     };
 
     map["ICE_FLAVOUR"] = icecremaflavourCT.text;
@@ -1064,9 +1056,6 @@ class Mainprovider extends ChangeNotifier {
     map["MAIN_CATEGORY_ID"] = maincateid;
     map["TYPE"] = "ICECREAM";
     map["PRODUCTS"] = nestedMap;
-
-
-
 
     if (from == "NEW") {
       map["ID"] = id;
@@ -1111,43 +1100,43 @@ class Mainprovider extends ChangeNotifier {
   }
 
   List<IceCreamList> icecreamlist = [];
-  List<ScoopsList> scoopsSized=[];
+  List<ScoopsList> scoopsSized = [];
 
   bool geticelist = false;
   Future<void> fetchIceCreamList() async {
     // isLoading = true;
     notifyListeners();
 
-      final querySnapshot = await db.collection("ICE_CREAM_ITEMS").get();
+    final querySnapshot = await db.collection("ICE_CREAM_ITEMS").get();
 
-      if (querySnapshot.docs.isNotEmpty) {
-        print('etehekhjsalkd');
-        icecreamlist.clear();
+    if (querySnapshot.docs.isNotEmpty) {
+      print('etehekhjsalkd');
+      icecreamlist.clear();
 
-        for (var doc in querySnapshot.docs) {
-          Map<String, dynamic> data = doc.data();
-          List<ScoopsList> flavours = [];
-          print(data["PRODUCTS"]);
-          if (data["PRODUCTS"] != null) {
-            data["PRODUCTS"].forEach((key, value) {
-              flavours.add(ScoopsList(key,double.parse(value) , false));
-            });
-          }
-          print('aksbdkjasd');
-
-          icecreamlist.add(IceCreamList(
-            data["ID"].toString(),
-            data["ICE_FLAVOUR"].toString(),
-            flavours,
-          ));
-          print(icecreamlist.length.toString()+'as;lkfjaslkd');
+      for (var doc in querySnapshot.docs) {
+        Map<String, dynamic> data = doc.data();
+        List<ScoopsList> flavours = [];
+        print(data["PRODUCTS"]);
+        if (data["PRODUCTS"] != null) {
+          data["PRODUCTS"].forEach((key, value) {
+            flavours.add(ScoopsList(key, double.parse(value), false));
+          });
         }
-        notifyListeners();
-        print(icecreamlist.length.toString()+'as;lkfjaslkd');
-      }
+        print('aksbdkjasd');
 
-    print(icecreamlist.length.toString()+'jhhknkl');
-notifyListeners();
+        icecreamlist.add(IceCreamList(
+          data["ID"].toString(),
+          data["ICE_FLAVOUR"].toString(),
+          flavours,
+        ));
+        print(icecreamlist.length.toString() + 'as;lkfjaslkd');
+      }
+      notifyListeners();
+      print(icecreamlist.length.toString() + 'as;lkfjaslkd');
+    }
+
+    print(icecreamlist.length.toString() + 'jhhknkl');
+    notifyListeners();
   }
 
   void deleteicelist(String id, BuildContext context) {
@@ -1303,7 +1292,6 @@ notifyListeners();
   Map<int, bool> iceCreamCheckboxStates = {};
   Map<int, bool> dessertCheckboxStates = {};
 
-
   bool getCheckboxValue(
     int index1,
   ) {
@@ -1314,6 +1302,7 @@ notifyListeners();
     checkboxStates[index] = value;
     notifyListeners();
   }
+
   /// New functions for ice cream
   bool getIceCreamCheckboxValue(int index) {
     return iceCreamCheckboxStates[index] ?? false;
@@ -1334,35 +1323,34 @@ notifyListeners();
     notifyListeners();
   }
 
-
   List<bool> _singleScoopSelections = [];
   List<bool> _doubleScoopSelections = [];
 
   void initializeIceCreamSelections() {
-  _singleScoopSelections = List.generate(icecreamlist.length, (_) => false);
-  _doubleScoopSelections = List.generate(icecreamlist.length, (_) => false);
-  notifyListeners();
+    _singleScoopSelections = List.generate(icecreamlist.length, (_) => false);
+    _doubleScoopSelections = List.generate(icecreamlist.length, (_) => false);
+    notifyListeners();
   }
 
   bool getIceCreamSingleScoopValue(int index) {
-  if (index >= 0 && index < _singleScoopSelections.length) {
-  return _singleScoopSelections[index];
-  }
-  return false;
+    if (index >= 0 && index < _singleScoopSelections.length) {
+      return _singleScoopSelections[index];
+    }
+    return false;
   }
 
   bool getIceCreamDoubleScoopValue(int index) {
-  if (index >= 0 && index < _doubleScoopSelections.length) {
-  return _doubleScoopSelections[index];
-  }
-  return false;
+    if (index >= 0 && index < _doubleScoopSelections.length) {
+      return _doubleScoopSelections[index];
+    }
+    return false;
   }
 
   void setIceCreamSingleScoopValue(int index, bool value) {
-  if (index >= 0 && index < _singleScoopSelections.length) {
-  _singleScoopSelections[index] = value;
-  notifyListeners();
-  }
+    if (index >= 0 && index < _singleScoopSelections.length) {
+      _singleScoopSelections[index] = value;
+      notifyListeners();
+    }
   }
 
   void setIceCreamDoubleScoopValue(int index, bool value) {
@@ -1371,13 +1359,9 @@ notifyListeners();
       print("double ready $index set to ${value ? 'selected' : 'unselected'}");
       notifyListeners();
     } else {
-      print(
-          "no index: $index. no selections.");
+      print("no index: $index. no selections.");
     }
   }
-
-
-
 
   /// login
 
@@ -1424,29 +1408,31 @@ notifyListeners();
     itemStatus = await checkItemExist(itemsid);
     if (!itemStatus) {
       print("heeloooooooi");
-      db.collection("CART").doc(id).set(map,SetOptions(merge: true));
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-
-            content: Container(
-              height: 90,
-            child: Text("Added to cart",
-                style: TextStyle(
-                    color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
-        backgroundColor: cYellow,
-        elevation: 0,
+      db.collection("CART").doc(id).set(map, SetOptions(merge: true));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 10),
+        content: CustomSnackBarContent(
+            colorcontainer: Color.fromARGB(255, 0, 204,0),
+            errorText: "Items Already Exist",
+            errorHeadline: "Oh Snap",
+            colorbubble: cYellow,
+            img: "assets/check.svg"),
         behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
         margin: EdgeInsets.all(5),
       ));
       notifyListeners();
     } else {
       print("djiidi");
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        backgroundColor: Colors.red,
-        content: Center(
-          child: Text(
-            "Item Already Exist",
-          ),
+        duration: Duration(days: 3000),
+        backgroundColor: Colors.transparent,
+        content: CustomSnackBarContent(
+          colorcontainer: Colors.orange,
+          errorText: "Items Already Exist",
+          errorHeadline: "Warning",
+          colorbubble: Colors.red,
+          img: "assets/close.svg",
         ),
       ));
     }
