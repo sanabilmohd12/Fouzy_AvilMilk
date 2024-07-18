@@ -157,8 +157,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                   child: Checkbox(
                                                     shape: const CircleBorder(),
                                                     value:
-                                                        value.getCheckboxValue(
-                                                            index),
+                                                        value.getCheckboxValue(index),
                                                     onChanged: (bool? newValue) {
                                                       value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
 
