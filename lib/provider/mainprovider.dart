@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +13,7 @@ import 'package:fouzy/constants/colors.dart';
 import 'package:fouzy/view/flashsnackbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../constants/callFunctions.dart';
 import '../modelClass/MainCategoryModelClass.dart';
@@ -20,10 +22,20 @@ import '../modelClass/cartmodelclas.dart';
 import '../modelClass/fouzysp.dart';
 import '../modelClass/icecreamsModelClass.dart';
 import '../modelClass/jucieandshakesCateModelClass.dart';
+import '../updatescreen.dart';
 
 class Mainprovider extends ChangeNotifier {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Reference ref = FirebaseStorage.instance.ref("IMAGE URL");
+
+
+
+  Mainprovider(){
+    getAppVersion();
+    notifyListeners();
+
+  }
+
 
   /// bottomsheet indexes *
   int _selectedindex = 0;
@@ -1049,8 +1061,8 @@ class Mainprovider extends ChangeNotifier {
     };
 
     map["ICE_FLAVOUR"] = icecremaflavourCT.text;
-    map["SINGLE_PRICE"] = icecremaSingleCT.text;
-    map["DOUBLE_PRICE"] = icecremDoubleCT.text;
+    // map["SINGLE_PRICE"] = icecremaSingleCT.text;
+    // map["DOUBLE_PRICE"] = icecremDoubleCT.text;
     map["ICE_CATEGORY_NAME"] = icecate;
     map["ICE_CATEGORY_ID"] = icecategid;
     map["MAIN_CATEGORY_ID"] = maincateid;
@@ -1103,6 +1115,7 @@ class Mainprovider extends ChangeNotifier {
   List<ScoopsList> scoopsSized = [];
 
   bool geticelist = false;
+
   Future<void> fetchIceCreamList() async {
     // isLoading = true;
     notifyListeners();
@@ -1409,11 +1422,12 @@ class Mainprovider extends ChangeNotifier {
     if (!itemStatus) {
       print("heeloooooooi");
       db.collection("CART").doc(id).set(map, SetOptions(merge: true));
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         duration: Duration(seconds: 10),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 0, 204,0),
-            errorText: "Items Already Exist",
+            errorText: "Items Already To Cart",
             errorHeadline: "Oh Snap",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1491,6 +1505,20 @@ class Mainprovider extends ChangeNotifier {
     getCartItems();
     notifyListeners();
   }
+  TextEditingController namecontroller=TextEditingController();
+  TextEditingController desknocontroller=TextEditingController();
+
+  void cartcustomerdetails(String id){
+    Map<String, Object> map = HashMap();
+    map["CUSTOMER_NAME"]=namecontroller.text;
+    map["DESK_NO"]=desknocontroller.text;
+    db.collection("CART").doc(id).set(map ,SetOptions(merge: true));
+    notifyListeners();
+
+  }
+
+
+
 
   ///CHECKBOK
 
@@ -1664,4 +1692,60 @@ class Mainprovider extends ChangeNotifier {
         });
     notifyListeners();
   }
+
+
+
+
+
+
+  /// apploack
+
+
+
+  final DatabaseReference mRoot = FirebaseDatabase.instance.ref();
+
+  String? appVersion;
+  String currentVersion='';
+  String buildNumber="";
+
+
+  void lockApp() {
+    print('buttonnnn');
+    mRoot.child("0").onValue.listen((event) {
+      if (event.snapshot.value != null) {
+        Map<dynamic, dynamic> map = event.snapshot.value as Map;
+        List<String> versions = map[!Platform.isIOS ? 'AppVersion' : 'iOSVersion'].toString().split(',');
+        if (!versions.contains(appVersion)) {
+          String ADDRESS = map[!Platform.isIOS ?'ADDRESS':'ADDRESS_iOS'].toString();
+          String button = map['BUTTON'].toString();
+          String text = map['TEXT'].toString();
+          print(button+'buttonnnn');
+          runApp(MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: UpdateScreen(
+              text: text,
+              button: button,
+              ADDRESS: ADDRESS,
+            ),
+          ));
+        }
+      }
+    });
+  }
+
+  Future<void> getAppVersion() async {
+
+    PackageInfo.fromPlatform().then((value) {
+      currentVersion=value.version;
+      buildNumber = value.buildNumber;
+      appVersion=buildNumber;
+
+      print(appVersion.toString()+"edfesappversion");
+      print(currentVersion.toString()+"DFGVCDSQ");
+
+      notifyListeners();
+    });
+
+  }
+
 }

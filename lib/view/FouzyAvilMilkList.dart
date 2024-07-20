@@ -148,6 +148,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                 image: DecorationImage(
                                                     image: item.avilphoto != ""
                                                         ? NetworkImage(
+
                                                       item.avilphoto,
                                                       // scale: height/100,
                                                         )
@@ -160,12 +161,14 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                   scale: 1.5,
                                                   child: Checkbox(
                                                     shape: const CircleBorder(),
-                                                    value:
-                                                        value.getCheckboxValue(index),
-                                                    onChanged: (bool? newValue) {
+                                                    value: value.getCheckboxValue(index),
+                                                      onChanged: (bool? newValue) {
+
+
                                                       value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
 
-                                                            value.setCheckboxValue(index, newValue ?? false);
+                                                      value.setCheckboxValue(index, newValue ?? false);
+
                                                           },
                                                           checkColor: Colors.green,
                                                           fillColor: const WidgetStatePropertyAll(

@@ -201,8 +201,7 @@ class PrinterProvider extends ChangeNotifier{
         printer.hr();
         printer.row([
           PosColumn(
-              text: 'Items'
-                  '',
+              text: 'Items',
               width: 6,
               styles: const PosStyles(align: PosAlign.left, bold: true)),
           PosColumn(

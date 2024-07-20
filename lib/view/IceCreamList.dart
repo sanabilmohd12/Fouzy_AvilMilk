@@ -88,18 +88,15 @@ class IceCreamListScreen extends StatelessWidget {
                       return Container(
 
                           margin: EdgeInsets.symmetric(
-                              horizontal: width / 90),
+                              horizontal: width / 90,vertical: 10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: cYellow,
                           ),
                           child: Column(children: [
-                            Padding(
-                              padding:  EdgeInsets.only(top: 20.0),
-                              child: FittedBox(
-                                  child: text(items.flavourName, FontWeight.w800,
-                                      cgreen, 25)),
-                            ),
+                            FittedBox(
+                                child: text(items.flavourName, FontWeight.w800,
+                                    cgreen, 25)),
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: width / 48.0,
@@ -118,9 +115,12 @@ class IceCreamListScreen extends StatelessWidget {
                                             BorderRadius.circular(8)),
                                     value:value.icecreamlist[index1].scoops[index].isClicked,
                                     // value: provider.getIceCreamSingleScoopValue(index),
+
                                     onChanged: (val) {
+
                                       value.icecreamlist[index1].scoops[index].isClicked=val!;
                                       value.notifyListeners();
+                                      print("ssssss"+index1.toString());
                                       // provider.setIceCreamSingleScoopValue(index, val!);
                                     },
                                   );

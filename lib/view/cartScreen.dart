@@ -34,150 +34,167 @@ class Cart_Screen extends StatelessWidget {
                           )
                         : FloatingActionButton(
                             onPressed: () {
+                              final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      surfaceTintColor: cYellow,
-                                      title: const Center(
-                                        child: Text(
-                                          "Add details",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500),
+                                    return Form(key: _formKey,
+                                      child: AlertDialog(
+                                        surfaceTintColor: cYellow,
+                                        title: const Center(
+                                          child: Text(
+                                            "Add details",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
                                         ),
-                                      ),
-                                      content: SingleChildScrollView(
-                                          child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const SizedBox(height: 20),
+                                        content: SingleChildScrollView(
+                                            child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const SizedBox(height: 20),
 
-                                          Text("dateandtime"),
+                                            Text("dateandtime"),
 
-                                          const SizedBox(height: 10),
-                                          Text("no.of items "),
-                                          const SizedBox(height: 10),
+                                            const SizedBox(height: 10),
+                                            Text("no.of items "),
+                                            const SizedBox(height: 10),
 
-                                          TextFormField(
-                                            keyboardType: TextInputType.number,
-                                            // controller: deliveryBoyDeliveryChargeCT,
-                                            decoration: InputDecoration(
-                                              fillColor: Colors.transparent,
-                                              labelText: 'Name',
-                                              isDense: true,
-                                              labelStyle: const TextStyle(
-                                                // fontFamily: fontRegular,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 16,
-                                                color: Colors.black,
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(22),
-                                                borderSide: const BorderSide(
-                                                    color: clblack),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(22),
-                                                borderSide: const BorderSide(
-                                                    color: clblack),
-                                              ),
-                                            ),
-                                            validator: (value) {
-                                              // if (value == null || value.isEmpty) {
-                                              //   return 'Please enter delivery charge';
-                                              // }
-                                              // return null;
-                                            },
-                                            style:
-                                                const TextStyle(color: clblack),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          // customer remark
-                                          TextFormField(
-                                            keyboardType: TextInputType.name,
-                                            // controller: customerremarksCT,
-                                            decoration: InputDecoration(
-                                              fillColor: Colors.transparent,
-                                              labelText: 'Desk',
-                                              isDense: true,
-                                              labelStyle: const TextStyle(
-                                                // fontFamily: fontRegular,
-
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 16,
-                                                color: Colors.black,
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(22),
-                                                borderSide: const BorderSide(
-                                                    color: clblack),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(22),
-                                                borderSide: const BorderSide(
-                                                    color: clblack),
-                                              ),
-                                            ),
-
-                                            style:
-                                                const TextStyle(color: clblack),
-                                          ),
-
-                                          const SizedBox(height: 10),
-
-                                          // checkbox
-                                        ],
-                                      )),
-                                      actions: [
-                                        //Submit
-                                        Consumer<Mainprovider>(builder:
-                                            (context, adminProVal, child) {
-                                          return InkWell(
-                                            onTap: () async {
-                                              callNext(
-                                                  context, Printerscreen());
-                                            },
-                                            child: Container(
-                                              // width: width,
-                                              height: 50,
-                                              alignment: Alignment.center,
-                                              decoration: ShapeDecoration(
-                                                color: cgreen,
-                                                shape: RoundedRectangleBorder(
+                                            TextFormField(
+                                              keyboardType: TextInputType.name,
+                                              controller: value.namecontroller,
+                                              decoration: InputDecoration(
+                                                fillColor: Colors.transparent,
+                                                labelText: 'Name',
+                                                isDense: true,
+                                                labelStyle: const TextStyle(
+                                                  // fontFamily: fontRegular,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 16,
+                                                  color: Colors.black,
+                                                ),
+                                                enabledBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(70),
+                                                      BorderRadius.circular(22),
+                                                  borderSide: const BorderSide(
+                                                      color: clblack),
+                                                ),
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(22),
+                                                  borderSide: const BorderSide(
+                                                      color: clblack),
                                                 ),
                                               ),
-                                              child: const Text(
-                                                'Submit',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter Customer Name';
+                                                }
+                                                return null;
+                                              },
+                                              style:
+                                                  const TextStyle(color: clblack),
                                             ),
-                                          );
-                                        })
-                                      ],
+                                            const SizedBox(height: 10),
+
+                                            TextFormField(
+                                              keyboardType: TextInputType.number,
+                                              controller: value.desknocontroller,
+                                              decoration: InputDecoration(
+                                                fillColor: Colors.transparent,
+                                                labelText: 'Desk',
+                                                isDense: true,
+                                                labelStyle: const TextStyle(
+                                                  // fontFamily: fontRegular,
+
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 16,
+                                                  color: Colors.black,
+                                                ),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(22),
+                                                  borderSide: const BorderSide(
+                                                      color: clblack),
+                                                ),
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(22),
+                                                  borderSide: const BorderSide(
+                                                      color: clblack),
+                                                ),
+                                              ),
+
+                                              style:
+                                                  const TextStyle(color: clblack),
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter Desk Number';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+
+                                            const SizedBox(height: 10),
+
+                                            // checkbox
+                                          ],
+                                        )),
+                                        actions: [
+                                          //Submit
+                                          Consumer<Mainprovider>(builder:
+                                              (context, adminProVal, child) {
+                                            return InkWell(
+                                              onTap: () async {
+                                                final FormState? form = _formKey.currentState;
+                                                if (form!.validate()) {
+                                                  callNext(
+                                                      context, Printerscreen());
+                                                }
+
+
+
+                                              },
+                                              child: Container(
+                                                // width: width,
+                                                height: 50,
+                                                alignment: Alignment.center,
+                                                decoration: ShapeDecoration(
+                                                  color: cgreen,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(70),
+                                                  ),
+                                                ),
+                                                child: const Text(
+                                                  'Submit',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          })
+                                        ],
+                                      ),
                                     );
                                   });
                             },
                             elevation: 0,
-                            backgroundColor: cgreen,
+                            backgroundColor: cWhite,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(42),
                             ),
                             child: text(
                               "Save",
                               FontWeight.w700,
-                              cWhite,
+                              cgreen,
                               18,
                             ),
                           );
@@ -186,6 +203,7 @@ class Cart_Screen extends StatelessWidget {
               )
             : SizedBox();
       }),
+
       backgroundColor: cYellow,
       appBar: AppBar(
         title: const Text("Items",
