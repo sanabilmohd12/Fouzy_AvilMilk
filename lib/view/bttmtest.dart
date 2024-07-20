@@ -63,7 +63,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                     size: Size(size.width, 100),
                     painter: BNBCustomPainter(),
                   ),
-            InkWell(onTap: () {
+            GestureDetector(onTap: () {
               provider.loginCT.clear();
               callNext(context, LoginScreen());
             },
@@ -72,7 +72,10 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                         child: Container(
               height: 80,
               width: 80,
+
               decoration: BoxDecoration(
+
+
 
                 image: DecorationImage(
                   scale: 1.7,
@@ -90,6 +93,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
                     child: Container(
+                      // color: Colors.orange,
                       width: size.width,
                       height: 80,
                       child: Row(

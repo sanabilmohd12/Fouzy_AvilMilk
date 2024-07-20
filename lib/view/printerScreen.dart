@@ -64,7 +64,8 @@ class Printerscreen extends StatelessWidget {
                                 padding: EdgeInsets.only(right: 7),
                                 child: Image(
                                   image: AssetImage(
-                                    "assets/images/PITONSOFT LOGO.png",
+                                    "assets/Sundae (1).png"
+
                                   ),
                                   height: 40,
                                 ),
