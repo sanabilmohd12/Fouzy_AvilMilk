@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -35,24 +36,49 @@ class Mainprovider extends ChangeNotifier {
   }
 
   /// Count
+  void countIncrement(int index) {
+    if (cartitemslist[index].count >= 0) {
+      cartitemslist[index].count++;
+      double newPrice=0.0;
 
-// void countIncrement(int index){
-// if(avilmilklist[index].count>=0){
-// avilmilklist[index].count++;
-// notifyListeners();
-// }
-// print(avilmilklist[index].count.toString()+"incr");
-// notifyListeners();
-// }
+      // Parse the initial item price as a double
+      double initialPrice = double.parse(cartitemslist[index].itemprice);
 
-// void countDecrement(int index){
-//     if(avilmilklist[index].count>0){
-// avilmilklist[index].count--;
-// notifyListeners();
-//     }
-//     print(avilmilklist[index].count.toString()+"decr");
-//     notifyListeners();
-// }
+      // Calculate the new price based on the count
+       newPrice = initialPrice * cartitemslist[index].count;
+
+      // Update the itemprice with the new calculated price
+      cartitemslist[index].totalprice = newPrice.toStringAsFixed(2);
+      print(cartitemslist[index].totalprice.toString()+'tot');
+
+
+      notifyListeners();
+    }
+    print(cartitemslist[index].count.toString() + "incr");
+    print(cartitemslist[index].itemprice + "new price");
+    notifyListeners();
+  }
+  void countDecrement(int index) {
+    if (cartitemslist[index].count > 0) {
+      cartitemslist[index].count--;
+      double newPrice = 0.0;
+
+      // Parse the initial item price as a double
+      double initialPrice = double.parse(cartitemslist[index].itemprice);
+
+      // Calculate the new price based on the count
+      newPrice = initialPrice * cartitemslist[index].count;
+
+      // Update the itemprice with the new calculated price
+      cartitemslist[index].totalprice = newPrice.toStringAsFixed(2);
+      print(cartitemslist[index].totalprice.toString() + 'tot');
+
+      notifyListeners();
+    }
+    print(cartitemslist[index].count.toString() + "decr");
+    print(cartitemslist[index].itemprice + "new price");
+    notifyListeners();
+  }
 
   ///
   Map<String, dynamic> cartItems = {};
@@ -1410,7 +1436,7 @@ class Mainprovider extends ChangeNotifier {
       print("heeloooooooi");
       db.collection("CART").doc(id).set(map, SetOptions(merge: true));
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        duration: Duration(seconds: 10),
+        duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 0, 204,0),
             errorText: "Items Already Exist",
@@ -1440,56 +1466,177 @@ class Mainprovider extends ChangeNotifier {
   }
 
   List<cartItemsDetails> cartitemslist = [];
-
   bool getcart = false;
 
-  void getCartItems() {
-    getcart = true;
-    notifyListeners();
-    db.collection("CART").get().then(
-      (value) {
-        if (value.docs.isNotEmpty) {
-          getcart = true;
-          notifyListeners();
-          cartitemslist.clear();
-          for (var element in value.docs) {
-            Map<dynamic, dynamic> getcart = element.data();
-            cartitemslist.add(cartItemsDetails(
-              getcart["CART_ID"].toString(),
-              DateFormat("dd-MM-yyyy hh:mm a")
-                  .format(getcart["DATE_TIME"].toDate()),
-              getcart["ITEMS_CATEGORY"].toString(),
-              getcart["ITEMS_ID"].toString(),
-              getcart["ITEMS_NAME"].toString(),
-              getcart["ITEMS_PHOTO"].toString(),
-              getcart["ITEMS_PRICE"].toString(),
-            ));
-            notifyListeners();
-          }
+  Future<void> getCartItems() async {
+    try {
+      getcart = true;
+      notifyListeners();
+
+      final QuerySnapshot snapshot = await db.collection("CART").get();
+
+      cartitemslist.clear();
+
+      if (snapshot.docs.isNotEmpty) {
+        for (var doc in snapshot.docs) {
+          Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
+          cartitemslist.add(cartItemsDetails(
+            cartData["CART_ID"].toString(),
+            DateFormat("dd-MM-yyyy hh:mm a")
+                .format(cartData["DATE_TIME"].toDate()),
+            cartData["ITEMS_CATEGORY"].toString(),
+            cartData["ITEMS_ID"].toString(),
+            cartData["ITEMS_NAME"].toString(),
+            cartData["ITEMS_PHOTO"].toString(),
+            cartData["ITEMS_PRICE"].toString(),
+            cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
+            cartData["TOTAL_PRICE"].toString(),
+          ));
         }
-      },
-    );
+      }
+    } catch (e) {
+      print("Error fetching cart items: $e");
+      // Handle the error appropriately
+    } finally {
+      getcart = false;
+      notifyListeners();
+    }
+  }
+  Future<void> delefromtecart(String id, BuildContext context) async {
+    try {
+      print("Deleting item with id: $id");
+
+      // Remove the item from the local list
+      int indexToRemove = cartitemslist.indexWhere((item) => item.cartid == id);
+      if (indexToRemove != -1) {
+        cartitemslist.removeAt(indexToRemove);
+        notifyListeners(); // Update UI immediately
+      } else {
+        print("Item not found in local list");
+      }
+
+      // Delete from Firestore
+      await db.collection("CART").doc(id).delete();
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Center(
+          child: Text("Deleted Successfully",
+              style: TextStyle(
+                color: cgreen,
+                fontSize: 15,
+                fontWeight: FontWeight.w800,
+              )),
+        ),
+        duration: Duration(milliseconds: 3000),
+      ));
+
+      // Optionally refresh the cart items
+      // await getCartItems();
+
+    } catch (e) {
+      print("Error deleting item: $e");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Error deleting item: $e"),
+      ));
+    }
+  }
+
+  /// icecreame Selections
+  Future<void> toggleIceCreamSelection(BuildContext context, int iceCreamIndex, int scoopIndex) async {
+    var iceCream = icecreamlist[iceCreamIndex];
+    var scoop = iceCream.scoops[scoopIndex];
+
+    scoop.isClicked = !scoop.isClicked;
+
+    if (scoop.isClicked) {
+      await addItemToCart(
+        context: context,
+        name: "${iceCream.flavourName} - ${scoop.name}",
+        itemsid: "${iceCream.flavourName}_${scoop.name}",
+        price: scoop.price.toString(),
+        itemname: "Ice Cream",
+        // photo: iceCream.photo ?? "",
+      );
+    } else {
+      await removeItemFromCart(
+        context: context,
+        itemsid: "${iceCream.flavourName}_${scoop.name}",
+      );
+    }
+
     notifyListeners();
   }
 
-  void delefromtecart(String id, BuildContext context) {
-    print(id + "123456");
+  Future<void> addItemToCart({
+    required BuildContext context,
+    required String name,
+    required String itemsid,
+    required String price,
+    required String itemname,
+    // required String photo,
+  }) async {
+    bool itemExists = await checkItemExist(itemsid);
+    if (!itemExists) {
+      String id = DateTime.now().millisecondsSinceEpoch.toString();
 
-    db.collection("CART").doc(id).delete();
+      Map<String, Object> map = HashMap();
+      map["CART_ID"] = id;
+      map["DATE_TIME"] = DateTime.now();
+      map["ITEMS_NAME"] = name;
+      map["ITEMS_ID"] = itemsid;
+      map["ITEMS_PRICE"] = price;
+      map["ITEMS_CATEGORY"] = itemname;
+      // map["ITEMS_PHOTO"] = photo;
+      map["QTY"] = 1;
+      map["TOTAL_PRICE"] = double.parse(price);
+
+      await db.collection("CART").doc(id).set(map, SetOptions(merge: true));
+      showSnackBar(context, "Item Added to Cart", isSuccess: true);
+    } else {
+      showSnackBar(context, "Item Already in Cart", isSuccess: false);
+    }
+  }
+
+  Future<void> removeItemFromCart({
+    required BuildContext context,
+    required String itemsid,
+  }) async {
+    QuerySnapshot querySnapshot = await db
+        .collection("CART")
+        .where("ITEMS_ID", isEqualTo: itemsid)
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      await doc.reference.delete();
+    }
+
+    showSnackBar(context, "Item Removed from Cart", isSuccess: true);
+  }
+
+  Future<bool> checkItemExisticecream(String itemsid) async {
+    QuerySnapshot querySnapshot = await db
+        .collection("CART")
+        .where("ITEMS_ID", isEqualTo: itemsid)
+        .get();
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  void showSnackBar(BuildContext context, String message, {required bool isSuccess}) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.red,
-      content: Center(
-        child: Text("Deleted Successfully",
-            style: TextStyle(
-              color: cgreen,
-              fontSize: 15,
-              fontWeight: FontWeight.w800,
-            )),
+      duration: Duration(seconds: 2),
+      content: CustomSnackBarContent(
+        colorcontainer: isSuccess ? Color.fromARGB(255, 0, 204, 0) : Colors.orange,
+        errorText: message,
+        errorHeadline: isSuccess ? "Success" : "Warning",
+        colorbubble: isSuccess ? cYellow : Colors.red,
+        img: isSuccess ? "assets/check.svg" : "assets/close.svg",
       ),
-      duration: Duration(milliseconds: 3000),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      margin: EdgeInsets.all(5),
     ));
-    getCartItems();
-    notifyListeners();
   }
 
   ///CHECKBOK
@@ -1500,16 +1647,31 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  int count = 0;
-  void additems() {
-    count++;
-    notifyListeners();
+  List<cartItemsDetails> cartitemscountlist = [];
+
+  void updateItemQuantity(String cartId, int newQuantity) {
+  var index = cartitemscountlist.indexWhere((item) => item.cartid == cartId);
+  if (index != -1 && newQuantity > 0) {
+    cartitemscountlist[index].count = newQuantity;
+  notifyListeners();
+  }
   }
 
-  void minusitems() {
-    count--;
-    notifyListeners();
-  }
+  // double getTotalCartPrice() {
+  // return cartitemscountlist.fold(0, (total, item) => total + (item.itemprice * item.count));
+  // }
+
+  //
+  // int count = 0;
+  // void additems() {
+  //   count++;
+  //   notifyListeners();
+  // }
+  //
+  // void minusitems() {
+  //   count--;
+  //   notifyListeners();
+  // }
 
   /// datepicker
 

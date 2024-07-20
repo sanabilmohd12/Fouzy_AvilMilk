@@ -110,18 +110,14 @@ class IceCreamListScreen extends StatelessWidget {
                                 itemCount: 2,
                                 itemBuilder: (context, index) {
                                   return CheckboxListTile(
-                                    title: Text(value.icecreamlist[index1].scoops[index].name ),
-                                    subtitle: Text(value.icecreamlist[index1].scoops[index].price.toString()),
+                                    title: Text(items.scoops[index].name),
+                                    subtitle: Text(items.scoops[index].price.toString()),
                                     tileColor: cgreen,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8)),
-                                    value:value.icecreamlist[index1].scoops[index].isClicked,
-                                    // value: provider.getIceCreamSingleScoopValue(index),
+                                        borderRadius: BorderRadius.circular(8)),
+                                    value: items.scoops[index].isClicked,
                                     onChanged: (val) {
-                                      value.icecreamlist[index1].scoops[index].isClicked=val!;
-                                      value.notifyListeners();
-                                      // provider.setIceCreamSingleScoopValue(index, val!);
+                                      value.toggleIceCreamSelection(context, index1, index);
                                     },
                                   );
                                 },

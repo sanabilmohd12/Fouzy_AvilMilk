@@ -1,3 +1,7 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/callFunctions.dart';
@@ -60,7 +64,7 @@ class Cart_Screen extends StatelessWidget {
                                           const SizedBox(height: 10),
 
                                           TextFormField(
-                                            keyboardType: TextInputType.number,
+                                            keyboardType: TextInputType.name,
                                             // controller: deliveryBoyDeliveryChargeCT,
                                             decoration: InputDecoration(
                                               fillColor: Colors.transparent,
@@ -97,7 +101,7 @@ class Cart_Screen extends StatelessWidget {
                                           const SizedBox(height: 10),
                                           // customer remark
                                           TextFormField(
-                                            keyboardType: TextInputType.name,
+                                            keyboardType: TextInputType.number,
                                             // controller: customerremarksCT,
                                             decoration: InputDecoration(
                                               fillColor: Colors.transparent,
@@ -202,19 +206,19 @@ class Cart_Screen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: height,
-          width: width,
-          decoration: ShapeDecoration(
-            color: cgreen,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              ),
+      body: Container(
+        height: height,
+        width: width,
+        decoration: ShapeDecoration(
+          color: cgreen,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
             ),
           ),
+        ),
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Consumer<Mainprovider>(builder: (context, value, child) {
@@ -244,141 +248,125 @@ class Cart_Screen extends StatelessWidget {
                                 width: width,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
-                                  color: Color(0xffFFF89A),
+                                  color: Color(0xfff9ea1f),
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    items.itemphoto == ""
-                                        ? Container(
-                                            width: width,
-                                            height: 250,
-                                            decoration: BoxDecoration(
-                                              color: Colors.transparent,
+                                    Container(
+                                      width: width,
+                                      height: 250,
+                                      decoration: items.itemphoto == ""
+                                          ? BoxDecoration(
+                                              color: Color(0xffFFF89A),
                                               image: DecorationImage(
                                                 image: AssetImage(
                                                     "assets/Sundae (1).png"),
                                               ),
-                                            ),
-                                            child: Align(
-                                                alignment: Alignment.topRight,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: InkWell(
-                                                      onTap: () {
-                                                        value.delefromtecart(
-                                                            items.cartid,
-                                                            context);
-                                                      },
-                                                      child: Icon(
-                                                        Icons.delete,
-                                                        size: 35,
-                                                      )),
-                                                )),
-                                          )
-                                        : Container(
-                                            width: width,
-                                            height: 250,
-                                            decoration: BoxDecoration(
-                                              color: Colors.transparent,
+                                            )
+                                          : BoxDecoration(
+                                        color: Color(0xffFFF89A),
                                               image: DecorationImage(
                                                 image: NetworkImage(
                                                     items.itemphoto),
                                               ),
                                             ),
-                                            child: Align(
-                                                alignment: Alignment.topRight,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: InkWell(
-                                                      onTap: () {
-                                                        value.delefromtecart(
-                                                            items.cartid,
-                                                            context);
-                                                      },
-                                                      child: Icon(
-                                                        Icons.delete,
-                                                        size: 35,
-                                                      )),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    value.delefromtecart(
+                                                        items.cartid, context);
+                                                  },
+                                                  child: Icon(
+                                                    Icons.delete,
+                                                    size: 35,
+                                                  ),
+                                                ),
+                                              )),
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Container(
+                                                width: width / 6,
+                                                height: height / 20,
+                                                decoration: ShapeDecoration(
+                                                  gradient:
+                                                      LinearGradient(colors: [
+                                                    Color(0xff0a410b),
+                                                    Color(0xff1e7c22),
+                                                    Color(0xff0a410b),
+                                                  ]),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadiusDirectional
+                                                            .horizontal(
+                                                      start:
+                                                          Radius.circular(15),
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    items.count == 1
+                                                        ? "₹ " +
+                                                            items.itemprice
+                                                                .toString()
+                                                        : "₹ " +
+                                                            items.totalprice
+                                                                .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color:
+                                                            Color(0xfffff1e2)),
+                                                  ),
                                                 )),
                                           ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        // crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          FittedBox(
-                                            child: text(
-                                                items.itemname,
-                                                FontWeight.w800,
-                                                cgreen,
-                                                items.itemname.length >= 15
-                                                    ? 20
-                                                    : 25),
-                                          ),
+                                          SizedBox(height: 10,),
+                                          Align(alignment: Alignment.bottomCenter,
+                                              child: Text(items.itemname,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),))
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: height / 55,
-                                    ),
-                                    Container(
-                                        height: height / 19,
-                                        width: width,
-                                        color: Color(0xfff9ea1f),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 15.0),
-                                          child: ListTile(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.vertical(
-                                                        bottom: Radius.circular(
-                                                            10))),
-                                            tileColor: Color(0xfff9ea1f),
-                                            leading: IconButton(
-                                                onPressed: () {
-                                                  value.additems();
-                                                },
-                                                icon: const Icon(
-                                                  CustomIcons.minus_circle,
-                                                  color: Colors.red,
-                                                )),
-                                            title: Center(
-                                              child: text(
-                                                  value.count.toString(),
-                                                  FontWeight.w400,
-                                                  cgreen,
-                                                  20),
-                                            ),
-                                            trailing: IconButton(
-                                                onPressed: () {
-                                                  value.minusitems();
-                                                },
-                                                icon: Icon(
-                                                  CustomIcons.plus_circle,
-                                                  color: cgreen,
-                                                )),
-                                          ),
-                                        )
+                                    // SizedBox(
+                                    //   height: height/100,
+                                    // ),
 
-                                        // Row(
-                                        //   children: [
-                                        //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.minus_circle,color: Colors.red,)),
-                                        //     FittedBox(
-                                        //         child: text(
-                                        //             "000",
-                                        //             FontWeight.w400,
-                                        //             cgreen,
-                                        //             30)),
-                                        //     IconButton(onPressed: (){}, icon: Icon(CustomIcons.plus_circle,color: cgreen,))
-                                        //   ],
-                                        // ),
+                                    SizedBox(height: height/26,
+                                      child: ListTile(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.vertical(
+                                                bottom:
+                                                Radius.circular(30))),
+                                        tileColor: Color(0xfff9ea1f),
+                                        leading: IconButton(
+                                            onPressed: () {
+                                              value.countDecrement(index);
+                                            },
+                                            icon: const Icon(
+                                              CustomIcons.minus_circle,
+                                              color: Colors.red,
+                                            )),
+                                        title: Center(
+                                          child: text(items.count.toString(),
+                                              FontWeight.w400, cgreen, 20),
                                         ),
+                                        trailing: IconButton(
+                                            onPressed: () {
+                                              value.countIncrement(index);
+                                            },
+                                            icon: Icon(
+                                              CustomIcons.plus_circle,
+                                              color: cgreen,
+                                            )),
+                                      ),
+                                    )
                                   ],
                                 ),
                               );
