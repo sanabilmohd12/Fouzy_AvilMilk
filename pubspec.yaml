@@ -51,6 +51,9 @@ dependencies:
   lottie: ^3.1.2
   shimmer: ^3.0.0
   flutter_svg: ^2.0.10+1
+  swipeable_button: ^0.2.0
+  swipeable_button_view:
+
 
 
 

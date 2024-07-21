@@ -8,6 +8,7 @@ import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/custom_icons_icons.dart';
 import 'package:fouzy/view/printerScreen.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constants/colors.dart';
 import '../constants/widgets.dart';
@@ -63,74 +64,84 @@ class Cart_Screen extends StatelessWidget {
                                           Text("no.of items "),
                                           const SizedBox(height: 10),
 
-                                          TextFormField(
-                                            keyboardType: TextInputType.name,
-                                            // controller: deliveryBoyDeliveryChargeCT,
-                                            decoration: InputDecoration(
-                                              fillColor: Colors.transparent,
-                                              labelText: 'Name',
-                                              isDense: true,
-                                              labelStyle: const TextStyle(
-                                                // fontFamily: fontRegular,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 16,
-                                                color: Colors.black,
+                                          Consumer<Mainprovider>(
+                                              builder: (context, value, child) {
+                                            return TextFormField(
+                                              keyboardType: TextInputType.name,
+                                              controller: value.customerNameCT,
+                                              decoration: InputDecoration(
+                                                fillColor: Colors.transparent,
+                                                labelText: 'Name',
+                                                isDense: true,
+                                                labelStyle: const TextStyle(
+                                                  // fontFamily: fontRegular,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 16,
+                                                  color: Colors.black,
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(22),
+                                                  borderSide: const BorderSide(
+                                                      color: clblack),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(22),
+                                                  borderSide: const BorderSide(
+                                                      color: clblack),
+                                                ),
                                               ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(22),
-                                                borderSide: const BorderSide(
-                                                    color: clblack),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(22),
-                                                borderSide: const BorderSide(
-                                                    color: clblack),
-                                              ),
-                                            ),
-                                            validator: (value) {
-                                              // if (value == null || value.isEmpty) {
-                                              //   return 'Please enter delivery charge';
-                                              // }
-                                              // return null;
-                                            },
-                                            style:
-                                                const TextStyle(color: clblack),
-                                          ),
+                                              validator: (value) {
+                                                // if (value == null || value.isEmpty) {
+                                                //   return 'Please enter delivery charge';
+                                                // }
+                                                // return null;
+                                              },
+                                              style: const TextStyle(
+                                                  color: clblack),
+                                            );
+                                          }),
                                           const SizedBox(height: 10),
                                           // customer remark
-                                          TextFormField(
-                                            keyboardType: TextInputType.number,
-                                            // controller: customerremarksCT,
-                                            decoration: InputDecoration(
-                                              fillColor: Colors.transparent,
-                                              labelText: 'Desk',
-                                              isDense: true,
-                                              labelStyle: const TextStyle(
-                                                // fontFamily: fontRegular,
+                                          Consumer<Mainprovider>(
+                                              builder: (context, value, child) {
+                                            return TextFormField(
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              controller: value.customerDeskCT,
+                                              decoration: InputDecoration(
+                                                fillColor: Colors.transparent,
+                                                labelText: 'Desk',
+                                                isDense: true,
+                                                labelStyle: const TextStyle(
+                                                  // fontFamily: fontRegular,
 
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 16,
-                                                color: Colors.black,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 16,
+                                                  color: Colors.black,
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(22),
+                                                  borderSide: const BorderSide(
+                                                      color: clblack),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(22),
+                                                  borderSide: const BorderSide(
+                                                      color: clblack),
+                                                ),
                                               ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(22),
-                                                borderSide: const BorderSide(
-                                                    color: clblack),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(22),
-                                                borderSide: const BorderSide(
-                                                    color: clblack),
-                                              ),
-                                            ),
-
-                                            style:
-                                                const TextStyle(color: clblack),
-                                          ),
+                                              style: const TextStyle(
+                                                  color: clblack),
+                                            );
+                                          }),
 
                                           const SizedBox(height: 10),
 
@@ -265,14 +276,15 @@ class Cart_Screen extends StatelessWidget {
                                               ),
                                             )
                                           : BoxDecoration(
-                                        color: Color(0xffFFF89A),
+                                              color: Color(0xffFFF89A),
                                               image: DecorationImage(
                                                 image: NetworkImage(
                                                     items.itemphoto),
                                               ),
                                             ),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
                                         children: [
                                           Align(
                                               alignment: Alignment.topLeft,
@@ -311,25 +323,45 @@ class Cart_Screen extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ),
-                                                child: Center(
-                                                  child: Text(
-                                                    items.count == 1
-                                                        ? "₹ " +
-                                                            items.itemprice
-                                                                .toString()
-                                                        : "₹ " +
-                                                            items.totalprice
-                                                                .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color:
-                                                            Color(0xfffff1e2)),
+                                                child: Shimmer(
+                                                  gradient:
+                                                      LinearGradient(colors: [
+
+                                                   cWhite,
+                                                        cYellow,
+                                                   cgreen,
+
+                                                  ]),
+                                                  direction: ShimmerDirection.ltr,
+                                                  child: Center(
+                                                    child: Text(
+                                                      items.count == 1
+                                                          ? "₹ " +
+                                                              items.itemprice
+                                                                  .toString()
+                                                          : "₹ " +
+                                                              items.totalprice
+                                                                  .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          color: Color(
+                                                              0xfffff1e2)),
+                                                    ),
                                                   ),
                                                 )),
                                           ),
-                                          SizedBox(height: 10,),
-                                          Align(alignment: Alignment.bottomCenter,
-                                              child: Text(items.itemname,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),))
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Text(
+                                                items.itemname,
+                                                style: TextStyle(
+                                                    fontSize: 22,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ))
                                         ],
                                       ),
                                     ),
@@ -337,13 +369,12 @@ class Cart_Screen extends StatelessWidget {
                                     //   height: height/100,
                                     // ),
 
-                                    SizedBox(height: height/26,
+                                    SizedBox(
+                                      height: height / 26,
                                       child: ListTile(
                                         shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.vertical(
-                                                bottom:
-                                                Radius.circular(30))),
+                                            borderRadius: BorderRadius.vertical(
+                                                bottom: Radius.circular(30))),
                                         tileColor: Color(0xfff9ea1f),
                                         leading: IconButton(
                                             onPressed: () {

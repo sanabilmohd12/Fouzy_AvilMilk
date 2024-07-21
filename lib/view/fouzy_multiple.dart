@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/provider/mainprovider.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constants/colors.dart';
 import '../constants/myimages.dart';
@@ -237,40 +238,53 @@ class FouzyMultiple extends StatelessWidget {
                                             }),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20.0),
-                                            child: Row(
-                                              // crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                            padding:  EdgeInsets.only(left: width/50,bottom: height/30),
+                                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                FittedBox(
-                                                    child: text(
+                                                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    text(
                                                         item.name,
                                                         FontWeight.w800,
                                                         cgreen,
-                                                        25)),
-                                                FittedBox(
-                                                    child: text(
-                                                        "₹  " + item.price,
-                                                        FontWeight.w700,
+                                                        25),
+                                                    text(
+                                                        item.describtion,
+                                                        FontWeight.w400,
                                                         cgreen,
-                                                        20)),
+                                                        22),
+                                                  ],
+                                                ),
+
+                                                Container(
+                                                  height: 50,
+                                                  width: width/10,
+                                                  decoration: BoxDecoration(color: cgreen,borderRadius: BorderRadius.horizontal(left: Radius.circular(12))),
+                                                  child: Shimmer(
+                                                    gradient: LinearGradient(colors: [
+                                                      cWhite,
+                                                      cYellow,
+                                                      cGrey,
+                                                    ]),
+                                                    
+                                                    direction: ShimmerDirection.rtl,
+
+                                                    child: Center(
+                                                      child: text(
+                                                          "₹ ${item.price}",
+                                                          FontWeight.w700,
+                                                          cWhite,
+                                                          20),
+                                                    ),
+                                                  ),
+                                                ),
+
                                               ],
                                             ),
                                           ),
-                                          Column(
-                                            children: [
-                                              FittedBox(
-                                                  child: text(
-                                                      item.describtion,
-                                                      FontWeight.w400,
-                                                      cgreen,
-                                                      22)),
-                                            ],
-                                          ),
-                                          SizedBox(),
+                                          const SizedBox(),
+
+
                                         ],
                                       ),
                                     ),

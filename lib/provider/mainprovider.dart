@@ -26,6 +26,12 @@ class Mainprovider extends ChangeNotifier {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Reference ref = FirebaseStorage.instance.ref("IMAGE URL");
 
+
+  /// Cutomer Name and Desk
+  TextEditingController customerDeskCT = TextEditingController();
+  TextEditingController customerNameCT = TextEditingController();
+
+
   /// bottomsheet indexes *
   int _selectedindex = 0;
   int get selectedindex => _selectedindex;
@@ -580,6 +586,11 @@ class Mainprovider extends ChangeNotifier {
   //   }
   // }
 
+  void customerclear(){
+    customerDeskCT.clear();
+    customerNameCT.clear();
+  }
+
   void avilmilkclear() {
     avilMilkNameCt.clear();
     avilMilkPriceCt.clear();
@@ -594,6 +605,7 @@ class Mainprovider extends ChangeNotifier {
     fspCategoryCt.clear();
     fspAvilmilkFileImg = null;
     fspAvilmilkImg = '';
+
   }
 
   List<AvilMilkTypes> avilmilklist = [];
