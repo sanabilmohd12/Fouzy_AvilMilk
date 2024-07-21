@@ -115,6 +115,8 @@ class IceCreamListScreen extends StatelessWidget {
                                     value: items.scoops[index].isClicked,
                                     onChanged: (val) {
 
+                                      // value.toggleIceCreamSelection(context, index1, index);
+
                                       value.icecreamlist[index1].scoops[index].isClicked=val!;
                                       value.notifyListeners();
                                       print("ssssss"+index1.toString());

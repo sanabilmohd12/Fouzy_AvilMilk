@@ -1,15 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/colors.dart';
+import 'package:fouzy/provider/mainprovider.dart';
+import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../constants/myimages.dart';
 
 class Printerscreen extends StatelessWidget {
-  const Printerscreen({super.key});
+  String name;
+  String deskno;
+  String ordertype;
+  String datetime;
+   Printerscreen({super.key,required this.name,required this.deskno,required this.ordertype,required this.datetime});
 
   @override
   Widget build(BuildContext context) {
+    print(deskno+"dcvfvfvfv"+name+"kgfcvbn"+ordertype+"uytrfcvbnm"+datetime);
     ScreenshotController screenshotController = ScreenshotController();
 
     var height = MediaQuery.of(context).size.height;
@@ -30,229 +37,317 @@ class Printerscreen extends StatelessWidget {
         body:  SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 15,),
+              SizedBox(height: 50,),
 
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10,top: 10),
+                child: Container(
+                  // height: height / 15,
+                  width: width,
+                  height: 55,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(9), color: cgreen),
+                  child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 7),
+                        child: Text(
+                          "Invoice",
+                          style: TextStyle(
+                              fontSize: 31,
+                              color: cYellow),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 7),
+                        child: Image(
+                          image: AssetImage(
+                              "assets/Sundae (1).png"
 
-
+                          ),
+                          height: 40,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 25,),
               Screenshot(
                 controller: screenshotController,
                 child: Container(
                   color: cWhite,
                   child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10,top: 10),
-                        child: Container(
-                          // height: height / 15,
-                          width: width,
-                          height: 55,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(9), color: cgreen),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 7),
-                                child: Text(
-                                  "Invoice",
-                                  style: TextStyle(
-                                      fontSize: 31,
-                                      color: Color(0xff343992)),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(right: 7),
-                                child: Image(
-                                  image: AssetImage(
-                                    "assets/Sundae (1).png"
 
-                                  ),
-                                  height: 40,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 11),
+                    children: [
+                      SizedBox(height: 20,),
+
+                      CircleAvatar(radius: 50,
+                          backgroundImage: AssetImage(
+                            'assets/fouzylogo.png',
+                          ),),
                       Text(
                         'FOUZY AVIL MILK',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 25,
                           fontWeight: FontWeight.w700,
                           color: Color(0xff119246),
                         ),
+                      ),  Text(
+                        'ELAYUR,KOOTTAVIL ROAD,PARAMMAL,KAVANUR',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color:cBlack ,
+                        ),
                       ),
-                      Image.asset('assets/fouzylogo.png',scale: 15,),
+                      Text(
+                        'ELAYUR',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color:cBlack ,
+                        ),
+                      ),
+                      // Text(
+                      //   'PH : 7894561236',
+                      //   style: TextStyle(
+                      //     fontSize: 14,
+                      //     fontWeight: FontWeight.w400,
+                      //     color:cBlack ,
+                      //   ),
+                      // ),
+                        Text("----------------------------------------------------------------------------------------------------------------------------"),
 
-                      const Padding(
-                        padding: EdgeInsets.only(right: 50),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 25),
+                        width: width,
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Receipt No:",
+                              "Name :"+name,
                               style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color:cBlack ,
+                              ),
                             ),
-                            Text(
-                              "Name :",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Date :"+datetime,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color:cBlack ,
+                                  ),
+                                ),  Text(
+                                  "Table No :"+deskno,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color:cBlack ,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              "Abu dhabi | 500 | Apartment Name | 676765",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey),),
-                            Text(
-                              "City",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey),
+                            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Oder Mode : '+ordertype,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color:cBlack ,
+                                  ),
+                                ),
+                                Consumer<Mainprovider>(
+                                  builder: (context,value,child) {
+                                    return Text(
+                                      'Inv No: 000'+value.orderCount.toString(),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color:cBlack ,
+                                      ),
+                                    );
+                                  }
+                                ),
+                              ],
                             ),
-                            Text(
-                              "Country",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey),
-                            ),
+
                           ],
                         ),
                       ),
-                      const SizedBox(height: 34),
-                      const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(fit: FlexFit.tight,
-                              flex: 3,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Items",textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey),
-                                  ),
-                                  Text(
-                                    " ",textAlign: TextAlign.center,
+
+
+
+
+                        Text("----------------------------------------------------------------------------------------------------------------------------"),
+
+
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding:  EdgeInsets.symmetric(horizontal: 25),
+
+
+                        child:  Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 25,
+                                height: 50,
+
+                                child: Text(
+                                  "SI\nNO",textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 10,
+
                                         fontWeight: FontWeight.w400,
                                         color: Colors.grey),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                            Column(crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Courier Charge",textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey),
-                                ),
-                                Text(
-                                  "(AED)",
-                                  // textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey),
-                                ),
-                              ],
-                            ),
 
-                            Flexible(fit: FlexFit.tight,
-                              flex: 3,
-                              child: Text(
-                                "Tax \n(AED)",textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey),
+                              SizedBox(
+                                width: 250,
+                                height: 50,
+
+                                child: Text(
+                                  "Items",textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey),
+                                ),
                               ),
-                            ),
-                            Flexible(fit: FlexFit.tight,
-                              flex: 4,
-                              child: Text(
-                                "Amount (AED)",textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey),
+                              SizedBox(
+                                width: 80,
+                                height: 50,
+
+                                child: Text(
+                                  "Qty",textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey),
+                                ),
                               ),
-                            ),
-                          ]),
+
+
+                              SizedBox(
+                                width: 80,
+                                height: 50,
+
+                                child: Text(
+                                  "Rate",textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey),
+                                ),
+                              ),
+
+                              SizedBox(
+                                width: 80,
+                                height: 50,
+
+                                child: Text(
+                                  "Total",textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey),
+                                ),
+                              ),
+                            ]),
+                      ),
+
+
+
+
                       const SizedBox(height: 10),
                       Container(width: width / 1.1, height: 1, color: Colors.black),
-                      // Divider(thickness:  1,color: clblack,endIndent: 5,indent: 5,),
                       const SizedBox(height: 10),
-                      SizedBox(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: 2,
-                          itemBuilder: (context, index) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SizedBox(width: width / 30),
-                                const Flexible(fit: FlexFit.tight,
-                                  flex: 3,
-                                  child: Text(
-                                    "#452222",textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey),
-                                  ),
+                      Consumer<Mainprovider>(
+                        builder: (context,value,child) {
+                          return ListView.builder(
+
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: value.cartitemslist.length,
+                            itemBuilder: (context, index) {
+                              var items =value.cartitemslist[index];
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 15),
+                                width: width,
+                                child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
+                                  children: [
+                                    SizedBox(
+                                      width: 25,
+
+                                      child: Text(
+                                        "1",textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey),
+                                      ),
+                                    ),
+                                    // SizedBox(width: width / 22),
+                                    SizedBox(
+                                      width: 250,
+
+                                      child: Text(
+                                       items.itemname,textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey),
+                                      ),
+                                    ),
+                                    // SizedBox(width: width / 3.1),
+                                    SizedBox(
+                                      width: 80,
+
+                                      child: Text(items.qty
+                                        ,textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey),
+                                      ),
+                                    ),
+                                    // SizedBox(width: width / 8),
+                                    SizedBox(
+                                      width: 80,
+
+                                      child: Text(
+                                        items.itemprice,textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 80,
+
+                                      child: Text(
+                                        items.totalprice,textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                // SizedBox(width: width / 22),
-                                const Flexible(fit: FlexFit.tight,
-                                  flex: 6,
-                                  child: Text(
-                                    "150",textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey),
-                                  ),
-                                ),
-                                // SizedBox(width: width / 3.1),
-                                const Flexible(fit: FlexFit.tight,
-                                  flex: 3,
-                                  child: Text(
-                                    "0.25",textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey),
-                                  ),
-                                ),
-                                // SizedBox(width: width / 8),
-                                const Flexible(
-                                  fit: FlexFit.tight,
-                                  flex: 4,
-                                  child: Text(
-                                    "151",textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },),
+                              );
+                            },);
+                        }
                       ),
 
                       const SizedBox(height:60),

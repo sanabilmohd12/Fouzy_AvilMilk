@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
+import 'package:intl/intl.dart';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fouzy/constants/colors.dart';
 import 'package:fouzy/view/flashsnackbar.dart';
 import 'package:image_picker/image_picker.dart';
@@ -1505,6 +1505,7 @@ class Mainprovider extends ChangeNotifier {
             cartData["ITEMS_PRICE"].toString(),
             cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
             cartData["TOTAL_PRICE"].toString(),
+            cartData["QTY"].toString(),
           ));
         }
       }
@@ -1593,6 +1594,25 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
 
   }
+  void cusdetailsclear(){
+    namecontroller.clear();
+    desknocontroller.clear();
+    dropdownval = 'Choose';
+  }
+  String dropdownval = 'Choose';
+  var odertype = [
+  "Choose",
+  "Dine In",
+  "Pick Up",
+
+  ];
+
+  void dropdown(String? newVal) {
+    dropdownval = newVal!;
+    notifyListeners();
+  }
+
+/// details timefromate
 
 
 
@@ -1907,6 +1927,30 @@ class Mainprovider extends ChangeNotifier {
 
       notifyListeners();
     });
+
+  } 
+  
+  void ordercount(){
+    db.collection("ORDER_COUNT").doc("ORDER_COUNT").set({
+      "ORDER_COUNT": FieldValue.increment(
+        double.parse('1'),
+      )
+    }, SetOptions(merge: true));
+    notifyListeners();
+  }
+
+
+
+  double orderCount=0;
+  void getordercount(){
+    db.collection("ORDER_COUNT").doc("ORDER_COUNT").get().then((value) {
+      if(value.exists){
+        Map<dynamic, dynamic> dataMap = value.data() as Map;
+        orderCount= double.parse(dataMap["ORDER_COUNT"].toString());
+        notifyListeners();
+      }
+    },);
+    notifyListeners();
 
   }
 
