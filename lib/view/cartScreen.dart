@@ -1,12 +1,10 @@
-import 'dart:ffi';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/custom_icons_icons.dart';
 import 'package:fouzy/view/printerScreen.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -19,6 +17,8 @@ class Cart_Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime nows = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd hh:mm a').format(nows);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -39,36 +39,36 @@ class Cart_Screen extends StatelessWidget {
                           )
                         : FloatingActionButton(
                             onPressed: () {
+                              final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+                           value.getordercount();
+
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      surfaceTintColor: cYellow,
-                                      title: const Center(
-                                        child: Text(
-                                          "Add details",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500),
+                                    return Form(key: _formKey,
+                                      child: AlertDialog(
+                                        surfaceTintColor: cYellow,
+                                        title: const Center(
+                                          child: Text(
+                                            "Add details",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
                                         ),
-                                      ),
-                                      content: SingleChildScrollView(
-                                          child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const SizedBox(height: 20),
+                                        content: SingleChildScrollView(
+                                            child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                             SizedBox(height: 20),
 
-                                          Text("dateandtime"),
+                                            Text(formattedDate,style: TextStyle(color: Colors.red,fontWeight: FontWeight.w500),),
 
-                                          const SizedBox(height: 10),
-                                          Text("no.of items "),
-                                          const SizedBox(height: 10),
+                                            const SizedBox(height: 10),
 
-                                          Consumer<Mainprovider>(
-                                              builder: (context, value, child) {
-                                            return TextFormField(
+                                            TextFormField(
                                               keyboardType: TextInputType.name,
-                                              controller: value.customerNameCT,
+                                              controller: value.namecontroller,
                                               decoration: InputDecoration(
                                                 fillColor: Colors.transparent,
                                                 labelText: 'Name',
@@ -79,15 +79,13 @@ class Cart_Screen extends StatelessWidget {
                                                   fontSize: 16,
                                                   color: Colors.black,
                                                 ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
+                                                enabledBorder: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(22),
                                                   borderSide: const BorderSide(
                                                       color: clblack),
                                                 ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
+                                                focusedBorder: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(22),
                                                   borderSide: const BorderSide(
@@ -95,23 +93,19 @@ class Cart_Screen extends StatelessWidget {
                                                 ),
                                               ),
                                               validator: (value) {
-                                                // if (value == null || value.isEmpty) {
-                                                //   return 'Please enter delivery charge';
-                                                // }
-                                                // return null;
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter Customer Name';
+                                                }
+                                                return null;
                                               },
-                                              style: const TextStyle(
-                                                  color: clblack),
-                                            );
-                                          }),
-                                          const SizedBox(height: 10),
-                                          // customer remark
-                                          Consumer<Mainprovider>(
-                                              builder: (context, value, child) {
-                                            return TextFormField(
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              controller: value.customerDeskCT,
+                                              style:
+                                                  const TextStyle(color: clblack),
+                                            ),
+                                            const SizedBox(height: 10),
+
+                                            TextFormField(
+                                              keyboardType: TextInputType.number,
+                                              controller: value.desknocontroller,
                                               decoration: InputDecoration(
                                                 fillColor: Colors.transparent,
                                                 labelText: 'Desk',
@@ -123,76 +117,119 @@ class Cart_Screen extends StatelessWidget {
                                                   fontSize: 16,
                                                   color: Colors.black,
                                                 ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
+                                                enabledBorder: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(22),
                                                   borderSide: const BorderSide(
                                                       color: clblack),
                                                 ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
+                                                focusedBorder: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(22),
                                                   borderSide: const BorderSide(
                                                       color: clblack),
                                                 ),
                                               ),
-                                              style: const TextStyle(
-                                                  color: clblack),
-                                            );
-                                          }),
 
-                                          const SizedBox(height: 10),
-
-                                          // checkbox
-                                        ],
-                                      )),
-                                      actions: [
-                                        //Submit
-                                        Consumer<Mainprovider>(builder:
-                                            (context, adminProVal, child) {
-                                          return InkWell(
-                                            onTap: () async {
-                                              callNext(
-                                                  context, Printerscreen());
-                                            },
-                                            child: Container(
-                                              // width: width,
-                                              height: 50,
-                                              alignment: Alignment.center,
-                                              decoration: ShapeDecoration(
-                                                color: cgreen,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(70),
-                                                ),
-                                              ),
-                                              child: const Text(
-                                                'Submit',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
+                                              style:
+                                                  const TextStyle(color: clblack),
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter Desk Number';
+                                                }
+                                                return null;
+                                              },
                                             ),
-                                          );
-                                        })
-                                      ],
+
+                                            const SizedBox(height: 10),
+                                            Consumer<Mainprovider>(
+                                                builder: (context, value,child) {
+                                                  return Container(
+                                                    margin: EdgeInsets.symmetric(horizontal: 15),
+                                                    height: height / 20,
+                                                    width: width/2 ,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      border: Border.all(width: 2, color: cgreen),
+                                                      color: cWhite,
+                                                    ),
+                                                    child: DropdownButton(
+                                                      // Initial Value
+                                                      underline:Container(color: Colors.white) ,
+                                                      value:value.dropdownval,
+                                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                                      items:value.odertype.map((String items) {
+                                                        return DropdownMenuItem(
+                                                          value: items,
+                                                          child: Text(items,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: cBlue)),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged: (String? newVal) {
+                                                        value.dropdown(newVal!);
+                                                        // value.layerSelection(newVal);
+                                                      },
+                                                    ),
+                                                  );
+                                                }
+                                            ),
+
+                                            // checkbox
+                                          ],
+                                        )),
+                                        actions: [
+                                          //Submit
+                                          Consumer<Mainprovider>(builder:
+                                              (context, adminProVal, child) {
+                                            return InkWell(
+                                              onTap: () async {
+                                                final FormState? form = _formKey.currentState;
+                                                if (form!.validate()) {
+                                                  value.ordercount();
+                                                  value.getCartItems();
+                                                  callNext(
+                                                      context, Printerscreen(name: adminProVal.namecontroller.text,deskno: adminProVal.desknocontroller.text,ordertype:adminProVal.dropdownval,datetime: formattedDate,));
+                                                }
+
+
+
+                                              },
+                                              child: Container(
+                                                // width: width,
+                                                height: 50,
+                                                alignment: Alignment.center,
+                                                decoration: ShapeDecoration(
+                                                  color: cgreen,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(70),
+                                                  ),
+                                                ),
+                                                child: const Text(
+                                                  'Submit',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          })
+                                        ],
+                                      ),
                                     );
                                   });
                             },
                             elevation: 0,
-                            backgroundColor: cgreen,
+                            backgroundColor: cWhite,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(42),
                             ),
                             child: text(
                               "Save",
                               FontWeight.w700,
-                              cWhite,
+                              cgreen,
                               18,
                             ),
                           );
@@ -201,6 +238,7 @@ class Cart_Screen extends StatelessWidget {
               )
             : SizedBox();
       }),
+
       backgroundColor: cYellow,
       appBar: AppBar(
         title: const Text("Items",
@@ -257,6 +295,7 @@ class Cart_Screen extends StatelessWidget {
                               return Container(
                                 // margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                                 width: width,
+
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   color: Color(0xfff9ea1f),
@@ -405,6 +444,7 @@ class Cart_Screen extends StatelessWidget {
                           )
                         : Center(child: Text("order something"));
               }),
+
             ],
           ),
         ),

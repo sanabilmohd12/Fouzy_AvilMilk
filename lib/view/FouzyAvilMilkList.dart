@@ -150,25 +150,27 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                 image: DecorationImage(
                                                     image: item.avilphoto != ""
                                                         ? NetworkImage(
+
                                                       item.avilphoto,
                                                       // scale: height/100,
-                                                    )
-                                                        : const AssetImage(""))),
-                                            child: Consumer<Mainprovider>(
-                                                builder: (context, value, child) {
-                                                  return Align(
-                                                      alignment: Alignment.topRight,
-                                                      child: Transform.scale(
-                                                        scale: 1.5,
-                                                        child: Checkbox(
-                                                          shape: const CircleBorder(),
-                                                          value:
-                                                          value.getCheckboxValue(
-                                                              index),
-                                                          onChanged: (bool? newValue) {
-                                                            value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+                                                        )
+                                                      : const AssetImage(""))),
+                                          child: Consumer<Mainprovider>(
+                                              builder: (context, value, child) {
+                                            return Align(
+                                                alignment: Alignment.topRight,
+                                                child: Transform.scale(
+                                                  scale: 1.5,
+                                                  child: Checkbox(
+                                                    shape: const CircleBorder(),
+                                                    value: value.getCheckboxValue(index),
+                                                      onChanged: (bool? newValue) {
 
-                                                            value.setCheckboxValue(index, newValue ?? false);
+
+                                                      value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
+
+                                                      value.setCheckboxValue(index, newValue ?? false);
+
                                                           },
                                                           checkColor: Colors.green,
                                                           fillColor: const WidgetStatePropertyAll(

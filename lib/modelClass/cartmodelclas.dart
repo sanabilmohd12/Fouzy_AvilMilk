@@ -9,8 +9,9 @@ class cartItemsDetails {
   String itemphoto;
  String itemprice;
  String totalprice;
+ String qty;
 
   int count;
   cartItemsDetails(this.cartid, this.datetime, this.itemcategory, this.itemid,
-      this.itemname, this.itemphoto, this.itemprice, this.count,this.totalprice);
+      this.itemname, this.itemphoto, this.itemprice, this.count,this.totalprice,this.qty);
 }
