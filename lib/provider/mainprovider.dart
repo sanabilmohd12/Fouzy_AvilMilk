@@ -49,46 +49,32 @@ class Mainprovider extends ChangeNotifier {
 
   /// Count
   void countIncrement(int index) {
-    if (cartitemslist[index].count >= 0) {
+    if (index >= 0 && index < cartitemslist.length) {
       cartitemslist[index].count++;
-      double newPrice=0.0;
-
-      // Parse the initial item price as a double
-      double initialPrice = double.parse(cartitemslist[index].itemprice);
-
-      // Calculate the new price based on the count
-       newPrice = initialPrice * cartitemslist[index].count;
-
-      // Update the itemprice with the new calculated price
-      cartitemslist[index].totalprice = newPrice.toStringAsFixed(2);
-      print(cartitemslist[index].totalprice.toString()+'tot');
-
-
+      updateItemDetails(index);
       notifyListeners();
     }
-    print(cartitemslist[index].count.toString() + "incr");
-    print(cartitemslist[index].itemprice + "new price");
-    notifyListeners();
   }
+
   void countDecrement(int index) {
-    if (cartitemslist[index].count > 0) {
+    if (index >= 0 && index < cartitemslist.length && cartitemslist[index].count > 1) {
       cartitemslist[index].count--;
-      double newPrice = 0.0;
-
-      // Parse the initial item price as a double
-      double initialPrice = double.parse(cartitemslist[index].itemprice);
-
-      // Calculate the new price based on the count
-      newPrice = initialPrice * cartitemslist[index].count;
-
-      // Update the itemprice with the new calculated price
-      cartitemslist[index].totalprice = newPrice.toStringAsFixed(2);
-      print(cartitemslist[index].totalprice.toString() + 'tot');
-
+      updateItemDetails(index);
       notifyListeners();
     }
-    print(cartitemslist[index].count.toString() + "decr");
-    print(cartitemslist[index].itemprice + "new price");
+  }
+
+  void updateItemDetails(int index) {
+    double initialPrice = double.parse(cartitemslist[index].itemprice);
+    double newPrice = initialPrice * cartitemslist[index].count;
+
+    cartitemslist[index].totalprice = newPrice.toStringAsFixed(2);
+    cartitemslist[index].qty = cartitemslist[index].count.toString();
+
+    print("Item: ${cartitemslist[index].itemname}");
+    print("Count: ${cartitemslist[index].count}");
+    print("Qty: ${cartitemslist[index].qty}");
+    print("Total Price: ${cartitemslist[index].totalprice}");
     notifyListeners();
   }
 
@@ -1450,6 +1436,7 @@ class Mainprovider extends ChangeNotifier {
     map["QTY"] = 0;
     map["TOTAL_PRICE"] = 0;
 
+
     itemStatus = await checkItemExist(itemsid);
     if (!itemStatus) {
       print("heeloooooooi");
@@ -1618,6 +1605,17 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// TOTAL PRICE
+
+  double getTotalPrice(){
+    double total = 0.0;
+    for(var item in cartitemslist){
+      total += double.parse(item.itemprice);
+    }
+    return total;
+  }
+
+
 /// details timefromate
 
 
@@ -1652,6 +1650,7 @@ class Mainprovider extends ChangeNotifier {
       showSnackBar(context, "Item Already in Cart", isSuccess: false);
     }
   }
+
 
   Future<void> removeItemFromCart({
     required BuildContext context,
@@ -1698,7 +1697,7 @@ class Mainprovider extends ChangeNotifier {
   bool flavour = false;
   void radioButtonChanges(bool bool) {
     flavour = bool;
-    notifyListeners();
+
   }
 
   List<cartItemsDetails> cartitemscountlist = [];

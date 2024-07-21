@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/colors.dart';
@@ -312,7 +313,7 @@ class Printerscreen extends StatelessWidget {
                                     SizedBox(
                                       width: 80,
 
-                                      child: Text(items.qty
+                                      child: Text(items.count.toString()
                                         ,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
@@ -336,7 +337,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.totalprice,textAlign: TextAlign.center,
+                                        items.itemprice,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -351,36 +352,41 @@ class Printerscreen extends StatelessWidget {
                       ),
 
                       const SizedBox(height:60),
-                      Container(
-                        width: width/1.1,
-                        height: height/17,
-                        decoration: const BoxDecoration(border: Border(
-                            top: BorderSide(color:clblack),
-                            bottom: BorderSide(color: Colors.black))),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right:28),
-                          child: Row(mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Text(
-                                'Total',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight. w800,
-                                    color: Colors.black),
-                              ),
+                      Consumer<Mainprovider>(
+                        builder: (context,value,child) {
+                          // double Sum = value.getTotalPrice();
+                          return Container(
+                            width: width/1.1,
+                            height: height/17,
+                            decoration: const BoxDecoration(border: Border(
+                                top: BorderSide(color:clblack),
+                                bottom: BorderSide(color: Colors.black))),
+                            child: Padding(
+                              padding: const EdgeInsets.only(right:28),
+                              child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const Text(
+                                    'Total',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight. w800,
+                                        color: Colors.black),
+                                  ),
 
-                              SizedBox(width: width/7),
-                              const Text(
+                                  SizedBox(width: width/7),
+                                   Text(
 
-                                '302',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.black),
+                                      value.getTotalPrice().toString(),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.black),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),),
+                            ),);
+                        }
+                      ),
                       SizedBox(height: 11),
 
 
