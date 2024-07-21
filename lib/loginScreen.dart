@@ -164,7 +164,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          if (value.loginCT.text == "696969") {
+                          if (value.loginCT.text == "123456") {
                             callNextReplacement(context, Admin_Home_Screen());
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

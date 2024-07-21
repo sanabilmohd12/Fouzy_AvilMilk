@@ -136,27 +136,27 @@ class SalesScreen extends StatelessWidget {
                                               ),
 
                                             ],
-                                            rows: value.Juiceshakesalllist.map((data) {
+                                            rows: value.orderlist.map((data) {
                                               return
 
                                                 DataRow(
                                                   cells: <DataCell>[
                                                     DataCell(
-                                                      Text(data.categoryname,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: cWhite),),
+                                                      Text(data.datetime,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: cWhite),),
 
                                                     ),
                                                     DataCell(
-                                                      Text(data.name,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: cWhite),),
+                                                      Text(data.itemname,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: cWhite),),
                                                     ),
                                                     DataCell(
 
-                                                      Text(data.price,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: cWhite),),
+                                                      Text(data.itemqty,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: cWhite),),
                                                     ),
                                                     DataCell(
-                                                      Text(data.price,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: cWhite),),
+                                                      Text(data.totalprice.toString(),style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: cWhite),),
 
                                                     ), DataCell(
-                                                      Text("Yes6",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: cWhite),),
+                                                      Text(data.printed,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: cWhite),),
 
                                                     ),
 

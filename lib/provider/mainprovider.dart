@@ -23,6 +23,7 @@ import '../modelClass/cartmodelclas.dart';
 import '../modelClass/fouzysp.dart';
 import '../modelClass/icecreamsModelClass.dart';
 import '../modelClass/jucieandshakesCateModelClass.dart';
+import '../modelClass/oderModel.dart';
 import '../updatescreen.dart';
 
 class Mainprovider extends ChangeNotifier {
@@ -1447,7 +1448,7 @@ class Mainprovider extends ChangeNotifier {
     map["ITEMS_PRICE"] = price;
     map["ITEMS_CATEGORY"] = itemname;
     map["ITEMS_PHOTO"] = photo;
-    map["QTY"] = 0;
+    map["QTY"] = 1;
     map["TOTAL_PRICE"] = 0;
 
     itemStatus = await checkItemExist(itemsid);
@@ -1487,6 +1488,7 @@ class Mainprovider extends ChangeNotifier {
 
   List<cartItemsDetails> cartitemslist = [];
   bool getcart = false;
+  String slno="";
 
   Future<void> getCartItems() async {
     try {
@@ -1520,7 +1522,9 @@ class Mainprovider extends ChangeNotifier {
       // Handle the error appropriately
     } finally {
       getcart = false;
+      slno=cartitemslist.length.toString();
       notifyListeners();
+
     }
   }
   Future<void> delefromtecart(String id, BuildContext context) async {
@@ -1968,35 +1972,129 @@ class Mainprovider extends ChangeNotifier {
 
 
 
-  // void AddOrder(String name,DateTime date,String ordertype, List itemslist, String tableno,
-  //     String invoiceno,
-  //     String totalprice, String slno, BuildContext context) {
-  //
-  //   String id = DateTime.now().millisecondsSinceEpoch.toString();
-  //   Map<String, dynamic> ordermap = HashMap();
-  //   ordermap["ORDER_ID"] = id;
-  //   ordermap["CUSTOMER_NAME"] = name;
-  //   ordermap["DATE_TIME"] = productid;
-  //   ordermap["TIME"] = DateTime.now();
-  //   ordermap["PRODUCT_PRICE"] = double.parse(productPRICE);
-  //   ordermap["TOTAL_PRICE"] = double.parse(totalprice);
-  //   ordermap["TYPE"] = choice;
-  //   ordermap["PAYMENT_TYPE"] = checkvalue3;
-  //   ordermap["OTHER_PRICE"] = 50;
-  //   db.collection("ORDER_DETAILS").doc(id).set(ordermap);
-  //
-  //
-  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //     content: Center(
-  //         child: Text("Your Order Is Confirmed",
-  //             style: TextStyle(
-  //                 color: twhite, fontSize: 15, fontWeight: FontWeight.bold))),
-  //     backgroundColor: bmaincolor3,
-  //     elevation: 10,
-  //     behavior: SnackBarBehavior.floating,
-  //     margin: EdgeInsets.all(5),
-  //   ));
-  //   notifyListeners();
-  // }
+  void AddOrder(String name,String date,String ordertype, List itemslist, String tableno,
+      String invoiceno,
+      String totalprice, String slno, BuildContext context) {
+
+    print("vbfdbdfbfbdfbdfbdfbbbbbbbb");
+
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    Map<String, dynamic> ordermap = HashMap();
+    ordermap["ORDER_ID"] = id;
+    ordermap["CUSTOMER_NAME"] = name;
+    ordermap["DATE_TIME"] = date;
+    ordermap["ORDER_TYPE"] = ordertype;
+    ordermap["ITEMS_LIST"] = itemslist;
+    ordermap["TABLE_NO"] = tableno;
+    ordermap["INVOIVE_NO"] =invoiceno;
+    ordermap["TOTAL_PRICE"] = totalprice;
+    ordermap["ITEMS_COUNT"] = slno;
+    ordermap["PRINTED"] = "YES";
+    db.collection("ORDER_DETAILS").doc(id).set(ordermap);
+
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Center(
+          child: Text("Your Order Is Confirmed",
+              style: TextStyle(
+                  color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
+      backgroundColor: cgreen,
+      elevation: 10,
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.all(5),
+    ));
+    notifyListeners();
+  }
+
+  List<String> cartitemidlist = [];
+
+  void getitemsid() {
+
+    db.collection("CART")
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        cartitemidlist.clear();
+        for (var element in value.docs) {
+
+          cartitemidlist.add(element.get("ITEMS_ID"));
+          notifyListeners();
+        }
+        print("ddddddddddddddddddddddddd"+cartitemidlist.toString());
+      }
+      notifyListeners();
+    });
+    notifyListeners();
+  }
+
+
+
+  List<Orderdetails>orderlist=[];
+
+  void getordereddetils() {
+    notifyListeners();
+    List<String> itemsid = [];
+    String itemname = '';
+    String itemsprice = '';
+    String photo = '';
+    String itemqty = '';
+
+
+    db.collection("ORDER_DETAILS").get().then((value) {
+
+      notifyListeners();
+      print("hnjm bhbh");
+      if (value.docs.isNotEmpty) {
+
+        orderlist.clear();
+        for (var elements in value.docs) {
+          Map<String, dynamic> ordermap = elements.data();
+          for (var kk in ordermap["ITEMS_ID"]) {
+            print(kk.toString() + "gkkg");
+            itemsid.add(kk);
+            notifyListeners();
+          }
+          print("gfvhewvkjwehfvhe"+itemsid.toString());
+
+          // print(productid=ordermap["PRODUCT_ID"]+"fkkf");
+          db
+              .collection("CART")
+              .where("ITEMS_ID", whereIn: itemsid)
+              .get()
+              .then((val) {
+            if (val.docs.isNotEmpty) {
+              for (var elem in val.docs) {
+
+                itemname = elem.get("ITEMS_NAME").toString();
+                itemsprice = elem.get("ITEMS_PRICE").toString();
+                photo = elem.get("ITEMS_PHOTO")??"";
+                itemqty = elem.get("QTY").toString();
+
+                orderlist.add(Orderdetails(
+                    itemsid,
+                    photo,
+                    ordermap["ORDER_ID"].toString(),
+                    ordermap["CUSTOMER_NAME"].toString(),
+                    ordermap["DATE_TIME"].toString(),
+                    ordermap["INVOIVE_NO"].toString(),
+                    ordermap["ITEMS_COUNT"].toString(),
+                    ordermap["ORDER_TYPE"].toString(),
+                    ordermap["TABLE_NO"].toString(),
+                   double.parse(ordermap["TOTAL_PRICE"].toString(),),
+                    ordermap["PRINTED"]??"",
+                    itemsprice,
+                    itemname,
+                    itemqty));
+                notifyListeners();
+              }
+            }
+          });
+          notifyListeners();
+        }
+      }
+    });
+  }
+
+
 
 }
