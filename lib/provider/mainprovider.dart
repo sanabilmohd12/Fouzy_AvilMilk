@@ -592,10 +592,10 @@ class Mainprovider extends ChangeNotifier {
   //   }
   // }
 
-  void customerclear(){
-    customerDeskCT.clear();
-    customerNameCT.clear();
-  }
+  // void customerclear(){
+  //   customerDeskCT.clear();
+  //   customerNameCT.clear();
+  // }
 
   void avilmilkclear() {
     avilMilkNameCt.clear();
