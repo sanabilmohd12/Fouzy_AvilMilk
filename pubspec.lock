@@ -709,6 +709,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  swipeable_button:
+    dependency: "direct main"
+    description:
+      name: swipeable_button
+      sha256: ac5bb17871dfc3e90b3c6b070a54939695724933acf6c68f7daa86cc9398d7ba
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   swipeable_button_view:
     dependency: "direct main"
     description:

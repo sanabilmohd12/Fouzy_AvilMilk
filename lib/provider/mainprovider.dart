@@ -592,6 +592,11 @@ class Mainprovider extends ChangeNotifier {
   //   }
   // }
 
+  // void customerclear(){
+  //   customerDeskCT.clear();
+  //   customerNameCT.clear();
+  // }
+
   void avilmilkclear() {
     avilMilkNameCt.clear();
     avilMilkPriceCt.clear();
@@ -606,6 +611,7 @@ class Mainprovider extends ChangeNotifier {
     fspCategoryCt.clear();
     fspAvilmilkFileImg = null;
     fspAvilmilkImg = '';
+
   }
 
   List<AvilMilkTypes> avilmilklist = [];
@@ -1928,8 +1934,8 @@ class Mainprovider extends ChangeNotifier {
       notifyListeners();
     });
 
-  } 
-  
+  }
+
   void ordercount(){
     db.collection("ORDER_COUNT").doc("ORDER_COUNT").set({
       "ORDER_COUNT": FieldValue.increment(

@@ -6,6 +6,7 @@ import 'package:fouzy/constants/custom_icons_icons.dart';
 import 'package:fouzy/view/printerScreen.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constants/colors.dart';
 import '../constants/widgets.dart';
@@ -314,14 +315,15 @@ class Cart_Screen extends StatelessWidget {
                                               ),
                                             )
                                           : BoxDecoration(
-                                        color: Color(0xffFFF89A),
+                                              color: Color(0xffFFF89A),
                                               image: DecorationImage(
                                                 image: NetworkImage(
                                                     items.itemphoto),
                                               ),
                                             ),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
                                         children: [
                                           Align(
                                               alignment: Alignment.topLeft,
@@ -360,25 +362,45 @@ class Cart_Screen extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ),
-                                                child: Center(
-                                                  child: Text(
-                                                    items.count == 1
-                                                        ? "₹ " +
-                                                            items.itemprice
-                                                                .toString()
-                                                        : "₹ " +
-                                                            items.totalprice
-                                                                .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color:
-                                                            Color(0xfffff1e2)),
+                                                child: Shimmer(
+                                                  gradient:
+                                                      LinearGradient(colors: [
+
+                                                   cWhite,
+                                                        cYellow,
+                                                   cgreen,
+
+                                                  ]),
+                                                  direction: ShimmerDirection.ltr,
+                                                  child: Center(
+                                                    child: Text(
+                                                      items.count == 1
+                                                          ? "₹ " +
+                                                              items.itemprice
+                                                                  .toString()
+                                                          : "₹ " +
+                                                              items.totalprice
+                                                                  .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          color: Color(
+                                                              0xfffff1e2)),
+                                                    ),
                                                   ),
                                                 )),
                                           ),
-                                          SizedBox(height: 10,),
-                                          Align(alignment: Alignment.bottomCenter,
-                                              child: Text(items.itemname,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),))
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Text(
+                                                items.itemname,
+                                                style: TextStyle(
+                                                    fontSize: 22,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ))
                                         ],
                                       ),
                                     ),
@@ -386,13 +408,12 @@ class Cart_Screen extends StatelessWidget {
                                     //   height: height/100,
                                     // ),
 
-                                    SizedBox(height: height/26,
+                                    SizedBox(
+                                      height: height / 26,
                                       child: ListTile(
                                         shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.vertical(
-                                                bottom:
-                                                Radius.circular(30))),
+                                            borderRadius: BorderRadius.vertical(
+                                                bottom: Radius.circular(30))),
                                         tileColor: Color(0xfff9ea1f),
                                         leading: IconButton(
                                             onPressed: () {

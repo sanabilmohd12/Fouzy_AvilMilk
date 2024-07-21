@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constants/colors.dart';
 import '../constants/widgets.dart';
@@ -201,14 +202,22 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
 
                                                 Container(
                                                   height: 50,
-                                                  width: width/12,
+                                                  width: width/10,
                                                   decoration: BoxDecoration(color: cgreen,borderRadius: BorderRadius.horizontal(left: Radius.circular(12))),
-                                                  child: Center(
-                                                    child: text(
-                                                        "₹ ${item.price}",
-                                                        FontWeight.w700,
-                                                        cWhite,
-                                                        20),
+                                                  child: Shimmer(
+                                                    gradient: LinearGradient(colors: [
+                                                      cWhite,
+                                                      cYellow,
+                                                      cGrey,
+                                                    ]),
+                                                    direction: ShimmerDirection.rtl,
+                                                    child: Center(
+                                                      child: text(
+                                                          "₹ ${item.price}",
+                                                          FontWeight.w700,
+                                                          cWhite,
+                                                          20),
+                                                    ),
                                                   ),
                                                 ),
 
