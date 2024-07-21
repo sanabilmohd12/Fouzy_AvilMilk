@@ -289,7 +289,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 25,
 
                                       child: Text(
-                                        "1",textAlign: TextAlign.center,
+                                        "${index+1}",textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -364,9 +364,9 @@ class Printerscreen extends StatelessWidget {
                               const Text(
                                 'Total',
                                 style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight. w800,
+                                    color: Colors.black),
                               ),
 
                               SizedBox(width: width/7),
@@ -374,9 +374,9 @@ class Printerscreen extends StatelessWidget {
 
                                 '302',
                                 style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.black),
                               ),
                             ],
                           ),

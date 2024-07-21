@@ -1954,4 +1954,43 @@ class Mainprovider extends ChangeNotifier {
 
   }
 
+
+
+
+
+  /// order
+
+
+
+  // void AddOrder(String name,DateTime date,String ordertype, List itemslist, String tableno,
+  //     String invoiceno,
+  //     String totalprice, String slno, BuildContext context) {
+  //
+  //   String id = DateTime.now().millisecondsSinceEpoch.toString();
+  //   Map<String, dynamic> ordermap = HashMap();
+  //   ordermap["ORDER_ID"] = id;
+  //   ordermap["CUSTOMER_NAME"] = name;
+  //   ordermap["DATE_TIME"] = productid;
+  //   ordermap["TIME"] = DateTime.now();
+  //   ordermap["PRODUCT_PRICE"] = double.parse(productPRICE);
+  //   ordermap["TOTAL_PRICE"] = double.parse(totalprice);
+  //   ordermap["TYPE"] = choice;
+  //   ordermap["PAYMENT_TYPE"] = checkvalue3;
+  //   ordermap["OTHER_PRICE"] = 50;
+  //   db.collection("ORDER_DETAILS").doc(id).set(ordermap);
+  //
+  //
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     content: Center(
+  //         child: Text("Your Order Is Confirmed",
+  //             style: TextStyle(
+  //                 color: twhite, fontSize: 15, fontWeight: FontWeight.bold))),
+  //     backgroundColor: bmaincolor3,
+  //     elevation: 10,
+  //     behavior: SnackBarBehavior.floating,
+  //     margin: EdgeInsets.all(5),
+  //   ));
+  //   notifyListeners();
+  // }
+
 }
