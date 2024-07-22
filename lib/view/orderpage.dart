@@ -128,8 +128,10 @@ class OrderScreen extends StatelessWidget {
                                   return  ListView.builder(
                                     physics: ScrollPhysics(),
                                     shrinkWrap: true,
-                                    itemCount: 10,
+                                    itemCount: value2.orderlist.length,
                                     itemBuilder: (context,index) {
+                                      print("sdddddddddddddddd"+ value2.orderlist.length.toString());
+                                      var data=value2.orderlist[index];
                                       return Container(
                                         margin: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
                                         width: width,
@@ -164,17 +166,17 @@ class OrderScreen extends StatelessWidget {
                                               ),),
                                             Column(mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
-                                                Text("Name"),
-                                                Text("Token number"),
-                                                Text("Date & Time"),
-                                                Text("Price"),
+                                                Text(data.customername),
+                                                Text(data.invoiceno),
+                                                Text(data.datetime),
+                                                Text(data.totalprice.toString()),
                         
                                               ],
                                             ),
                                             Column(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text("Pickup,"),
+                                                Text(data.ordertype),
                                                 Container(
                                                  height: 50,
                                                  width:  100,

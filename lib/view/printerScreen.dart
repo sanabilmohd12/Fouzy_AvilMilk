@@ -1,19 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/colors.dart';
 import 'package:fouzy/provider/mainprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:swipeable_button_view/swipeable_button_view.dart';
 
 import '../constants/myimages.dart';
+import 'bttmtest.dart';
 
 class Printerscreen extends StatelessWidget {
   String name;
   String deskno;
   String ordertype;
   String datetime;
-   Printerscreen({super.key,required this.name,required this.deskno,required this.ordertype,required this.datetime});
+  List itemslist;
+   Printerscreen({super.key,required this.name,required this.deskno,required this.ordertype,required this.datetime,required this.itemslist});
 
   @override
   Widget build(BuildContext context) {
@@ -279,6 +283,7 @@ class Printerscreen extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: value.cartitemslist.length,
                             itemBuilder: (context, index) {
+                              String slno= value.cartitemslist.length.toString();
                               var items =value.cartitemslist[index];
                               return Container(
                                 margin: EdgeInsets.symmetric(horizontal: 15),
@@ -387,14 +392,94 @@ class Printerscreen extends StatelessWidget {
                             ),);
                         }
                       ),
-                      SizedBox(height: 11),
+                      SizedBox(height: 50),
 
 
                     ],
                   ),
                 ),
               ),
+              SizedBox(height: 30),
+          Consumer<Mainprovider>(
+              builder: (context,value,child) {
+                return InkWell(onTap: () {
+                  print(name+"heloooooooi"+datetime+"hgvbnm,"+ordertype+"fdcvbnm"+value.orderCount.toString()+"hgvbnm"+value.slno);
+                  value.AddOrder(name, datetime, ordertype, itemslist, deskno
+                      ,'000'+value.orderCount.toString(), "", value.slno, context);
+                      value.getMainCategoy();
+                  callNext(context,  BottomNavBarV2());
 
+                },
+                  child: Container(
+                    height: 50,
+                    alignment: Alignment.center,
+                    decoration: ShapeDecoration(
+                      color: cgreen,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(70),
+                      ),
+                    ),
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                );
+              }
+          ),
+              // SwipeableButtonView(
+              //   buttonText: 'SAVE',
+              //   buttonWidget: const Icon(
+              //     Icons.arrow_forward_ios_rounded,
+              //     color: Colors.white,
+              //   ),
+              //   activeColor: cgreen,
+              //   isFinished: false,
+              //   onWaitingProcess: () {
+              //     Consumer<Mainprovider>(
+              //       builder: (context,value,child) {
+              //         return InkWell(onTap: () {
+              //
+              //
+              //         },
+              //           child: Container(
+              //             height: 50,
+              //             alignment: Alignment.center,
+              //             decoration: ShapeDecoration(
+              //               color: cgreen,
+              //               shape: RoundedRectangleBorder(
+              //                 borderRadius: BorderRadius.circular(70),
+              //               ),
+              //             ),
+              //             child: const Text(
+              //               'Submit',
+              //               style: TextStyle(
+              //                 color: Colors.white,
+              //                 fontSize: 14,
+              //                 fontFamily: 'Poppins',
+              //                 fontWeight: FontWeight.w500,
+              //               ),
+              //             ),
+              //           ),
+              //         );
+              //       }
+              //     );
+              //
+              //
+              //
+              //   },
+              //   onFinish: () {
+              //     Mainprovider provider=Provider.of(context,listen: false);
+              //     provider.AddOrder(name, datetime, ordertype, itemslist, deskno
+              //         ,'000'+provider.orderCount.toString(), "", provider.slno, context);
+              //     // This won't be called due to isFinished: false
+              //   },
+              // )
 
             ],
           ),

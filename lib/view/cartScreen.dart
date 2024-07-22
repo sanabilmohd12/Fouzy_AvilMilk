@@ -187,8 +187,10 @@ class Cart_Screen extends StatelessWidget {
                                                 if (form!.validate()) {
                                                   value.ordercount();
                                                   value.getCartItems();
+                                                  value.getitemsid();
+                                                  print("value"+value.cartitemidlist.toString());
                                                   callNext(
-                                                      context, Printerscreen(name: adminProVal.namecontroller.text,deskno: adminProVal.desknocontroller.text,ordertype:adminProVal.dropdownval,datetime: formattedDate,));
+                                                      context, Printerscreen(name: adminProVal.namecontroller.text,deskno: adminProVal.desknocontroller.text,ordertype:adminProVal.dropdownval,datetime: formattedDate,itemslist: value.cartitemidlist,));
                                                 }
 
 
