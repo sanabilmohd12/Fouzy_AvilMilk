@@ -322,6 +322,7 @@ class Mainprovider extends ChangeNotifier {
   }
 
   List<Fouzysp> fspavilmilklist = [];
+  List<Fouzysp> filterfspavilmilklist = [];
 
   Future<void> getfsptypes() async {
     print("asdfghjkl");
@@ -331,13 +332,13 @@ class Mainprovider extends ChangeNotifier {
 
       final QuerySnapshot snapshot = await db.collection("FSPAVIL_MILK").get();
 
-      fspavilmilklist.clear();
+      filterfspavilmilklist.clear();
 
       if (snapshot.docs.isNotEmpty) {
         for (var doc in snapshot.docs) {
           print("dscdvvdf");
           final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-          fspavilmilklist.add(Fouzysp(
+          filterfspavilmilklist.add(Fouzysp(
             data["FSPAVIL_MILK_ID"] as String,
             data["FOUZY_SPECIALS"] as String,
             data["FSP_AVIL_MILK_PRICE"] as String,
@@ -347,6 +348,8 @@ class Mainprovider extends ChangeNotifier {
             data["MAIN_CATEGORY_ID"] as String,
             data["FSpAVILMILK_PHOTO"] as String,
           ));
+          filterfspavilmilklist =fspavilmilklist;
+          notifyListeners();
         }
       }
     } catch (e) {
@@ -356,6 +359,13 @@ class Mainprovider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void filterfsptypes(item) {
+    filterfspavilmilklist = fspavilmilklist.where(
+            (a) => a.name.toLowerCase().contains(item.toLowerCase())|| a.price.toLowerCase().contains(item.toLowerCase())).toList();
+    notifyListeners();
+  }
+
 
   Future<void> deleteSpAvilmilk(String itemId, BuildContext context) async {
     try {

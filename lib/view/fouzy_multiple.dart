@@ -105,6 +105,51 @@ class FouzyMultiple extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    // width: width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow:[
+                            BoxShadow(
+                                offset: Offset(3, 4),
+                                blurRadius: 8,
+                                spreadRadius: -1,
+                                color: Colors.black12),
+                          ]
+                      ),
+                      child: Consumer<Mainprovider>(
+                          builder: (context,value,child) {
+                            return TextField(
+                              onChanged: (text){
+                                value.filterfsptypes(text);
+
+
+                              },
+                              cursorColor: clblack,
+                              // controller:value.searchBoyHistoryCT,
+                              decoration: InputDecoration(
+                                fillColor:cWhite,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderRadius:BorderRadius.circular(30) ,
+                                    borderSide: BorderSide.none),
+                                prefixIcon: Icon(Icons.search,color:cGrey,size: 24,),
+                                hintText: "Search",
+                                hintStyle: TextStyle(
+                                  color:cGrey,
+                                  fontWeight: FontWeight.w400,
+                                  // fontFamily: fontRegular,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            );
+                          }
+                      )
+                  ),
+
                   Consumer<Mainprovider>(builder: (context, value, child) {
                     return value.getloader
                         ? Center(
@@ -118,7 +163,7 @@ class FouzyMultiple extends StatelessWidget {
                             child: Consumer<Mainprovider>(
                                 builder: (context, value, child) {
                               return GridView.builder(
-                                itemCount: value.fspavilmilklist.length,
+                                itemCount: value.filterfspavilmilklist.length,
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 gridDelegate:
@@ -128,7 +173,7 @@ class FouzyMultiple extends StatelessWidget {
                                         crossAxisCount: 2,
                                         childAspectRatio: 1),
                                 itemBuilder: (context, index) {
-                                  var item = value.fspavilmilklist[index];
+                                  var item = value.filterfspavilmilklist[index];
                                   return GestureDetector(
                                     onTap: () {
                                       value.AddCartDetails(
