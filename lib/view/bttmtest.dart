@@ -102,7 +102,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                           IconButton(
                             icon: Icon(
                               Icons.home,
-                              color: currentIndex == 0 ? cgreen : Colors.black,
+                              color: currentIndex == 0 ? cgreen : Colors.white,
                               size: 30,
                             ),
                             onPressed: () {
@@ -114,7 +114,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                           IconButton(
                             icon: Icon(
                               Icons.shopping_cart,
-                              color: currentIndex == 1 ? cgreen : Colors.black,
+                              color: currentIndex == 1 ? cgreen : Colors.white,
                               size: 30,
                             ),
                             onPressed: () {
@@ -131,7 +131,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                           IconButton(
                             icon: Icon(
                               Icons.edit_document,
-                              color: currentIndex == 2 ? cgreen : Colors.black,
+                              color: currentIndex == 2 ? cgreen : Colors.white,
                               size: 30,
                             ),
                             onPressed: () {
@@ -142,7 +142,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                           IconButton(
                             icon: Icon(
                               Icons.auto_graph_outlined,
-                              color: currentIndex == 3 ? cgreen : Colors.black,
+                              color: currentIndex == 3 ? cgreen : Colors.white,
                               size: 30,
                             ),
                             onPressed: () {

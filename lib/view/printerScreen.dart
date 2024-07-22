@@ -124,7 +124,7 @@ class Printerscreen extends StatelessWidget {
                       //     color:cBlack ,
                       //   ),
                       // ),
-                        Text("----------------------------------------------------------------------------------------------------------------------------"),
+                        FittedBox(child: Text("----------------------------------------------------------------------------------------------------------------------------")),
 
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 25),
@@ -191,7 +191,7 @@ class Printerscreen extends StatelessWidget {
 
 
 
-                        Text("----------------------------------------------------------------------------------------------------------------------------"),
+                        FittedBox(child: Text("----------------------------------------------------------------------------------------------------------------------------")),
 
 
                       const SizedBox(height: 10),
@@ -286,6 +286,7 @@ class Printerscreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               String slno= value.cartitemslist.length.toString();
                               var items =value.cartitemslist[index];
+                              print("uytrds"+items.qty);
                               return Container(
                                 margin: EdgeInsets.symmetric(horizontal: 15),
                                 width: width,
@@ -319,7 +320,7 @@ class Printerscreen extends StatelessWidget {
                                     SizedBox(
                                       width: 80,
 
-                                      child: Text(items.count.toString()
+                                      child: Text(items.qty.toString()
                                         ,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
@@ -343,7 +344,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.itemprice,textAlign: TextAlign.center,
+                                        items.totalprice,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -407,6 +408,7 @@ class Printerscreen extends StatelessWidget {
                   print(name+"heloooooooi"+datetime+"hgvbnm,"+ordertype+"fdcvbnm"+value.orderCount.toString()+"hgvbnm"+value.slno);
                   value.AddOrder(name, datetime, ordertype, itemslist, deskno
                       ,'000'+value.orderCount.toString(), "", value.slno, context);
+                  value.cartitemslist.clear();
                       value.getMainCategoy();
                   callNext(context,  BottomNavBarV2());
 

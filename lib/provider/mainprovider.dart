@@ -49,23 +49,23 @@ class Mainprovider extends ChangeNotifier {
   }
 
   /// Count
-  void countIncrement(int index) {
+  void countIncrement(int index,String id) {
     if (index >= 0 && index < cartitemslist.length) {
       cartitemslist[index].count++;
-      updateItemDetails(index);
+      updateItemDetails(index,id);
       notifyListeners();
     }
   }
 
-  void countDecrement(int index) {
+  void countDecrement(int index,String id) {
     if (index >= 0 && index < cartitemslist.length && cartitemslist[index].count > 1) {
       cartitemslist[index].count--;
-      updateItemDetails(index);
+      updateItemDetails(index,id);
       notifyListeners();
     }
   }
 
-  void updateItemDetails(int index) {
+  Future<void> updateItemDetails(int index,String id) async {
     double initialPrice = double.parse(cartitemslist[index].itemprice);
     double newPrice = initialPrice * cartitemslist[index].count;
 
@@ -76,6 +76,13 @@ class Mainprovider extends ChangeNotifier {
     print("Count: ${cartitemslist[index].count}");
     print("Qty: ${cartitemslist[index].qty}");
     print("Total Price: ${cartitemslist[index].totalprice}");
+
+
+    await  db
+        .collection("CART")
+        .doc(id)
+        .set({"TOTAL_PRICE": cartitemslist[index].totalprice,"QTY": cartitemslist[index].qty}, SetOptions(merge:true));
+
     notifyListeners();
   }
 
@@ -612,6 +619,7 @@ class Mainprovider extends ChangeNotifier {
   }
 
   List<AvilMilkTypes> avilmilklist = [];
+  List<AvilMilkTypes> filteravilmilklist = [];
 
   bool getavilloader = false;
 
@@ -622,10 +630,10 @@ class Mainprovider extends ChangeNotifier {
       if (value.docs.isNotEmpty) {
         getavilloader = false;
         notifyListeners();
-        avilmilklist.clear();
+        filteravilmilklist.clear();
         for (var element in value.docs) {
           Map<dynamic, dynamic> getavilmap = element.data();
-          avilmilklist.add(AvilMilkTypes(
+          filteravilmilklist.add(AvilMilkTypes(
             getavilmap["AVIL_MILK_ID"].toString(),
             getavilmap["AVIL_MILK_NAME"].toString(),
             getavilmap["AVIL_MILK_PRICE"].toString(),
@@ -635,11 +643,17 @@ class Mainprovider extends ChangeNotifier {
             getavilmap["MAIN_CATEGORY_ID"].toString(),
             getavilmap["AVILMILK_PHOTO"].toString(),
           ));
+          filteravilmilklist = avilmilklist;
           notifyListeners();
         }
       }
       notifyListeners();
     });
+  }
+  void filterAvilmilk(item) {
+    filteravilmilklist = avilmilklist.where(
+            (a) => a.name.toLowerCase().contains(item.toLowerCase())|| a.price.toLowerCase().contains(item.toLowerCase())).toList();
+    notifyListeners();
   }
 
   void deleteavilmilk(String id, BuildContext context) {
@@ -1445,7 +1459,7 @@ class Mainprovider extends ChangeNotifier {
     map["ITEMS_CATEGORY"] = itemname;
     map["ITEMS_PHOTO"] = photo;
     map["QTY"] = 1;
-    map["TOTAL_PRICE"] = 0;
+    map["TOTAL_PRICE"] = price;
 
 
     itemStatus = await checkItemExist(itemsid);

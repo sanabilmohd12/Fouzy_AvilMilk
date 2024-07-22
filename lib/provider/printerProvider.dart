@@ -320,7 +320,7 @@ import 'package:esc_pos_utils/esc_pos_utils.dart';
 class PrinterProvider extends ChangeNotifier{
 
   String boxInPort="9100";
-  String Ip="192.168.1.87";
+  String Ip="192.168.1.37";
 
   // List<PrinterReGS> printerReGS = [];
   bool printSuccess = true;
@@ -489,6 +489,7 @@ class PrinterProvider extends ChangeNotifier{
       final PosPrintResult res =
       await printer.connect(floorIP, port: int.parse(boxInPort));
       if (res == PosPrintResult.success) {
+        print('sucess');
         isSuccess = true;
 
         // for (int copy = 0; copy < 2; copy++) {

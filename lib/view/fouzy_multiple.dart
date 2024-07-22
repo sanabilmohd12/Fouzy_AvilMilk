@@ -104,50 +104,54 @@ class FouzyMultiple extends StatelessWidget {
             ),
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                    // width: width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                          boxShadow:[
-                            BoxShadow(
-                                offset: Offset(3, 4),
-                                blurRadius: 8,
-                                spreadRadius: -1,
-                                color: Colors.black12),
-                          ]
-                      ),
-                      child: Consumer<Mainprovider>(
-                          builder: (context,value,child) {
-                            return TextField(
-                              onChanged: (text){
-                                value.filterfsptypes(text);
-
-
-                              },
-                              cursorColor: clblack,
-                              // controller:value.searchBoyHistoryCT,
-                              decoration: InputDecoration(
-                                fillColor:cWhite,
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderRadius:BorderRadius.circular(30) ,
-                                    borderSide: BorderSide.none),
-                                prefixIcon: Icon(Icons.search,color:cGrey,size: 24,),
-                                hintText: "Search",
-                                hintStyle: TextStyle(
-                                  color:cGrey,
-                                  fontWeight: FontWeight.w400,
-                                  // fontFamily: fontRegular,
-                                  fontSize: 12,
+                  Padding(
+                    padding:  EdgeInsets.only(top: height/20,left: 30),
+                    child: Container(
+                      width: width/2.5,
+                      // margin: EdgeInsets.only(left: height/30,),
+                      // width: width,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: cYellow,width: 5,),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow:[
+                              BoxShadow(
+                                  offset: Offset(3, 4),
+                                  blurRadius: 3,
+                                  spreadRadius: -3,
+                                  color: cYellow),
+                            ]
+                        ),
+                        child: Consumer<Mainprovider>(
+                            builder: (context,value,child) {
+                              return TextField(
+                                onChanged: (text){
+                                  value.filterfsptypes(text);
+                                },
+                                cursorColor: clblack,
+                                // controller:value.searchBoyHistoryCT,
+                                decoration: InputDecoration(
+                                  fillColor:cWhite,
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                      borderRadius:BorderRadius.circular(30) ,
+                                      borderSide: BorderSide.none),
+                                  prefixIcon: Icon(Icons.search,color:cGrey,size: height/60,),
+                                  hintText: "Search...",
+                                  hintStyle: TextStyle(
+                                    color:cGrey,
+                                    fontWeight: FontWeight.w400,
+                                    // fontFamily: fontRegular,
+                                    fontSize: height/70,
+                                  ),
                                 ),
-                              ),
-                            );
-                          }
-                      )
+                              );
+                            }
+                        )
+                    ),
                   ),
 
                   Consumer<Mainprovider>(builder: (context, value, child) {

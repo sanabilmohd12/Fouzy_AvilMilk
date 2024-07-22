@@ -17,6 +17,10 @@ class Cart_Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Mainprovider provider = Provider.of(context,listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      provider.getCartItems();
+      });
     DateTime nows = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd hh:mm a').format(nows);
     var height = MediaQuery.of(context).size.height;
@@ -308,21 +312,7 @@ class Cart_Screen extends StatelessWidget {
                                     Container(
                                       width: width,
                                       height: 250,
-                                      decoration: items.itemphoto == ""
-                                          ? BoxDecoration(
-                                              color: Color(0xffFFF89A),
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/Sundae (1).png"),
-                                              ),
-                                            )
-                                          : BoxDecoration(
-                                              color: Color(0xffFFF89A),
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                    items.itemphoto),
-                                              ),
-                                            ),
+                                      // d
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
@@ -419,7 +409,7 @@ class Cart_Screen extends StatelessWidget {
                                         tileColor: Color(0xfff9ea1f),
                                         leading: IconButton(
                                             onPressed: () {
-                                              value.countDecrement(index);
+                                              value.countDecrement(index,items.cartid);
                                             },
                                             icon: const Icon(
                                               CustomIcons.minus_circle,
@@ -431,7 +421,7 @@ class Cart_Screen extends StatelessWidget {
                                         ),
                                         trailing: IconButton(
                                             onPressed: () {
-                                              value.countIncrement(index);
+                                              value.countIncrement(index,items.cartid);
                                             },
                                             icon: Icon(
                                               CustomIcons.plus_circle,

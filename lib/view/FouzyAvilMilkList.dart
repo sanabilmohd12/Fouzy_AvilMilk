@@ -91,7 +91,56 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
         ),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              Padding(
+                padding:  EdgeInsets.only(top: height/20,left: 30),
+                child: Container(
+                    width: width/2.5,
+                    // margin: EdgeInsets.only(left: height/30,),
+                    // width: width,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: cYellow,width: 5,),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow:[
+                          BoxShadow(
+                              offset: Offset(3, 4),
+                              blurRadius: 3,
+                              spreadRadius: -3,
+                              color: cYellow),
+                        ]
+                    ),
+                    child: Consumer<Mainprovider>(
+                        builder: (context,value,child) {
+                          return TextField(
+                            onChanged: (text){
+                              value.filterAvilmilk(text);
+                            },
+                            cursorColor: clblack,
+                            // controller:value.searchBoyHistoryCT,
+                            decoration: InputDecoration(
+                              fillColor:cWhite,
+                              filled: true,
+                              border: OutlineInputBorder(
+                                  borderRadius:BorderRadius.circular(30) ,
+                                  borderSide: BorderSide.none),
+                              prefixIcon: Icon(Icons.search,color:cGrey,size: height/60,),
+                              hintText: "Search...",
+                              hintStyle: TextStyle(
+                                color:cGrey,
+                                fontWeight: FontWeight.w400,
+                                // fontFamily: fontRegular,
+                                fontSize: height/70,
+                              ),
+                            ),
+                          );
+                        }
+                    )
+                ),
+              ),
+
               Consumer<Mainprovider>(builder: (context, value, child) {
                 return value.getloader
                     ? Center(
@@ -105,131 +154,177 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                   child: Consumer<Mainprovider>(
                       builder: (context, value, child) {
                         return GridView.builder(
-                          itemCount: value.avilmilklist.length,
+                          itemCount: value.filteravilmilklist.length,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           gridDelegate:
-                           SliverGridDelegateWithFixedCrossAxisCount(
+                          SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 15,
                               crossAxisCount: 2,
-                              childAspectRatio: height/1000),
+                              childAspectRatio: 1),
                           itemBuilder: (context, index) {
-                            var item = value.avilmilklist[index];
-                            return Consumer<Mainprovider>(
-                                builder: (context, value, child) {
-                                  return GestureDetector(
-                                    onTap: () {
+                            var item = value.filteravilmilklist[index];
+                            return GestureDetector(
+                              onTap: () {
+                                value.AddCartDetails(
+                                    item.name,
+                                    item.id,
+                                    item.price,
+                                    item.maincatrgoryname,
+                                    item.avilphoto,
+                                    context);
 
-                                      value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
-
-
-                                      value.setCheckboxValue(
-                                          index, !value.getCheckboxValue(index));
-                                    },
-                                    child: Container(
-                                      // padding: EdgeInsets.symmetric(horizontal: 300,vertical: 200),
-                                      // height: height/5,
-                                      // width: 300,
-                                      // margin: EdgeInsets.symmetric(
-                                      //     horizontal: width/20, vertical: height/120),
-
+                                value.setCheckboxValue(index,
+                                    !value.getCheckboxValue(index));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 5),
+                                width: width,
+                                height: height * .12,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: cYellow,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: width,
+                                      height: 250,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        color: cYellow,
-                                      ),
-                                      child: Column(
-                                        // mainAxisAlignment:
-                                        // MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            width: width,
-                                            height: height/6,
-                                            decoration: BoxDecoration(
-                                                color: Colors.transparent,
-                                                image: DecorationImage(
-                                                    image: item.avilphoto != ""
-                                                        ? NetworkImage(
-
-                                                      item.avilphoto,
-                                                      // scale: height/100,
-                                                        )
-                                                      : const AssetImage(""))),
-                                          child: Consumer<Mainprovider>(
-                                              builder: (context, value, child) {
+                                          color: Colors.transparent,
+                                          image: DecorationImage(
+                                              image: item.avilphoto != ""
+                                                  ? NetworkImage(
+                                                item.avilphoto,
+                                              )
+                                                  : AssetImage(""))),
+                                      child: Consumer<Mainprovider>(
+                                          builder:
+                                              (context, value, child) {
                                             return Align(
                                                 alignment: Alignment.topRight,
                                                 child: Transform.scale(
                                                   scale: 1.5,
                                                   child: Checkbox(
-                                                    shape: const CircleBorder(),
-                                                    value: value.getCheckboxValue(index),
-                                                      onChanged: (bool? newValue) {
+                                                    shape: CircleBorder(),
+                                                    value: value
+                                                        .getCheckboxValue(
+                                                        index) ||
+                                                        value.isInCart(
+                                                            "AVIL_MILK",
+                                                            item.id),
+                                                    onChanged:
+                                                        (bool? newValue) {
+                                                      value.AddCartDetails(
+                                                          item.name,
+                                                          item.id,
+                                                          item.price,
+                                                          item.maincatrgoryname,
+                                                          item.avilphoto,
+                                                          context);
 
+                                                      value.setCheckboxValue(
+                                                          index,
+                                                          newValue ?? false);
 
-                                                      value.AddCartDetails(item.name,item.id,item.price,item.maincatrgoryname,item.avilphoto,context);
-
-                                                      value.setCheckboxValue(index, newValue ?? false);
-
-                                                          },
-                                                          checkColor: Colors.green,
-                                                          fillColor: const WidgetStatePropertyAll(
-                                                              Colors.white),
-                                                        ),
-                                                      ));
-
-                                                }),
+                                                      if (newValue == true) {
+                                                        // Add to cart
+                                                        value
+                                                            .cartItemsControlls(
+                                                            'AVIL_MILK',
+                                                            item.id,
+                                                            item);
+                                                        ScaffoldMessenger.of(
+                                                            context)
+                                                            .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                  "Item added to cart"),
+                                                              duration: Duration(
+                                                                  seconds: 2),
+                                                            ));
+                                                      } else {
+                                                        // Remove from cart
+                                                        value
+                                                            .cartItemsControlls(
+                                                            'AVIL_MILK',
+                                                            item.id,
+                                                            item);
+                                                        ScaffoldMessenger.of(
+                                                            context)
+                                                            .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                  "Item removed from cart"),
+                                                              duration: Duration(
+                                                                  seconds: 2),
+                                                            ));
+                                                      }
+                                                    },
+                                                    checkColor: Colors.green,
+                                                    fillColor:
+                                                    WidgetStatePropertyAll(
+                                                        Colors.white),
+                                                  ),
+                                                ));
+                                          }),
+                                    ),
+                                    Padding(
+                                      padding:  EdgeInsets.only(left: width/50,bottom: height/30),
+                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              text(
+                                                  item.name,
+                                                  FontWeight.w800,
+                                                  cgreen,
+                                                  width/27),
+                                              text(
+                                                  item.describtion,
+                                                  FontWeight.w400,
+                                                  cgreen,
+                                                  width/40),
+                                            ],
                                           ),
 
-                                          Padding(
-                                            padding:  EdgeInsets.only(left: width/50,),
-                                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    text(
-                                                        item.name,
-                                                        FontWeight.w800,
-                                                        cgreen,
-                                                        width/27),
-                                                    text(
-                                                        item.describtion,
-                                                        FontWeight.w400,
-                                                        cgreen,
-                                                        width/40),
-                                                  ],
-                                                ),
+                                          Container(
+                                            height: height/20,
+                                            width: width/10,
+                                            decoration: BoxDecoration(color: cgreen,borderRadius: BorderRadius.horizontal(left: Radius.circular(12))),
+                                            child: Shimmer(
+                                              gradient: LinearGradient(colors: [
+                                                cWhite,
+                                                cYellow,
+                                                cGrey,
+                                              ]),
 
-                                                Container(
-                                                  height: 50,
-                                                  width: width/10,
-                                                  decoration: BoxDecoration(color: cgreen,borderRadius: BorderRadius.horizontal(left: Radius.circular(12))),
-                                                  child: Shimmer(
-                                                    gradient: LinearGradient(colors: [
-                                                      cWhite,
-                                                      cYellow,
-                                                      cGrey,
-                                                    ]),
-                                                    direction: ShimmerDirection.rtl,
-                                                    child: Center(
-                                                      child: text(
-                                                          "₹ ${item.price}",
-                                                          FontWeight.w700,
-                                                          cWhite,
-                                                          20),
-                                                    ),
-                                                  ),
-                                                ),
+                                              direction: ShimmerDirection.rtl,
 
-                                              ],
+                                              child: Center(
+                                                child: text(
+                                                    "₹ ${item.price}",
+                                                    FontWeight.w700,
+                                                    cWhite,
+                                                    20),
+                                              ),
                                             ),
                                           ),
-                                          const SizedBox(),
+
                                         ],
                                       ),
                                     ),
-                                  );
-                                });
+                                    const SizedBox(),
+
+
+                                  ],
+                                ),
+                              ),
+                            );
                           },
                         );
 
