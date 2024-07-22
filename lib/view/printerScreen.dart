@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/colors.dart';
 import 'package:fouzy/provider/mainprovider.dart';
+import 'package:fouzy/provider/printerProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
@@ -90,7 +91,7 @@ class Printerscreen extends StatelessWidget {
 
                       CircleAvatar(radius: 50,
                           backgroundImage: AssetImage(
-                            'assets/fouzylogo.png',
+                            'assets/ic_launcher.jpg',
                           ),),
                       Text(
                         'FOUZY AVIL MILK',
@@ -410,28 +411,38 @@ class Printerscreen extends StatelessWidget {
                   callNext(context,  BottomNavBarV2());
 
                 },
-                  child: Container(
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: ShapeDecoration(
-                      color: cgreen,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(70),
-                      ),
-                    ),
-                    child: const Text(
-                      'Submit',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                  child: Consumer<PrinterProvider>(
+                    builder: (context,printer,child) {
+                      return GestureDetector(
+                        onTap: () {
+                          printer.PrintOrderInvoiceBoxIn(context,printer.Ip);
+                        },
+                        child: Container(
+                          height: 50,
+                          alignment: Alignment.center,
+                          decoration: ShapeDecoration(
+                            color: cgreen,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(70),
+                            ),
+                          ),
+                          child: const Text(
+                            'Submit',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                   ),
                 );
               }
           ),
+
               // SwipeableButtonView(
               //   buttonText: 'SAVE',
               //   buttonWidget: const Icon(

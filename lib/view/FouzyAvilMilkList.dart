@@ -191,12 +191,12 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                         item.name,
                                                         FontWeight.w800,
                                                         cgreen,
-                                                        25),
+                                                        width/27),
                                                     text(
                                                         item.describtion,
                                                         FontWeight.w400,
                                                         cgreen,
-                                                        22),
+                                                        width/40),
                                                   ],
                                                 ),
 

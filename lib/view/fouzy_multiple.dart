@@ -292,17 +292,17 @@ class FouzyMultiple extends StatelessWidget {
                                                         item.name,
                                                         FontWeight.w800,
                                                         cgreen,
-                                                        25),
+                                                        width/27),
                                                     text(
                                                         item.describtion,
                                                         FontWeight.w400,
                                                         cgreen,
-                                                        22),
+                                                        width/40),
                                                   ],
                                                 ),
 
                                                 Container(
-                                                  height: 50,
+                                                  height: height/20,
                                                   width: width/10,
                                                   decoration: BoxDecoration(color: cgreen,borderRadius: BorderRadius.horizontal(left: Radius.circular(12))),
                                                   child: Shimmer(

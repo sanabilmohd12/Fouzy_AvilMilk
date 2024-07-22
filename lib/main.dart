@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fouzy/provider/printerProvider.dart';
 
 import 'package:fouzy/view/splashscreen.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,11 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
 
-        ChangeNotifierProvider(create:(context) => Mainprovider(),)
+        ChangeNotifierProvider(create:(context) => Mainprovider(),
+
+        ),  ChangeNotifierProvider(create:(context) => PrinterProvider(),
+
+        )
 
       ],
       child: MaterialApp(

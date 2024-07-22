@@ -29,7 +29,7 @@ class Cart_Screen extends StatelessWidget {
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 100),
                 child: SizedBox(
-                  height: height/20,
+                  height: 45,
                   width: width / 3.1,
                   child:
                       Consumer<Mainprovider>(builder: (context, value, child) {
@@ -188,9 +188,8 @@ class Cart_Screen extends StatelessWidget {
                                                   value.ordercount();
                                                   value.getCartItems();
                                                   value.getitemsid();
-                                                  print("value"+value.cartitemidlist.toString());
                                                   callNext(
-                                                      context, Printerscreen(name: adminProVal.namecontroller.text,deskno: adminProVal.desknocontroller.text,ordertype:adminProVal.dropdownval,datetime: formattedDate,itemslist: value.cartitemidlist,));
+                                                      context, Printerscreen(name: adminProVal.namecontroller.text,deskno: adminProVal.desknocontroller.text,ordertype:adminProVal.dropdownval,datetime: formattedDate, itemslist: value.cartitemidlist,));
                                                 }
 
 
@@ -201,10 +200,7 @@ class Cart_Screen extends StatelessWidget {
                                                 height: 50,
                                                 alignment: Alignment.center,
                                                 decoration: ShapeDecoration(
-                                                  gradient: LinearGradient(colors: [
-                                                    cYellow,
-                                                    cWhite,
-                                                  ]),
+                                                  color: cgreen,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(70),
