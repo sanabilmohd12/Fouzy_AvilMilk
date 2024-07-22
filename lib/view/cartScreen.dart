@@ -27,14 +27,15 @@ class Cart_Screen extends StatelessWidget {
           Consumer<Mainprovider>(builder: (context, value, child) {
         return value.cartitemslist.isNotEmpty
             ? Padding(
-                padding: const EdgeInsets.only(bottom: 150),
+                padding: const EdgeInsets.only(bottom: 100),
                 child: SizedBox(
-                  height: 65,
-                  width: width / 1.1,
+                  height: height/20,
+                  width: width / 3.1,
                   child:
                       Consumer<Mainprovider>(builder: (context, value, child) {
                     return value.loader
                         ? CircularProgressIndicator(
+
                             color: cgreen,
                           )
                         : FloatingActionButton(
@@ -198,7 +199,10 @@ class Cart_Screen extends StatelessWidget {
                                                 height: 50,
                                                 alignment: Alignment.center,
                                                 decoration: ShapeDecoration(
-                                                  color: cgreen,
+                                                  gradient: LinearGradient(colors: [
+                                                    cYellow,
+                                                    cWhite,
+                                                  ]),
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(70),
@@ -241,7 +245,7 @@ class Cart_Screen extends StatelessWidget {
 
       backgroundColor: cYellow,
       appBar: AppBar(
-        title: const Text("Items",
+        title: const Text("Orders",
             style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800)),
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -444,7 +448,9 @@ class Cart_Screen extends StatelessWidget {
                           )
                         : Center(child: Text("order something"));
               }),
-
+SizedBox(
+  height: height/5,
+)
             ],
           ),
         ),
