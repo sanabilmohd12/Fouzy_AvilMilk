@@ -7,14 +7,30 @@ import 'package:provider/provider.dart';
 
 import '../provider/mainprovider.dart';
 
-  Widget text(String name,FontWeight weight,Color mycolor,double size){
-  return Text(
-    name,
-    style: TextStyle(
+Widget text(
+    String name,
+    FontWeight weight,
+    Color mycolor,
+    double size, {
+      TextOverflow overflow = TextOverflow.clip,
+      int? maxLines,
+      TextAlign textAlign = TextAlign.left,
+      double? width,
+    }) {
+  return Container(
+    width: width,
+    child: Text(
+      name,
+      style: TextStyle(
         fontWeight: weight,
         color: mycolor,
         fontSize: size,
-        fontFamily: "poppines"),
+        fontFamily: "poppines",
+      ),
+      overflow: overflow,
+      maxLines: maxLines,
+      textAlign: textAlign,
+    ),
   );
 }
 

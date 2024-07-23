@@ -1,6 +1,9 @@
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/custom_icons_icons.dart';
 import 'package:fouzy/view/printerScreen.dart';
@@ -334,6 +337,23 @@ class Cart_Screen extends StatelessWidget {
                                                   ),
                                                 ),
                                               )),
+                                          FutureBuilder<File>(
+                                            future: DefaultCacheManager().getSingleFile(items.itemphoto),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                                                return Image.file(
+                                                  snapshot.data!,
+                                                  fit: BoxFit.cover,
+
+                                                  width: 100,
+                                                  height: 100,
+                                                );
+                                              } else {
+                                                return CircularProgressIndicator();
+                                              }
+                                            },
+                                          ),
+
                                           Align(
                                             alignment: Alignment.topRight,
                                             child: Container(

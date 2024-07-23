@@ -111,7 +111,8 @@ class OrderScreen extends StatelessWidget {
                                                   gradient:
                                                   LinearGradient(
                                                       colors: [
-                                                        cBlue
+                                                        cBlue,
+                                                        cYellow,
                                                       ]),borderRadius: BorderRadius.circular(16)),
                                               width: width*0.3,
                                               height: 30,
@@ -125,6 +126,7 @@ class OrderScreen extends StatelessWidget {
                         
                             Consumer<Mainprovider>(
                                 builder: (context,value2,child) {
+                                  print(value2.orderlist.length);
                                   return  ListView.builder(
                                     physics: ScrollPhysics(),
                                     shrinkWrap: true,
@@ -169,7 +171,9 @@ class OrderScreen extends StatelessWidget {
                                                 Text(data.customername),
                                                 Text(data.invoiceno),
                                                 Text(data.datetime),
-                                                Text(data.totalprice.toString()),
+                                                Text(data.totalprice.toString(),
+
+                                                ),
                         
                                               ],
                                             ),
