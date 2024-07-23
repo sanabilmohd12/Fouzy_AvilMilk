@@ -193,7 +193,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                   children: [
                                     Container(
                                       width: width,
-                                      height: 250,
+                                      height: height/5.5,
                                       decoration: BoxDecoration(
                                           color: Colors.transparent,
                                           image: DecorationImage(
@@ -283,12 +283,19 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                   item.name,
                                                   FontWeight.w800,
                                                   cgreen,
-                                                  width/27),
+                                                  width/30,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                width: width * 0.3,),
                                               text(
                                                   item.describtion,
                                                   FontWeight.w400,
                                                   cgreen,
-                                                  width/40),
+                                                  width/40,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                width: width * 0.3,
+                                              ),
                                             ],
                                           ),
 
@@ -310,7 +317,9 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                     "₹ ${item.price}",
                                                     FontWeight.w700,
                                                     cWhite,
-                                                    20),
+                                                    20,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,),
                                               ),
                                             ),
                                           ),

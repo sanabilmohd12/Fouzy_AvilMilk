@@ -1,5 +1,5 @@
 class Orderdetails {
-  List<dynamic> itemsid;
+  List<dynamic> itemsId;
   String photo;
   String orderid;
   String customername;
@@ -14,7 +14,7 @@ class Orderdetails {
   String itemname;
   String itemqty;
   Orderdetails(
-      this.itemsid,
+      this.itemsId,
       this.photo,
       this.orderid,
       this.customername,

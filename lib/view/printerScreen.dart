@@ -414,32 +414,76 @@ class Printerscreen extends StatelessWidget {
 
                 },
                   child: Consumer<PrinterProvider>(
-                    builder: (context,printer,child) {
-                      return GestureDetector(
-                        onTap: () {
-                          printer.PrintOrderInvoiceBoxIn(context,printer.Ip);
-                        },
-                        child: Container(
-                          height: 50,
-                          alignment: Alignment.center,
-                          decoration: ShapeDecoration(
-                            color: cgreen,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(70),
+                      builder: (context, printer, child) {
+                        return GestureDetector(
+                          onTap: () async {
+                            // Check printer connection before printing
+                            bool isConnected = await printer.isPrinterConnected(printer.Ip, int.parse(printer.boxInPort));
+
+                            // if (isConnected) {
+                            //   // If connected, proceed with printing
+                            //   printer.PrintOrderInvoiceBoxIn(context, printer.Ip);
+                            //
+                            //   // Add order to database and navigate
+                            //   Provider.of<Mainprovider>(context, listen: false).AddOrder(
+                            //       name,
+                            //       datetime,
+                            //       ordertype,
+                            //       itemslist,
+                            //       deskno,
+                            //       '000${Provider.of<Mainprovider>(context, listen: false).orderCount}',
+                            //       "",
+                            //       Provider.of<Mainprovider>(context, listen: false).slno,
+                            //       context
+                            //   );
+                            //   Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
+                            //   Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
+                            //   callNext(context, BottomNavBarV2());
+                            // } else {
+                            //   // If not connected, show an error message
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     SnackBar(
+                            //       content: Text('Printer is not connected. Please check your network connection.'),
+                            //       backgroundColor: Colors.red,
+                            //     ),
+                            //   );
+                            // }
+                            Provider.of<Mainprovider>(context, listen: false).AddOrder(
+                                name,
+                                datetime,
+                                ordertype,
+                                itemslist,
+                                deskno,
+                                '000${Provider.of<Mainprovider>(context, listen: false).orderCount}',
+                                "",
+                                Provider.of<Mainprovider>(context, listen: false).slno,
+                                context
+                            );
+                            Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
+                            Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
+                            callNext(context, BottomNavBarV2());
+                          },
+                          child: Container(
+                            height: 50,
+                            alignment: Alignment.center,
+                            decoration: ShapeDecoration(
+                              color: cgreen,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(70),
+                              ),
+                            ),
+                            child: const Text(
+                              'Submit',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                          child: const Text(
-                            'Submit',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      );
-                    }
+                        );
+                      }
                   ),
                 );
               }
