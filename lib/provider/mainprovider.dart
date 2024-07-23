@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'dart:io';
 import 'package:intl/intl.dart';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -30,14 +29,10 @@ class Mainprovider extends ChangeNotifier {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Reference ref = FirebaseStorage.instance.ref("IMAGE URL");
 
-
-
-  Mainprovider(){
+  Mainprovider() {
     getAppVersion();
     notifyListeners();
-
   }
-
 
   /// bottomsheet indexes *
   int _selectedindex = 0;
@@ -49,23 +44,25 @@ class Mainprovider extends ChangeNotifier {
   }
 
   /// Count
-  void countIncrement(int index,String id) {
+  void countIncrement(int index, String id) {
     if (index >= 0 && index < cartitemslist.length) {
       cartitemslist[index].count++;
-      updateItemDetails(index,id);
+      updateItemDetails(index, id);
       notifyListeners();
     }
   }
 
-  void countDecrement(int index,String id) {
-    if (index >= 0 && index < cartitemslist.length && cartitemslist[index].count > 1) {
+  void countDecrement(int index, String id) {
+    if (index >= 0 &&
+        index < cartitemslist.length &&
+        cartitemslist[index].count > 1) {
       cartitemslist[index].count--;
-      updateItemDetails(index,id);
+      updateItemDetails(index, id);
       notifyListeners();
     }
   }
 
-  Future<void> updateItemDetails(int index,String id) async {
+  Future<void> updateItemDetails(int index, String id) async {
     double initialPrice = double.parse(cartitemslist[index].itemprice);
     double newPrice = initialPrice * cartitemslist[index].count;
 
@@ -77,11 +74,10 @@ class Mainprovider extends ChangeNotifier {
     print("Qty: ${cartitemslist[index].qty}");
     print("Total Price: ${cartitemslist[index].totalprice}");
 
-
-    await  db
-        .collection("CART")
-        .doc(id)
-        .set({"TOTAL_PRICE": cartitemslist[index].totalprice,"QTY": cartitemslist[index].qty}, SetOptions(merge:true));
+    await db.collection("CART").doc(id).set({
+      "TOTAL_PRICE": cartitemslist[index].totalprice,
+      "QTY": cartitemslist[index].qty
+    }, SetOptions(merge: true));
 
     notifyListeners();
   }
@@ -355,7 +351,7 @@ class Mainprovider extends ChangeNotifier {
             data["MAIN_CATEGORY_ID"] as String,
             data["FSpAVILMILK_PHOTO"] as String,
           ));
-          filterfspavilmilklist =fspavilmilklist;
+          filterfspavilmilklist = fspavilmilklist;
           notifyListeners();
         }
       }
@@ -368,11 +364,13 @@ class Mainprovider extends ChangeNotifier {
   }
 
   void filterfsptypes(item) {
-    filterfspavilmilklist = fspavilmilklist.where(
-            (a) => a.name.toLowerCase().contains(item.toLowerCase())|| a.price.toLowerCase().contains(item.toLowerCase())).toList();
+    filterfspavilmilklist = fspavilmilklist
+        .where((a) =>
+            a.name.toLowerCase().contains(item.toLowerCase()) ||
+            a.price.toLowerCase().contains(item.toLowerCase()))
+        .toList();
     notifyListeners();
   }
-
 
   Future<void> deleteSpAvilmilk(String itemId, BuildContext context) async {
     try {
@@ -615,7 +613,6 @@ class Mainprovider extends ChangeNotifier {
     fspCategoryCt.clear();
     fspAvilmilkFileImg = null;
     fspAvilmilkImg = '';
-
   }
 
   List<AvilMilkTypes> avilmilklist = [];
@@ -650,9 +647,13 @@ class Mainprovider extends ChangeNotifier {
       notifyListeners();
     });
   }
+
   void filterAvilmilk(item) {
-    filteravilmilklist = avilmilklist.where(
-            (a) => a.name.toLowerCase().contains(item.toLowerCase())|| a.price.toLowerCase().contains(item.toLowerCase())).toList();
+    filteravilmilklist = avilmilklist
+        .where((a) =>
+            a.name.toLowerCase().contains(item.toLowerCase()) ||
+            a.price.toLowerCase().contains(item.toLowerCase()))
+        .toList();
     notifyListeners();
   }
 
@@ -1461,7 +1462,6 @@ class Mainprovider extends ChangeNotifier {
     map["QTY"] = 1;
     map["TOTAL_PRICE"] = price;
 
-
     itemStatus = await checkItemExist(itemsid);
     if (!itemStatus) {
       print("heeloooooooi");
@@ -1470,7 +1470,7 @@ class Mainprovider extends ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
-            colorcontainer: Color.fromARGB(255, 0, 204,0),
+            colorcontainer: Color.fromARGB(255, 0, 204, 0),
             errorText: "Items Already To Cart",
             errorHeadline: "Oh Snap",
             colorbubble: cYellow,
@@ -1499,7 +1499,7 @@ class Mainprovider extends ChangeNotifier {
 
   List<cartItemsDetails> cartitemslist = [];
   bool getcart = false;
-  String slno="";
+  String slno = "";
 
   Future<void> getCartItems() async {
     try {
@@ -1533,11 +1533,11 @@ class Mainprovider extends ChangeNotifier {
       // Handle the error appropriately
     } finally {
       getcart = false;
-      slno=cartitemslist.length.toString();
+      slno = cartitemslist.length.toString();
       notifyListeners();
-
     }
   }
+
   Future<void> delefromtecart(String id, BuildContext context) async {
     try {
       print("Deleting item with id: $id");
@@ -1551,11 +1551,10 @@ class Mainprovider extends ChangeNotifier {
         print("Item not found in local list");
       }
 
-
       // Delete from Firestore
       await db.collection("CART").doc(id).delete();
 
-      ScaffoldMessenger.of(context).showSnackBar  (const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         duration: Duration(milliseconds: 500),
         backgroundColor: Colors.transparent,
         content: CustomSnackBarContent(
@@ -1569,7 +1568,6 @@ class Mainprovider extends ChangeNotifier {
 
       // Optionally refresh the cart items
       // await getCartItems();
-
     } catch (e) {
       print("Error deleting item: $e");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -1580,7 +1578,8 @@ class Mainprovider extends ChangeNotifier {
   }
 
   /// icecreame Selections
-  Future<void> toggleIceCreamSelection(BuildContext context, int iceCreamIndex, int scoopIndex) async {
+  Future<void> toggleIceCreamSelection(
+      BuildContext context, int iceCreamIndex, int scoopIndex) async {
     var iceCream = icecreamlist[iceCreamIndex];
     var scoop = iceCream.scoops[scoopIndex];
 
@@ -1604,28 +1603,29 @@ class Mainprovider extends ChangeNotifier {
 
     notifyListeners();
   }
-  TextEditingController namecontroller=TextEditingController();
-  TextEditingController desknocontroller=TextEditingController();
 
-  void cartcustomerdetails(String id){
+  TextEditingController namecontroller = TextEditingController();
+  TextEditingController desknocontroller = TextEditingController();
+
+  void cartcustomerdetails(String id) {
     Map<String, Object> map = HashMap();
-    map["CUSTOMER_NAME"]=namecontroller.text;
-    map["DESK_NO"]=desknocontroller.text;
-    db.collection("CART").doc(id).set(map ,SetOptions(merge: true));
+    map["CUSTOMER_NAME"] = namecontroller.text;
+    map["DESK_NO"] = desknocontroller.text;
+    db.collection("CART").doc(id).set(map, SetOptions(merge: true));
     notifyListeners();
-
   }
-  void cusdetailsclear(){
+
+  void cusdetailsclear() {
     namecontroller.clear();
     desknocontroller.clear();
     dropdownval = 'Choose';
   }
+
   String dropdownval = 'Choose';
   var odertype = [
-  "Choose",
-  "Dine In",
-  "Pick Up",
-
+    "Choose",
+    "Dine In",
+    "Pick Up",
   ];
 
   void dropdown(String? newVal) {
@@ -1635,19 +1635,15 @@ class Mainprovider extends ChangeNotifier {
 
   /// TOTAL PRICE
 
-  double getTotalPrice(){
+  double getTotalPrice() {
     double total = 0.0;
-    for(var item in cartitemslist){
+    for (var item in cartitemslist) {
       total += double.parse(item.itemprice);
     }
     return total;
   }
 
-
-/// details timefromate
-
-
-
+  /// details timefromate
 
   Future<void> addItemToCart({
     required BuildContext context,
@@ -1679,15 +1675,12 @@ class Mainprovider extends ChangeNotifier {
     }
   }
 
-
   Future<void> removeItemFromCart({
     required BuildContext context,
     required String itemsid,
   }) async {
-    QuerySnapshot querySnapshot = await db
-        .collection("CART")
-        .where("ITEMS_ID", isEqualTo: itemsid)
-        .get();
+    QuerySnapshot querySnapshot =
+        await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
 
     for (var doc in querySnapshot.docs) {
       await doc.reference.delete();
@@ -1697,18 +1690,18 @@ class Mainprovider extends ChangeNotifier {
   }
 
   Future<bool> checkItemExisticecream(String itemsid) async {
-    QuerySnapshot querySnapshot = await db
-        .collection("CART")
-        .where("ITEMS_ID", isEqualTo: itemsid)
-        .get();
+    QuerySnapshot querySnapshot =
+        await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
     return querySnapshot.docs.isNotEmpty;
   }
 
-  void showSnackBar(BuildContext context, String message, {required bool isSuccess}) {
+  void showSnackBar(BuildContext context, String message,
+      {required bool isSuccess}) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: Duration(seconds: 2),
       content: CustomSnackBarContent(
-        colorcontainer: isSuccess ? Color.fromARGB(255, 0, 204, 0) : Colors.orange,
+        colorcontainer:
+            isSuccess ? Color.fromARGB(255, 0, 204, 0) : Colors.orange,
         errorText: message,
         errorHeadline: isSuccess ? "Success" : "Warning",
         colorbubble: isSuccess ? cYellow : Colors.red,
@@ -1725,17 +1718,16 @@ class Mainprovider extends ChangeNotifier {
   bool flavour = false;
   void radioButtonChanges(bool bool) {
     flavour = bool;
-
   }
 
   List<cartItemsDetails> cartitemscountlist = [];
 
   void updateItemQuantity(String cartId, int newQuantity) {
-  var index = cartitemscountlist.indexWhere((item) => item.cartid == cartId);
-  if (index != -1 && newQuantity > 0) {
-    cartitemscountlist[index].count = newQuantity;
-  notifyListeners();
-  }
+    var index = cartitemscountlist.indexWhere((item) => item.cartid == cartId);
+    if (index != -1 && newQuantity > 0) {
+      cartitemscountlist[index].count = newQuantity;
+      notifyListeners();
+    }
   }
 
   // double getTotalCartPrice() {
@@ -1908,33 +1900,29 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
-
-
-
   /// apploack
-
-
 
   final DatabaseReference mRoot = FirebaseDatabase.instance.ref();
 
   String? appVersion;
-  String currentVersion='';
-  String buildNumber="";
-
+  String currentVersion = '';
+  String buildNumber = "";
 
   void lockApp() {
     print('buttonnnn');
     mRoot.child("0").onValue.listen((event) {
       if (event.snapshot.value != null) {
         Map<dynamic, dynamic> map = event.snapshot.value as Map;
-        List<String> versions = map[!Platform.isIOS ? 'AppVersion' : 'iOSVersion'].toString().split(',');
+        List<String> versions =
+            map[!Platform.isIOS ? 'AppVersion' : 'iOSVersion']
+                .toString()
+                .split(',');
         if (!versions.contains(appVersion)) {
-          String ADDRESS = map[!Platform.isIOS ?'ADDRESS':'ADDRESS_iOS'].toString();
+          String ADDRESS =
+              map[!Platform.isIOS ? 'ADDRESS' : 'ADDRESS_iOS'].toString();
           String button = map['BUTTON'].toString();
           String text = map['TEXT'].toString();
-          print(button+'buttonnnn');
+          print(button + 'buttonnnn');
           runApp(MaterialApp(
             debugShowCheckedModeBanner: false,
             home: UpdateScreen(
@@ -1949,21 +1937,19 @@ class Mainprovider extends ChangeNotifier {
   }
 
   Future<void> getAppVersion() async {
-
     PackageInfo.fromPlatform().then((value) {
-      currentVersion=value.version;
+      currentVersion = value.version;
       buildNumber = value.buildNumber;
-      appVersion=buildNumber;
+      appVersion = buildNumber;
 
-      print(appVersion.toString()+"edfesappversion");
-      print(currentVersion.toString()+"DFGVCDSQ");
+      print(appVersion.toString() + "edfesappversion");
+      print(currentVersion.toString() + "DFGVCDSQ");
 
       notifyListeners();
     });
-
   }
 
-  void ordercount(){
+  void ordercount() {
     db.collection("ORDER_COUNT").doc("ORDER_COUNT").set({
       "ORDER_COUNT": FieldValue.increment(
         double.parse('1'),
@@ -1972,34 +1958,75 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
-  double orderCount=0;
-  void getordercount(){
-    db.collection("ORDER_COUNT").doc("ORDER_COUNT").get().then((value) {
-      if(value.exists){
-        Map<dynamic, dynamic> dataMap = value.data() as Map;
-        orderCount= double.parse(dataMap["ORDER_COUNT"].toString());
-        notifyListeners();
-      }
-    },);
+  double orderCount = 0;
+  void getordercount() {
+    db.collection("ORDER_COUNT").doc("ORDER_COUNT").get().then(
+      (value) {
+        if (value.exists) {
+          Map<dynamic, dynamic> dataMap = value.data() as Map;
+          orderCount = double.parse(dataMap["ORDER_COUNT"].toString());
+          notifyListeners();
+        }
+      },
+    );
     notifyListeners();
-
   }
-
-
-
-
 
   /// order
 
-
-
-  void AddOrder(String name,String date,String ordertype, List itemslist, String tableno,
+  void AddOrder(
+      String name,
+      String date,
+      String ordertype,
+      List itemslist,
+      String tableno,
       String invoiceno,
-      String totalprice, String slno, BuildContext context) {
+      String totalprice,
+      String slno,
+      BuildContext context) {
 
-    print("vbfdbdfbfbdfbdfbdfbbbbbbbb");
+    // Debugging: Print the details being passed to the function
+    print("Adding Order:");
+    print("Customer Name: $name");
+    print("Date: $date");
+    print("Order Type: $ordertype");
+    print("Items List: $itemslist");
+    print("Table No: $tableno");
+    print("Invoice No: $invoiceno");
+    print("Total Price: $totalprice");
+    print("Items Count (slno): $slno");
+
+    // Ensure itemslist is not null or empty
+    if (itemslist == null || itemslist.isEmpty) {
+      print("Error: itemslist is null or empty.");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Center(
+            child: Text("Order failed: No items in the list",
+                style: TextStyle(
+                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+        backgroundColor: Colors.red,
+        elevation: 10,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(5),
+      ));
+      return;
+    }
+
+    // Ensure totalprice is not null
+    if (totalprice == null || totalprice.isEmpty) {
+      print("Error: totalprice is null or empty.");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Center(
+            child: Text("Order failed: Total price is missing",
+                style: TextStyle(
+                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+        backgroundColor: Colors.red,
+        elevation: 10,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(5),
+      ));
+      return;
+    }
 
     String id = DateTime.now().millisecondsSinceEpoch.toString();
     Map<String, dynamic> ordermap = HashMap();
@@ -2009,53 +2036,66 @@ class Mainprovider extends ChangeNotifier {
     ordermap["ORDER_TYPE"] = ordertype;
     ordermap["ITEMS_LIST"] = itemslist;
     ordermap["TABLE_NO"] = tableno;
-    ordermap["INVOIVE_NO"] =invoiceno;
+    ordermap["INVOICE_NO"] = invoiceno;
     ordermap["TOTAL_PRICE"] = totalprice;
     ordermap["ITEMS_COUNT"] = slno;
     ordermap["PRINTED"] = "YES";
-    print(itemslist.toString()+'sakjhdaihsdjasdj');
-    db.collection("ORDER_DETAILS").doc(id).set(ordermap);
 
+    // Debugging: Print the order map to verify its contents
+    print("Order Map: ${ordermap.toString()}");
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Center(
-          child: Text("Your Order Is Confirmed",
-              style: TextStyle(
-                  color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
-      backgroundColor: cgreen,
-      elevation: 10,
-      behavior: SnackBarBehavior.floating,
-      margin: EdgeInsets.all(5),
-    ));
-    notifyListeners();
+    // Add the order to the Firestore collection
+    db.collection("ORDER_DETAILS").doc(id).set(ordermap).then((_) {
+      print("Order added successfully");
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Center(
+            child: Text("Your Order Is Confirmed",
+                style: TextStyle(
+                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+        backgroundColor: Colors.green,
+        elevation: 10,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(5),
+      ));
+
+      notifyListeners();
+    }).catchError((error) {
+      print("Failed to add order: $error");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Center(
+            child: Text("Failed to confirm order",
+                style: TextStyle(
+                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+        backgroundColor: Colors.red,
+        elevation: 10,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(5),
+      ));
+    });
   }
+
 
   List<String> cartitemidlist = [];
 
   void getitemsid() {
-
-    db.collection("CART")
-        .get()
-        .then((value) {
+    db.collection("CART").get().then((value) {
       if (value.docs.isNotEmpty) {
         cartitemidlist.clear();
         for (var element in value.docs) {
-
           cartitemidlist.add(element.get("ITEMS_ID"));
           notifyListeners();
         }
-        print("ddddddddddddddddddddddddd"+cartitemidlist.toString());
+        print("ddddddddddddddddddddddddd" + cartitemidlist.toString());
       }
       notifyListeners();
     });
     notifyListeners();
   }
 
+  List<Orderdetails> orderlist = [];
 
-
-  List<Orderdetails>orderlist=[];
-
-   void getordereddetils() {
+  void getordereddetils() {
     // Notify listeners at the start
     notifyListeners();
 
@@ -2077,7 +2117,8 @@ class Mainprovider extends ChangeNotifier {
           Map<String, dynamic> orderMap = elements.data();
           itemsId.clear(); // Clear itemsId for each new order
 
-          if (orderMap["ITEMS_ID"] != null && orderMap["ITEMS_ID"] is Iterable) {
+          if (orderMap["ITEMS_ID"] != null &&
+              orderMap["ITEMS_ID"] is Iterable) {
             for (var itemId in orderMap["ITEMS_ID"]) {
               itemsId.add(itemId);
               notifyListeners();
@@ -2126,8 +2167,4 @@ class Mainprovider extends ChangeNotifier {
       print("Error fetching order details: $error");
     });
   }
-
-
-
-
 }
