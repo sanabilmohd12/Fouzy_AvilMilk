@@ -2069,7 +2069,7 @@ class Mainprovider extends ChangeNotifier {
       print("hnjm bhbh");
       if (value.docs.isNotEmpty) {
 
-        orderlist.clear();
+        // orderlist.clear();
         for (var elements in value.docs) {
           Map<String, dynamic> ordermap = elements.data();
           for (var kk in ordermap["ITEMS_ID"]) {

@@ -407,7 +407,7 @@ class Printerscreen extends StatelessWidget {
                 return InkWell(onTap: () {
                   print(name+"heloooooooi"+datetime+"hgvbnm,"+ordertype+"fdcvbnm"+value.orderCount.toString()+"hgvbnm"+value.slno);
                   value.AddOrder(name, datetime, ordertype, itemslist, deskno
-                      ,'000'+value.orderCount.toString(), "", value.slno, context);
+                      ,'000'+value.orderCount.toString(),  value.getTotalPrice().toString(), value.slno, context);
                   value.cartitemslist.clear();
                       value.getMainCategoy();
                   callNext(context,  BottomNavBarV2());
