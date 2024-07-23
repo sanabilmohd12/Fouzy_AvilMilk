@@ -2013,6 +2013,7 @@ class Mainprovider extends ChangeNotifier {
     ordermap["TOTAL_PRICE"] = totalprice;
     ordermap["ITEMS_COUNT"] = slno;
     ordermap["PRINTED"] = "YES";
+    print(itemslist.toString()+'sakjhdaihsdjasdj');
     db.collection("ORDER_DETAILS").doc(id).set(ordermap);
 
 
@@ -2054,60 +2055,65 @@ class Mainprovider extends ChangeNotifier {
 
   List<Orderdetails>orderlist=[];
 
-  void getordereddetils() {
+   void getordereddetils() {
+    // Notify listeners at the start
     notifyListeners();
-    List<String> itemsid = [];
-    String itemname = '';
-    String itemsprice = '';
+
+    // Initialize variables
+    List<String> itemsId = [];
+    String itemName = '';
+    String itemsPrice = '';
     String photo = '';
-    String itemqty = '';
+    String itemQty = '';
 
-
+    // Fetch data from the ORDER_DETAILS collection
     db.collection("ORDER_DETAILS").get().then((value) {
+      notifyListeners(); // Notify listeners after fetching data
 
-      notifyListeners();
-      print("hnjm bhbh");
       if (value.docs.isNotEmpty) {
+        orderlist.clear(); // Clear the order list before adding new data
 
-        orderlist.clear();
         for (var elements in value.docs) {
-          Map<String, dynamic> ordermap = elements.data();
-          for (var kk in ordermap["ITEMS_ID"]) {
-            print(kk.toString() + "gkkg");
-            itemsid.add(kk);
-            notifyListeners();
-          }
-          print("gfvhewvkjwehfvhe"+itemsid.toString());
+          Map<String, dynamic> orderMap = elements.data();
+          itemsId.clear(); // Clear itemsId for each new order
 
-          // print(productid=ordermap["PRODUCT_ID"]+"fkkf");
+          if (orderMap["ITEMS_ID"] != null && orderMap["ITEMS_ID"] is Iterable) {
+            for (var itemId in orderMap["ITEMS_ID"]) {
+              itemsId.add(itemId);
+              notifyListeners();
+            }
+          }
+
+          // Fetch data from the CART collection for each item in the order
           db
               .collection("CART")
-              .where("ITEMS_ID", whereIn: itemsid)
+              .where("ITEMS_ID", whereIn: itemsId)
               .get()
-              .then((val) {
-            if (val.docs.isNotEmpty) {
-              for (var elem in val.docs) {
+              .then((cartSnapshot) {
+            if (cartSnapshot.docs.isNotEmpty) {
+              for (var cartItem in cartSnapshot.docs) {
+                itemName = cartItem.get("ITEMS_NAME").toString();
+                itemsPrice = cartItem.get("ITEMS_PRICE").toString();
+                photo = cartItem.get("ITEMS_PHOTO") ?? "";
+                itemQty = cartItem.get("QTY").toString();
 
-                itemname = elem.get("ITEMS_NAME").toString();
-                itemsprice = elem.get("ITEMS_PRICE").toString();
-                photo = elem.get("ITEMS_PHOTO")??"";
-                itemqty = elem.get("QTY").toString();
-
+                // Add the details to the order list
                 orderlist.add(Orderdetails(
-                    itemsid,
-                    photo,
-                    ordermap["ORDER_ID"].toString(),
-                    ordermap["CUSTOMER_NAME"].toString(),
-                    ordermap["DATE_TIME"].toString(),
-                    ordermap["INVOIVE_NO"].toString(),
-                    ordermap["ITEMS_COUNT"].toString(),
-                    ordermap["ORDER_TYPE"].toString(),
-                    ordermap["TABLE_NO"].toString(),
-                   double.parse(ordermap["TOTAL_PRICE"].toString(),),
-                    ordermap["PRINTED"]??"",
-                    itemsprice,
-                    itemname,
-                    itemqty));
+                  itemsId,
+                  photo,
+                  orderMap["ORDER_ID"].toString(),
+                  orderMap["CUSTOMER_NAME"].toString(),
+                  orderMap["DATE_TIME"].toString(),
+                  orderMap["INVOICE_NO"].toString(),
+                  orderMap["ITEMS_COUNT"].toString(),
+                  orderMap["ORDER_TYPE"].toString(),
+                  orderMap["TABLE_NO"].toString(),
+                  double.parse(orderMap["TOTAL_PRICE"].toString()),
+                  orderMap["PRINTED"] ?? "",
+                  itemsPrice,
+                  itemName,
+                  itemQty,
+                ));
                 notifyListeners();
               }
             }
@@ -2115,8 +2121,12 @@ class Mainprovider extends ChangeNotifier {
           notifyListeners();
         }
       }
+    }).catchError((error) {
+      // Handle any errors that occur during the fetch
+      print("Error fetching order details: $error");
     });
   }
+
 
 
 

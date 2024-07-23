@@ -420,34 +420,48 @@ class Printerscreen extends StatelessWidget {
                             // Check printer connection before printing
                             bool isConnected = await printer.isPrinterConnected(printer.Ip, int.parse(printer.boxInPort));
 
-                            if (isConnected) {
-                              // If connected, proceed with printing
-                              printer.PrintOrderInvoiceBoxIn(context, printer.Ip);
-
-                              // Add order to database and navigate
-                              Provider.of<Mainprovider>(context, listen: false).AddOrder(
-                                  name,
-                                  datetime,
-                                  ordertype,
-                                  itemslist,
-                                  deskno,
-                                  '000${Provider.of<Mainprovider>(context, listen: false).orderCount}',
-                                  "",
-                                  Provider.of<Mainprovider>(context, listen: false).slno,
-                                  context
-                              );
-                              Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
-                              Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
-                              callNext(context, BottomNavBarV2());
-                            } else {
-                              // If not connected, show an error message
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Printer is not connected. Please check your network connection.'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
+                            // if (isConnected) {
+                            //   // If connected, proceed with printing
+                            //   printer.PrintOrderInvoiceBoxIn(context, printer.Ip);
+                            //
+                            //   // Add order to database and navigate
+                            //   Provider.of<Mainprovider>(context, listen: false).AddOrder(
+                            //       name,
+                            //       datetime,
+                            //       ordertype,
+                            //       itemslist,
+                            //       deskno,
+                            //       '000${Provider.of<Mainprovider>(context, listen: false).orderCount}',
+                            //       "",
+                            //       Provider.of<Mainprovider>(context, listen: false).slno,
+                            //       context
+                            //   );
+                            //   Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
+                            //   Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
+                            //   callNext(context, BottomNavBarV2());
+                            // } else {
+                            //   // If not connected, show an error message
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     SnackBar(
+                            //       content: Text('Printer is not connected. Please check your network connection.'),
+                            //       backgroundColor: Colors.red,
+                            //     ),
+                            //   );
+                            // }
+                            Provider.of<Mainprovider>(context, listen: false).AddOrder(
+                                name,
+                                datetime,
+                                ordertype,
+                                itemslist,
+                                deskno,
+                                '000${Provider.of<Mainprovider>(context, listen: false).orderCount}',
+                                "",
+                                Provider.of<Mainprovider>(context, listen: false).slno,
+                                context
+                            );
+                            Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
+                            Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
+                            callNext(context, BottomNavBarV2());
                           },
                           child: Container(
                             height: 50,
