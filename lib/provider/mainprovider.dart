@@ -1551,20 +1551,20 @@ class Mainprovider extends ChangeNotifier {
         print("Item not found in local list");
       }
 
+
       // Delete from Firestore
       await db.collection("CART").doc(id).delete();
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.red,
-        content: Center(
-          child: Text("Deleted Successfully",
-              style: TextStyle(
-                color: cgreen,
-                fontSize: 15,
-                fontWeight: FontWeight.w800,
-              )),
+      ScaffoldMessenger.of(context).showSnackBar  (const SnackBar(
+        duration: Duration(milliseconds: 500),
+        backgroundColor: Colors.transparent,
+        content: CustomSnackBarContent(
+          colorcontainer: Colors.orange,
+          errorText: "Delete Succesfully",
+          errorHeadline: "Oh Snap!",
+          colorbubble: Colors.red,
+          img: "assets/close.svg",
         ),
-        duration: Duration(milliseconds: 3000),
       ));
 
       // Optionally refresh the cart items

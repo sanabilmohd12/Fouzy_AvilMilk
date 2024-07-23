@@ -5,6 +5,7 @@ import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/custom_icons_icons.dart';
 import 'package:fouzy/view/printerScreen.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -434,7 +435,14 @@ class Cart_Screen extends StatelessWidget {
                               );
                             },
                           )
-                        : Center(child: Text("order something"));
+                        : Center(
+                          child: Lottie.asset(
+                                                "assets/bananalottie.json",
+                                                width: 200,
+                                                height: 200,
+                                                fit: BoxFit.fill,
+                                              ),
+                        );
               }),
 SizedBox(
   height: height/5,
