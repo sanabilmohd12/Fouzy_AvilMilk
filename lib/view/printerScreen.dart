@@ -406,6 +406,7 @@ class Printerscreen extends StatelessWidget {
               builder: (context,value,child) {
                 return InkWell(onTap: () {
                   print(name+"heloooooooi"+datetime+"hgvbnm,"+ordertype+"fdcvbnm"+value.orderCount.toString()+"hgvbnm"+value.slno);
+
                   value.AddOrder(name, datetime, ordertype, itemslist, deskno
                       ,'000'+value.orderCount.toString(),  value.getTotalPrice().toString(), value.slno, context);
                   value.cartitemslist.clear();
@@ -417,8 +418,9 @@ class Printerscreen extends StatelessWidget {
                       builder: (context, printer, child) {
                         return GestureDetector(
                           onTap: () async {
+
                             // Check printer connection before printing
-                            bool isConnected = await printer.isPrinterConnected(printer.Ip, int.parse(printer.boxInPort));
+                            // bool isConnected = await printer.isPrinterConnected(printer.Ip, int.parse(printer.boxInPort));
 
                             // if (isConnected) {
                             //   // If connected, proceed with printing
@@ -448,20 +450,24 @@ class Printerscreen extends StatelessWidget {
                             //     ),
                             //   );
                             // }
-                            Provider.of<Mainprovider>(context, listen: false).AddOrder(
-                                name,
-                                datetime,
-                                ordertype,
-                                itemslist,
-                                deskno,
-                                '000${Provider.of<Mainprovider>(context, listen: false).orderCount}',
-                                "",
-                                Provider.of<Mainprovider>(context, listen: false).slno,
-                                context
-                            );
-                            Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
-                            Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
-                            callNext(context, BottomNavBarV2());
+
+
+
+                            // Provider.of<Mainprovider>(context, listen: false).AddOrder(
+                            //     name,
+                            //     datetime,
+                            //     ordertype,
+                            //     itemslist,
+                            //     deskno,
+                            //     '000${Provider.of<Mainprovider>(context, listen: false).orderCount}' ,
+                            //     value.getTotalPrice().toString(),
+                            //     Provider.of<Mainprovider>(context, listen: false).slno,
+                            //     context
+                            // );
+                            // Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
+                            // Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
+                            // callNext(context, BottomNavBarV2());
+
                           },
                           child: Container(
                             height: 50,
