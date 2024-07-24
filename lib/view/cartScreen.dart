@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -21,10 +20,10 @@ class Cart_Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Mainprovider provider = Provider.of(context,listen: false);
+    Mainprovider provider = Provider.of(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       provider.getCartItems();
-      });
+    });
     DateTime nows = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd hh:mm a').format(nows);
     var height = MediaQuery.of(context).size.height;
@@ -33,7 +32,9 @@ class Cart_Screen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton:
           Consumer<Mainprovider>(builder: (context, value, child) {
-        return value.cartitemslist.isNotEmpty
+            print("abcd" + value.cartitemidlist.toString());
+
+            return value.cartitemslist.isNotEmpty
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 100),
                 child: SizedBox(
@@ -43,18 +44,18 @@ class Cart_Screen extends StatelessWidget {
                       Consumer<Mainprovider>(builder: (context, value, child) {
                     return value.loader
                         ? CircularProgressIndicator(
-
                             color: cgreen,
                           )
                         : FloatingActionButton(
                             onPressed: () {
-                              final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-                           value.getordercount();
-
+                              final GlobalKey<FormState> _formKey =
+                                  GlobalKey<FormState>();
+                              value.getordercount();
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return Form(key: _formKey,
+                                    return Form(
+                                      key: _formKey,
                                       child: AlertDialog(
                                         surfaceTintColor: cYellow,
                                         title: const Center(
@@ -69,9 +70,14 @@ class Cart_Screen extends StatelessWidget {
                                             child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                             SizedBox(height: 20),
+                                            SizedBox(height: 20),
 
-                                            Text(formattedDate,style: TextStyle(color: Colors.red,fontWeight: FontWeight.w500),),
+                                            Text(
+                                              formattedDate,
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
 
                                             const SizedBox(height: 10),
 
@@ -88,13 +94,15 @@ class Cart_Screen extends StatelessWidget {
                                                   fontSize: 16,
                                                   color: Colors.black,
                                                 ),
-                                                enabledBorder: OutlineInputBorder(
+                                                enabledBorder:
+                                                    OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(22),
                                                   borderSide: const BorderSide(
                                                       color: clblack),
                                                 ),
-                                                focusedBorder: OutlineInputBorder(
+                                                focusedBorder:
+                                                    OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(22),
                                                   borderSide: const BorderSide(
@@ -102,19 +110,22 @@ class Cart_Screen extends StatelessWidget {
                                                 ),
                                               ),
                                               validator: (value) {
-                                                if (value == null || value.isEmpty) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
                                                   return 'Please enter Customer Name';
                                                 }
                                                 return null;
                                               },
-                                              style:
-                                                  const TextStyle(color: clblack),
+                                              style: const TextStyle(
+                                                  color: clblack),
                                             ),
                                             const SizedBox(height: 10),
 
                                             TextFormField(
-                                              keyboardType: TextInputType.number,
-                                              controller: value.desknocontroller,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              controller:
+                                                  value.desknocontroller,
                                               decoration: InputDecoration(
                                                 fillColor: Colors.transparent,
                                                 labelText: 'Desk',
@@ -126,24 +137,26 @@ class Cart_Screen extends StatelessWidget {
                                                   fontSize: 16,
                                                   color: Colors.black,
                                                 ),
-                                                enabledBorder: OutlineInputBorder(
+                                                enabledBorder:
+                                                    OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(22),
                                                   borderSide: const BorderSide(
                                                       color: clblack),
                                                 ),
-                                                focusedBorder: OutlineInputBorder(
+                                                focusedBorder:
+                                                    OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(22),
                                                   borderSide: const BorderSide(
                                                       color: clblack),
                                                 ),
                                               ),
-
-                                              style:
-                                                  const TextStyle(color: clblack),
+                                              style: const TextStyle(
+                                                  color: clblack),
                                               validator: (value) {
-                                                if (value == null || value.isEmpty) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
                                                   return 'Please enter Desk Number';
                                                 }
                                                 return null;
@@ -151,37 +164,47 @@ class Cart_Screen extends StatelessWidget {
                                             ),
 
                                             const SizedBox(height: 10),
-                                            Consumer<Mainprovider>(
-                                                builder: (context, value,child) {
-                                                  return Container(
-                                                    margin: EdgeInsets.symmetric(horizontal: 15),
-                                                    height: height / 20,
-                                                    width: width/2 ,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      border: Border.all(width: 2, color: cgreen),
-                                                      color: cWhite,
-                                                    ),
-                                                    child: DropdownButton(
-                                                      // Initial Value
-                                                      underline:Container(color: Colors.white) ,
-                                                      value:value.dropdownval,
-                                                      icon: const Icon(Icons.keyboard_arrow_down),
-                                                      items:value.odertype.map((String items) {
-                                                        return DropdownMenuItem(
-                                                          value: items,
-                                                          child: Text(items,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: cBlue)),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (String? newVal) {
-                                                        value.dropdown(newVal!);
-                                                        // value.layerSelection(newVal);
-                                                      },
-                                                    ),
-                                                  );
-                                                }
-                                            ),
-
+                                            Consumer<Mainprovider>(builder:
+                                                (context, value, child) {
+                                              return Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 15),
+                                                height: height / 20,
+                                                width: width / 2,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                      width: 2, color: cgreen),
+                                                  color: cWhite,
+                                                ),
+                                                child: DropdownButton(
+                                                  // Initial Value
+                                                  underline: Container(
+                                                      color: Colors.white),
+                                                  value: value.dropdownval,
+                                                  icon: const Icon(Icons
+                                                      .keyboard_arrow_down),
+                                                  items: value.odertype
+                                                      .map((String items) {
+                                                    return DropdownMenuItem(
+                                                      value: items,
+                                                      child: Text(items,
+                                                          style: TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: cBlue)),
+                                                    );
+                                                  }).toList(),
+                                                  onChanged: (String? newVal) {
+                                                    value.dropdown(newVal!);
+                                                    // value.layerSelection(newVal);
+                                                  },
+                                                ),
+                                              );
+                                            }),
                                             // checkbox
                                           ],
                                         )),
@@ -191,17 +214,28 @@ class Cart_Screen extends StatelessWidget {
                                               (context, adminProVal, child) {
                                             return InkWell(
                                               onTap: () async {
-                                                final FormState? form = _formKey.currentState;
+                                                final FormState? form =
+                                                    _formKey.currentState;
                                                 if (form!.validate()) {
                                                   value.ordercount();
                                                   value.getCartItems();
                                                   value.getitemsid();
                                                   callNext(
-                                                      context, Printerscreen(name: adminProVal.namecontroller.text,deskno: adminProVal.desknocontroller.text,ordertype:adminProVal.dropdownval,datetime: formattedDate, itemslist: value.cartitemidlist,));
+                                                      context,
+                                                      Printerscreen(
+                                                        name: adminProVal
+                                                            .namecontroller
+                                                            .text,
+                                                        deskno: adminProVal
+                                                            .desknocontroller
+                                                            .text,
+                                                        ordertype: adminProVal
+                                                            .dropdownval,
+                                                        datetime: formattedDate,
+                                                        itemslist: value
+                                                            .cartitemidlist,
+                                                      ));
                                                 }
-
-
-
                                               },
                                               child: Container(
                                                 // width: width,
@@ -211,7 +245,8 @@ class Cart_Screen extends StatelessWidget {
                                                   color: cgreen,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(70),
+                                                        BorderRadius.circular(
+                                                            70),
                                                   ),
                                                 ),
                                                 child: const Text(
@@ -248,7 +283,6 @@ class Cart_Screen extends StatelessWidget {
               )
             : SizedBox();
       }),
-
       backgroundColor: cYellow,
       appBar: AppBar(
         title: const Text("Orders",
@@ -338,13 +372,15 @@ class Cart_Screen extends StatelessWidget {
                                                 ),
                                               )),
                                           FutureBuilder<File>(
-                                            future: DefaultCacheManager().getSingleFile(items.itemphoto),
+                                            future: DefaultCacheManager()
+                                                .getSingleFile(items.itemphoto),
                                             builder: (context, snapshot) {
-                                              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                                              if (snapshot.connectionState ==
+                                                      ConnectionState.done &&
+                                                  snapshot.hasData) {
                                                 return Image.file(
                                                   snapshot.data!,
                                                   fit: BoxFit.cover,
-
                                                   width: 100,
                                                   height: 100,
                                                 );
@@ -353,13 +389,13 @@ class Cart_Screen extends StatelessWidget {
                                               }
                                             },
                                           ),
-
                                           Align(
                                             alignment: Alignment.topRight,
                                             child: Container(
                                                 width: width / 6,
                                                 height: height / 20,
-                                                decoration: ShapeDecoration(
+                                                decoration:
+                                                    const ShapeDecoration(
                                                   gradient:
                                                       LinearGradient(colors: [
                                                     Color(0xff0a410b),
@@ -378,13 +414,12 @@ class Cart_Screen extends StatelessWidget {
                                                 child: Shimmer(
                                                   gradient:
                                                       LinearGradient(colors: [
-
-                                                   cWhite,
-                                                        cYellow,
-                                                   cgreen,
-
+                                                    cWhite,
+                                                    cYellow,
+                                                    cgreen,
                                                   ]),
-                                                  direction: ShimmerDirection.ltr,
+                                                  direction:
+                                                      ShimmerDirection.ltr,
                                                   child: Center(
                                                     child: Text(
                                                       items.count == 1
@@ -402,14 +437,14 @@ class Cart_Screen extends StatelessWidget {
                                                   ),
                                                 )),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 10,
                                           ),
                                           Align(
                                               alignment: Alignment.bottomCenter,
                                               child: Text(
                                                 items.itemname,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 22,
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -430,7 +465,8 @@ class Cart_Screen extends StatelessWidget {
                                         tileColor: Color(0xfff9ea1f),
                                         leading: IconButton(
                                             onPressed: () {
-                                              value.countDecrement(index,items.cartid);
+                                              value.countDecrement(
+                                                  index, items.cartid);
                                             },
                                             icon: const Icon(
                                               CustomIcons.minus_circle,
@@ -442,7 +478,8 @@ class Cart_Screen extends StatelessWidget {
                                         ),
                                         trailing: IconButton(
                                             onPressed: () {
-                                              value.countIncrement(index,items.cartid);
+                                              value.countIncrement(
+                                                  index, items.cartid);
                                             },
                                             icon: Icon(
                                               CustomIcons.plus_circle,
@@ -456,17 +493,17 @@ class Cart_Screen extends StatelessWidget {
                             },
                           )
                         : Center(
-                          child: Lottie.asset(
-                                                "assets/bananalottie.json",
-                                                width: 200,
-                                                height: 200,
-                                                fit: BoxFit.fill,
-                                              ),
-                        );
+                            child: Lottie.asset(
+                              "assets/bananalottie.json",
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.fill,
+                            ),
+                          );
               }),
-SizedBox(
-  height: height/5,
-)
+              SizedBox(
+                height: height / 5,
+              )
             ],
           ),
         ),

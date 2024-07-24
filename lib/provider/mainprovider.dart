@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 import 'package:intl/intl.dart';
@@ -1636,10 +1635,32 @@ class Mainprovider extends ChangeNotifier {
   /// TOTAL PRICE
 
   double getTotalPrice() {
+    print("Entering getTotalPrice method");
     double total = 0.0;
-    for (var item in cartitemslist) {
-      total += double.parse(item.itemprice);
+
+    if (cartitemslist.isEmpty) {
+      print("Cart is empty");
+      return 0.0;
     }
+
+    print("Number of items in cart: ${cartitemslist.length}");
+
+    for (var item in cartitemslist) {
+      print("Processing item: ${item.itemname}");
+      print("Item price: ${item.itemprice}, Quantity: ${item.qty}");
+
+      try {
+        double itemPrice = double.parse(item.itemprice);
+        int quantity = int.parse(item.qty); // Parse quantity as an integer
+        total += itemPrice * quantity;
+        print("Running total: $total");
+      } catch (e) {
+        print(
+            "Error parsing price or quantity for item ${item.itemname}: Price=${item.itemprice}, Quantity=${item.qty}");
+      }
+    }
+
+    print("Final total: $total");
     return total;
   }
 
@@ -1978,13 +1999,12 @@ class Mainprovider extends ChangeNotifier {
       String name,
       String date,
       String ordertype,
-      List itemslist,
+      List<dynamic> itemslist,
       String tableno,
       String invoiceno,
-      String totalprice,
+      double totalprice,
       String slno,
       BuildContext context) {
-
     // Debugging: Print the details being passed to the function
     print("Adding Order:");
     print("Customer Name: $name");
@@ -1995,6 +2015,11 @@ class Mainprovider extends ChangeNotifier {
     print("Invoice No: $invoiceno");
     print("Total Price: $totalprice");
     print("Items Count (slno): $slno");
+    // print("Photo: $photo");
+    // print("Items Price: $itemsprice");
+    // print("Item Name: $itemname");
+    // print("Item Quantity: $itemqty");
+    // print("Items ID: $itemsId");
 
     // Ensure itemslist is not null or empty
     if (itemslist == null || itemslist.isEmpty) {
@@ -2003,7 +2028,9 @@ class Mainprovider extends ChangeNotifier {
         content: Center(
             child: Text("Order failed: No items in the list",
                 style: TextStyle(
-                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold))),
         backgroundColor: Colors.red,
         elevation: 10,
         behavior: SnackBarBehavior.floating,
@@ -2013,13 +2040,15 @@ class Mainprovider extends ChangeNotifier {
     }
 
     // Ensure totalprice is not null
-    if (totalprice == null || totalprice.isEmpty) {
+    if (totalprice == null || totalprice <= 0) {
       print("Error: totalprice is null or empty.");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Center(
             child: Text("Order failed: Total price is missing",
                 style: TextStyle(
-                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold))),
         backgroundColor: Colors.red,
         elevation: 10,
         behavior: SnackBarBehavior.floating,
@@ -2040,6 +2069,11 @@ class Mainprovider extends ChangeNotifier {
     ordermap["TOTAL_PRICE"] = totalprice;
     ordermap["ITEMS_COUNT"] = slno;
     ordermap["PRINTED"] = "YES";
+    // ordermap["PHOTO"] = photo;
+    // ordermap["ITEMS_PRICE"] = itemsprice;
+    // ordermap["ITEM_NAME"] = itemname;
+    // ordermap["ITEM_QTY"] = itemqty;
+    // ordermap["ITEMS_ID"] = itemsId;
 
     // Debugging: Print the order map to verify its contents
     print("Order Map: ${ordermap.toString()}");
@@ -2052,7 +2086,9 @@ class Mainprovider extends ChangeNotifier {
         content: Center(
             child: Text("Your Order Is Confirmed",
                 style: TextStyle(
-                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold))),
         backgroundColor: Colors.green,
         elevation: 10,
         behavior: SnackBarBehavior.floating,
@@ -2066,7 +2102,9 @@ class Mainprovider extends ChangeNotifier {
         content: Center(
             child: Text("Failed to confirm order",
                 style: TextStyle(
-                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold))),
         backgroundColor: Colors.red,
         elevation: 10,
         behavior: SnackBarBehavior.floating,
@@ -2074,7 +2112,6 @@ class Mainprovider extends ChangeNotifier {
       ));
     });
   }
-
 
   List<String> cartitemidlist = [];
 
@@ -2093,78 +2130,315 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Orderdetails> orderlist = [];
+  // List<Orderdetails> orderlist = [];
 
-  void getordereddetils() {
-    // Notify listeners at the start
+  // void getOrderedDetails() {
+  //   print("Starting to fetch order details");
+  //   db.collection("ORDER_DETAILS").get().then((orderSnapshot) {
+  //     print("Received snapshot from Firestore");
+  //     orderlist.clear();
+  //
+  //     if (orderSnapshot.docs.isNotEmpty) {
+  //       print("Number of documents: ${orderSnapshot.docs.length}");
+  //       for (var orderDoc in orderSnapshot.docs) {
+  //         print("jhgf");
+  //         Map<String, dynamic> orderMap = orderDoc.data();
+  //         List<dynamic> itemsList = orderMap["ITEMS_LIST"] ?? [];
+  //
+  //         Orderdetails orderDetails = Orderdetails(
+  //           itemsList,
+  //           // orderMap["PHOTO"] ?? "",
+  //           orderMap["ORDER_ID"] ?? "",
+  //           orderMap["CUSTOMER_NAME"] ?? "",
+  //           orderMap["DATE_TIME"] ?? "",
+  //           orderMap["INVOICE_NO"] ?? "",
+  //           orderMap["ITEMS_COUNT"] ?? "",
+  //           orderMap["ORDER_TYPE"] ?? "",
+  //           orderMap["TABLE_NO"] ?? "",
+  //           (orderMap["TOTAL_PRICE"] ?? 0).toDouble(),
+  //           orderMap["PRINTED"] ?? "",
+  //           "", "",
+  //           "", // Initialize empty strings for itemsprice, itemname, itemqty
+  //         );
+  //
+  //         // Process all items in the list
+  //         if (itemsList.isNotEmpty) {
+  //           orderDetails.itemsprice = itemsList
+  //               .map((item) => item["ITEMS_PRICE"]?.toString() ?? "")
+  //               .join(", ");
+  //           orderDetails.itemname = itemsList
+  //               .map((item) => item["ITEMS_NAME"]?.toString() ?? "")
+  //               .join(", ");
+  //           orderDetails.itemqty = itemsList
+  //               .map((item) => item["QTY"]?.toString() ?? "")
+  //               .join(", ");
+  //         }
+  //
+  //         orderlist.add(orderDetails);
+  //       }
+  //     } else {
+  //       print("No orders found");
+  //     }
+  //
+  //     print("Finished processing. OrderList length: ${orderlist.length}");
+  //     notifyListeners();
+  //   }).catchError((error) {
+  //     print("Error fetching order details: $error");
+  //   });
+  // }
+  // void getOrderedDetails() {
+  //   db.collection("ORDER_DETAILS").get().then((orderSnapshot) {
+  //     orderlist.clear();
+  //
+  //     if (orderSnapshot.docs.isNotEmpty) {
+  //       for (var orderDoc in orderSnapshot.docs) {
+  //         print("jhgf");
+  //         Map<String, dynamic> orderMap = orderDoc.data();
+  //         List<dynamic> itemsList = orderMap["ITEMS_LIST"] ?? [];
+  //
+  //         Orderdetails orderDetails = Orderdetails(
+  //           itemsList,
+  //           orderMap["PHOTO"] ?? "",
+  //           orderMap["ORDER_ID"] ?? "",
+  //           orderMap["CUSTOMER_NAME"] ?? "",
+  //           orderMap["DATE_TIME"] ?? "",
+  //           orderMap["INVOICE_NO"] ?? "",
+  //           orderMap["ITEMS_COUNT"] ?? "",
+  //           orderMap["ORDER_TYPE"] ?? "",
+  //           orderMap["TABLE_NO"] ?? "",
+  //           (orderMap["TOTAL_PRICE"] ?? 0).toDouble(),
+  //           orderMap["PRINTED"] ?? "",
+  //           "", "", "", // Initialize empty strings for itemsprice, itemname, itemqty
+  //         );
+  //
+  //         // Process all items in the list
+  //         if (itemsList.isNotEmpty) {
+  //           orderDetails.itemsprice = itemsList.map((item) => item["ITEMS_PRICE"]?.toString() ?? "").join(", ");
+  //           orderDetails.itemname = itemsList.map((item) => item["ITEMS_NAME"]?.toString() ?? "").join(", ");
+  //           orderDetails.itemqty = itemsList.map((item) => item["QTY"]?.toString() ?? "").join(", ");
+  //         }
+  //
+  //         orderlist.add(orderDetails);
+  //       }
+  //       print("Fetched ${orderlist.length} orders successfully");
+  //     } else {
+  //       print("No orders found");
+  //     }
+  //
+  //     notifyListeners();
+  //   }).catchError((error) {
+  //     print("Error fetching order details: $error");
+  //   });
+  // }
+
+  ///hibade code by praji
+  // void getordereddetils() {
+  //   // Notify listeners at the start
+  //   notifyListeners();
+  //
+  //   // Initialize variables
+  //   String itemName = '';
+  //   String itemsPrice = '';
+  //   String photo = '';
+  //   String itemQty = '';
+  //
+  //   // Fetch data from the ORDER_DETAILS collection
+  //   db.collection("ORDER_DETAILS").get().then((value) {
+  //     notifyListeners(); // Notify listeners after fetching data
+  //
+  //     if (value.docs.isNotEmpty) {
+  //       orderlist.clear(); // Clear the order list before adding new data
+  //
+  //       for (var elements in value.docs) {
+  //         Map<String, dynamic> orderMap = elements.data();
+  //         orderlist.clear(); // Clear itemsId for each new order
+  //
+  //         if (orderMap["ITEMS_ID"] != null &&
+  //             orderMap["ITEMS_ID"] is Iterable) {
+  //           for (var itemId in orderMap["ITEMS_ID"]) {
+  //             orderlist.add(itemId);
+  //             notifyListeners();
+  //           }
+  //         }
+  //
+  //         // Fetch data from the CART collection for each item in the order
+  //         db
+  //             .collection("CART")
+  //             // .where("ITEMS_ID", whereIn: itemsId)
+  //             .get()
+  //             .then((cartSnapshot) {
+  //           if (cartSnapshot.docs.isNotEmpty) {
+  //             for (var cartItem in cartSnapshot.docs) {
+  //               itemName = cartItem.get("ITEMS_NAME").toString();
+  //               itemsPrice = cartItem.get("ITEMS_PRICE").toString();
+  //               photo = cartItem.get("ITEMS_PHOTO") ?? "";
+  //               itemQty = cartItem.get("QTY").toString();
+  //
+  //               // Add the details to the order list
+  //               orderlist.add(Orderdetails(
+  //                 photo,
+  //                 orderMap["ORDER_ID"].toString(),
+  //                 orderMap["CART_ID"].toString(),
+  //                 orderMap["CUSTOMER_NAME"].toString(),
+  //                 orderMap["DATE_TIME"].toString(),
+  //                 orderMap["INVOICE_NO"].toString(),
+  //                 orderMap["ITEMS_COUNT"].toString(),
+  //                 orderMap["ORDER_TYPE"].toString(),
+  //                 orderMap["TABLE_NO"].toString(),
+  //                 double.parse(orderMap["TOTAL_PRICE"].toString()),
+  //                 orderMap["PRINTED"] ?? "",
+  //                 itemsPrice,
+  //                 itemName,
+  //                 itemQty,
+  //               ));
+  //               notifyListeners();
+  //             }
+  //           }
+  //         });
+  //         notifyListeners();
+  //       }
+  //     }
+  //   }).catchError((error) {
+  //     // Handle any errors that occur during the fetch
+  //     print("Error fetching order details: $error");
+  //   });
+  // }
+
+//   Future<void> addOrdersnew(
+//       List<cartItemsDetails>   cartList,
+//
+//   String customerName,
+//       String date,
+//       String orderType,
+//       String tableNo,
+//       String invoiceNo,
+//       String totalAmt,
+//       BuildContext context) async {
+//     String id = DateTime.now().millisecondsSinceEpoch.toString();
+//
+//     Map<String, Object> map = HashMap();
+//     Map<String, Map<String, Object>> ProductsMap={};
+// print(cartList.length.toString()+'asdhas');
+//     for(var elements in cartList){
+//       Map<String, Object> itemsMap = {
+//         "Qty": elements.qty,
+//         "Price": elements.itemprice,
+//         "Item Total": elements.totalprice
+//
+//       };
+//       ProductsMap[elements.itemname] = itemsMap; // Add to productsMap correctly
+//
+//       // ProductsMap = {elements.itemname: itemsMap};
+//
+//
+//
+//
+//
+//     map["ORDER_ID"] = id;
+//     map["CUSTOMER_NAME"] = customerName;
+//     map["ORDER_DATE"] = date;
+//     map["ORDER_TYPE"] = orderType;
+//     map["TABLE_NO"] = tableNo;
+//     map["INVOICE_NO"] = invoiceNo;
+//     map["PRODUCTS"] = ProductsMap;
+//     map["INVOICE_NO"] = invoiceNo;
+//     map["TOTAL_AMOUT"] = totalAmt;
+//
+//     print('hgfhjklm,');
+//
+//     db.collection("ORDERS").doc(id).set(map);
+//
+//     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//       backgroundColor: cWhite,
+//       content: Text("Added Successfully",
+//           style: TextStyle(
+//             color: cgreen,
+//             fontSize: 15,
+//             fontWeight: FontWeight.w800,
+//           )),
+//       duration: Duration(milliseconds: 3000),
+//     ));}
+//
+//
+//     getOrders();
+//     notifyListeners();
+//   }
+//
+//
+//
+//   Future<List<OrderModel>> getOrders() async {
+//     try {
+//       QuerySnapshot querySnapshot = await db.collection("ORDERS").get();
+//
+//       List<OrderModel> orders = querySnapshot.docs.map((doc) {
+//         return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+//       }).toList();
+//
+//       return orders;
+//
+//     } catch (e) {
+//       print('Error fetching orders: $e');
+//       return [];
+//     }
+//   }
+
+
+  Future<void> addOrdersnew(
+      List<cartItemsDetails> cartList,
+      String customerName,
+      String date,
+      String orderType,
+      String tableNo,
+      String invoiceNo,
+      String totalAmt,
+      BuildContext context
+      ) async {
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Map<String, dynamic> map = {};
+    Map<String, Map<String, dynamic>> productsMap = {};
+
+    for (var element in cartList) {
+      Map<String, dynamic> itemMap = {
+        "Qty": element.qty,
+        "Price": element.itemprice,
+        "Item Total": element.totalprice
+      };
+      productsMap[element.itemname] = itemMap;
+    }
+
+    map["ORDER_ID"] = id;
+    map["CUSTOMER_NAME"] = customerName;
+    map["ORDER_DATE"] = date;
+    map["ORDER_TYPE"] = orderType;
+    map["TABLE_NO"] = tableNo;
+    map["INVOICE_NO"] = invoiceNo;
+    map["PRODUCTS"] = productsMap;
+    map["TOTAL_AMOUT"] = totalAmt;
+
+    await db.collection("ORDERS").doc(id).set(map);
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.white,
+      content: Text("Added Successfully",
+          style: TextStyle(
+            color: Colors.green,
+            fontSize: 15,
+            fontWeight: FontWeight.w800,
+          )),
+      duration: Duration(milliseconds: 3000),
+    ));
+
     notifyListeners();
+  }
 
-    // Initialize variables
-    List<String> itemsId = [];
-    String itemName = '';
-    String itemsPrice = '';
-    String photo = '';
-    String itemQty = '';
-
-    // Fetch data from the ORDER_DETAILS collection
-    db.collection("ORDER_DETAILS").get().then((value) {
-      notifyListeners(); // Notify listeners after fetching data
-
-      if (value.docs.isNotEmpty) {
-        orderlist.clear(); // Clear the order list before adding new data
-
-        for (var elements in value.docs) {
-          Map<String, dynamic> orderMap = elements.data();
-          itemsId.clear(); // Clear itemsId for each new order
-
-          if (orderMap["ITEMS_ID"] != null &&
-              orderMap["ITEMS_ID"] is Iterable) {
-            for (var itemId in orderMap["ITEMS_ID"]) {
-              itemsId.add(itemId);
-              notifyListeners();
-            }
-          }
-
-          // Fetch data from the CART collection for each item in the order
-          db
-              .collection("CART")
-              .where("ITEMS_ID", whereIn: itemsId)
-              .get()
-              .then((cartSnapshot) {
-            if (cartSnapshot.docs.isNotEmpty) {
-              for (var cartItem in cartSnapshot.docs) {
-                itemName = cartItem.get("ITEMS_NAME").toString();
-                itemsPrice = cartItem.get("ITEMS_PRICE").toString();
-                photo = cartItem.get("ITEMS_PHOTO") ?? "";
-                itemQty = cartItem.get("QTY").toString();
-
-                // Add the details to the order list
-                orderlist.add(Orderdetails(
-                  itemsId,
-                  photo,
-                  orderMap["ORDER_ID"].toString(),
-                  orderMap["CUSTOMER_NAME"].toString(),
-                  orderMap["DATE_TIME"].toString(),
-                  orderMap["INVOICE_NO"].toString(),
-                  orderMap["ITEMS_COUNT"].toString(),
-                  orderMap["ORDER_TYPE"].toString(),
-                  orderMap["TABLE_NO"].toString(),
-                  double.parse(orderMap["TOTAL_PRICE"].toString()),
-                  orderMap["PRINTED"] ?? "",
-                  itemsPrice,
-                  itemName,
-                  itemQty,
-                ));
-                notifyListeners();
-              }
-            }
-          });
-          notifyListeners();
-        }
-      }
-    }).catchError((error) {
-      // Handle any errors that occur during the fetch
-      print("Error fetching order details: $error");
+  Stream<List<OrderModel>> getOrdersStream() {
+    return db.collection("ORDERS").snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+      }).toList();
     });
   }
+
+  ///
 }

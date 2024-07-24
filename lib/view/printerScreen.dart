@@ -162,7 +162,7 @@ class Printerscreen extends StatelessWidget {
                             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Oder Mode : '+ordertype,
+                                  'Order Mode : '+ordertype,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -260,7 +260,7 @@ class Printerscreen extends StatelessWidget {
                                 height: 50,
 
                                 child: Text(
-                                  "Total",textAlign: TextAlign.center,
+                                  "Item Total",textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
@@ -344,7 +344,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.totalprice,textAlign: TextAlign.center,
+                                        items.totalprice.toString(),textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -373,7 +373,7 @@ class Printerscreen extends StatelessWidget {
                               child: Row(mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   const Text(
-                                    'Total',
+                                    'Order Total',
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight. w800,
@@ -403,91 +403,117 @@ class Printerscreen extends StatelessWidget {
               ),
               SizedBox(height: 30),
           Consumer<Mainprovider>(
-              builder: (context,value,child) {
-                return InkWell(onTap: () {
-                  print(name+"heloooooooi"+datetime+"hgvbnm,"+ordertype+"fdcvbnm"+value.orderCount.toString()+"hgvbnm"+value.slno);
-                  value.AddOrder(name, datetime, ordertype, itemslist, deskno
-                      ,'000'+value.orderCount.toString(), "", value.slno, context);
-                  value.cartitemslist.clear();
-                      value.getMainCategoy();
-                  callNext(context,  BottomNavBarV2());
+            builder: (context,provider,child) {
 
-                },
-                  child: Consumer<PrinterProvider>(
-                      builder: (context, printer, child) {
-                        return GestureDetector(
-                          onTap: () async {
-                            // Check printer connection before printing
-                            bool isConnected = await printer.isPrinterConnected(printer.Ip, int.parse(printer.boxInPort));
+              return TextButton(onPressed: () {
+                provider.addOrdersnew(provider.cartitemslist,name,datetime,ordertype,deskno,"6666","10",context);
+              }, child: Text('Submit',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: cWhite),));
+            }
+          )
+          // Consumer<Mainprovider>(
+          //     builder: (context,value,child) {
+          //       return GestureDetector(onTap: () async {
+          //         double totalPrice = Provider.of<Mainprovider>(context, listen: false).getTotalPrice();
+          //         print("Total Price: $totalPrice");
+          //         print(name+"heloooooooi"+datetime+"hgvbnm,"+ordertype+"fdcvbnm"+value.orderCount.toString()+"hgvbnm"+value.slno);
+          //         value.AddOrder(name, datetime, ordertype, itemslist, deskno
+          //             ,'000'+value.orderCount.toString(), totalPrice, value.slno, context);
+          //         value.cartitemslist.clear();
+          //             value.getMainCategoy();
+          //         callNext(context,  BottomNavBarV2());
+          //
+          //       },
+          //         child: Consumer<PrinterProvider>(
+          //             builder: (context, printer, child) {
+          //               return GestureDetector(
+          //                 onTap: () async {
+          //                   double totalprice = Provider.of<Mainprovider>(context, listen: false).getTotalPrice();
+          //
+          //                   // Check printer connection before printing
+          //                   bool isConnected = await printer.isPrinterConnected(printer.Ip, int.parse(printer.boxInPort));
+          //
+          //                   // if (isConnected) {
+          //                   //   // If connected, proceed with printing
+          //                   //   printer.PrintOrderInvoiceBoxIn(context, printer.Ip);
+          //                   //
+          //                   //   // Add order to database and navigate
+          //                   //   Provider.of<Mainprovider>(context, listen: false).AddOrder(
+          //                   //       name,
+          //                   //       datetime,
+          //                   //       ordertype,
+          //                   //       itemslist,
+          //                   //       deskno,
+          //                   //       '000${Provider.of<Mainprovider>(context, listen: false).orderCount}',
+          //                   //       "",
+          //                   //       Provider.of<Mainprovider>(context, listen: false).slno,
+          //                   //       context
+          //                   //   );
+          //                   //   Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
+          //                   //   Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
+          //                   //   callNext(context, BottomNavBarV2());
+          //                   // } else {
+          //                   //   // If not connected, show an error message
+          //                   //   ScaffoldMessenger.of(context).showSnackBar(
+          //                   //     SnackBar(
+          //                   //       content: Text('Printer is not connected. Please check your network connection.'),
+          //                   //       backgroundColor: Colors.red,
+          //                   //     ),
+          //                   //   );
+          //                   // }
+          //                   Provider.of<Mainprovider>(context, listen: false).AddOrder(
+          //                       name,
+          //                       datetime,
+          //                       ordertype,
+          //                       itemslist,
+          //                       deskno,
+          //
+          //                       '000${Provider.of<Mainprovider>(context, listen: false).orderCount}',
+          //                     totalprice,
+          //                       Provider.of<Mainprovider>(context, listen: false).slno,
+          //
+          //
+          //                     context,
+          //                   );
+          //
+          //                   value.addOrdersnew(
+          //                     name,
+          //                     datetime,
+          //                     ordertype,
+          //                     deskno,
+          //                   );
+          //
+          //
+          //                   Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
+          //                   Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
+          //                   callNext(context, BottomNavBarV2());
+          //                 },
+          //                 child: Container(
+          //                   height: 50,
+          //                   alignment: Alignment.center,
+          //                   decoration: ShapeDecoration(
+          //                     color: cgreen,
+          //                     shape: RoundedRectangleBorder(
+          //                       borderRadius: BorderRadius.circular(70),
+          //                     ),
+          //                   ),
+          //                   child: const Text(
+          //                     'Submit',
+          //                     style: TextStyle(
+          //                       color: Colors.white,
+          //                       fontSize: 14,
+          //                       fontFamily: 'Poppins',
+          //                       fontWeight: FontWeight.w500,
+          //                     ),
+          //                   ),
+          //                 ),
+          //               );
+          //             }
+          //         ),
+          //       );
+          //     }
+          // ),
 
-                            // if (isConnected) {
-                            //   // If connected, proceed with printing
-                            //   printer.PrintOrderInvoiceBoxIn(context, printer.Ip);
-                            //
-                            //   // Add order to database and navigate
-                            //   Provider.of<Mainprovider>(context, listen: false).AddOrder(
-                            //       name,
-                            //       datetime,
-                            //       ordertype,
-                            //       itemslist,
-                            //       deskno,
-                            //       '000${Provider.of<Mainprovider>(context, listen: false).orderCount}',
-                            //       "",
-                            //       Provider.of<Mainprovider>(context, listen: false).slno,
-                            //       context
-                            //   );
-                            //   Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
-                            //   Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
-                            //   callNext(context, BottomNavBarV2());
-                            // } else {
-                            //   // If not connected, show an error message
-                            //   ScaffoldMessenger.of(context).showSnackBar(
-                            //     SnackBar(
-                            //       content: Text('Printer is not connected. Please check your network connection.'),
-                            //       backgroundColor: Colors.red,
-                            //     ),
-                            //   );
-                            // }
-                            Provider.of<Mainprovider>(context, listen: false).AddOrder(
-                                name,
-                                datetime,
-                                ordertype,
-                                itemslist,
-                                deskno,
-                                '000${Provider.of<Mainprovider>(context, listen: false).orderCount}',
-                                "",
-                                Provider.of<Mainprovider>(context, listen: false).slno,
-                                context
-                            );
-                            Provider.of<Mainprovider>(context, listen: false).cartitemslist.clear();
-                            Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
-                            callNext(context, BottomNavBarV2());
-                          },
-                          child: Container(
-                            height: 50,
-                            alignment: Alignment.center,
-                            decoration: ShapeDecoration(
-                              color: cgreen,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(70),
-                              ),
-                            ),
-                            child: const Text(
-                              'Submit',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                  ),
-                );
-              }
-          ),
+
 
               // SwipeableButtonView(
               //   buttonText: 'SAVE',

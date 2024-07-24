@@ -136,7 +136,8 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                             ),
                             onPressed: () {
                               print("nkjdaksmd");
-                              provider.getordereddetils();
+                              // provider.getordereddetils();
+                              provider.getOrdersStream();
                               setBottomBarIndex(2);
                             },
                           ),
