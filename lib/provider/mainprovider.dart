@@ -2135,79 +2135,136 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Orderdetails> orderlist = [];
+  // List<Orderdetails> orderlist = [];
+  //
+  // void getordereddetils() {
+  //   // Notify listeners at the start
+  //   notifyListeners();
+  //
+  //   // Initialize variables
+  //   List<String> itemsId = [];
+  //   String itemName = '';
+  //   String itemsPrice = '';
+  //   String photo = '';
+  //   String itemQty = '';
+  //
+  //   // Fetch data from the ORDER_DETAILS collection
+  //   db.collection("ORDER_DETAILS").get().then((value) {
+  //     notifyListeners(); // Notify listeners after fetching data
+  //
+  //     if (value.docs.isNotEmpty) {
+  //       orderlist.clear(); // Clear the order list before adding new data
+  //
+  //       // orderlist.clear();
+  //       for (var elements in value.docs) {
+  //         Map<String, dynamic> orderMap = elements.data();
+  //         itemsId.clear(); // Clear itemsId for each new order
+  //
+  //         if (orderMap["ITEMS_ID"] != null &&
+  //             orderMap["ITEMS_ID"] is Iterable) {
+  //           for (var itemId in orderMap["ITEMS_ID"]) {
+  //             itemsId.add(itemId);
+  //             notifyListeners();
+  //           }
+  //         }
+  //
+  //         // Fetch data from the CART collection for each item in the order
+  //         db
+  //             .collection("CART")
+  //             .where("ITEMS_ID", whereIn: itemsId)
+  //             .get()
+  //             .then((cartSnapshot) {
+  //           if (cartSnapshot.docs.isNotEmpty) {
+  //             for (var cartItem in cartSnapshot.docs) {
+  //               itemName = cartItem.get("ITEMS_NAME").toString();
+  //               itemsPrice = cartItem.get("ITEMS_PRICE").toString();
+  //               photo = cartItem.get("ITEMS_PHOTO") ?? "";
+  //               itemQty = cartItem.get("QTY").toString();
+  //
+  //               // Add the details to the order list
+  //               orderlist.add(Orderdetails(
+  //                 itemsId,
+  //                 photo,
+  //                 orderMap["ORDER_ID"].toString(),
+  //                 orderMap["CUSTOMER_NAME"].toString(),
+  //                 orderMap["DATE_TIME"].toString(),
+  //                 orderMap["INVOICE_NO"].toString(),
+  //                 orderMap["ITEMS_COUNT"].toString(),
+  //                 orderMap["ORDER_TYPE"].toString(),
+  //                 orderMap["TABLE_NO"].toString(),
+  //                 double.parse(orderMap["TOTAL_PRICE"].toString()),
+  //                 orderMap["PRINTED"] ?? "",
+  //                 itemsPrice,
+  //                 itemName,
+  //                 itemQty,
+  //               ));
+  //               notifyListeners();
+  //             }
+  //           }
+  //         });
+  //         notifyListeners();
+  //       }
+  //     }
+  //   }).catchError((error) {
+  //     // Handle any errors that occur during the fetch
+  //     print("Error fetching order details: $error");
+  //   });
+  // }
 
-  void getordereddetils() {
-    // Notify listeners at the start
+  Future<void> addOrdersnew(
+      List<cartItemsDetails> cartList,
+      String customerName,
+      String date,
+      String orderType,
+      String tableNo,
+      String invoiceNo,
+      String totalAmt,
+      BuildContext context
+      ) async {
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Map<String, dynamic> map = {};
+    Map<String, Map<String, dynamic>> productsMap = {};
+
+    for (var element in cartList) {
+      Map<String, dynamic> itemMap = {
+        "Qty": element.qty,
+        "Price": element.itemprice,
+        "Item Total": element.totalprice
+      };
+      productsMap[element.itemname] = itemMap;
+    }
+
+    map["ORDER_ID"] = id;
+    map["CUSTOMER_NAME"] = customerName;
+    map["ORDER_DATE"] = date;
+    map["ORDER_TYPE"] = orderType;
+    map["TABLE_NO"] = tableNo;
+    map["INVOICE_NO"] = invoiceNo;
+    map["PRODUCTS"] = productsMap;
+    map["TOTAL_AMOUT"] = totalAmt;
+
+    await db.collection("ORDERS").doc(id).set(map);
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.white,
+      content: Text("Added Successfully",
+          style: TextStyle(
+            color: Colors.green,
+            fontSize: 15,
+            fontWeight: FontWeight.w800,
+          )),
+      duration: Duration(milliseconds: 3000),
+    ));
+
     notifyListeners();
+  }
 
-    // Initialize variables
-    List<String> itemsId = [];
-    String itemName = '';
-    String itemsPrice = '';
-    String photo = '';
-    String itemQty = '';
-
-    // Fetch data from the ORDER_DETAILS collection
-    db.collection("ORDER_DETAILS").get().then((value) {
-      notifyListeners(); // Notify listeners after fetching data
-
-      if (value.docs.isNotEmpty) {
-        orderlist.clear(); // Clear the order list before adding new data
-
-        // orderlist.clear();
-        for (var elements in value.docs) {
-          Map<String, dynamic> orderMap = elements.data();
-          itemsId.clear(); // Clear itemsId for each new order
-
-          if (orderMap["ITEMS_ID"] != null &&
-              orderMap["ITEMS_ID"] is Iterable) {
-            for (var itemId in orderMap["ITEMS_ID"]) {
-              itemsId.add(itemId);
-              notifyListeners();
-            }
-          }
-
-          // Fetch data from the CART collection for each item in the order
-          db
-              .collection("CART")
-              .where("ITEMS_ID", whereIn: itemsId)
-              .get()
-              .then((cartSnapshot) {
-            if (cartSnapshot.docs.isNotEmpty) {
-              for (var cartItem in cartSnapshot.docs) {
-                itemName = cartItem.get("ITEMS_NAME").toString();
-                itemsPrice = cartItem.get("ITEMS_PRICE").toString();
-                photo = cartItem.get("ITEMS_PHOTO") ?? "";
-                itemQty = cartItem.get("QTY").toString();
-
-                // Add the details to the order list
-                orderlist.add(Orderdetails(
-                  itemsId,
-                  photo,
-                  orderMap["ORDER_ID"].toString(),
-                  orderMap["CUSTOMER_NAME"].toString(),
-                  orderMap["DATE_TIME"].toString(),
-                  orderMap["INVOICE_NO"].toString(),
-                  orderMap["ITEMS_COUNT"].toString(),
-                  orderMap["ORDER_TYPE"].toString(),
-                  orderMap["TABLE_NO"].toString(),
-                  double.parse(orderMap["TOTAL_PRICE"].toString()),
-                  orderMap["PRINTED"] ?? "",
-                  itemsPrice,
-                  itemName,
-                  itemQty,
-                ));
-                notifyListeners();
-              }
-            }
-          });
-          notifyListeners();
-        }
-      }
-    }).catchError((error) {
-      // Handle any errors that occur during the fetch
-      print("Error fetching order details: $error");
+  Stream<List<OrderModel>> getOrdersStream() {
+    return db.collection("ORDERS").snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+      }).toList();
     });
   }
 }
