@@ -380,7 +380,6 @@ class Mainprovider extends ChangeNotifier {
       await db.collection("FSPAVIL_MILK").doc(itemId).delete();
 
       fspavilmilklist.removeWhere((item) => item.id == itemId);
-
       notifyListeners();
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -1974,107 +1973,149 @@ class Mainprovider extends ChangeNotifier {
 
   /// order
 
-  void AddOrder(
-      String name,
-      String date,
-      String ordertype,
-      List itemslist,
-      String tableno,
+  // void AddOrder(
+  //     String name,
+  //     String date,
+  //     String ordertype,
+  //     List itemslist,
+  //     String tableno,
+  //     String invoiceno,
+  //     String totalprice,
+  //     String slno,
+  //     BuildContext context) {
+  //
+  //   // Debugging: Print the details being passed to the function
+  //   print("Adding Order:");
+  //   print("Customer Name: $name");
+  //   print("Date: $date");
+  //   print("Order Type: $ordertype");
+  //   print("Items List: $itemslist");
+  //   print("Table No: $tableno");
+  //   print("Invoice No: $invoiceno");
+  //   print("Total Price: $totalprice");
+  //   print("Items Count (slno): $slno");
+  //
+  //   // Ensure itemslist is not null or empty
+  //   if (itemslist == null || itemslist.isEmpty) {
+  //     print("Error: itemslist is null or empty.");
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Center(
+  //           child: Text("Order failed: No items in the list",
+  //               style: TextStyle(
+  //                   color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+  //       backgroundColor: Colors.red,
+  //       elevation: 10,
+  //       behavior: SnackBarBehavior.floating,
+  //       margin: EdgeInsets.all(5),
+  //     ));
+  //     return;
+  //   }
+  //
+  //   // Ensure totalprice is not null
+  //   if (totalprice == null || totalprice.isEmpty) {
+  //     print("Error: totalprice is null or empty.");
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Center(
+  //           child: Text("Order failed: Total price is missing",
+  //               style: TextStyle(
+  //                   color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+  //       backgroundColor: Colors.red,
+  //       elevation: 10,
+  //       behavior: SnackBarBehavior.floating,
+  //       margin: EdgeInsets.all(5),
+  //     ));
+  //     return;
+  //   }
+  //
+  //   String id = DateTime.now().millisecondsSinceEpoch.toString();
+  //
+  //   Map<String, dynamic> ordermap = HashMap();
+  //
+  //   ordermap["ORDER_ID"] = id;
+  //   ordermap["CUSTOMER_NAME"] = name;
+  //   ordermap["DATE_TIME"] = date;
+  //   ordermap["ORDER_TYPE"] = ordertype;
+  //   ordermap["ITEMS_LIST"] = itemslist;
+  //   ordermap["TABLE_NO"] = tableno;
+  //   ordermap["INVOICE_NO"] = invoiceno;
+  //   ordermap["TOTAL_PRICE"] = totalprice;
+  //   ordermap["ITEMS_COUNT"] = slno;
+  //   ordermap["PRINTED"] = "YES";
+  //
+  //   // Debugging: Print the order map to verify its contents
+  //   print("Order Map: ${ordermap.toString()}");
+  //
+  //   // Add the order to the Firestore collection
+  //   db.collection("ORDER_DETAILS").doc(id).set(ordermap).then((_) {
+  //     print("Order added successfully");
+  //
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Center(
+  //           child: Text("Your Order Is Confirmed",
+  //               style: TextStyle(
+  //                   color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+  //       backgroundColor: Colors.green,
+  //       elevation: 10,
+  //       behavior: SnackBarBehavior.floating,
+  //       margin: EdgeInsets.all(5),
+  //     ));
+  //
+  //     notifyListeners();
+  //   }).catchError((error) {
+  //     print("Failed to add order: $error");
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Center(
+  //           child: Text("Failed to confirm order",
+  //               style: TextStyle(
+  //                   color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
+  //       backgroundColor: Colors.red,
+  //       elevation: 10,
+  //       behavior: SnackBarBehavior.floating,
+  //       margin: EdgeInsets.all(5),
+  //     ));
+  //   });
+  // }
+
+
+
+  void AddOrder(String name,String date,String ordertype, List itemslist, String tableno,
       String invoiceno,
-      String totalprice,
-      String slno,
-      BuildContext context) {
+      String totalprice, String slno, BuildContext context) {
 
-    // Debugging: Print the details being passed to the function
-    print("Adding Order:");
-    print("Customer Name: $name");
-    print("Date: $date");
-    print("Order Type: $ordertype");
-    print("Items List: $itemslist");
-    print("Table No: $tableno");
-    print("Invoice No: $invoiceno");
-    print("Total Price: $totalprice");
-    print("Items Count (slno): $slno");
-
-    // Ensure itemslist is not null or empty
-    if (itemslist == null || itemslist.isEmpty) {
-      print("Error: itemslist is null or empty.");
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Center(
-            child: Text("Order failed: No items in the list",
-                style: TextStyle(
-                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
-        backgroundColor: Colors.red,
-        elevation: 10,
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.all(5),
-      ));
-      return;
-    }
-
-    // Ensure totalprice is not null
-    if (totalprice == null || totalprice.isEmpty) {
-      print("Error: totalprice is null or empty.");
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Center(
-            child: Text("Order failed: Total price is missing",
-                style: TextStyle(
-                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
-        backgroundColor: Colors.red,
-        elevation: 10,
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.all(5),
-      ));
-      return;
-    }
+    print("vbfdbdfbfbdfbdfbdfbbbbbbbb");
 
     String id = DateTime.now().millisecondsSinceEpoch.toString();
+
     Map<String, dynamic> ordermap = HashMap();
+
     ordermap["ORDER_ID"] = id;
     ordermap["CUSTOMER_NAME"] = name;
     ordermap["DATE_TIME"] = date;
     ordermap["ORDER_TYPE"] = ordertype;
     ordermap["ITEMS_LIST"] = itemslist;
     ordermap["TABLE_NO"] = tableno;
-    ordermap["INVOICE_NO"] = invoiceno;
+    ordermap["INVOIVE_NO"] =invoiceno;
     ordermap["TOTAL_PRICE"] = totalprice;
     ordermap["ITEMS_COUNT"] = slno;
     ordermap["PRINTED"] = "YES";
 
-    // Debugging: Print the order map to verify its contents
-    print("Order Map: ${ordermap.toString()}");
+    db.collection("ORDER_DETAILS").doc(id).set(ordermap);
 
-    // Add the order to the Firestore collection
-    db.collection("ORDER_DETAILS").doc(id).set(ordermap).then((_) {
-      print("Order added successfully");
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Center(
-            child: Text("Your Order Is Confirmed",
-                style: TextStyle(
-                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
-        backgroundColor: Colors.green,
-        elevation: 10,
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.all(5),
-      ));
-
-      notifyListeners();
-    }).catchError((error) {
-      print("Failed to add order: $error");
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Center(
-            child: Text("Failed to confirm order",
-                style: TextStyle(
-                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
-        backgroundColor: Colors.red,
-        elevation: 10,
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.all(5),
-      )
-      );
-    });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Center(
+          child: Text("Your Order Is Confirmed",
+              style: TextStyle(
+                  color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
+      backgroundColor: cgreen,
+      elevation: 10,
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.all(5),
+    ));
+    notifyListeners();
   }
+
+
 
 
   List<String> cartitemidlist = [];
