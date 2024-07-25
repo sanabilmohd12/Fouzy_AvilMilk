@@ -102,7 +102,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                           IconButton(
                             icon: Icon(
                               Icons.home,
-                              color: currentIndex == 0 ? cgreen : Colors.white,
+                              color: currentIndex == 0 ? Colors.white : cgreen,
                               size: 30,
                             ),
                             onPressed: () {
@@ -114,7 +114,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                           IconButton(
                             icon: Icon(
                               Icons.shopping_cart,
-                              color: currentIndex == 1 ? cgreen : Colors.white,
+                              color: currentIndex == 1 ? Colors.white : cgreen,
                               size: 30,
                             ),
                             onPressed: () {
@@ -131,24 +131,25 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                           IconButton(
                             icon: Icon(
                               Icons.edit_document,
-                              color: currentIndex == 2 ? cgreen : Colors.white,
+                              color: currentIndex == 2 ? Colors.white : cgreen,
                               size: 30,
                             ),
                             onPressed: () {
                               print("nkjdaksmd");
                               // provider.getordereddetils();
-                              provider.getOrdersStream();
+                              provider.fetchOrderList();
+                              print("fsfs"+provider.OrderList.length.toString());
                               setBottomBarIndex(2);
                             },
                           ),
                           IconButton(
                             icon: Icon(
                               Icons.auto_graph_outlined,
-                              color: currentIndex == 3 ? cgreen : Colors.white,
+                              color: currentIndex == 3 ? Colors.white : cgreen,
                               size: 30,
                             ),
                             onPressed: () {
-                              provider.getJuiceShakesAllItems();
+
                               setBottomBarIndex(3);
                             },
                           ),

@@ -404,10 +404,57 @@ class Printerscreen extends StatelessWidget {
               SizedBox(height: 30),
           Consumer<Mainprovider>(
             builder: (context,provider,child) {
+return Padding(
+  padding: EdgeInsets.symmetric(horizontal: height/5),
+  child: ElevatedButton(
 
-              return TextButton(onPressed: () {
-                provider.addOrdersnew(provider.cartitemslist,name,datetime,ordertype,deskno,"6666","10",context);
-              }, child: Text('Submit',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: cWhite),));
+    onPressed: () {
+
+            double totalPrice = provider.getTotalPrice();
+                print("hkdk $totalPrice");
+           provider.addOrdersnew(provider.cartitemslist,name,datetime,ordertype,deskno,"6666",totalPrice.toString(),context);
+          provider.cartitemslist.clear();
+          provider.getMainCategoy();
+          callNext(context, BottomNavBarV2());
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Color(0xff157218),
+      disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+      shadowColor: Colors.transparent,
+      padding: EdgeInsets.symmetric(vertical: 15), // Adjust padding as needed
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Print',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: cWhite),
+        ),
+        SizedBox(width: 10), // Add some space between text and icon
+        Icon(Icons.print, color: Colors.white),
+      ],
+    ),
+  ),
+);
+              // return Padding(
+              //   padding:  EdgeInsets.symmetric(horizontal: height/10),
+              //   child: ElevatedButton(onPressed: () {
+              //
+              //     //       double totalPrice = provider.getTotalPrice();
+              //     //       print("hkdk $totalPrice");
+              //     //  provider.addOrdersnew(provider.cartitemslist,name,datetime,ordertype,deskno,"6666",totalPrice.toString(),context);
+              //     // provider.cartitemslist.clear();
+              //     // provider.getMainCategoy();
+              //     // callNext(context, BottomNavBarV2());
+              //
+              //   }, child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text('Print',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: cWhite),),
+              //       Icon(Icons.print,color: Colors.black,)
+              //     ],
+              //   )),
+              // );
             }
           )
           // Consumer<Mainprovider>(

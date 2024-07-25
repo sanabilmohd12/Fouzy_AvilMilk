@@ -1618,14 +1618,14 @@ class Mainprovider extends ChangeNotifier {
   void cusdetailsclear() {
     namecontroller.clear();
     desknocontroller.clear();
-    dropdownval = 'Choose';
+    dropdownval = 'Dine In';
   }
 
-  String dropdownval = 'Choose';
+  String dropdownval = 'Dine In';
   var odertype = [
-    "Choose",
     "Dine In",
-    "Pick Up",
+    "Take Away",
+    "Delivery",
   ];
 
   void dropdown(String? newVal) {
@@ -2071,7 +2071,8 @@ class Mainprovider extends ChangeNotifier {
         elevation: 10,
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.all(5),
-      ));
+      )
+      );
     });
   }
 
@@ -2205,24 +2206,56 @@ class Mainprovider extends ChangeNotifier {
     await db.collection("ORDERS").doc(id).set(map);
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.white,
-      content: Text("Added Successfully",
-          style: TextStyle(
-            color: Colors.green,
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-          )),
-      duration: Duration(milliseconds: 3000),
+      duration: Duration(seconds: 5),
+      content: CustomSnackBarContent(
+          colorcontainer: Color.fromARGB(255, 0, 204, 0),
+          errorText: "You Ordered Succesfully ",
+          errorHeadline: "Oh Snap",
+          colorbubble: cYellow,
+          img: "assets/check.svg"),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      margin: EdgeInsets.all(5),
     ));
 
     notifyListeners();
   }
+// List<OrderModel> OrderList = [];
+//   Stream<List<OrderModel>> getOrdersStream() {
+//     return db.collection("ORDERS").snapshots().map((snapshot) {
+//       return snapshot.docs.map((doc) {
+//
+//         return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+//       }).toList();
+//     });
+//   }
+  List<OrderModel> OrderList = [];
+  bool orderLoader = false;
 
-  Stream<List<OrderModel>> getOrdersStream() {
-    return db.collection("ORDERS").snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
-        return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
-      }).toList();
-    });
+
+  Future<void> fetchOrderList() async {
+    orderLoader = true;
+    notifyListeners();
+
+    try {
+      QuerySnapshot querySnapshot = await db.collection("ORDERS").get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        orderLoader = false;
+        OrderList.clear();
+
+        for (var doc in querySnapshot.docs) {
+          Map<String, dynamic> getmap = doc.data() as Map<String, dynamic>;
+          OrderList.add(OrderModel.fromMap(getmap));
+        }
+      } else {
+        orderLoader = false;
+      }
+    } catch (error) {
+      print("Error fetching orders: $error");
+      orderLoader = false;
+    } finally {
+      notifyListeners();
+    }
   }
 }

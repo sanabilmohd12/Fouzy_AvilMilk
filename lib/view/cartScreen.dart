@@ -51,6 +51,7 @@ class Cart_Screen extends StatelessWidget {
                               final GlobalKey<FormState> _formKey =
                                   GlobalKey<FormState>();
                               value.getordercount();
+                              value.ordercount();
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -217,7 +218,7 @@ class Cart_Screen extends StatelessWidget {
                                                 final FormState? form =
                                                     _formKey.currentState;
                                                 if (form!.validate()) {
-                                                  value.ordercount();
+
                                                   value.getCartItems();
                                                   value.getitemsid();
                                                   callNext(
