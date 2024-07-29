@@ -21,7 +21,9 @@ class PrinterProvider extends ChangeNotifier {
   bool isDisposed = false;
 
   // ESC/POS command bytes for various formatting
-  List<int> printerBytes = [0x1b, 0x61, 0x1];        // Center align
+  List<int> printerBytes = [0x1b, 0x61, 0x1];
+
+  // Center align
   List<int> printerBytesLeft = [0x1b, 0x61, 0x00];   // Left align
   List<int> printerBytesRight = [0x1b, 0x61, 0x02];  // Right align
   List<int> printerFeed = [10];                      // Line feed
