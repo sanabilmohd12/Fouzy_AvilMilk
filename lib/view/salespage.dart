@@ -313,6 +313,9 @@ class SalesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime day = DateTime.now();
+    DateTime onlyDate = DateTime(day.year, day.month, day.day);
+    DateTime endDate2 = onlyDate.add(const Duration(hours: 23, seconds: 59, minutes: 59));
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
@@ -337,7 +340,7 @@ class SalesScreen extends StatelessWidget {
               builder: (context, value, child) {
                 return GestureDetector(
                   onTap: () {
-                    value.salesReport(context);
+                    value.dateWiseorderReport(context);
                   },
                   child: SizedBox(
                     height: 40,
@@ -363,7 +366,7 @@ class SalesScreen extends StatelessWidget {
           ),
         ),
         child: FutureBuilder<void>(
-          future: Provider.of<Mainprovider>(context, listen: false).fetchOrderList(),
+          future: Provider.of<Mainprovider>(context, listen: false).fetchOrderList(onlyDate,endDate2),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());

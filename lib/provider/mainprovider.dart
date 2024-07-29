@@ -25,9 +25,18 @@ import '../modelClass/jucieandshakesCateModelClass.dart';
 import '../modelClass/oderModel.dart';
 import '../updatescreen.dart';
 
+
+
+extension DateTimeComparison on DateTime {
+  bool isSameDate(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
+}
+
 class Mainprovider extends ChangeNotifier {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Reference ref = FirebaseStorage.instance.ref("IMAGE URL");
+
 
   Mainprovider() {
     getAppVersion();
@@ -1763,157 +1772,203 @@ class Mainprovider extends ChangeNotifier {
 
   /// datepicker
 
-  DateRangePickerController dateRangePickerController =
-      DateRangePickerController();
+  // DateRangePickerController dateRangePickerController =
+  //     DateRangePickerController();
+  //
+  // DateRangePickerController joiningDateTime = DateRangePickerController();
+  // DateTime _startDate = DateTime.now();
+  // DateTime _endDate = DateTime.now();
+  // DateTime firstDate = DateTime.now();
+  // DateTime secondDate = DateTime.now();
+  // String startDateFormat = '';
+  // String endDateFormat = '';
+  // String showSelectedDate = '';
+  // String sortStartDate = "";
+  // String sortEndDate = "";
+  // bool isDateSelected = false;
+  // DateRangePickerController attedancePickerController =
+  //     DateRangePickerController();
+  // DateRangePickerController attedancereport = DateRangePickerController();
+  // var outputDayNode1 = DateFormat('dd/MM/yyy');
+  // DateTime attedance = DateTime.now();
+  // int sundays = 0;
+  //
+  // void salesReport(
+  //   BuildContext context,
+  // ) {
+  //   Widget calendarWidget() {
+  //     return SizedBox(
+  //       width: 300,
+  //       height: 300,
+  //       child: SfDateRangePicker(
+  //         selectionMode: DateRangePickerSelectionMode.range,
+  //         controller: attedancePickerController,
+  //         initialSelectedRange: PickerDateRange(_startDate, _endDate),
+  //         allowViewNavigation: true,
+  //         headerHeight: 20.0,
+  //         showTodayButton: true,
+  //         headerStyle: const DateRangePickerHeaderStyle(
+  //           textAlign: TextAlign.center,
+  //         ),
+  //         initialSelectedDate: DateTime.now(),
+  //         navigationMode: DateRangePickerNavigationMode.snap,
+  //         monthCellStyle: const DateRangePickerMonthCellStyle(
+  //             todayTextStyle: TextStyle(fontWeight: FontWeight.bold)),
+  //         showActionButtons: true,
+  //         onSubmit: (Object? val) async {
+  //           isDateSelected = true;
+  //
+  //           // isDateSelected = true;
+  //           attedancePickerController.selectedRange = val as PickerDateRange?;
+  //
+  //           if (attedancePickerController.selectedRange!.endDate == null) {
+  //             ///single date picker
+  //             firstDate = attedancePickerController.selectedRange!.startDate!;
+  //             secondDate = attedancePickerController.selectedRange!.startDate!;
+  //             _endDate = secondDate.add(const Duration(hours: 24));
+  //             DateTime firstDate2 = firstDate.subtract(Duration(
+  //                 hours: firstDate.hour,
+  //                 minutes: firstDate.minute,
+  //                 seconds: firstDate.second));
+  //
+  //             final formatter = DateFormat('dd/MM/yyyy');
+  //             showSelectedDate = formatter.format(firstDate);
+  //             sortStartDate = formatter.format(firstDate);
+  //
+  //             notifyListeners();
+  //           } else {
+  //             ///two dates select picker
+  //             firstDate = attedancePickerController.selectedRange!.startDate!;
+  //             secondDate = attedancePickerController.selectedRange!.endDate!;
+  //             _endDate = secondDate.add(const Duration(hours: 24));
+  //             DateTime firstDate2 = firstDate.subtract(Duration(
+  //                 hours: firstDate.hour,
+  //                 minutes: firstDate.minute,
+  //                 seconds: firstDate.second));
+  //             print("jhbjdbvv" + _endDate.toString());
+  //             print("Number of Sundays: $sundays");
+  //             // getStaffData(companyid,subcompany);
+  //             // getData(companyid,subcompany);
+  //
+  //             // if (from == "User_attendance") {
+  //             //   getUserAttendance(userId, firstDate2, endDate2);
+  //             // } else {
+  //             //   getStaffAttendance(
+  //             //       firstDate2, endDate2, from, userId, companyid);
+  //             // }
+  //             isDateSelected = true;
+  //             final formatter = DateFormat('dd/MM/yyyy');
+  //             startDateFormat = formatter.format(firstDate);
+  //             endDateFormat = formatter.format(secondDate);
+  //             if (startDateFormat != endDateFormat) {
+  //               showSelectedDate = "$startDateFormat - $endDateFormat";
+  //             } else {
+  //               showSelectedDate = startDateFormat;
+  //             }
+  //
+  //             notifyListeners();
+  //           }
+  //           back(context);
+  //         },
+  //         onCancel: () {
+  //           isDateSelected = false;
+  //
+  //           attedancePickerController.selectedRange = null;
+  //           attedancePickerController.selectedDate = null;
+  //           showSelectedDate = '';
+  //
+  //           DateTime date = DateTime.now();
+  //           DateTime date1 = date.subtract(Duration(
+  //               hours: date.hour, minutes: date.minute, seconds: date.second));
+  //
+  //           DateTime date2 = date.add(const Duration(hours: 24));
+  //           // getStaffData(companyid,subcompany);
+  //           // getData(companyid,subcompany);
+  //           //
+  //           // if (from != "graph") {
+  //           //   getattadencelist(date1, date2, companyid,subcompany);
+  //           // } else if (from == "projectwise") {
+  //           //   getprojectwisereport(date1, date2, companyid);
+  //           // } else if (from == "empprojectwise") {
+  //           //   getempprojectreport(date1, date2, companyid, emplid);
+  //           // } else {
+  //           //   graphreports(date1, date2, companyid);
+  //           // }
+  //
+  //           // if (from == "User_attendance") {
+  //           //   getUserAttendance(userId, date1, date2);
+  //           // } else {
+  //           //   getStaffAttendance(date1, date2, "All", "", companyid);
+  //           // }
+  //           notifyListeners();
+  //           back(context);
+  //         },
+  //       ),
+  //     );
+  //   }
+  //
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           shape: const RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.all(Radius.circular(12.0))),
+  //           contentPadding: const EdgeInsets.only(
+  //             top: 10.0,
+  //           ),
+  //           // title: Container(
+  //           //     child: Text('Printers', style: TextStyle(color: my_white))),
+  //           content: calendarWidget(),
+  //         );
+  //       });
+  //   notifyListeners();
+  // }
 
-  DateRangePickerController joiningDateTime = DateRangePickerController();
-  DateTime _startDate = DateTime.now();
-  DateTime _endDate = DateTime.now();
-  DateTime firstDate = DateTime.now();
-  DateTime secondDate = DateTime.now();
-  String startDateFormat = '';
-  String endDateFormat = '';
-  String showSelectedDate = '';
-  String sortStartDate = "";
-  String sortEndDate = "";
-  bool isDateSelected = false;
-  DateRangePickerController attedancePickerController =
-      DateRangePickerController();
-  DateRangePickerController attedancereport = DateRangePickerController();
-  var outputDayNode1 = DateFormat('dd/MM/yyy');
-  DateTime attedance = DateTime.now();
-  int sundays = 0;
 
-  void salesReport(
-    BuildContext context,
-  ) {
-    Widget calendarWidget() {
-      return SizedBox(
-        width: 300,
-        height: 300,
-        child: SfDateRangePicker(
-          selectionMode: DateRangePickerSelectionMode.range,
-          controller: attedancePickerController,
-          initialSelectedRange: PickerDateRange(_startDate, _endDate),
-          allowViewNavigation: true,
-          headerHeight: 20.0,
-          showTodayButton: true,
-          headerStyle: const DateRangePickerHeaderStyle(
-            textAlign: TextAlign.center,
-          ),
-          initialSelectedDate: DateTime.now(),
-          navigationMode: DateRangePickerNavigationMode.snap,
-          monthCellStyle: const DateRangePickerMonthCellStyle(
-              todayTextStyle: TextStyle(fontWeight: FontWeight.bold)),
-          showActionButtons: true,
-          onSubmit: (Object? val) async {
-            isDateSelected = true;
 
-            // isDateSelected = true;
-            attedancePickerController.selectedRange = val as PickerDateRange?;
+  DateRangePickerController dutyPickerController = DateRangePickerController();
+  var outputDayNode4 = DateFormat('dd-MM-yyyy');
+  DateTime regStartDate = DateTime.now();
+  DateTime regFirstDate = DateTime.now();
+  String dateDisplay = '';
 
-            if (attedancePickerController.selectedRange!.endDate == null) {
-              ///single date picker
-              firstDate = attedancePickerController.selectedRange!.startDate!;
-              secondDate = attedancePickerController.selectedRange!.startDate!;
-              _endDate = secondDate.add(const Duration(hours: 24));
-              DateTime firstDate2 = firstDate.subtract(Duration(
-                  hours: firstDate.hour,
-                  minutes: firstDate.minute,
-                  seconds: firstDate.second));
+  Future<void> dateWiseorderReport(BuildContext context, ) async {
+    dateDisplay = '';
+    regFirstDate = DateTime.now();
+    regStartDate = DateTime.now();
 
-              final formatter = DateFormat('dd/MM/yyyy');
-              showSelectedDate = formatter.format(firstDate);
-              sortStartDate = formatter.format(firstDate);
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(), // Restrict selection to past or current dates
+    );
 
-              notifyListeners();
-            } else {
-              ///two dates select picker
-              firstDate = attedancePickerController.selectedRange!.startDate!;
-              secondDate = attedancePickerController.selectedRange!.endDate!;
-              _endDate = secondDate.add(const Duration(hours: 24));
-              DateTime firstDate2 = firstDate.subtract(Duration(
-                  hours: firstDate.hour,
-                  minutes: firstDate.minute,
-                  seconds: firstDate.second));
-              print("jhbjdbvv" + _endDate.toString());
-              print("Number of Sundays: $sundays");
-              // getStaffData(companyid,subcompany);
-              // getData(companyid,subcompany);
+    if (pickedDate != null) {
+      if (pickedDate.isSameDate(DateTime.now())) {
+        // Reset counts and totals if today is selected
+        // Clear the lists
+        dateDisplay = outputDayNode4.format(regStartDate).toString();
+        DateTime date1 =
+        DateTime(regStartDate.year, regStartDate.month, regStartDate.day);
+        DateTime date2 =
+        date1.add(const Duration(hours: 23, minutes: 59, seconds: 59));
 
-              // if (from == "User_attendance") {
-              //   getUserAttendance(userId, firstDate2, endDate2);
-              // } else {
-              //   getStaffAttendance(
-              //       firstDate2, endDate2, from, userId, companyid);
-              // }
-              isDateSelected = true;
-              final formatter = DateFormat('dd/MM/yyyy');
-              startDateFormat = formatter.format(firstDate);
-              endDateFormat = formatter.format(secondDate);
-              if (startDateFormat != endDateFormat) {
-                showSelectedDate = "$startDateFormat - $endDateFormat";
-              } else {
-                showSelectedDate = startDateFormat;
-              }
-
-              notifyListeners();
-            }
-            back(context);
-          },
-          onCancel: () {
-            isDateSelected = false;
-
-            attedancePickerController.selectedRange = null;
-            attedancePickerController.selectedDate = null;
-            showSelectedDate = '';
-
-            DateTime date = DateTime.now();
-            DateTime date1 = date.subtract(Duration(
-                hours: date.hour, minutes: date.minute, seconds: date.second));
-
-            DateTime date2 = date.add(const Duration(hours: 24));
-            // getStaffData(companyid,subcompany);
-            // getData(companyid,subcompany);
-            //
-            // if (from != "graph") {
-            //   getattadencelist(date1, date2, companyid,subcompany);
-            // } else if (from == "projectwise") {
-            //   getprojectwisereport(date1, date2, companyid);
-            // } else if (from == "empprojectwise") {
-            //   getempprojectreport(date1, date2, companyid, emplid);
-            // } else {
-            //   graphreports(date1, date2, companyid);
-            // }
-
-            // if (from == "User_attendance") {
-            //   getUserAttendance(userId, date1, date2);
-            // } else {
-            //   getStaffAttendance(date1, date2, "All", "", companyid);
-            // }
-            notifyListeners();
-            back(context);
-          },
-        ),
-      );
+      fetchOrderList(date1,date2);
+      } else {
+        regStartDate = pickedDate;
+        DateTime date1 =
+        DateTime(regStartDate.year, regStartDate.month, regStartDate.day);
+        DateTime date2 =
+        date1.add(const Duration(hours: 23, minutes: 59, seconds: 59));
+        dateDisplay = outputDayNode4.format(regStartDate).toString();
+        fetchOrderList(date1,date2);
+      }
     }
 
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0))),
-            contentPadding: const EdgeInsets.only(
-              top: 10.0,
-            ),
-            // title: Container(
-            //     child: Text('Printers', style: TextStyle(color: my_white))),
-            content: calendarWidget(),
-          );
-        });
     notifyListeners();
   }
+
 
   /// apploack
 
@@ -2289,12 +2344,13 @@ class Mainprovider extends ChangeNotifier {
   List<OrderModel> OrderList = [];
   bool orderLoader = false;
 
-  Future<void> fetchOrderList() async {
+  Future<void> fetchOrderList(DateTime date1, DateTime date2,) async {
     orderLoader = true;
     notifyListeners();
 
     try {
-      QuerySnapshot querySnapshot = await db.collection("ORDERS").get();
+      QuerySnapshot querySnapshot = await db.collection("ORDERS") .where("ORDER_DATE", isGreaterThan: date1)
+          .where("ORDER_DATE", isLessThan: date2).get();
 
       if (querySnapshot.docs.isNotEmpty) {
         orderLoader = false;
