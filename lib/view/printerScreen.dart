@@ -309,7 +309,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 250,
 
                                       child: Text(
-                                       items.itemname,textAlign: TextAlign.center,
+                                       items.itemName,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -333,7 +333,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.itemprice,textAlign: TextAlign.center,
+                                        items.itemPrice,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -344,7 +344,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.totalprice.toString(),textAlign: TextAlign.center,
+                                        items.totalPrice.toString(),textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -402,14 +402,50 @@ class Printerscreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
-          Consumer<Mainprovider>(
-            builder: (context,provider,child) {
+              Consumer<Mainprovider>(
+                  builder: (context, mainProvider, child) {
+                    return Consumer<PrinterProvider>(
+                        builder: (context, printerProvider, child) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: height/5),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                // Print statements for debugging
+                                print("Printer IP: ${printerProvider.Ip}");
+                                print("Printer Port: ${printerProvider.boxInPort}");
 
-              return TextButton(onPressed: () {
-                provider.addOrdersnew(provider.cartitemslist,name,datetime,ordertype,deskno,"6666","10",context);
-              }, child: Text('Submit',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: cWhite),));
-            }
-          )
+                                try {
+                                  bool isConnected = await printerProvider.testPrinterConnection(
+                                      printerProvider.Ip,
+                                      int.parse(printerProvider.boxInPort)
+                                  );
+
+                                  if (isConnected) {
+                                    // Proceed with printing
+                                    await printerProvider.PrintOrderInvoiceBoxIn(context, printerProvider.Ip);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Printing completed successfully.')),
+                                    );
+                                  } else {
+                                    // Show error message
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Printer is not connected. Please check the printer and try again.')),
+                                    );
+                                  }
+                                } catch (e) {
+                                  print('Error during printing process: $e');
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('An error occurred while trying to print. Please try again.')),
+                                  );
+                                }
+                              },
+                              child: Text('Print Invoice'),
+                            ),
+                          );
+                        }
+                    );
+                  }
+              )
           // Consumer<Mainprovider>(
           //     builder: (context,value,child) {
           //       return GestureDetector(onTap: () async {

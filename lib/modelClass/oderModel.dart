@@ -48,6 +48,7 @@ class ProductModel {
   });
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
+
     return ProductModel(
       qty: map['Qty'].toString(),
       price: map['Price'].toString(),

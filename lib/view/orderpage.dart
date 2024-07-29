@@ -1,3 +1,90 @@
+// import 'package:flutter/material.dart';
+// import 'package:fouzy/provider/mainprovider.dart';
+// import 'package:provider/provider.dart';
+//
+// import '../constants/colors.dart';
+// import '../modelClass/oderModel.dart';
+//
+// class OrderScreen extends StatelessWidget {
+//   const OrderScreen({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     int selectedContainerIndex=0;
+//     var height = MediaQuery.of(context).size.height;
+//     var width = MediaQuery.of(context).size.width;
+//     return Scaffold(
+//       backgroundColor: cYellow,
+//       appBar: AppBar(
+//         title: const Text("ORDER SUMMERY",
+//             style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800)),
+//         centerTitle: true,
+//         automaticallyImplyLeading: false,
+//         toolbarHeight: 100,
+//         flexibleSpace: Container(
+//           decoration: const BoxDecoration(
+//             image: DecorationImage(
+//               image: AssetImage('assets/appbar bg1.jpg'),
+//               fit: BoxFit.cover,
+//             ),
+//           ),
+//         ),
+//       ),
+//       body:
+//
+//       Container(
+//         height: height,
+//         width: width,
+//         decoration: ShapeDecoration(
+//           color: cgreen,
+//           shape: const RoundedRectangleBorder(
+//             borderRadius: BorderRadius.only(
+//               topLeft: Radius.circular(30),
+//               topRight: Radius.circular(30),
+//             ),
+//           ),
+//         ),
+//         // child: StreamBuilder<List<OrderModel>>(
+//         //       stream: Provider.of<Mainprovider>(context, listen: false).fetchOrderList(),
+//         //       builder: (context, snapshot) {
+//         //         if (snapshot.connectionState == ConnectionState.waiting) {
+//         //           return Center(child: CircularProgressIndicator());
+//         //         } else if (snapshot.hasError) {
+//         //           return Center(child: Text('Error: ${snapshot.error}'));
+//         //         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+//         //           return Center(child: Text('No orders found'));
+//         //         } else {
+//         //           return Padding(
+//         //             padding:  EdgeInsets.only(bottom: 100.0),
+//         //             child: ListView.builder(
+//         //               itemCount: snapshot.data!.length,
+//         //               itemBuilder: (context, index) {
+//         //                 OrderModel order = snapshot.data![index];
+//         //                 ExpansionTile(title: Text('Customer: ${order.customerName}')
+//         //                 );
+//         //
+//         //
+//         //
+//         //               },
+//         //             ),
+//         //           );
+//         //
+//         //
+//         //         }
+//         //       },
+//         //     ),
+//
+//
+//
+//
+//
+//       ),
+//
+//     );
+//   }
+//
+// }
 import 'package:flutter/material.dart';
 import 'package:fouzy/provider/mainprovider.dart';
 import 'package:provider/provider.dart';
@@ -10,14 +97,12 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    int selectedContainerIndex=0;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: cYellow,
       appBar: AppBar(
-        title: const Text("ORDER SUMMERY",
+        title: const Text("ORDER SUMMARY",
             style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800)),
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -31,9 +116,7 @@ class OrderScreen extends StatelessWidget {
           ),
         ),
       ),
-      body:
-
-      Container(
+      body: Container(
         height: height,
         width: width,
         decoration: ShapeDecoration(
@@ -45,51 +128,59 @@ class OrderScreen extends StatelessWidget {
             ),
           ),
         ),
-        child: StreamBuilder<List<OrderModel>>(
-          stream: Provider.of<Mainprovider>(context, listen: false).getOrdersStream(),
+        child: FutureBuilder<void>(
+          future: Provider.of<Mainprovider>(context, listen: false).fetchOrderList(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No orders found'));
             } else {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  OrderModel order = snapshot.data![index];
-                  return Container(
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: cWhite,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(3, 4),
-                          blurRadius: 8,
-                          spreadRadius: -1,
-                          color: Colors.black12,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Order ID: ${order.orderId}', style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('Customer: ${order.customerName}'),
-                        Text('Date: ${order.orderDate}'),
-                        Text('Type: ${order.orderType}'),
-                        Text('Table: ${order.tableNo}'),
-                        Text('Invoice: ${order.invoiceNo}'),
-                        Text('Total: ${order.totalAmount}'),
-                        SizedBox(height: 10),
-                        Text('Products:', style: TextStyle(fontWeight: FontWeight.bold)),
-                        ...order.products.entries.map((entry) =>
-                            Text('${entry.key}: Qty: ${entry.value.qty}, Price: ${entry.value.price}, Total: ${entry.value.itemTotal}')
-                        ).toList(),
-                      ],
+              return  Consumer<Mainprovider>(
+                builder: (context, provider, child) {
+                  if (provider.OrderList.isEmpty) {
+                    return Center(child: Text('No orders found'));
+                  }
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 100.0),
+                    child: ListView.builder(
+                      itemCount: provider.OrderList.length,
+                      itemBuilder: (context, index) {
+                        OrderModel order = provider.OrderList[index];
+                        return ExpansionTile(
+                          backgroundColor: cYellow,
+                          collapsedBackgroundColor: Colors.white,
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Date: ${order.orderDate}'),
+                              Text('Total: ${order.totalAmount}'),
+                              Text('Order Type: ${order.orderType}'),
+                            ],
+                          ),
+                          children: [
+                            ListTile(title: Text('Order ID: ${order.orderId}')),
+                            ListTile(title: Text('Customer: ${order.customerName}')),
+                            ListTile(title: Text('Date: ${order.orderDate}')),
+                            ListTile(title: Text('Table: ${order.tableNo}')),
+                            ListTile(title: Text('Invoice: ${order.invoiceNo}')),
+                            ListTile(title: Text('Total: ${order.totalAmount}')),
+                            // Display products
+                            ...order.products.entries.map((entry) {
+                              String productName = entry.key;
+                              ProductModel product = entry.value;
+                              return ExpansionTile(
+                                title: Text(productName),
+                                children: [
+                                  ListTile(title: Text('Quantity: ${product.qty}')),
+                                  ListTile(title: Text('Price: ${product.price}')),
+                                  ListTile(title: Text('Item Total: ${product.itemTotal}')),
+                                ],
+                              );
+                            }).toList(),
+                          ],
+                        );
+                      },
                     ),
                   );
                 },
@@ -98,8 +189,6 @@ class OrderScreen extends StatelessWidget {
           },
         ),
       ),
-
     );
   }
-
 }

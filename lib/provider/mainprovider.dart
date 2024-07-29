@@ -63,19 +63,19 @@ class Mainprovider extends ChangeNotifier {
   }
 
   Future<void> updateItemDetails(int index, String id) async {
-    double initialPrice = double.parse(cartitemslist[index].itemprice);
+    double initialPrice = double.parse(cartitemslist[index].itemPrice);
     double newPrice = initialPrice * cartitemslist[index].count;
 
-    cartitemslist[index].totalprice = newPrice.toStringAsFixed(2);
+    cartitemslist[index].totalPrice = newPrice.toStringAsFixed(2);
     cartitemslist[index].qty = cartitemslist[index].count.toString();
 
-    print("Item: ${cartitemslist[index].itemname}");
+    print("Item: ${cartitemslist[index].itemName}");
     print("Count: ${cartitemslist[index].count}");
     print("Qty: ${cartitemslist[index].qty}");
-    print("Total Price: ${cartitemslist[index].totalprice}");
+    print("Total Price: ${cartitemslist[index].totalPrice}");
 
     await db.collection("CART").doc(id).set({
-      "TOTAL_PRICE": cartitemslist[index].totalprice,
+      "TOTAL_PRICE": cartitemslist[index].totalPrice,
       "QTY": cartitemslist[index].qty
     }, SetOptions(merge: true));
 
@@ -160,26 +160,39 @@ class Mainprovider extends ChangeNotifier {
 
   bool getloader = false;
 
-  void getMainCategoy() {
-    print("ddcd");
+  Future<List<MainCategory>> getMainCategoy() async {
+    print("Starting getMainCategory function");
     getloader = true;
     notifyListeners();
-    db.collection("MAIN_CATEGORY").get().then((value) {
+
+    try {
+      print("Attempting to fetch data from Firestore");
+      final QuerySnapshot value = await db.collection("MAIN_CATEGORY").get();
+
+      print("Received response from Firestore");
       if (value.docs.isNotEmpty) {
-        getloader = false;
-        notifyListeners();
+        print("Documents found: ${value.docs.length}");
         mainCategorylist.clear();
         for (var element in value.docs) {
-          Map<dynamic, dynamic> getmap = element.data();
+          Map<String, dynamic> getmap = element.data() as Map<String, dynamic>;
+          print("Processing document: ${getmap["MAIN_CATEGORY_ID"]}");
           mainCategorylist.add(MainCategory(
             getmap["MAIN_CATEGORY_ID"].toString(),
             getmap["MAIN_CATEGORY_NAME"].toString(),
           ));
-          notifyListeners();
         }
+      } else {
+        print("No documents found in MAIN_CATEGORY collection");
       }
-    });
-    notifyListeners();
+    } catch (error) {
+      print("Error fetching data: $error");
+      // You might want to rethrow the error or handle it differently
+    } finally {
+      getloader = false;
+      notifyListeners();
+      }
+
+    return mainCategorylist;
   }
 
   void deletemaincategory(String id, BuildContext context) {
@@ -327,21 +340,23 @@ class Mainprovider extends ChangeNotifier {
   List<Fouzysp> fspavilmilklist = [];
   List<Fouzysp> filterfspavilmilklist = [];
 
-  Future<void> getfsptypes() async {
+  Future<List<Fouzysp>> getfsptypes() async {
     print("asdfghjkl");
+
     try {
       getavilloader = true;
       notifyListeners();
 
       final QuerySnapshot snapshot = await db.collection("FSPAVIL_MILK").get();
 
+      fspavilmilklist.clear();
       filterfspavilmilklist.clear();
 
       if (snapshot.docs.isNotEmpty) {
         for (var doc in snapshot.docs) {
           print("dscdvvdf");
           final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-          filterfspavilmilklist.add(Fouzysp(
+          fspavilmilklist.add(Fouzysp(
             data["FSPAVIL_MILK_ID"] as String,
             data["FOUZY_SPECIALS"] as String,
             data["FSP_AVIL_MILK_PRICE"] as String,
@@ -351,19 +366,20 @@ class Mainprovider extends ChangeNotifier {
             data["MAIN_CATEGORY_ID"] as String,
             data["FSpAVILMILK_PHOTO"] as String,
           ));
-          filterfspavilmilklist = fspavilmilklist;
-          notifyListeners();
         }
+        filterfspavilmilklist = List.from(fspavilmilklist);
       }
     } catch (e) {
       print("Error founding on  FSP: $e");
+      // You might want to rethrow the error or handle it differently
     } finally {
       getavilloader = false;
       notifyListeners();
     }
+    return filterfspavilmilklist;
   }
 
-  void filterfsptypes(item) {
+  Future <void> filterfsptypes(item) async{
     filterfspavilmilklist = fspavilmilklist
         .where((a) =>
             a.name.toLowerCase().contains(item.toLowerCase()) ||
@@ -619,7 +635,7 @@ class Mainprovider extends ChangeNotifier {
 
   bool getavilloader = false;
 
-  void getavilmilktypes() {
+  Future <void> getavilmilktypes() async{
     getavilloader = true;
     notifyListeners();
     db.collection("AVIL_MILK").get().then((value) {
@@ -749,7 +765,7 @@ class Mainprovider extends ChangeNotifier {
 
   bool getjuciecategoryloader = false;
 
-  void getJucieCategory() {
+  Future <void> getJucieCategory() async{
     getjuciecategoryloader = true;
     notifyListeners();
     db.collection("JUICE_CATEGORY").get().then((value) {
@@ -897,7 +913,7 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getJuiceShakesAllItems() {
+  Future <void>  getJuiceShakesAllItems() async{
     Juiceshakesalllist.clear();
     print("dcdc");
     getjuiceshakeslistloader = true;
@@ -1029,7 +1045,7 @@ class Mainprovider extends ChangeNotifier {
 
   bool geticecatloader = false;
 
-  void getIceCreamCategoy() {
+ Future <void> getIceCreamCategoy() async{
     geticecatloader = true;
     notifyListeners();
     db.collection("ICE_CREAM_CATEGORY").get().then((value) {
@@ -1496,7 +1512,7 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<cartItemsDetails> cartitemslist = [];
+  List<CartItemsDetails> cartitemslist = [];
   bool getcart = false;
   String slno = "";
 
@@ -1512,7 +1528,7 @@ class Mainprovider extends ChangeNotifier {
       if (snapshot.docs.isNotEmpty) {
         for (var doc in snapshot.docs) {
           Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
-          cartitemslist.add(cartItemsDetails(
+          cartitemslist.add(CartItemsDetails(
             cartData["CART_ID"].toString(),
             DateFormat("dd-MM-yyyy hh:mm a")
                 .format(cartData["DATE_TIME"].toDate()),
@@ -1542,7 +1558,7 @@ class Mainprovider extends ChangeNotifier {
       print("Deleting item with id: $id");
 
       // Remove the item from the local list
-      int indexToRemove = cartitemslist.indexWhere((item) => item.cartid == id);
+      int indexToRemove = cartitemslist.indexWhere((item) => item.cartId == id);
       if (indexToRemove != -1) {
         cartitemslist.removeAt(indexToRemove);
         notifyListeners(); // Update UI immediately
@@ -1617,14 +1633,14 @@ class Mainprovider extends ChangeNotifier {
   void cusdetailsclear() {
     namecontroller.clear();
     desknocontroller.clear();
-    dropdownval = 'Choose';
+    dropdownval = 'Dine In';
   }
 
-  String dropdownval = 'Choose';
+  String dropdownval = 'Dine In';
   var odertype = [
-    "Choose",
     "Dine In",
-    "Pick Up",
+    "Take Away",
+    "Delivery",
   ];
 
   void dropdown(String? newVal) {
@@ -1637,7 +1653,7 @@ class Mainprovider extends ChangeNotifier {
   double getTotalPrice() {
     double total = 0.0;
     for (var item in cartitemslist) {
-      total += double.parse(item.itemprice);
+      total += double.parse(item.itemPrice);
     }
     return total;
   }
@@ -1719,10 +1735,10 @@ class Mainprovider extends ChangeNotifier {
     flavour = bool;
   }
 
-  List<cartItemsDetails> cartitemscountlist = [];
+  List<CartItemsDetails> cartitemscountlist = [];
 
   void updateItemQuantity(String cartId, int newQuantity) {
-    var index = cartitemscountlist.indexWhere((item) => item.cartid == cartId);
+    var index = cartitemscountlist.indexWhere((item) => item.cartId == cartId);
     if (index != -1 && newQuantity > 0) {
       cartitemscountlist[index].count = newQuantity;
       notifyListeners();
@@ -2076,12 +2092,16 @@ class Mainprovider extends ChangeNotifier {
   //   });
   // }
 
-
-
-  void AddOrder(String name,String date,String ordertype, List itemslist, String tableno,
+  void AddOrder(
+      String name,
+      String date,
+      String ordertype,
+      List itemslist,
+      String tableno,
       String invoiceno,
-      String totalprice, String slno, BuildContext context) {
-
+      String totalprice,
+      String slno,
+      BuildContext context) {
     print("vbfdbdfbfbdfbdfbdfbbbbbbbb");
 
     String id = DateTime.now().millisecondsSinceEpoch.toString();
@@ -2094,13 +2114,12 @@ class Mainprovider extends ChangeNotifier {
     ordermap["ORDER_TYPE"] = ordertype;
     ordermap["ITEMS_LIST"] = itemslist;
     ordermap["TABLE_NO"] = tableno;
-    ordermap["INVOIVE_NO"] =invoiceno;
+    ordermap["INVOIVE_NO"] = invoiceno;
     ordermap["TOTAL_PRICE"] = totalprice;
     ordermap["ITEMS_COUNT"] = slno;
     ordermap["PRINTED"] = "YES";
 
     db.collection("ORDER_DETAILS").doc(id).set(ordermap);
-
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Center(
@@ -2114,9 +2133,6 @@ class Mainprovider extends ChangeNotifier {
     ));
     notifyListeners();
   }
-
-
-
 
   List<String> cartitemidlist = [];
 
@@ -2212,15 +2228,14 @@ class Mainprovider extends ChangeNotifier {
   // }
 
   Future<void> addOrdersnew(
-      List<cartItemsDetails> cartList,
+      List<CartItemsDetails> cartList,
       String customerName,
       String date,
       String orderType,
       String tableNo,
       String invoiceNo,
       String totalAmt,
-      BuildContext context
-      ) async {
+      BuildContext context) async {
     String id = DateTime.now().millisecondsSinceEpoch.toString();
 
     Map<String, dynamic> map = {};
@@ -2229,10 +2244,10 @@ class Mainprovider extends ChangeNotifier {
     for (var element in cartList) {
       Map<String, dynamic> itemMap = {
         "Qty": element.qty,
-        "Price": element.itemprice,
-        "Item Total": element.totalprice
+        "Price": element.itemPrice,
+        "Item Total": element.totalPrice
       };
-      productsMap[element.itemname] = itemMap;
+      productsMap[element.itemName] = itemMap;
     }
 
     map["ORDER_ID"] = id;
@@ -2247,24 +2262,56 @@ class Mainprovider extends ChangeNotifier {
     await db.collection("ORDERS").doc(id).set(map);
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.white,
-      content: Text("Added Successfully",
-          style: TextStyle(
-            color: Colors.green,
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-          )),
-      duration: Duration(milliseconds: 3000),
+      duration: Duration(seconds: 5),
+      content: CustomSnackBarContent(
+          colorcontainer: Color.fromARGB(255, 0, 204, 0),
+          errorText: "You Ordered Succesfully ",
+          errorHeadline: "Oh Snap",
+          colorbubble: cYellow,
+          img: "assets/check.svg"),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      margin: EdgeInsets.all(5),
     ));
 
     notifyListeners();
   }
 
-  Stream<List<OrderModel>> getOrdersStream() {
-    return db.collection("ORDERS").snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
-        return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
-      }).toList();
-    });
+// List<OrderModel> OrderList = [];
+//   Stream<List<OrderModel>> getOrdersStream() {
+//     return db.collection("ORDERS").snapshots().map((snapshot) {
+//       return snapshot.docs.map((doc) {
+//
+//         return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+//       }).toList();
+//     });
+//   }
+  List<OrderModel> OrderList = [];
+  bool orderLoader = false;
+
+  Future<void> fetchOrderList() async {
+    orderLoader = true;
+    notifyListeners();
+
+    try {
+      QuerySnapshot querySnapshot = await db.collection("ORDERS").get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        orderLoader = false;
+        OrderList.clear();
+
+        for (var doc in querySnapshot.docs) {
+          Map<String, dynamic> getmap = doc.data() as Map<String, dynamic>;
+          OrderList.add(OrderModel.fromMap(getmap));
+        }
+      } else {
+        orderLoader = false;
+      }
+    } catch (error) {
+      print("Error fetching orders: $error");
+      orderLoader = false;
+    } finally {
+      notifyListeners();
+    }
   }
 }
