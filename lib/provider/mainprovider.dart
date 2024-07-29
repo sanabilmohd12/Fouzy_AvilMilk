@@ -1512,11 +1512,52 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<CartItemsDetails> cartitemslist = [];
-  bool getcart = false;
-  String slno = "";
+  // List<CartItemsDetails> cartitemslist = [];
+  // bool getcart = false;
+  // String slno = "";
+  //
+  // Future<void> getCartItems() async {
+  //   try {
+  //     getcart = true;
+  //     notifyListeners();
+  //
+  //     final QuerySnapshot snapshot = await db.collection("CART").get();
+  //
+  //     cartitemslist.clear();
+  //
+  //     if (snapshot.docs.isNotEmpty) {
+  //       for (var doc in snapshot.docs) {
+  //         Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
+  //         cartitemslist.add(CartItemsDetails(
+  //           cartData["CART_ID"].toString(),
+  //           DateFormat("dd-MM-yyyy hh:mm a")
+  //               .format(cartData["DATE_TIME"].toDate()),
+  //           cartData["ITEMS_CATEGORY"].toString(),
+  //           cartData["ITEMS_ID"].toString(),
+  //           cartData["ITEMS_NAME"].toString(),
+  //           cartData["ITEMS_PHOTO"].toString(),
+  //           cartData["ITEMS_PRICE"].toString(),
+  //           cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
+  //           cartData["TOTAL_PRICE"].toString(),
+  //           cartData["QTY"].toString(),
+  //         ));
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print("Error fetching cart items: $e");
+  //     // Handle the error appropriately
+  //   } finally {
+  //     getcart = false;
+  //     slno = cartitemslist.length.toString();
+  //     notifyListeners();
+  //   }
+  // }
 
+  List<CartItemsDetails> cartitemslist = [];
+   bool getcart = false;
+   String slno = "";
   Future<void> getCartItems() async {
+    print("Fetching cart items...");
     try {
       getcart = true;
       notifyListeners();
@@ -1542,16 +1583,20 @@ class Mainprovider extends ChangeNotifier {
             cartData["QTY"].toString(),
           ));
         }
+        print("Cart items fetched: ${cartitemslist.length}");
+      } else {
+        print("No cart items found.");
       }
     } catch (e) {
       print("Error fetching cart items: $e");
-      // Handle the error appropriately
     } finally {
       getcart = false;
       slno = cartitemslist.length.toString();
       notifyListeners();
     }
   }
+
+
 
   Future<void> delefromtecart(String id, BuildContext context) async {
     try {
