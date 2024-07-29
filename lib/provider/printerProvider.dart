@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:image/image.dart' as img;
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +14,7 @@ import 'package:provider/provider.dart';
 class PrinterProvider extends ChangeNotifier {
   // Network printer configuration
   String boxInPort = "9100";
-  String Ip = "192.168.1.37";
+  String Ip = "192.168.1.37"; // This is your printer's IP address
 
   // Printer status flags
   bool printSuccess = true;
@@ -29,15 +28,29 @@ class PrinterProvider extends ChangeNotifier {
   List<int> printerBold = [0x1b, 0x45, 0x01];        // Bold on
   List<int> printerCancelBold = [0x1b, 0x45, 0x00];  // Bold off
 
-  // Other variables (some commented out, possibly for future use)
+  // Other variables
   String stewardName = '';
   int tokenId = 1;
   double kotAmount = 0.0;
   String kotNumber = '';
   double MGST = 0.0;
 
+  // Method to test printer connection
+  Future<bool> testPrinterConnection(String ip, int port) async {
+    try {
+      print('Testing connection to printer at $ip:$port');
+      final socket = await Socket.connect(ip, port, timeout: Duration(seconds: 5));
+      print('Successfully connected to the printer');
+      await socket.close();
+      return true;
+    } catch (e) {
+      print('Error connecting to printer: $e');
+      return false;
+    }
+  }
+
   // Method to generate custom print commands
-  printCustom(final String msg, final int size, final int align, final int style) {
+  List<int> printCustom(String msg, int size, int align, int style) {
     List<int> printdata = [];
 
     // Define different text size commands
@@ -84,7 +97,7 @@ class PrinterProvider extends ChangeNotifier {
   }
 
   // Method to print indexed columns
-  IndexColumnPrint(String index, String str2) {
+  List<int> IndexColumnPrint(String index, String str2) {
     // Truncate strings if they're too long
     if (str2.length > 30) str2 = str2.substring(0, 30);
     if (index.length > 5) index = index.substring(0, 5);
@@ -109,104 +122,106 @@ class PrinterProvider extends ChangeNotifier {
   }
 
   // Main method to print an order invoice
-  Future<void> PrintOrderInvoiceBoxIn(BuildContext context, String floorIP) async {
-    int count = 2;
+  Future<void> PrintOrderInvoiceBoxIn(BuildContext context, String FloorIP) async {
+    int count = 1;
     bool isSuccess = false;
-    const int maxRetries = 50;
+    const int maxRetries = 3;
 
-    while (count < maxRetries && !isSuccess) {
-      print("Attempting to print...");
-      count++;
+    try {
+      while (count <= maxRetries && !isSuccess) {
+        print("Attempting to print... Attempt #$count");
 
-      // Set up the printer
-      const PaperSize paper = PaperSize.mm80;
-      final profile = await CapabilityProfile.load();
-      final printer = NetworkPrinter(paper, profile);
+        // Set up the printer
+        const PaperSize paper = PaperSize.mm80;
+        final profile = await CapabilityProfile.load();
+        final printer = NetworkPrinter(paper, profile);
 
-      // Load and resize the logo image
-      ByteData data = await rootBundle.load('assets/ic_launcher.jpg');
-      final Uint8List bytes = data.buffer.asUint8List();
-      final img.Image logo = img.decodeImage(bytes)!;
-      final img.Image resizedLogo = img.copyResize(logo, width: 300, height: 150);
+        // Attempt to connect to the printer
+        final PosPrintResult res = await printer.connect(FloorIP, port: int.parse(boxInPort));
 
-      // Attempt to connect to the printer
-      final PosPrintResult res = await printer.connect(floorIP, port: int.parse(boxInPort));
+        print('Connection result: ${res.toString()}');
+        print('Connection message: ${res.msg}');
 
-      if (res == PosPrintResult.success) {
-        print('Successfully connected to printer');
-        isSuccess = true;
+        if (res == PosPrintResult.success) {
+          print('Successfully connected to printer');
+          isSuccess = true;
 
-        // Print the logo
-        printer.image(resizedLogo);
+          printer.text("FOUZY AVIL MILK", styles: const PosStyles(align: PosAlign.center));
+          printer.text("ELAYUR,KOOTTAVIL ROAD,PARAMMAL,KAVANUR", styles: const PosStyles(align: PosAlign.center));
+          printer.text("ELAYUR", styles: const PosStyles(align: PosAlign.center));
+          printer.emptyLines(2);
 
-        // Print header information
-        printer.text("FOUZY AVIL MILK", styles: const PosStyles(align: PosAlign.center));
-        printer.text("ELAYUR,KOOTTAVIL ROAD,PARAMMAL,KAVANUR", styles: const PosStyles(align: PosAlign.center));
-        printer.text("ELAYUR", styles: const PosStyles(align: PosAlign.center));
-        printer.emptyLines(2);
+          // Print receipt details
+          printer.text('Receipt No: 586965565', styles: const PosStyles(align: PosAlign.left));
+          final now = DateTime.now();
+          final formatter = DateFormat('dd/MM/yyyy hh:mm a');
+          final String timestamp = formatter.format(now);
+          printer.text('Date: $timestamp', styles: const PosStyles(align: PosAlign.left));
+          printer.text('Name: Suhail', styles: const PosStyles(align: PosAlign.left, bold: true));
+          printer.text('ID: bhfber', styles: const PosStyles(align: PosAlign.left, bold: true));
 
-        // Print receipt details
-        printer.text('Receipt No: 586965565', styles: const PosStyles(align: PosAlign.left));
-        final now = DateTime.now();
-        final formatter = DateFormat('dd/MM/yyyy hh:mm a');
-        final String timestamp = formatter.format(now);
-        printer.text('Date: $timestamp', styles: const PosStyles(align: PosAlign.left));
-        printer.text('Name: Suhail', styles: const PosStyles(align: PosAlign.left, bold: true));
-        printer.text('ID: bhfber', styles: const PosStyles(align: PosAlign.left, bold: true));
+          printer.hr();
 
-        printer.hr();
+          // Print table header
+          printer.row([
+            PosColumn(text: 'No.', width: 1, styles: const PosStyles(align: PosAlign.left, bold: true)),
+            PosColumn(text: 'Items', width: 6, styles: const PosStyles(align: PosAlign.left, bold: true)),
+            PosColumn(text: 'Qty', width: 1, styles: const PosStyles(align: PosAlign.left, bold: true)),
+            PosColumn(text: 'Rate', width: 2, styles: const PosStyles(align: PosAlign.center, bold: true)),
+            PosColumn(text: 'Total', width: 2, styles: const PosStyles(align: PosAlign.right, bold: true)),
+          ]);
 
-        // Print table header
-        printer.row([
-          PosColumn(text: 'No.', width: 1, styles: const PosStyles(align: PosAlign.left, bold: true)),
-          PosColumn(text: 'Items', width: 6, styles: const PosStyles(align: PosAlign.left, bold: true)),
-          PosColumn(text: 'Qty', width: 1, styles: const PosStyles(align: PosAlign.left, bold: true)),
-          PosColumn(text: 'Rate', width: 2, styles: const PosStyles(align: PosAlign.center, bold: true)),
-          PosColumn(text: 'Total', width: 2, styles: const PosStyles(align: PosAlign.right, bold: true)),
-        ]);
+          printer.hr();
 
-        printer.hr();
+          // Print item details (currently using placeholder data)
+          printer.row([
+            PosColumn(text: 'eeee.productName!', width: 1, styles: const PosStyles(align: PosAlign.left)),
+            PosColumn(text: 'eeee.productName!', width: 6, styles: const PosStyles(align: PosAlign.left)),
+            PosColumn(text: 'eeee.productName!', width: 1, styles: const PosStyles(align: PosAlign.left)),
+            PosColumn(text: 'eeee.sizes != PCS', width: 2, styles: const PosStyles(align: PosAlign.left)),
+            PosColumn(text: 'eeee.quantity.toString()', width: 2, styles: const PosStyles(align: PosAlign.right)),
+          ]);
 
-        // Print item details (currently using placeholder data)
-        printer.row([
-          PosColumn(text: 'eeee.productName!', width: 1, styles: const PosStyles(align: PosAlign.left)),
-          PosColumn(text: 'eeee.productName!', width: 6, styles: const PosStyles(align: PosAlign.left)),
-          PosColumn(text: 'eeee.productName!', width: 1, styles: const PosStyles(align: PosAlign.left)),
-          PosColumn(text: 'eeee.sizes != PCS', width: 2, styles: const PosStyles(align: PosAlign.left)),
-          PosColumn(text: 'eeee.quantity.toString()', width: 2, styles: const PosStyles(align: PosAlign.right)),
-        ]);
+          printer.feed(1);
+          printer.hr();
 
-        printer.feed(1);
-        printer.hr();
+          // Print total
+          printer.row([
+            PosColumn(text: 'Total:', width: 7, styles: const PosStyles(align: PosAlign.right, bold: true)),
+            PosColumn(text: "hbfvhvhb", width: 5, styles: const PosStyles(align: PosAlign.right, bold: true)),
+          ]);
 
-        // Print total
-        printer.row([
-          PosColumn(text: 'Total:', width: 7, styles: const PosStyles(align: PosAlign.right, bold: true)),
-          PosColumn(text: "hbfvhvhb", width: 5, styles: const PosStyles(align: PosAlign.right, bold: true)),
-        ]);
+          printer.hr();
+          printer.feed(1);
 
-        printer.hr();
-        printer.feed(1);
+          // Print footer
+          printer.text('Thank you for your visit!', styles: const PosStyles(align: PosAlign.center, bold: true));
+          printer.feed(1);
+          printer.cut();
 
-        // Print footer
-        printer.text('Thank you for your visit!', styles: const PosStyles(align: PosAlign.center, bold: true));
-        printer.feed(1);
-        printer.cut();
+          printer.disconnect();
+          print('Print job completed successfully');
+          break;
+        } else {
+          print('Failed to connect to printer. Result: ${res.toString()}, Message: ${res.msg}');
+          await Future.delayed(Duration(seconds: 2));
+        }
 
-        // Disconnect from the printer
-        printer.disconnect();
-        notifyListeners();
-        break;
+        count++;
       }
-    }
 
-    if (!isSuccess) {
-      // Handle the failure case if necessary
-      print("Failed to print after $maxRetries attempts");
+      if (!isSuccess) {
+        print("Failed to print after $maxRetries attempts");
+        // Show an error message to the user
+      }
+    } catch (e) {
+      print('Error occurred while printing: $e');
+      // Show an error message to the user
     }
 
     notifyListeners();
   }
+
   Future<bool> isPrinterConnected(String ip, int port) async {
     try {
       final socket = await Socket.connect(ip, port, timeout: Duration(seconds: 5));
@@ -229,8 +244,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String printerIp = '192.168.1.37';  // Replace with your printer's IP
-  int printerPort = 9100;  // Replace with your printer's port
+  String printerIp = '192.168.1.37';  // This is your printer's IP address
+  int printerPort = 9100;  // This is your printer's port
 
   @override
   void initState() {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/colors.dart';
 import 'package:provider/provider.dart';
+import '../modelClass/MainCategoryModelClass.dart';
 import '../provider/mainprovider.dart';
 import 'FouzyAvilMilkList.dart';
 import 'IceCreamList.dart';
@@ -17,6 +18,14 @@ class Home_screen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Home_screen> {
+  late Future<List<MainCategory>> _mainCategoryFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _mainCategoryFuture = Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -40,89 +49,109 @@ class _HomescreenState extends State<Home_screen> {
             ),
           ),
         ),
-        body: Container(
-          height: height,
-          width: width,
-          decoration: ShapeDecoration(
-            color: cgreen,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Container(
+            height: height,
+            width: width,
+            decoration: ShapeDecoration(
+              color: cgreen,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
               ),
             ),
-          ),
-          child: Consumer<Mainprovider>(
-            builder: (context, value, child) {
-              return value.getloader
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        color: cgreen,
-                      ),
-                    )
-                  : ListView.builder(
-                      physics: ScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: value.mainCategorylist.length,
-                      itemBuilder: (context, index) {
-                        print("ffvfvfv" +
-                            value.mainCategorylist.length.toString());
-                        var items = value.mainCategorylist[index];
-                        return InkWell(
-                          onTap: () {
-                            if (index == 0) {
-                              value.getfsptypes();
-                              callNext(context, FouzyMultiple());
-                            } else if (index == 1) {
-                              value.getavilmilktypes();
-                              callNext(context, FouzyAvilMilkListScreen());
-                            } else if (index == 2) {
-                              value.fetchIceCreamList();
-                              value.fetchDessertList();
-                              callNext(context, IceCreamListScreen());
-                            } else if (index == 3) {
-                              value.getJuiceShakesAllItems();
-                              callNext(context, Juice_ShakesListScreen());
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 18.0, vertical: 28),
-                            child: Container(
-                              height: height / 12,
-                              width: width * .2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: syellow,
-                                image: const DecorationImage(
-                                  image: AssetImage(
-                                    'assets/containerimg.jpg',
-                                  ),
-                                  fit: BoxFit.cover,
-                                ),
+            child: FutureBuilder<List<MainCategory>>(
+              future: _mainCategoryFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(color: Colors.white),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text('No categories found'));
+                } else {
+                  return ListView.builder(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      var items = snapshot.data![index];
+                      return InkWell(
+                        onTap: () {
+                          final value = Provider.of<Mainprovider>(context, listen: false);
+                          if (index == 0) {
+                            value.getfsptypes();
+                            callNext(context, FouzyMultiple());
+                          } else if (index == 1) {
+                            value.getavilmilktypes();
+                            callNext(context, FouzyAvilMilkListScreen());
+                          } else if (index == 2) {
+                            value.fetchIceCreamList();
+                            value.fetchDessertList();
+                            callNext(context, IceCreamListScreen());
+                          } else if (index == 3) {
+                            value.getJuiceShakesAllItems();
+                            callNext(context, Juice_ShakesListScreen());
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 28),
+                          child: Container(
+                            height: height / 12,
+                            width: width * .2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: syellow,
+                              image: const DecorationImage(
+                                image: AssetImage('assets/containerimg.jpg'),
+                                fit: BoxFit.cover,
                               ),
-                              child: Center(
-                                child: Text(
-                                  items.name,
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w800,
-                                  ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                items.name,
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                             ),
                           ),
-                        );
-                      },
-                    );
-            },
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+// The showExitPopup function remains unchanged
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // The showExitPopup function remains unchanged
 Future<bool> showExitPopup(BuildContext CONTXT) async {

@@ -18,45 +18,11 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Mainprovider provider = Provider.of<Mainprovider>(context, listen: false);
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   provider.getavilmilktypes();
-    // });
-
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    final int index1;
+
     return Scaffold(
       backgroundColor: cYellow,
-      // floatingActionButton:
-      //     Consumer<Mainprovider>(builder: (context, value, child) {
-      //   bool isAnySelected = false;
-      //   for (int i = 0; i < value.avilmilklist.length; i++) {
-      //     if (value.getCheckboxValue(i) == true) {
-      //       isAnySelected = true;
-      //       break;
-      //     }
-      //   }
-      //   return isAnySelected
-      //       ? FloatingActionButton.extended(
-      //           backgroundColor: Colors.yellow,
-      //           onPressed: () {
-      //             callNext(context, Cart_Screen());
-      //           },
-      //           label: const Padding(
-      //             padding: EdgeInsets.symmetric(horizontal: 8.0),
-      //             child: Text(
-      //               'Add To Cart',
-      //               style: TextStyle(
-      //                 fontSize: 19,
-      //                 fontWeight: FontWeight.w800,
-      //               ),
-      //             ),
-      //           ),
-      //           icon: Icon(Icons.shopping_cart, color: cgreen),
-      //         )
-      //       : SizedBox();
-      // }),
       appBar: AppBar(
         title: const Text(
           "FOUZY AVILMILK",
@@ -93,15 +59,12 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Padding(
-                padding:  EdgeInsets.only(top: height/20,left: 30),
+                padding: EdgeInsets.only(top: height/20, left: 30),
                 child: Container(
                     width: width/2.5,
-                    // margin: EdgeInsets.only(left: height/30,),
-                    // width: width,
                     decoration: BoxDecoration(
-                        border: Border.all(color: cYellow,width: 5,),
+                        border: Border.all(color: cYellow, width: 5,),
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(30),
                         boxShadow:[
@@ -109,29 +72,29 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                               offset: Offset(3, 4),
                               blurRadius: 3,
                               spreadRadius: -3,
-                              color: cYellow),
+                              color: cYellow
+                          ),
                         ]
                     ),
                     child: Consumer<Mainprovider>(
-                        builder: (context,value,child) {
+                        builder: (context, value, child) {
                           return TextField(
                             onChanged: (text){
                               value.filterAvilmilk(text);
                             },
                             cursorColor: clblack,
-                            // controller:value.searchBoyHistoryCT,
                             decoration: InputDecoration(
-                              fillColor:cWhite,
+                              fillColor: cWhite,
                               filled: true,
                               border: OutlineInputBorder(
-                                  borderRadius:BorderRadius.circular(30) ,
-                                  borderSide: BorderSide.none),
-                              prefixIcon: Icon(Icons.search,color:cGrey,size: height/60,),
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide.none
+                              ),
+                              prefixIcon: Icon(Icons.search, color: cGrey, size: height/60,),
                               hintText: "Search...",
                               hintStyle: TextStyle(
-                                color:cGrey,
+                                color: cGrey,
                                 fontWeight: FontWeight.w400,
-                                // fontFamily: fontRegular,
                                 fontSize: height/70,
                               ),
                             ),
@@ -141,207 +104,180 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                 ),
               ),
 
-              Consumer<Mainprovider>(builder: (context, value, child) {
-                return value.getloader
-                    ? Center(
-                  child: CircularProgressIndicator(
-                    color: cgreen,
-                  ),
-                )
-                    : Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 18.0, vertical: 30),
-                  child: Consumer<Mainprovider>(
+              FutureBuilder(
+                future: Provider.of<Mainprovider>(context, listen: false).getavilmilktypes(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: cgreen,
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error: ${snapshot.error}"),
+                    );
+                  } else {
+                    return Consumer<Mainprovider>(
                       builder: (context, value, child) {
-                        return GridView.builder(
-                          itemCount: value.filteravilmilklist.length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                          SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 15,
-                              crossAxisCount: 2,
-                              childAspectRatio: 1),
-                          itemBuilder: (context, index) {
-                            var item = value.filteravilmilklist[index];
-                            return GestureDetector(
-                              onTap: () {
-                                value.AddCartDetails(
-                                    item.name,
-                                    item.id,
-                                    item.price,
-                                    item.maincatrgoryname,
-                                    item.avilphoto,
-                                    context);
-
-                                value.setCheckboxValue(index,
-                                    !value.getCheckboxValue(index));
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 5),
-                                width: width,
-                                height: height * .12,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: cYellow,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: width,
-                                      height: height/5.5,
-                                      decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          image: DecorationImage(
-                                              image: item.avilphoto != ""
-                                                  ? NetworkImage(
-                                                item.avilphoto,
-                                              )
-                                                  : AssetImage(""))),
-                                      child: Consumer<Mainprovider>(
-                                          builder:
-                                              (context, value, child) {
-                                            return Align(
-                                                alignment: Alignment.topRight,
-                                                child: Transform.scale(
-                                                  scale: 1.5,
-                                                  child: Checkbox(
-                                                    shape: CircleBorder(),
-                                                    value: value
-                                                        .getCheckboxValue(
-                                                        index) ||
-                                                        value.isInCart(
-                                                            "AVIL_MILK",
-                                                            item.id),
-                                                    onChanged:
-                                                        (bool? newValue) {
-                                                      value.AddCartDetails(
-                                                          item.name,
-                                                          item.id,
-                                                          item.price,
-                                                          item.maincatrgoryname,
-                                                          item.avilphoto,
-                                                          context);
-
-                                                      value.setCheckboxValue(
-                                                          index,
-                                                          newValue ?? false);
-
-                                                      if (newValue == true) {
-                                                        // Add to cart
-                                                        value
-                                                            .cartItemsControlls(
-                                                            'AVIL_MILK',
-                                                            item.id,
-                                                            item);
-                                                        ScaffoldMessenger.of(
-                                                            context)
-                                                            .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                  "Item added to cart"),
-                                                              duration: Duration(
-                                                                  seconds: 2),
-                                                            ));
-                                                      } else {
-                                                        // Remove from cart
-                                                        value
-                                                            .cartItemsControlls(
-                                                            'AVIL_MILK',
-                                                            item.id,
-                                                            item);
-                                                        ScaffoldMessenger.of(
-                                                            context)
-                                                            .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                  "Item removed from cart"),
-                                                              duration: Duration(
-                                                                  seconds: 2),
-                                                            ));
-                                                      }
-                                                    },
-                                                    checkColor: Colors.green,
-                                                    fillColor:
-                                                    WidgetStatePropertyAll(
-                                                        Colors.white),
-                                                  ),
-                                                ));
-                                          }),
-                                    ),
-                                    Padding(
-                                      padding:  EdgeInsets.only(left: width/50,bottom: height/30),
-                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              text(
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 30),
+                          child: GridView.builder(
+                            itemCount: value.filteravilmilklist.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 15,
+                                crossAxisCount: 2,
+                                childAspectRatio: 1
+                            ),
+                            itemBuilder: (context, index) {
+                              var item = value.filteravilmilklist[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  value.AddCartDetails(
+                                      item.name,
+                                      item.id,
+                                      item.price,
+                                      item.maincatrgoryname,
+                                      item.avilphoto,
+                                      context
+                                  );
+                                  value.setCheckboxValue(index, !value.getCheckboxValue(index));
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                                  width: width,
+                                  height: height * .12,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: cYellow,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: width,
+                                        height: height/5.5,
+                                        decoration: BoxDecoration(
+                                            color: Colors.transparent,
+                                            image: DecorationImage(
+                                                image: item.avilphoto != ""
+                                                    ? NetworkImage(item.avilphoto,)
+                                                    : AssetImage("")
+                                            )
+                                        ),
+                                        child: Align(
+                                            alignment: Alignment.topRight,
+                                            child: Transform.scale(
+                                              scale: 1.5,
+                                              child: Checkbox(
+                                                shape: CircleBorder(),
+                                                value: value.getCheckboxValue(index) || value.isInCart("AVIL_MILK", item.id),
+                                                onChanged: (bool? newValue) {
+                                                  value.AddCartDetails(
+                                                      item.name,
+                                                      item.id,
+                                                      item.price,
+                                                      item.maincatrgoryname,
+                                                      item.avilphoto,
+                                                      context
+                                                  );
+                                                  value.setCheckboxValue(index, newValue ?? false);
+                                                  if (newValue == true) {
+                                                    value.cartItemsControlls('AVIL_MILK', item.id, item);
+                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                        SnackBar(
+                                                          content: Text("Item added to cart"),
+                                                          duration: Duration(seconds: 2),
+                                                        )
+                                                    );
+                                                  } else {
+                                                    value.cartItemsControlls('AVIL_MILK', item.id, item);
+                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                        SnackBar(
+                                                          content: Text("Item removed from cart"),
+                                                          duration: Duration(seconds: 2),
+                                                        )
+                                                    );
+                                                  }
+                                                },
+                                                checkColor: Colors.green,
+                                                fillColor: WidgetStatePropertyAll(Colors.white),
+                                              ),
+                                            )
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: width/50, bottom: height/30),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                text(
                                                   item.name,
                                                   FontWeight.w800,
                                                   cgreen,
                                                   width/30,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                width: width * 0.3,),
-                                              text(
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  width: width * 0.3,
+                                                ),
+                                                text(
                                                   item.describtion,
                                                   FontWeight.w400,
                                                   cgreen,
                                                   width/40,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                width: width * 0.3,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  width: width * 0.3,
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: height/20,
+                                              width: width/10,
+                                              decoration: BoxDecoration(
+                                                  color: cgreen,
+                                                  borderRadius: BorderRadius.horizontal(left: Radius.circular(12))
                                               ),
-                                            ],
-                                          ),
-
-                                          Container(
-                                            height: height/20,
-                                            width: width/10,
-                                            decoration: BoxDecoration(color: cgreen,borderRadius: BorderRadius.horizontal(left: Radius.circular(12))),
-                                            child: Shimmer(
-                                              gradient: LinearGradient(colors: [
-                                                cWhite,
-                                                cYellow,
-                                                cGrey,
-                                              ]),
-
-                                              direction: ShimmerDirection.rtl,
-
-                                              child: Center(
-                                                child: text(
+                                              child: Shimmer(
+                                                gradient: LinearGradient(colors: [
+                                                  cWhite,
+                                                  cYellow,
+                                                  cGrey,
+                                                ]),
+                                                direction: ShimmerDirection.rtl,
+                                                child: Center(
+                                                  child: text(
                                                     "₹ ${item.price}",
                                                     FontWeight.w700,
                                                     cWhite,
                                                     20,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 1,),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(),
-
-
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         );
-
-                        //
-                      }),
-                );
-              }),
-              // SizedBox(height: 200,)
+                      },
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),

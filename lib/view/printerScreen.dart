@@ -309,7 +309,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 250,
 
                                       child: Text(
-                                       items.itemname,textAlign: TextAlign.center,
+                                       items.itemName,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -333,7 +333,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.itemprice,textAlign: TextAlign.center,
+                                        items.itemPrice,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -344,7 +344,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.totalprice.toString(),textAlign: TextAlign.center,
+                                        items.totalPrice.toString(),textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -402,61 +402,50 @@ class Printerscreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
-          Consumer<Mainprovider>(
-            builder: (context,provider,child) {
-return Padding(
-  padding: EdgeInsets.symmetric(horizontal: height/5),
-  child: ElevatedButton(
+              Consumer<Mainprovider>(
+                  builder: (context, mainProvider, child) {
+                    return Consumer<PrinterProvider>(
+                        builder: (context, printerProvider, child) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: height/5),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                // Print statements for debugging
+                                print("Printer IP: ${printerProvider.Ip}");
+                                print("Printer Port: ${printerProvider.boxInPort}");
 
-    onPressed: () {
+                                try {
+                                  bool isConnected = await printerProvider.testPrinterConnection(
+                                      printerProvider.Ip,
+                                      int.parse(printerProvider.boxInPort)
+                                  );
 
-            double totalPrice = provider.getTotalPrice();
-                print("hkdk $totalPrice");
-           provider.addOrdersnew(provider.cartitemslist,name,datetime,ordertype,deskno,"6666",totalPrice.toString(),context);
-          provider.cartitemslist.clear();
-          provider.getMainCategoy();
-          callNext(context, BottomNavBarV2());
-    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Color(0xff157218),
-      disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
-      shadowColor: Colors.transparent,
-      padding: EdgeInsets.symmetric(vertical: 15), // Adjust padding as needed
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'Print',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: cWhite),
-        ),
-        SizedBox(width: 10), // Add some space between text and icon
-        Icon(Icons.print, color: Colors.white),
-      ],
-    ),
-  ),
-);
-              // return Padding(
-              //   padding:  EdgeInsets.symmetric(horizontal: height/10),
-              //   child: ElevatedButton(onPressed: () {
-              //
-              //     //       double totalPrice = provider.getTotalPrice();
-              //     //       print("hkdk $totalPrice");
-              //     //  provider.addOrdersnew(provider.cartitemslist,name,datetime,ordertype,deskno,"6666",totalPrice.toString(),context);
-              //     // provider.cartitemslist.clear();
-              //     // provider.getMainCategoy();
-              //     // callNext(context, BottomNavBarV2());
-              //
-              //   }, child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       Text('Print',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: cWhite),),
-              //       Icon(Icons.print,color: Colors.black,)
-              //     ],
-              //   )),
-              // );
-            }
-          )
+                                  if (isConnected) {
+                                    // Proceed with printing
+                                    await printerProvider.PrintOrderInvoiceBoxIn(context, printerProvider.Ip);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Printing completed successfully.')),
+                                    );
+                                  } else {
+                                    // Show error message
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Printer is not connected. Please check the printer and try again.')),
+                                    );
+                                  }
+                                } catch (e) {
+                                  print('Error during printing process: $e');
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('An error occurred while trying to print. Please try again.')),
+                                  );
+                                }
+                              },
+                              child: Text('Print Invoice'),
+                            ),
+                          );
+                        }
+                    );
+                  }
+              )
           // Consumer<Mainprovider>(
           //     builder: (context,value,child) {
           //       return GestureDetector(onTap: () async {
