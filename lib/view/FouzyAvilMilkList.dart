@@ -126,7 +126,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                             itemCount: value.filteravilmilklist.length,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 15,
                                 crossAxisCount: 2,
@@ -165,7 +165,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                             image: DecorationImage(
                                                 image: item.avilphoto != ""
                                                     ? NetworkImage(item.avilphoto,)
-                                                    : AssetImage("")
+                                                    : AssetImage("assets/Sundae (1).png")
                                             )
                                         ),
                                         child: Align(
@@ -188,7 +188,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                   if (newValue == true) {
                                                     value.cartItemsControlls('AVIL_MILK', item.id, item);
                                                     ScaffoldMessenger.of(context).showSnackBar(
-                                                        SnackBar(
+                                                        const SnackBar(
                                                           content: Text("Item added to cart"),
                                                           duration: Duration(seconds: 2),
                                                         )
@@ -196,7 +196,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                   } else {
                                                     value.cartItemsControlls('AVIL_MILK', item.id, item);
                                                     ScaffoldMessenger.of(context).showSnackBar(
-                                                        SnackBar(
+                                                        const SnackBar(
                                                           content: Text("Item removed from cart"),
                                                           duration: Duration(seconds: 2),
                                                         )
