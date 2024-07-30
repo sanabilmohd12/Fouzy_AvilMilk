@@ -25,8 +25,6 @@ import '../modelClass/jucieandshakesCateModelClass.dart';
 import '../modelClass/oderModel.dart';
 import '../updatescreen.dart';
 
-
-
 extension DateTimeComparison on DateTime {
   bool isSameDate(DateTime other) {
     return year == other.year && month == other.month && day == other.day;
@@ -36,7 +34,6 @@ extension DateTimeComparison on DateTime {
 class Mainprovider extends ChangeNotifier {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Reference ref = FirebaseStorage.instance.ref("IMAGE URL");
-
 
   Mainprovider() {
     getAppVersion();
@@ -53,43 +50,120 @@ class Mainprovider extends ChangeNotifier {
   }
 
   /// Count
+
+  // List<CartItem> cartitemslist = [];
+  // FirebaseFirestore db = FirebaseFirestore.instance;
+
   void countIncrement(int index, String id) {
+    print("Increment called for index: $index");
     if (index >= 0 && index < cartitemslist.length) {
       cartitemslist[index].count++;
       updateItemDetails(index, id);
-      notifyListeners();
     }
   }
 
   void countDecrement(int index, String id) {
+    print("Decrement called for index: $index");
     if (index >= 0 &&
         index < cartitemslist.length &&
         cartitemslist[index].count > 1) {
       cartitemslist[index].count--;
       updateItemDetails(index, id);
-      notifyListeners();
     }
   }
 
   Future<void> updateItemDetails(int index, String id) async {
-    double initialPrice = double.parse(cartitemslist[index].itemPrice);
-    double newPrice = initialPrice * cartitemslist[index].count;
+    try {
+      double initialPrice = double.parse(cartitemslist[index].itemsprice);
+      double newPrice = initialPrice * cartitemslist[index].count;
 
-    cartitemslist[index].totalPrice = newPrice.toStringAsFixed(2);
-    cartitemslist[index].qty = cartitemslist[index].count.toString();
+      cartitemslist[index].totalprice = newPrice.toStringAsFixed(2);
+      cartitemslist[index].itemsqty = cartitemslist[index].count.toString();
 
-    print("Item: ${cartitemslist[index].itemName}");
-    print("Count: ${cartitemslist[index].count}");
-    print("Qty: ${cartitemslist[index].qty}");
-    print("Total Price: ${cartitemslist[index].totalPrice}");
+      print("Item: ${cartitemslist[index].itemsname}");
+      print("Count: ${cartitemslist[index].count}");
+      print("Qty: ${cartitemslist[index].itemsqty}");
+      print("Total Price: ${cartitemslist[index].totalprice}");
 
-    await db.collection("CART").doc(id).set({
-      "TOTAL_PRICE": cartitemslist[index].totalPrice,
-      "QTY": cartitemslist[index].qty
-    }, SetOptions(merge: true));
+      await db.collection("CART").doc(id).set({
+        "TOTAL_PRICE": cartitemslist[index].totalprice,
+        "QTY": cartitemslist[index].itemsqty
+      }, SetOptions(merge: true));
 
-    notifyListeners();
+      notifyListeners();
+    } catch (e) {
+      print("Error updating item details: $e");
+    }
   }
+
+  //
+  // void countIncrement(int index, String id) {
+  //   if (index >= 0 && index < cartitemslist.length) {
+  //     cartitemslist[index].count++;
+  //     updateItemDetails(index, id);
+  //   }
+  // }
+  //
+  // void countDecrement(int index, String id) {
+  //   if (index >= 0 && index < cartitemslist.length && cartitemslist[index].count > 1) {
+  //     cartitemslist[index].count--;
+  //     updateItemDetails(index, id);
+  //   }
+  // }
+  //
+  // Future<void> updateItemDetails(int index, String id) async {
+  //   double initialPrice = double.parse(cartitemslist[index].itemPrice);
+  //   double newPrice = initialPrice * cartitemslist[index].count;
+  //
+  //   cartitemslist[index].totalPrice = newPrice.toStringAsFixed(2);
+  //   cartitemslist[index].qty = cartitemslist[index].count.toString();
+  //
+  //   debugPrint("Item: ${cartitemslist[index].itemName}");
+  //   debugPrint("Count: ${cartitemslist[index].count}");
+  //   debugPrint("Qty: ${cartitemslist[index].qty}");
+  //   debugPrint("Total Price: ${cartitemslist[index].totalPrice}");
+  //
+  //   await db.collection("CART").doc(id).set({
+  //     "TOTAL_PRICE": cartitemslist[index].totalPrice,
+  //     "QTY": cartitemslist[index].qty
+  //   }, SetOptions(merge: true));
+  //
+  //   notifyListeners();
+  // }
+
+  // void countIncrement(int index, String id) {
+  //   if (index >= 0 && index < cartitemslist.length) {
+  //     cartitemslist[index].count++;
+  //     updateItemDetails(index, id);
+  //   }
+  // }
+  //
+  // void countDecrement(int index, String id) {
+  //   if (index >= 0 && index < cartitemslist.length && cartitemslist[index].count > 1) {
+  //     cartitemslist[index].count--;
+  //     updateItemDetails(index, id);
+  //   }
+  // }
+  //
+  // Future<void> updateItemDetails(int index, String id) async {
+  //   double initialPrice = double.parse(cartitemslist[index].itemPrice);
+  //   double newPrice = initialPrice * cartitemslist[index].count;
+  //
+  //   cartitemslist[index].totalPrice = newPrice.toStringAsFixed(2);
+  //   cartitemslist[index].qty = cartitemslist[index].count.toString();
+  //
+  //   debugPrint("Item: ${cartitemslist[index].itemName}");
+  //   debugPrint("Count: ${cartitemslist[index].count}");
+  //   debugPrint("Qty: ${cartitemslist[index].qty}");
+  //   debugPrint("Total Price: ${cartitemslist[index].totalPrice}");
+  //
+  //   await db.collection("CART").doc(id).set({
+  //     "TOTAL_PRICE": cartitemslist[index].totalPrice,
+  //     "QTY": cartitemslist[index].qty
+  //   }, SetOptions(merge: true));
+  //
+  //   notifyListeners();
+  // }
 
   ///
   Map<String, dynamic> cartItems = {};
@@ -199,7 +273,7 @@ class Mainprovider extends ChangeNotifier {
     } finally {
       getloader = false;
       notifyListeners();
-      }
+    }
 
     return mainCategorylist;
   }
@@ -388,7 +462,7 @@ class Mainprovider extends ChangeNotifier {
     return filterfspavilmilklist;
   }
 
-  Future <void> filterfsptypes(item) async{
+  Future<void> filterfsptypes(item) async {
     filterfspavilmilklist = fspavilmilklist
         .where((a) =>
             a.name.toLowerCase().contains(item.toLowerCase()) ||
@@ -644,7 +718,7 @@ class Mainprovider extends ChangeNotifier {
 
   bool getavilloader = false;
 
-  Future <void> getavilmilktypes() async{
+  Future<void> getavilmilktypes() async {
     getavilloader = true;
     notifyListeners();
     db.collection("AVIL_MILK").get().then((value) {
@@ -774,7 +848,7 @@ class Mainprovider extends ChangeNotifier {
 
   bool getjuciecategoryloader = false;
 
-  Future <void> getJucieCategory() async{
+  Future<void> getJucieCategory() async {
     getjuciecategoryloader = true;
     notifyListeners();
     db.collection("JUICE_CATEGORY").get().then((value) {
@@ -922,7 +996,7 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future <void>  getJuiceShakesAllItems() async{
+  Future<void> getJuiceShakesAllItems() async {
     Juiceshakesalllist.clear();
     print("dcdc");
     getjuiceshakeslistloader = true;
@@ -1054,7 +1128,7 @@ class Mainprovider extends ChangeNotifier {
 
   bool geticecatloader = false;
 
- Future <void> getIceCreamCategoy() async{
+  Future<void> getIceCreamCategoy() async {
     geticecatloader = true;
     notifyListeners();
     db.collection("ICE_CREAM_CATEGORY").get().then((value) {
@@ -1563,8 +1637,8 @@ class Mainprovider extends ChangeNotifier {
   // }
 
   List<CartItemsDetails> cartitemslist = [];
-   bool getcart = false;
-   String slno = "";
+  bool getcart = false;
+  String slno = "";
   Future<void> getCartItems() async {
     print("Fetching cart items...");
     try {
@@ -1580,16 +1654,16 @@ class Mainprovider extends ChangeNotifier {
           Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
           cartitemslist.add(CartItemsDetails(
             cartData["CART_ID"].toString(),
-            DateFormat("dd-MM-yyyy hh:mm a")
-                .format(cartData["DATE_TIME"].toDate()),
             cartData["ITEMS_CATEGORY"].toString(),
             cartData["ITEMS_ID"].toString(),
+            DateFormat("dd-MM-yyyy hh:mm a")
+                .format(cartData["DATE_TIME"].toDate()),
+            cartData["TOTAL_PRICE"].toString(),
             cartData["ITEMS_NAME"].toString(),
             cartData["ITEMS_PHOTO"].toString(),
             cartData["ITEMS_PRICE"].toString(),
-            cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
-            cartData["TOTAL_PRICE"].toString(),
             cartData["QTY"].toString(),
+            cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
           ));
         }
         print("Cart items fetched: ${cartitemslist.length}");
@@ -1605,14 +1679,12 @@ class Mainprovider extends ChangeNotifier {
     }
   }
 
-
-
   Future<void> delefromtecart(String id, BuildContext context) async {
     try {
       print("Deleting item with id: $id");
 
       // Remove the item from the local list
-      int indexToRemove = cartitemslist.indexWhere((item) => item.cartId == id);
+      int indexToRemove = cartitemslist.indexWhere((item) => item.id == id);
       if (indexToRemove != -1) {
         cartitemslist.removeAt(indexToRemove);
         notifyListeners(); // Update UI immediately
@@ -1707,7 +1779,7 @@ class Mainprovider extends ChangeNotifier {
   double getTotalPrice() {
     double total = 0.0;
     for (var item in cartitemslist) {
-      total += double.parse(item.itemPrice);
+      total += double.parse(item.itemsprice);
     }
     return total;
   }
@@ -1792,7 +1864,7 @@ class Mainprovider extends ChangeNotifier {
   List<CartItemsDetails> cartitemscountlist = [];
 
   void updateItemQuantity(String cartId, int newQuantity) {
-    var index = cartitemscountlist.indexWhere((item) => item.cartId == cartId);
+    var index = cartitemscountlist.indexWhere((item) => item.id == cartId);
     if (index != -1 && newQuantity > 0) {
       cartitemscountlist[index].count = newQuantity;
       notifyListeners();
@@ -1969,15 +2041,15 @@ class Mainprovider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-
-
   DateRangePickerController dutyPickerController = DateRangePickerController();
   var outputDayNode4 = DateFormat('dd-MM-yyyy');
   DateTime regStartDate = DateTime.now();
   DateTime regFirstDate = DateTime.now();
   String dateDisplay = '';
 
-  Future<void> dateWiseorderReport(BuildContext context, ) async {
+  Future<void> dateWiseorderReport(
+    BuildContext context,
+  ) async {
     dateDisplay = '';
     regFirstDate = DateTime.now();
     regStartDate = DateTime.now();
@@ -1995,25 +2067,24 @@ class Mainprovider extends ChangeNotifier {
         // Clear the lists
         dateDisplay = outputDayNode4.format(regStartDate).toString();
         DateTime date1 =
-        DateTime(regStartDate.year, regStartDate.month, regStartDate.day);
+            DateTime(regStartDate.year, regStartDate.month, regStartDate.day);
         DateTime date2 =
-        date1.add(const Duration(hours: 23, minutes: 59, seconds: 59));
+            date1.add(const Duration(hours: 23, minutes: 59, seconds: 59));
 
-      fetchOrderList(date1,date2);
+        fetchOrderList(date1, date2);
       } else {
         regStartDate = pickedDate;
         DateTime date1 =
-        DateTime(regStartDate.year, regStartDate.month, regStartDate.day);
+            DateTime(regStartDate.year, regStartDate.month, regStartDate.day);
         DateTime date2 =
-        date1.add(const Duration(hours: 23, minutes: 59, seconds: 59));
+            date1.add(const Duration(hours: 23, minutes: 59, seconds: 59));
         dateDisplay = outputDayNode4.format(regStartDate).toString();
-        fetchOrderList(date1,date2);
+        fetchOrderList(date1, date2);
       }
     }
 
     notifyListeners();
   }
-
 
   /// apploack
 
@@ -2343,11 +2414,11 @@ class Mainprovider extends ChangeNotifier {
 
     for (var element in cartList) {
       Map<String, dynamic> itemMap = {
-        "Qty": element.qty,
-        "Price": element.itemPrice,
-        "Item Total": element.totalPrice
+        "Qty": element.itemsqty,
+        "Price": element.itemsprice,
+        "Item Total": element.totalprice
       };
-      productsMap[element.itemName] = itemMap;
+      productsMap[element.itemsname] = itemMap;
     }
 
     map["ORDER_ID"] = id;
@@ -2389,13 +2460,19 @@ class Mainprovider extends ChangeNotifier {
   List<OrderModel> OrderList = [];
   bool orderLoader = false;
 
-  Future<void> fetchOrderList(DateTime date1, DateTime date2,) async {
+  Future<void> fetchOrderList(
+    DateTime date1,
+    DateTime date2,
+  ) async {
     orderLoader = true;
     notifyListeners();
 
     try {
-      QuerySnapshot querySnapshot = await db.collection("ORDERS") .where("ORDER_DATE", isGreaterThan: date1)
-          .where("ORDER_DATE", isLessThan: date2).get();
+      QuerySnapshot querySnapshot = await db
+          .collection("ORDERS")
+          .where("ORDER_DATE", isGreaterThan: date1)
+          .where("ORDER_DATE", isLessThan: date2)
+          .get();
 
       if (querySnapshot.docs.isNotEmpty) {
         orderLoader = false;

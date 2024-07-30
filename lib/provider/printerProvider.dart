@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 class PrinterProvider extends ChangeNotifier {
   // Network printer configuration
   String boxInPort = "9100";
-  String Ip = "192.168.1.37"; // This is your printer's IP address
+  String Ip = "192.168.1.87"; // This is your printer's IP address
 
   // Printer status flags
   bool printSuccess = true;
@@ -246,7 +246,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String printerIp = '192.168.1.37';  // This is your printer's IP address
+  String printerIp = '192.168.1.87';  // This is your printer's IP address
   int printerPort = 9100;  // This is your printer's port
 
   @override
