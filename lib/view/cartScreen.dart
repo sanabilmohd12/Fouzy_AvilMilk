@@ -307,7 +307,7 @@ class Cart_Screen extends StatelessWidget {
                               shrinkWrap: true,
                               physics: ScrollPhysics(),
                               gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
+                              SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisSpacing: 10,
                                       mainAxisSpacing: 15,
                                       crossAxisCount: 2,

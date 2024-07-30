@@ -1580,8 +1580,7 @@ class Mainprovider extends ChangeNotifier {
           Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
           cartitemslist.add(CartItemsDetails(
             cartData["CART_ID"].toString(),
-            DateFormat("dd-MM-yyyy hh:mm a")
-                .format(cartData["DATE_TIME"].toDate()),
+            cartData["DATE_TIME"].toDate(),
             cartData["ITEMS_CATEGORY"].toString(),
             cartData["ITEMS_ID"].toString(),
             cartData["ITEMS_NAME"].toString(),
