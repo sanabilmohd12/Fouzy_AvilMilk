@@ -11,23 +11,30 @@ import 'Juice&ShakesList.dart';
 import 'fouzy_multiple.dart';
 
 class Home_screen extends StatefulWidget {
+
   const Home_screen({super.key});
 
   @override
+
   State<Home_screen> createState() => _HomescreenState();
+
 }
 
 class _HomescreenState extends State<Home_screen> {
+
   late Future<List<MainCategory>> _mainCategoryFuture;
 
   @override
+
   void initState() {
-    super.initState();
+     super.initState();
     _mainCategoryFuture = Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
   }
 
   @override
+
   Widget build(BuildContext context) {
+
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return WillPopScope(

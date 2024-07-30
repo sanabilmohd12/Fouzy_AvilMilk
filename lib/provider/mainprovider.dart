@@ -1585,7 +1585,7 @@ class Mainprovider extends ChangeNotifier {
             cartData["ITEMS_CATEGORY"].toString(),
             cartData["ITEMS_ID"].toString(),
             cartData["ITEMS_NAME"].toString(),
-            cartData["ITEMS_PHOTO"].toString(),
+            cartData["ITEMS_PHOTO"]??"",
             cartData["ITEMS_PRICE"].toString(),
             cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
             cartData["TOTAL_PRICE"].toString(),

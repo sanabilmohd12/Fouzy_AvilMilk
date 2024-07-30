@@ -288,8 +288,7 @@ class Cart_Screen extends StatelessWidget {
       body:  Container(
               height: height,
               width: width,
-
-              decoration: ShapeDecoration(
+             decoration: ShapeDecoration(
                 color: cgreen,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -347,26 +346,11 @@ class Cart_Screen extends StatelessWidget {
                                                       size: 35,
                                                     ),
                                                   ),
-                                                )),
-                                            FutureBuilder<File>(
-                                              future: DefaultCacheManager()
-                                                  .getSingleFile(
-                                                      items.itemPhoto),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.connectionState ==
-                                                        ConnectionState.done &&
-                                                    snapshot.hasData) {
-                                                  return Image.file(
-                                                    snapshot.data!,
-                                                    fit: BoxFit.cover,
-                                                    width: 100,
-                                                    height: 100,
-                                                  );
-                                                } else {
-                                                  return CircularProgressIndicator();
-                                                }
-                                              },
+                                                )
                                             ),
+                                            items.itemPhoto!=""?
+                                            Image.network(items.itemPhoto):Image.asset("assets/Sundae (1).png"),
+
                                             Align(
                                               alignment: Alignment.topRight,
                                               child: Container(
