@@ -40,6 +40,7 @@ class Mainprovider extends ChangeNotifier {
 
   Mainprovider() {
     getAppVersion();
+    lockApp();
     notifyListeners();
   }
 
@@ -1573,7 +1574,7 @@ class Mainprovider extends ChangeNotifier {
 
       final QuerySnapshot snapshot = await db.collection("CART").get();
 
-      cartitemslist.clear();
+      // cartitemslist.clear();
 
       if (snapshot.docs.isNotEmpty) {
         for (var doc in snapshot.docs) {
