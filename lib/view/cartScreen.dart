@@ -30,7 +30,7 @@ class Cart_Screen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton:
       Consumer<Mainprovider>(builder: (context, value, child) {
-        print("abcd" + value.cartitemidlist.toString());
+        print("abcd" + value.cartitemslist.toString());
 
         return value.cartitemslist.isNotEmpty
             ? Padding(

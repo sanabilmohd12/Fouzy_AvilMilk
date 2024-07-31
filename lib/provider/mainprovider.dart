@@ -1577,11 +1577,15 @@ class Mainprovider extends ChangeNotifier {
 
       if (snapshot.docs.isNotEmpty) {
         for (var doc in snapshot.docs) {
+
           Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
+
+          DateTime dateTime = cartData["DATE_TIME"].toDate();
+          String dateString = dateTime.toString();
+
           cartitemslist.add(CartItemsDetails(
             cartData["CART_ID"].toString(),
-            DateFormat("dd-MM-yyyy hh:mm a")
-                .format(cartData["DATE_TIME"].toDate()),
+            dateString,
             cartData["ITEMS_CATEGORY"].toString(),
             cartData["ITEMS_ID"].toString(),
             cartData["ITEMS_NAME"].toString(),
