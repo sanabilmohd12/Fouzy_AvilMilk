@@ -30,7 +30,7 @@ class Cart_Screen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton:
           Consumer<Mainprovider>(builder: (context, value, child) {
-        print("abcd" + value.cartitemidlist.toString());
+
 
         return value.cartitemslist.isNotEmpty
             ? Padding(
@@ -301,6 +301,7 @@ class Cart_Screen extends StatelessWidget {
                 child: Column(
                   children: [
                     Consumer<Mainprovider>(builder: (context, value, child) {
+                      print("${value.cartitemslist}irshhhhh");
                       return value.cartitemslist.isNotEmpty
                           ? GridView.builder(
                               itemCount: value.cartitemslist.length,

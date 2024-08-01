@@ -40,6 +40,7 @@ class Mainprovider extends ChangeNotifier {
 
   Mainprovider() {
     getAppVersion();
+    lockApp();
     notifyListeners();
   }
 
@@ -1620,14 +1621,19 @@ class Mainprovider extends ChangeNotifier {
 
       final QuerySnapshot snapshot = await db.collection("CART").get();
 
-      cartitemslist.clear();
+      // cartitemslist.clear();
 
       if (snapshot.docs.isNotEmpty) {
         for (var doc in snapshot.docs) {
+
           Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
+
+          DateTime dateTime = cartData["DATE_TIME"].toDate();
+          String dateString = dateTime.toString();
+
           cartitemslist.add(CartItemsDetails(
             cartData["CART_ID"].toString(),
-            cartData["DATE_TIME"].toDate(),
+            dateString,
             cartData["ITEMS_CATEGORY"].toString(),
             cartData["ITEMS_ID"].toString(),
             cartData["ITEMS_NAME"].toString(),

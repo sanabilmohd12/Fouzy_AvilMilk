@@ -21,7 +21,7 @@ class UpdateScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              'assets/background.png',
+              'assets/bgimg.jpeg',
             ),
             fit: BoxFit.fill,
           ),
