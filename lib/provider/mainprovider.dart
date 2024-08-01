@@ -161,48 +161,74 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
   void MainCategoryclear() {
     addCategorynameCt.clear();
   }
 
   List<MainCategory> mainCategorylist = [];
 
+
+
+
   bool getloader = false;
 
-  Future<List<MainCategory>> getMainCategoy() async {
-    print("Starting getMainCategory function");
-    getloader = true;
+  void getMainCategoy(){
+    print("hhhhhhhhhhhhhhhhh");
+    db.collection("MAIN_CATEGORY").get().then((value) {
+      if (value.docs.isNotEmpty) {
+        print("kjhgfdxcvbn");
+              print("Documents found: ${value.docs.length}");
+              mainCategorylist.clear();
+              for (var element in value.docs) {
+                Map<String, dynamic> getmap = element.data() ;
+                mainCategorylist.add(MainCategory(
+                              getmap["MAIN_CATEGORY_ID"].toString(),
+                              getmap["MAIN_CATEGORY_NAME"].toString(),
+                            ));
+                notifyListeners();
+
+              }}
+    },);
     notifyListeners();
 
-    try {
-      print("Attempting to fetch data from Firestore");
-      final QuerySnapshot value = await db.collection("MAIN_CATEGORY").get();
-
-      print("Received response from Firestore");
-      if (value.docs.isNotEmpty) {
-        print("Documents found: ${value.docs.length}");
-        mainCategorylist.clear();
-        for (var element in value.docs) {
-          Map<String, dynamic> getmap = element.data() as Map<String, dynamic>;
-          print("Processing document: ${getmap["MAIN_CATEGORY_ID"]}");
-          mainCategorylist.add(MainCategory(
-            getmap["MAIN_CATEGORY_ID"].toString(),
-            getmap["MAIN_CATEGORY_NAME"].toString(),
-          ));
-        }
-      } else {
-        print("No documents found in MAIN_CATEGORY collection");
-      }
-    } catch (error) {
-      print("Error fetching data: $error");
-      // You might want to rethrow the error or handle it differently
-    } finally {
-      getloader = false;
-      notifyListeners();
-      }
-
-    return mainCategorylist;
   }
+
+  // Future<List<MainCategory>> getMainCategoy() async {
+  //   print("Starting getMainCategory function");
+  //   getloader = true;
+  //   notifyListeners();
+  //
+  //   try {
+  //     print("Attempting to fetch data from Firestore");
+  //     final QuerySnapshot value = await db.collection("MAIN_CATEGORY").get();
+  //
+  //     print("Received response from Firestore");
+  //     if (value.docs.isNotEmpty) {
+  //       print("Documents found: ${value.docs.length}");
+  //       mainCategorylist.clear();
+  //       for (var element in value.docs) {
+  //         Map<String, dynamic> getmap = element.data() as Map<String, dynamic>;
+  //         print("Processing document: ${getmap["MAIN_CATEGORY_ID"]}");
+  //         mainCategorylist.add(MainCategory(
+  //           getmap["MAIN_CATEGORY_ID"].toString(),
+  //           getmap["MAIN_CATEGORY_NAME"].toString(),
+  //         ));
+  //       }
+  //     } else {
+  //       print("No documents found in MAIN_CATEGORY collection");
+  //     }
+  //   } catch (error) {
+  //     print("Error fetching data: $error");
+  //     // You might want to rethrow the error or handle it differently
+  //   } finally {
+  //     getloader = false;
+  //     notifyListeners();
+  //     }
+  //
+  //   return mainCategorylist;
+  // }
 
   void deletemaincategory(String id, BuildContext context) {
     db.collection("MAIN_CATEGORY").doc(id).delete();
@@ -349,43 +375,64 @@ class Mainprovider extends ChangeNotifier {
   List<Fouzysp> fspavilmilklist = [];
   List<Fouzysp> filterfspavilmilklist = [];
 
-  Future<List<Fouzysp>> getfsptypes() async {
+ void getfsptypes() async {
     print("asdfghjkl");
 
-    try {
-      getavilloader = true;
-      notifyListeners();
-
-      final QuerySnapshot snapshot = await db.collection("FSPAVIL_MILK").get();
-
-      fspavilmilklist.clear();
-      filterfspavilmilklist.clear();
-
-      if (snapshot.docs.isNotEmpty) {
-        for (var doc in snapshot.docs) {
-          print("dscdvvdf");
-          final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-          fspavilmilklist.add(Fouzysp(
-            data["FSPAVIL_MILK_ID"] as String,
-            data["FOUZY_SPECIALS"] as String,
-            data["FSP_AVIL_MILK_PRICE"] as String,
-            data["FSP_DISCRETION"] as String,
-            data["FSP_AVILMILK_CATEGORY"] as String,
-            data["MAIN_CATEGORY"] as String,
-            data["MAIN_CATEGORY_ID"] as String,
-            data["FSpAVILMILK_PHOTO"] as String,
+    db.collection("FSPAVIL_MILK").get().then((value) {
+      if(value.docs.isNotEmpty){
+        for(var element in value.docs){
+          print("lllllllllllllllll");
+          fspavilmilklist.clear();
+          Map<String, dynamic> data = element.data() ;
+            fspavilmilklist.add(Fouzysp(
+            data["FSPAVIL_MILK_ID"].toString(),
+            data["FOUZY_SPECIALS"] .toString(),
+            data["FSP_AVIL_MILK_PRICE"].toString(),
+            data["FSP_DISCRETION"].toString(),
+            data["FSP_AVILMILK_CATEGORY"] .toString(),
+            data["MAIN_CATEGORY"] .toString(),
+            data["MAIN_CATEGORY_ID"].toString(),
+            data["FSpAVILMILK_PHOTO"] .toString(),
           ));
+          notifyListeners();
         }
-        filterfspavilmilklist = List.from(fspavilmilklist);
       }
-    } catch (e) {
-      print("Error founding on  FSP: $e");
-      // You might want to rethrow the error or handle it differently
-    } finally {
-      getavilloader = false;
-      notifyListeners();
-    }
-    return filterfspavilmilklist;
+
+    },);
+    //
+    // try {
+    //
+    //
+    //   final QuerySnapshot snapshot = await db.collection("FSPAVIL_MILK").get();
+    //
+    //   fspavilmilklist.clear();
+    //   filterfspavilmilklist.clear();
+    //
+    //   if (snapshot.docs.isNotEmpty) {
+    //     for (var doc in snapshot.docs) {
+    //       print("dscdvvdf");
+    //       final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    //       fspavilmilklist.add(Fouzysp(
+    //         data["FSPAVIL_MILK_ID"] as String,
+    //         data["FOUZY_SPECIALS"] as String,
+    //         data["FSP_AVIL_MILK_PRICE"] as String,
+    //         data["FSP_DISCRETION"] as String,
+    //         data["FSP_AVILMILK_CATEGORY"] as String,
+    //         data["MAIN_CATEGORY"] as String,
+    //         data["MAIN_CATEGORY_ID"] as String,
+    //         data["FSpAVILMILK_PHOTO"] as String,
+    //       ));
+    //     }
+    //     filterfspavilmilklist = List.from(fspavilmilklist);
+    //   }
+    // } catch (e) {
+    //   print("Error founding on  FSP: $e");
+    //   // You might want to rethrow the error or handle it differently
+    // } finally {
+    //   getavilloader = false;
+    //   notifyListeners();
+    // }
+    // return filterfspavilmilklist;
   }
 
   Future <void> filterfsptypes(item) async{
@@ -1054,7 +1101,7 @@ class Mainprovider extends ChangeNotifier {
 
   bool geticecatloader = false;
 
- Future <void> getIceCreamCategoy() async{
+  void getIceCreamCategoy() async{
     geticecatloader = true;
     notifyListeners();
     db.collection("ICE_CREAM_CATEGORY").get().then((value) {

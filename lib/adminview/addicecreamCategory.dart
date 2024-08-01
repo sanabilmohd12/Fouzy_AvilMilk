@@ -102,14 +102,12 @@ class AddIceCreamCategory extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 SizedBox(height: height*0.2,),
                 Consumer<Mainprovider>(
                   builder: (context,value,child) {
-                    return textfield(
-                        TextInputType.text, "enter your juice Category ", "Category",value.addicecreamcategoryCt);}
+                    return textfield(TextInputType.text, "enter your juice Category ", "Category",value.addicecreamcategoryCt);
+                  }
                 ),
-
                 Consumer<Mainprovider>(
                     builder: (context,val2,child) {
                       return Row(
@@ -130,10 +128,10 @@ class AddIceCreamCategory extends StatelessWidget {
                                   width:width / 4,
                                   height:height / 18,
                                   decoration: BoxDecoration( color: Colors.grey.shade200,borderRadius: BorderRadius.circular(18)),
-                                  child: Center(child:  Text(
+                                  child: Center(
+                                    child:  Text(
                                     "ICE CREAM",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.w300, fontSize: 15, color: cBlack,fontFamily: "ink nut"),
+                                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15, color: cBlack,fontFamily: "ink nut"),
                                   ),))                     ],
                           ),
                           Row(

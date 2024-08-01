@@ -10,10 +10,10 @@ import 'addMainCategory.dart';
 class Main_Category extends StatelessWidget {
   const Main_Category({super.key});
 
-  Future<void> _loadData(BuildContext context) async {
-    final provider = Provider.of<Mainprovider>(context, listen: false);
-    await provider.getMainCategoy(); // Assume this method exists to fetch data
-  }
+  // Future<void> _loadData(BuildContext context) async {
+  //   final provider = Provider.of<Mainprovider>(context, listen: false);
+  //   await provider.getMainCategoy(); // Assume this method exists to fetch data
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -52,66 +52,55 @@ class Main_Category extends StatelessWidget {
           centerTitle: true,
           title: text("Main Category", FontWeight.w700, cgreen, 18),
         ),
-        body: FutureBuilder(
-          future: _loadData(context),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator(color: cgreen));
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              return Consumer<Mainprovider>(
-                builder: (context, value, child) {
-                  return SingleChildScrollView(
-                    child: ListView.builder(
-                      physics: ScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: value.mainCategorylist.length,
-                      itemBuilder: (context, index) {
-                        var items = value.mainCategorylist[index];
-                        return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          width: width,
-                          height: height * .12,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: cWhite,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Center(child: FittedBox(child: text(items.name, FontWeight.w800, cgreen, 20))),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () => _showDeleteDialog(context, value, items.id),
-                                        child: btn(20, 60, cWhite, "Delete", myRed, FontWeight.w500, 12, Icons.delete_outline),
-                                      ),
-                                      InkWell(
-                                        onTap: () => _showEditDialog(context, value, items.id),
-                                        child: btn(20, 60, cWhite, "Edit", cgreen, FontWeight.w500, 12, Icons.edit_outlined),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 2),
-                            ],
-                          ),
-                        );
-                      },
+        body: Consumer<Mainprovider>(
+          builder: (context, value, child) {
+            return SingleChildScrollView(
+              child: ListView.builder(
+                physics: ScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: value.mainCategorylist.length,
+                itemBuilder: (context, index) {
+                  var items = value.mainCategorylist[index];
+                  return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    width: width,
+                    height: height * .12,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: cWhite,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Center(child: FittedBox(child: text(items.name, FontWeight.w800, cgreen, 20))),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () => _showDeleteDialog(context, value, items.id),
+                                  child: btn(20, 60, cWhite, "Delete", myRed, FontWeight.w500, 12, Icons.delete_outline),
+                                ),
+                                InkWell(
+                                  onTap: () => _showEditDialog(context, value, items.id),
+                                  child: btn(20, 60, cWhite, "Edit", cgreen, FontWeight.w500, 12, Icons.edit_outlined),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 2),
+                      ],
                     ),
                   );
                 },
-              );
-            }
+              ),
+            );
           },
-        ),
+        )
       ),
     );
   }
