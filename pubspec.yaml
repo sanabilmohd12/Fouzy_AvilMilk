@@ -59,6 +59,7 @@ dependencies:
   image: ^3.0.2
   flutter_cache_manager: ^3.3.0
   cached_network_image: ^3.2.3
+  flutter_layout_grid: ^2.0.1
 
 
 
@@ -67,6 +68,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+    
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

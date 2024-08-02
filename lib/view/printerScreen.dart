@@ -286,7 +286,7 @@ class Printerscreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               String slno= value.cartitemslist.length.toString();
                               var items =value.cartitemslist[index];
-                              print("uytrds"+items.qty);
+                              print("uytrds"+items.itemsqty);
                               return Container(
                                 margin: EdgeInsets.symmetric(horizontal: 15),
                                 width: width,
@@ -309,7 +309,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 250,
 
                                       child: Text(
-                                       items.itemName,textAlign: TextAlign.center,
+                                       items.itemsname,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -320,7 +320,7 @@ class Printerscreen extends StatelessWidget {
                                     SizedBox(
                                       width: 80,
 
-                                      child: Text(items.qty.toString()
+                                      child: Text(items.itemsqty.toString()
                                         ,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
@@ -333,7 +333,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.itemPrice,textAlign: TextAlign.center,
+                                        items.itemsprice,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -344,7 +344,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.totalPrice.toString(),textAlign: TextAlign.center,
+                                        items.totalprice.toString(),textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -410,10 +410,6 @@ class Printerscreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: height/5),
                             child: ElevatedButton(
                               onPressed: () async {
-                                // Print statements for debugging
-                                print("Printer IP: ${printerProvider.Ip}");
-                                print("Printer Port: ${printerProvider.boxInPort}");
-
                                 try {
                                   bool isConnected = await printerProvider.testPrinterConnection(
                                       printerProvider.Ip,
@@ -421,13 +417,25 @@ class Printerscreen extends StatelessWidget {
                                   );
 
                                   if (isConnected) {
-                                    // Proceed with printing
-                                    await printerProvider.PrintOrderInvoiceBoxIn(context, printerProvider.Ip);
+                                    // Get the total price
+                                    double totalPrice = mainProvider.getTotalPrice();
+
+                                    // Print the invoice
+                                    await printerProvider.printInvoice(
+                                      context,
+                                      name: name,
+                                      deskno: deskno,
+                                      ordertype: ordertype,
+                                      datetime: datetime,
+                                      itemslist: mainProvider.cartitemslist,
+                                      invoiceNumber: '000${mainProvider.orderCount}',
+                                      totalPrice: totalPrice,
+                                    );
+
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text('Printing completed successfully.')),
                                     );
                                   } else {
-                                    // Show error message
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text('Printer is not connected. Please check the printer and try again.')),
                                     );
