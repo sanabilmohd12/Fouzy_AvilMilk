@@ -22,13 +22,13 @@ class Home_screen extends StatefulWidget {
 
 class _HomescreenState extends State<Home_screen> {
 
-  late Future<List<MainCategory>> _mainCategoryFuture;
+  // late Future<List<MainCategory>> _mainCategoryFuture;
 
   @override
 
   void initState() {
      super.initState();
-    _mainCategoryFuture = Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
+    // _mainCategoryFuture = Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
   }
 
   @override
@@ -70,73 +70,62 @@ class _HomescreenState extends State<Home_screen> {
                 ),
               ),
             ),
-            child: FutureBuilder<List<MainCategory>>(
-              future: _mainCategoryFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(color: Colors.white),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No categories found'));
-                } else {
-                  return ListView.builder(
-                    physics: ScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      var items = snapshot.data![index];
-                      return InkWell(
-                        onTap: () {
-                          final value = Provider.of<Mainprovider>(context, listen: false);
-                          if (index == 0) {
-                            value.getfsptypes();
-                            callNext(context, FouzyMultiple());
-                          } else if (index == 1) {
-                            value.getavilmilktypes();
-                            callNext(context, FouzyAvilMilkListScreen());
-                          } else if (index == 2) {
-                            value.fetchIceCreamList();
-                            value.fetchDessertList();
-                            callNext(context, IceCreamListScreen());
-                          } else if (index == 3) {
-                            value.getJuiceShakesAllItems();
-                            callNext(context, Juice_ShakesListScreen());
-                          }
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 28),
-                          child: Container(
-                            height: height / 12,
-                            width: width * .2,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: syellow,
-                              image: const DecorationImage(
-                                image: AssetImage('assets/containerimg.jpg'),
-                                fit: BoxFit.cover,
-                              ),
+            child: Consumer<Mainprovider>(
+              builder: (context,value,child) {
+                return ListView.builder(
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: value.mainCategorylist.length,
+                  itemBuilder: (context, index) {
+                    var items = value.mainCategorylist[index];
+                    return InkWell(
+                      onTap: () {
+                        final value = Provider.of<Mainprovider>(context, listen: false);
+                        if (index == 0) {
+                          value.getfsptypes();
+                          callNext(context, FouzyMultiple());
+                        } else if (index == 1) {
+                          value.getavilmilktypes();
+                          callNext(context, FouzyAvilMilkListScreen());
+                        } else if (index == 2) {
+                          value.fetchIceCreamList();
+                          value.fetchDessertList();
+                          callNext(context, IceCreamListScreen());
+                        } else if (index == 3) {
+                          value.getJuiceShakesAllItems();
+                          callNext(context, Juice_ShakesListScreen());
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 28),
+                        child: Container(
+                          height: height / 12,
+                          width: width * .2,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: syellow,
+                            image: const DecorationImage(
+                              image: AssetImage('assets/containerimg.jpg'),
+                              fit: BoxFit.cover,
                             ),
-                            child: Center(
-                              child: Text(
-                                items.name,
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              items.name,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ),
                         ),
-                      );
-                    },
-                  );
-                }
-              },
-            ),
+                      ),
+                    );
+                  },
+                );
+              }
+            )
           ),
         ),
       ),
@@ -144,23 +133,7 @@ class _HomescreenState extends State<Home_screen> {
   }
 }
 
-// The showExitPopup function remains unchanged
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// The showExitPopup function remains unchanged
 Future<bool> showExitPopup(BuildContext CONTXT) async {
   return await showDialog(
       context: CONTXT,
