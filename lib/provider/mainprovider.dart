@@ -180,7 +180,6 @@ class Mainprovider extends ChangeNotifier {
     db.collection("MAIN_CATEGORY").get().then((value) {
       if (value.docs.isNotEmpty) {
         print("kjhgfdxcvbn");
-              print("Documents found: ${value.docs.length}");
               mainCategorylist.clear();
               for (var element in value.docs) {
                 Map<String, dynamic> getmap = element.data() ;

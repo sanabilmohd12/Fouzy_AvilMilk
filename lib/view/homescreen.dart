@@ -10,26 +10,9 @@ import 'IceCreamList.dart';
 import 'Juice&ShakesList.dart';
 import 'fouzy_multiple.dart';
 
-class Home_screen extends StatefulWidget {
+class Home_screen extends StatelessWidget {
 
   const Home_screen({super.key});
-
-  @override
-
-  State<Home_screen> createState() => _HomescreenState();
-
-}
-
-class _HomescreenState extends State<Home_screen> {
-
-  // late Future<List<MainCategory>> _mainCategoryFuture;
-
-  @override
-
-  void initState() {
-     super.initState();
-    // _mainCategoryFuture = Provider.of<Mainprovider>(context, listen: false).getMainCategoy();
-  }
 
   @override
 
@@ -57,7 +40,7 @@ class _HomescreenState extends State<Home_screen> {
           ),
         ),
         body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
+          // scrollDirection: Axis.vertical,
           child: Container(
             height: height,
             width: width,
@@ -75,13 +58,13 @@ class _HomescreenState extends State<Home_screen> {
                 return ListView.builder(
                   physics: ScrollPhysics(),
                   shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
+
                   itemCount: value.mainCategorylist.length,
                   itemBuilder: (context, index) {
                     var items = value.mainCategorylist[index];
+                    print("vfjvbfjnvjn"+value.mainCategorylist.length.toString());
                     return InkWell(
                       onTap: () {
-                        final value = Provider.of<Mainprovider>(context, listen: false);
                         if (index == 0) {
                           value.getfsptypes();
                           callNext(context, FouzyMultiple());
@@ -132,7 +115,6 @@ class _HomescreenState extends State<Home_screen> {
     );
   }
 }
-
 
 Future<bool> showExitPopup(BuildContext CONTXT) async {
   return await showDialog(

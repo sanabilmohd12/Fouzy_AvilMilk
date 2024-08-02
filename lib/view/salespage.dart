@@ -365,66 +365,55 @@ class SalesScreen extends StatelessWidget {
             ),
           ),
         ),
-        child: FutureBuilder<void>(
-          future: Provider.of<Mainprovider>(context, listen: false).fetchOrderList(onlyDate,endDate2),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              return Consumer<Mainprovider>(
-                builder: (context, provider, child) {
-                  if (provider.OrderList.isEmpty) {
-                    return Center(child: Text('No orders found'));
-                  }
-                  return ScrollableWidget(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                      width: width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: cWhite, width: .8),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: DataTable(
-                          headingRowColor: MaterialStateProperty.all(Colors.white),
-                          columnSpacing: 30,
-                          dataRowHeight: 90,
-                          border: TableBorder.all(
-                            color: Colors.yellow,
-                            width: 3,
-                          ),
-                          columns: const <DataColumn>[
-                            DataColumn(label: Text('Date & Time', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
-                            DataColumn(label: Text('Items Name', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
-                            DataColumn(label: Text('Qty', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
-                            DataColumn(label: Text('Price', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
-                            DataColumn(label: Text('Printed', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
-                          ],
-                          rows: provider.OrderList.expand((order) {
-                            return order.products.entries.map((product) {
-                              return DataRow(
-                                cells: <DataCell>[
-                                  DataCell(Text(order.orderDate, style: TextStyle(color: cWhite))),
-                                  DataCell(Text(product.key, style: TextStyle(color: cWhite))),
-                                  DataCell(Text(product.value.qty, style: TextStyle(color: cWhite))),
-                                  DataCell(Text(product.value.price, style: TextStyle(color: cWhite))),
-                                  DataCell(Text('N/A', style: TextStyle(color: cWhite))), // Add a 'printed' field to your OrderModel if needed
-                                ],
-                              );
-                            }).toList();
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
+        child: Consumer<Mainprovider>(
+          builder: (context, provider, child) {
+            if (provider.OrderList.isEmpty) {
+              return Center(child: Text('No orders found'));
             }
+            return ScrollableWidget(
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                width: width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: cWhite, width: .8),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: DataTable(
+                    headingRowColor: MaterialStateProperty.all(Colors.white),
+                    columnSpacing: 30,
+                    dataRowHeight: 90,
+                    border: TableBorder.all(
+                      color: Colors.yellow,
+                      width: 3,
+                    ),
+                    columns: const <DataColumn>[
+                      DataColumn(label: Text('Date & Time', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
+                      DataColumn(label: Text('Items Name', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
+                      DataColumn(label: Text('Qty', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
+                      DataColumn(label: Text('Price', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
+                      DataColumn(label: Text('Printed', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
+                    ],
+                    rows: provider.OrderList.expand((order) {
+                      return order.products.entries.map((product) {
+                        return DataRow(
+                          cells: <DataCell>[
+                            DataCell(Text(order.orderDate, style: TextStyle(color: cWhite))),
+                            DataCell(Text(product.key, style: TextStyle(color: cWhite))),
+                            DataCell(Text(product.value.qty, style: TextStyle(color: cWhite))),
+                            DataCell(Text(product.value.price, style: TextStyle(color: cWhite))),
+                            DataCell(Text('N/A', style: TextStyle(color: cWhite))), // Add a 'printed' field to your OrderModel if needed
+                          ],
+                        );
+                      }).toList();
+                    }).toList(),
+                  ),
+                ),
+              ),
+            );
           },
-        ),
+        )
       ),
     );
   }

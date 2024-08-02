@@ -131,66 +131,55 @@ class OrderScreen extends StatelessWidget {
             ),
           ),
         ),
-        child: FutureBuilder<void>(
-          future: Provider.of<Mainprovider>(context, listen: false).fetchOrderList(onlyDate,endDate2),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              return  Consumer<Mainprovider>(
-                builder: (context, provider, child) {
-                  if (provider.OrderList.isEmpty) {
-                    return Center(child: Text('No orders found'));
-                  }
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 100.0),
-                    child: ListView.builder(
-                      itemCount: provider.OrderList.length,
-                      itemBuilder: (context, index) {
-                        OrderModel order = provider.OrderList[index];
+        child: Consumer<Mainprovider>(
+          builder: (context, provider, child) {
+            if (provider.OrderList.isEmpty) {
+              return Center(child: Text('No orders found'));
+            }
+            return Padding(
+              padding: EdgeInsets.only(bottom: 100.0),
+              child: ListView.builder(
+                itemCount: provider.OrderList.length,
+                itemBuilder: (context, index) {
+                  OrderModel order = provider.OrderList[index];
+                  return ExpansionTile(
+                    backgroundColor: cYellow,
+                    collapsedBackgroundColor: Colors.white,
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Date: ${order.orderDate}'),
+                        Text('Total: ${order.totalAmount}'),
+                        Text('Order Type: ${order.orderType}'),
+                      ],
+                    ),
+                    children: [
+                      ListTile(title: Text('Order ID: ${order.orderId}')),
+                      ListTile(title: Text('Customer: ${order.customerName}')),
+                      ListTile(title: Text('Date: ${order.orderDate}')),
+                      ListTile(title: Text('Table: ${order.tableNo}')),
+                      ListTile(title: Text('Invoice: ${order.invoiceNo}')),
+                      ListTile(title: Text('Total: ${order.totalAmount}')),
+                      // Display products
+                      ...order.products.entries.map((entry) {
+                        String productName = entry.key;
+                        ProductModel product = entry.value;
                         return ExpansionTile(
-                          backgroundColor: cYellow,
-                          collapsedBackgroundColor: Colors.white,
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Date: ${order.orderDate}'),
-                              Text('Total: ${order.totalAmount}'),
-                              Text('Order Type: ${order.orderType}'),
-                            ],
-                          ),
+                          title: Text(productName),
                           children: [
-                            ListTile(title: Text('Order ID: ${order.orderId}')),
-                            ListTile(title: Text('Customer: ${order.customerName}')),
-                            ListTile(title: Text('Date: ${order.orderDate}')),
-                            ListTile(title: Text('Table: ${order.tableNo}')),
-                            ListTile(title: Text('Invoice: ${order.invoiceNo}')),
-                            ListTile(title: Text('Total: ${order.totalAmount}')),
-                            // Display products
-                            ...order.products.entries.map((entry) {
-                              String productName = entry.key;
-                              ProductModel product = entry.value;
-                              return ExpansionTile(
-                                title: Text(productName),
-                                children: [
-                                  ListTile(title: Text('Quantity: ${product.qty}')),
-                                  ListTile(title: Text('Price: ${product.price}')),
-                                  ListTile(title: Text('Item Total: ${product.itemTotal}')),
-                                ],
-                              );
-                            }).toList(),
+                            ListTile(title: Text('Quantity: ${product.qty}')),
+                            ListTile(title: Text('Price: ${product.price}')),
+                            ListTile(title: Text('Item Total: ${product.itemTotal}')),
                           ],
                         );
-                      },
-                    ),
+                      }).toList(),
+                    ],
                   );
                 },
-              );
-            }
+              ),
+            );
           },
-        ),
+        )
       ),
     );
   }
