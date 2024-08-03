@@ -143,7 +143,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                               print("nkjdaksmd");
                               // provider.getordereddetils();
                               provider.fetchOrderList(onlyDate,endDate2);
-                              print("fsfs"+provider.OrderList.length.toString());
+                              print("fsfs"+provider.orderList.length.toString());
                               setBottomBarIndex(2);
                             },
                           ),

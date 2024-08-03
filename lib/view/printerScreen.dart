@@ -286,7 +286,7 @@ class Printerscreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               String slno= value.cartitemslist.length.toString();
                               var items =value.cartitemslist[index];
-                              print("uytrds"+items.itemsqty);
+                              print("uytrds"+items.qty);
                               return Container(
                                 margin: EdgeInsets.symmetric(horizontal: 15),
                                 width: width,
@@ -309,7 +309,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 250,
 
                                       child: Text(
-                                       items.itemsname,textAlign: TextAlign.center,
+                                       items.itemName,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -320,7 +320,7 @@ class Printerscreen extends StatelessWidget {
                                     SizedBox(
                                       width: 80,
 
-                                      child: Text(items.itemsqty.toString()
+                                      child: Text(items.qty.toString()
                                         ,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
@@ -333,7 +333,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.itemsprice,textAlign: TextAlign.center,
+                                        items.itemPrice,textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -344,7 +344,7 @@ class Printerscreen extends StatelessWidget {
                                       width: 80,
 
                                       child: Text(
-                                        items.totalprice.toString(),textAlign: TextAlign.center,
+                                        items.totalPrice.toString(),textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,

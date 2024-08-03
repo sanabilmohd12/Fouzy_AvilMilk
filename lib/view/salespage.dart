@@ -375,7 +375,7 @@ class SalesScreen extends StatelessWidget {
             } else {
               return Consumer<Mainprovider>(
                 builder: (context, provider, child) {
-                  if (provider.OrderList.isEmpty) {
+                  if (provider.orderList.isEmpty) {
                     return Center(child: Text('No orders found'));
                   }
                   return ScrollableWidget(
@@ -403,7 +403,7 @@ class SalesScreen extends StatelessWidget {
                             DataColumn(label: Text('Price', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
                             DataColumn(label: Text('Printed', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
                           ],
-                          rows: provider.OrderList.expand((order) {
+                          rows: provider.orderList.expand((order) {
                             return order.products.entries.map((product) {
                               return DataRow(
                                 cells: <DataCell>[

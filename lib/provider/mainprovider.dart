@@ -75,20 +75,20 @@ class Mainprovider extends ChangeNotifier {
 
   Future<void> updateItemDetails(int index, String id) async {
     try {
-      double initialPrice = double.parse(cartitemslist[index].itemsprice);
+      double initialPrice = double.parse(cartitemslist[index].itemPrice);
       double newPrice = initialPrice * cartitemslist[index].count;
 
-      cartitemslist[index].totalprice = newPrice.toStringAsFixed(2);
-      cartitemslist[index].itemsqty = cartitemslist[index].count.toString();
+      cartitemslist[index].totalPrice = newPrice.toStringAsFixed(2);
+      cartitemslist[index].qty = cartitemslist[index].count.toString();
 
-      print("Item: ${cartitemslist[index].itemsname}");
+      print("Item: ${cartitemslist[index].itemName}");
       print("Count: ${cartitemslist[index].count}");
-      print("Qty: ${cartitemslist[index].itemsqty}");
-      print("Total Price: ${cartitemslist[index].totalprice}");
+      print("Qty: ${cartitemslist[index].qty}");
+      print("Total Price: ${cartitemslist[index].totalPrice}");
 
       await db.collection("CART").doc(id).set({
-        "TOTAL_PRICE": cartitemslist[index].totalprice,
-        "QTY": cartitemslist[index].itemsqty
+        "TOTAL_PRICE": cartitemslist[index].totalPrice,
+        "QTY": cartitemslist[index].qty
       }, SetOptions(merge: true));
 
       notifyListeners();
@@ -241,34 +241,32 @@ class Mainprovider extends ChangeNotifier {
   void MainCategoryclear() {
     addCategorynameCt.clear();
   }
-
   List<MainCategory> mainCategorylist = [];
-
-
-
-
   bool getloader = false;
 
-  void getMainCategoy(){
-    print("hhhhhhhhhhhhhhhhh");
+  void getMainCategoy() {
+    getloader = true;
+    notifyListeners();
+
     db.collection("MAIN_CATEGORY").get().then((value) {
       if (value.docs.isNotEmpty) {
-        print("kjhgfdxcvbn");
-              print("Documents found: ${value.docs.length}");
-              mainCategorylist.clear();
-              for (var element in value.docs) {
-                Map<String, dynamic> getmap = element.data() ;
-                mainCategorylist.add(MainCategory(
-                              getmap["MAIN_CATEGORY_ID"].toString(),
-                              getmap["MAIN_CATEGORY_NAME"].toString(),
-                            ));
-                notifyListeners();
-
-              }}
-    },);
+        print("Documents found: ${value.docs.length}");
+        mainCategorylist.clear();
+        for (var element in value.docs) {
+          Map<String, dynamic> getmap = element.data();
+          mainCategorylist.add(MainCategory(
+            getmap["MAIN_CATEGORY_ID"].toString(),
+            getmap["MAIN_CATEGORY_NAME"].toString(),
+          ));
+        }
+      }
+      getloader = false;
       notifyListeners();
-
-
+    }).catchError((error) {
+      getloader = false;
+      notifyListeners();
+      print("Error fetching data: $error");
+    });
   }
 
   // Future<List<MainCategory>> getMainCategoy() async {
@@ -769,7 +767,7 @@ class Mainprovider extends ChangeNotifier {
 
   Future<void> getavilmilktypes() async {
     getavilloader = true;
-    notifyListeners();
+    // notifyListeners();
     db.collection("AVIL_MILK").get().then((value) {
       if (value.docs.isNotEmpty) {
         getavilloader = false;
@@ -1016,8 +1014,9 @@ class Mainprovider extends ChangeNotifier {
     juiceshakesitemslist.clear();
     print("dcdc");
     getjuiceshakeslistloader = true;
-    notifyListeners();
+    // notifyListeners();
     db
+
         .collection("JUICE_SHAKES_ITEMS")
         .where("JUICE_SHAKES_CATEGORY_ID", isEqualTo: juicetypeid)
         .get()
@@ -1179,7 +1178,7 @@ class Mainprovider extends ChangeNotifier {
 
   void getIceCreamCategoy() async {
     geticecatloader = true;
-    notifyListeners();
+    // notifyListeners();
     db.collection("ICE_CREAM_CATEGORY").get().then((value) {
       if (value.docs.isNotEmpty) {
         geticecatloader = false;
@@ -1692,7 +1691,7 @@ class Mainprovider extends ChangeNotifier {
     print("Fetching cart items...");
     try {
       getcart = true;
-      notifyListeners();
+      // notifyListeners();
 
       final QuerySnapshot snapshot = await db.collection("CART").get();
 
@@ -1709,16 +1708,18 @@ class Mainprovider extends ChangeNotifier {
           cartitemslist.add(CartItemsDetails(
             cartData["CART_ID"].toString(),
             dateString,
+            // DateFormat("dd-MM-yyyy hh:mm a")
+            //     .format(cartData["DATE_TIME"].toDate()),
             cartData["ITEMS_CATEGORY"].toString(),
             cartData["ITEMS_ID"].toString(),
-            DateFormat("dd-MM-yyyy hh:mm a")
-                .format(cartData["DATE_TIME"].toDate()),
-            cartData["TOTAL_PRICE"].toString(),
             cartData["ITEMS_NAME"].toString(),
             cartData["ITEMS_PHOTO"]??"",
-            cartData["ITEMS_PRICE"].toString(),
-            cartData["QTY"].toString(),
+            cartData["ITEMS_PRICE"].toString() ,
+
             cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
+
+            cartData["TOTAL_PRICE"].toString(),
+            cartData["QTY"].toString(),
           ));
         }
         print("Cart items fetched: ${cartitemslist.length}");
@@ -1739,7 +1740,7 @@ class Mainprovider extends ChangeNotifier {
       print("Deleting item with id: $id");
 
       // Remove the item from the local list
-      int indexToRemove = cartitemslist.indexWhere((item) => item.id == id);
+      int indexToRemove = cartitemslist.indexWhere((item) => item.cartId == id);
       if (indexToRemove != -1) {
         cartitemslist.removeAt(indexToRemove);
         notifyListeners(); // Update UI immediately
@@ -1834,7 +1835,7 @@ class Mainprovider extends ChangeNotifier {
   double getTotalPrice() {
     double total = 0.0;
     for (var item in cartitemslist) {
-      total += double.parse(item.itemsprice);
+      total += double.parse(item.itemPrice);
     }
     return total;
   }
@@ -1919,7 +1920,7 @@ class Mainprovider extends ChangeNotifier {
   List<CartItemsDetails> cartitemscountlist = [];
 
   void updateItemQuantity(String cartId, int newQuantity) {
-    var index = cartitemscountlist.indexWhere((item) => item.id == cartId);
+    var index = cartitemscountlist.indexWhere((item) => item.itemId == cartId);
     if (index != -1 && newQuantity > 0) {
       cartitemscountlist[index].count = newQuantity;
       notifyListeners();
@@ -2470,11 +2471,11 @@ class Mainprovider extends ChangeNotifier {
 
     for (var element in cartList) {
       Map<String, dynamic> itemMap = {
-        "Qty": element.itemsqty,
-        "Price": element.itemsprice,
-        "Item Total": element.totalprice
+        "Qty": element.qty,
+        "Price": element.itemPrice,
+        "Item Total": element.totalPrice
       };
-      productsMap[element.itemsname] = itemMap;
+      productsMap[element.itemName] = itemMap;
     }
 
     map["ORDER_ID"] = id;
@@ -2513,39 +2514,48 @@ class Mainprovider extends ChangeNotifier {
 //       }).toList();
 //     });
 //   }
-  List<OrderModel> OrderList = [];
+
+  List<OrderModel> orderList = [];
   bool orderLoader = false;
+  bool _disposed = false;
 
-  Future<void> fetchOrderList(
-    DateTime date1,
-    DateTime date2,
-  ) async {
-    orderLoader = true;
-    notifyListeners();
+  Future<void> fetchOrderList(DateTime date1, DateTime date2) async {
+  if (_disposed) return;
 
-    try {
-      QuerySnapshot querySnapshot = await db
-          .collection("ORDERS")
-          .where("ORDER_DATE", isGreaterThan: date1)
-          .where("ORDER_DATE", isLessThan: date2)
-          .get();
+  orderLoader = true;
+  // notifyListeners();
 
-      if (querySnapshot.docs.isNotEmpty) {
-        orderLoader = false;
-        OrderList.clear();
+  try {
+  QuerySnapshot querySnapshot = await db
+      .collection("ORDERS")
+      .where("ORDER_DATE", isGreaterThan: date1)
+      .where("ORDER_DATE", isLessThan: date2)
+      .get();
 
-        for (var doc in querySnapshot.docs) {
-          Map<String, dynamic> getmap = doc.data() as Map<String, dynamic>;
-          OrderList.add(OrderModel.fromMap(getmap));
-        }
-      } else {
-        orderLoader = false;
-      }
-    } catch (error) {
-      print("Error fetching orders: $error");
-      orderLoader = false;
-    } finally {
-      notifyListeners();
-    }
+  if (_disposed) return;
+
+  orderList.clear();
+  if (querySnapshot.docs.isNotEmpty) {
+  for (var doc in querySnapshot.docs) {
+  Map<String, dynamic> getmap = doc.data() as Map<String, dynamic>;
+  orderList.add(OrderModel.fromMap(getmap));
   }
-}
+  }
+  } catch (error) {
+  print("Error fetching orders: $error");
+  } finally {
+  if (!_disposed) {
+  orderLoader = false;
+  notifyListeners();
+  }
+  }
+  }
+
+  @override
+  void dispose() {
+  _disposed = true;
+  super.dispose();
+  }
+  }
+
+

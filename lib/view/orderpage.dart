@@ -141,15 +141,15 @@ class OrderScreen extends StatelessWidget {
             } else {
               return  Consumer<Mainprovider>(
                 builder: (context, provider, child) {
-                  if (provider.OrderList.isEmpty) {
-                    return Center(child: Text('No orders found'));
+                  if (provider.orderList.isEmpty) {
+                    return const Center(child: Text('No orders found'));
                   }
                   return Padding(
                     padding: EdgeInsets.only(bottom: 100.0),
                     child: ListView.builder(
-                      itemCount: provider.OrderList.length,
+                      itemCount: provider.orderList.length,
                       itemBuilder: (context, index) {
-                        OrderModel order = provider.OrderList[index];
+                        OrderModel order = provider.orderList[index];
                         return ExpansionTile(
                           backgroundColor: cYellow,
                           collapsedBackgroundColor: Colors.white,

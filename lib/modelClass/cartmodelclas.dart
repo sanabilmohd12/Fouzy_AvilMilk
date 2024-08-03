@@ -30,6 +30,8 @@ class CartItemsDetails {
       this.qty,
       ) ;
 
+
+
 }
 
 // import 'dart:io';
