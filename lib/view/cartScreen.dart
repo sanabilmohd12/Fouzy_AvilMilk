@@ -326,7 +326,8 @@ class Cart_Screen extends StatelessWidget {
                                     children: [
                                       Container(
                                         width: width,
-                                        height: 250,
+
+                                        // color: Colors.red,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
@@ -350,7 +351,7 @@ class Cart_Screen extends StatelessWidget {
                                                 )
                                             ),
                                             items.itemPhoto!=""?
-                                            Image.network(items.itemPhoto):Image.asset("assets/Sundae (1).png"),
+                                            Image.network(items.itemPhoto,scale: 4,):Image.asset("assets/Sundae (1).png"),
 
                                             Align(
                                               alignment: Alignment.topRight,
@@ -417,38 +418,35 @@ class Cart_Screen extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: height / 26,
-                                        child: ListTile(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.vertical(
-                                                      bottom:
-                                                          Radius.circular(30))),
-                                          tileColor: Color(0xfff9ea1f),
-                                          leading: IconButton(
-                                              onPressed: () {
-                                                value.countDecrement(
-                                                    index, items.cartId);
-                                              },
-                                              icon: const Icon(
-                                                CustomIcons.minus_circle,
-                                                color: Colors.red,
-                                              )),
-                                          title: Center(
-                                            child: text(items.count.toString(),
-                                                FontWeight.w400, cgreen, 20),
-                                          ),
-                                          trailing: IconButton(
-                                              onPressed: () {
-                                                value.countIncrement(
-                                                    index, items.cartId);
-                                              },
-                                              icon: Icon(
-                                                CustomIcons.plus_circle,
-                                                color: cgreen,
-                                              )),
+                                      ListTile(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.vertical(
+                                                    bottom:
+                                                        Radius.circular(30))),
+                                        tileColor: Color(0xfff9ea1f),
+                                        leading: IconButton(
+                                            onPressed: () {
+                                              value.countDecrement(
+                                                  index, items.cartId);
+                                            },
+                                            icon: const Icon(
+                                              CustomIcons.minus_circle,
+                                              color: Colors.red,
+                                            )),
+                                        title: Center(
+                                          child: text(items.count.toString(),
+                                              FontWeight.w400, cgreen, 20),
                                         ),
+                                        trailing: IconButton(
+                                            onPressed: () {
+                                              value.countIncrement(
+                                                  index, items.cartId);
+                                            },
+                                            icon: Icon(
+                                              CustomIcons.plus_circle,
+                                              color: cgreen,
+                                            )),
                                       )
                                     ],
                                   ),

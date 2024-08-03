@@ -48,6 +48,7 @@ class Mainprovider extends ChangeNotifier {
   void selectindex(int index) {
     _selectedindex = index;
     notifyListeners();
+
   }
 
   /// Count
@@ -263,9 +264,9 @@ class Mainprovider extends ChangeNotifier {
               }}
     },);
       notifyListeners();
-      print("Error fetching data: $error");
-    });
-  }
+
+    }
+
 
   // Future<List<MainCategory>> getMainCategoy() async {
   //   print("Starting getMainCategory function");
@@ -343,6 +344,7 @@ class Mainprovider extends ChangeNotifier {
 
   Future<void> addfspAvilMilk(
       BuildContext context1, String from, String oldId) async {
+
     print('zkxhckzxckjzj');
 
     fsploader = true;
@@ -2551,9 +2553,8 @@ class Mainprovider extends ChangeNotifier {
 
   @override
   void dispose() {
-  _disposed = true;
-  super.dispose();
+    _disposed = true;
+    super.dispose();
   }
-  }
-
+}
 
