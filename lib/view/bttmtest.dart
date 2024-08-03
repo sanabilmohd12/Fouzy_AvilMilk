@@ -106,6 +106,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                               size: 30,
                             ),
                             onPressed: () {
+                              provider.getMainCategoy();
                               print("ffvfvfv" +
 
                                   provider.mainCategorylist.length.toString());

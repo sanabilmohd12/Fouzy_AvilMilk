@@ -285,10 +285,10 @@ class Cart_Screen extends StatelessWidget {
           ),
         ),
       ),
-      body:  Container(
+      body: Container(
               height: height,
               width: width,
-             decoration: ShapeDecoration(
+              decoration: ShapeDecoration(
                 color: cgreen,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
