@@ -48,7 +48,6 @@ class Mainprovider extends ChangeNotifier {
   void selectindex(int index) {
     _selectedindex = index;
     notifyListeners();
-
   }
 
   /// Count
@@ -237,11 +236,10 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   void MainCategoryclear() {
     addCategorynameCt.clear();
   }
+
   List<MainCategory> mainCategorylist = [];
   bool getloader = false;
 
@@ -249,24 +247,24 @@ class Mainprovider extends ChangeNotifier {
     getloader = true;
     notifyListeners();
 
-    db.collection("MAIN_CATEGORY").get().then((value) {
-      if (value.docs.isNotEmpty) {
-        print("kjhgfdxcvbn");
-              mainCategorylist.clear();
-              for (var element in value.docs) {
-                Map<String, dynamic> getmap = element.data() ;
-                mainCategorylist.add(MainCategory(
-                              getmap["MAIN_CATEGORY_ID"].toString(),
-                              getmap["MAIN_CATEGORY_NAME"].toString(),
-                            ));
-                notifyListeners();
-
-              }}
-    },);
-      notifyListeners();
-
-    }
-
+    db.collection("MAIN_CATEGORY").get().then(
+      (value) {
+        if (value.docs.isNotEmpty) {
+          print("kjhgfdxcvbn");
+          mainCategorylist.clear();
+          for (var element in value.docs) {
+            Map<String, dynamic> getmap = element.data();
+            mainCategorylist.add(MainCategory(
+              getmap["MAIN_CATEGORY_ID"].toString(),
+              getmap["MAIN_CATEGORY_NAME"].toString(),
+            ));
+            notifyListeners();
+          }
+        }
+      },
+    );
+    notifyListeners();
+  }
 
   // Future<List<MainCategory>> getMainCategoy() async {
   //   print("Starting getMainCategory function");
@@ -344,7 +342,6 @@ class Mainprovider extends ChangeNotifier {
 
   Future<void> addfspAvilMilk(
       BuildContext context1, String from, String oldId) async {
-
     print('zkxhckzxckjzj');
 
     fsploader = true;
@@ -449,30 +446,31 @@ class Mainprovider extends ChangeNotifier {
   List<Fouzysp> fspavilmilklist = [];
   List<Fouzysp> filterfspavilmilklist = [];
 
- void getfsptypes() async {
+  void getfsptypes() async {
     print("asdfghjkl");
 
-    db.collection("FSPAVIL_MILK").get().then((value) {
-      if(value.docs.isNotEmpty){
-        for(var element in value.docs){
-          print("lllllllllllllllll");
-          fspavilmilklist.clear();
-          Map<String, dynamic> data = element.data() ;
+    db.collection("FSPAVIL_MILK").get().then(
+      (value) {
+        if (value.docs.isNotEmpty) {
+          for (var element in value.docs) {
+            print("lllllllllllllllll");
+            fspavilmilklist.clear();
+            Map<String, dynamic> data = element.data();
             fspavilmilklist.add(Fouzysp(
-            data["FSPAVIL_MILK_ID"].toString(),
-            data["FOUZY_SPECIALS"] .toString(),
-            data["FSP_AVIL_MILK_PRICE"].toString(),
-            data["FSP_DISCRETION"].toString(),
-            data["FSP_AVILMILK_CATEGORY"] .toString(),
-            data["MAIN_CATEGORY"] .toString(),
-            data["MAIN_CATEGORY_ID"].toString(),
-            data["FSpAVILMILK_PHOTO"] .toString(),
-          ));
-          notifyListeners();
+              data["FSPAVIL_MILK_ID"].toString(),
+              data["FOUZY_SPECIALS"].toString(),
+              data["FSP_AVIL_MILK_PRICE"].toString(),
+              data["FSP_DISCRETION"].toString(),
+              data["FSP_AVILMILK_CATEGORY"].toString(),
+              data["MAIN_CATEGORY"].toString(),
+              data["MAIN_CATEGORY_ID"].toString(),
+              data["FSpAVILMILK_PHOTO"].toString(),
+            ));
+            notifyListeners();
+          }
         }
-      }
-
-    },);
+      },
+    );
     //
     // try {
     //
@@ -563,7 +561,7 @@ class Mainprovider extends ChangeNotifier {
       fsploader = false;
       notifyListeners();
     }
-  }
+      }
 
   void editFSPAvilMilk(String id, BuildContext context) {
     db.collection('FSPAVIL_MILK').doc(id).get().then((value) {
@@ -915,7 +913,9 @@ class Mainprovider extends ChangeNotifier {
         }
       }
     });
+
     notifyListeners();
+
   }
 
   void deleteJucieCategory(String id, BuildContext context) {
@@ -939,8 +939,11 @@ class Mainprovider extends ChangeNotifier {
         juciecategoryCt.text = dataMaps["JUICE_CATEGORY_NAME"].toString();
         MainCategoryjucieyCt.text = dataMaps["MAIN_CATEGORY"].toString();
       }
+
       notifyListeners();
+
     });
+
     getJucieCategory();
 
     notifyListeners();
@@ -1012,11 +1015,10 @@ class Mainprovider extends ChangeNotifier {
 
   void getJuiceShakesItems(String juicetypeid) {
     juiceshakesitemslist.clear();
-    print("dcdc");
+    print("heloooooooi");
     getjuiceshakeslistloader = true;
     // notifyListeners();
     db
-
         .collection("JUICE_SHAKES_ITEMS")
         .where("JUICE_SHAKES_CATEGORY_ID", isEqualTo: juicetypeid)
         .get()
@@ -1687,6 +1689,7 @@ class Mainprovider extends ChangeNotifier {
   List<CartItemsDetails> cartitemslist = [];
   bool getcart = false;
   String slno = "";
+
   Future<void> getCartItems() async {
     print("Fetching cart items...");
     try {
@@ -1695,11 +1698,11 @@ class Mainprovider extends ChangeNotifier {
 
       final QuerySnapshot snapshot = await db.collection("CART").get();
 
-      // cartitemslist.clear();
 
       if (snapshot.docs.isNotEmpty) {
-        for (var doc in snapshot.docs) {
+        cartitemslist.clear();
 
+        for (var doc in snapshot.docs) {
           Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
 
           DateTime dateTime = cartData["DATE_TIME"].toDate();
@@ -1713,8 +1716,8 @@ class Mainprovider extends ChangeNotifier {
             cartData["ITEMS_CATEGORY"].toString(),
             cartData["ITEMS_ID"].toString(),
             cartData["ITEMS_NAME"].toString(),
-            cartData["ITEMS_PHOTO"]??"",
-            cartData["ITEMS_PRICE"].toString() ,
+            cartData["ITEMS_PHOTO"] ?? "",
+            cartData["ITEMS_PRICE"].toString(),
 
             cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
 
@@ -2172,8 +2175,7 @@ class Mainprovider extends ChangeNotifier {
               button: button,
               ADDRESS: ADDRESS,
             ),
-          )
-          );
+          ));
         }
       }
     });
@@ -2520,35 +2522,35 @@ class Mainprovider extends ChangeNotifier {
   bool _disposed = false;
 
   Future<void> fetchOrderList(DateTime date1, DateTime date2) async {
-  if (_disposed) return;
+    if (_disposed) return;
 
-  orderLoader = true;
-  // notifyListeners();
+    orderLoader = true;
+    // notifyListeners();
 
-  try {
-  QuerySnapshot querySnapshot = await db
-      .collection("ORDERS")
-      .where("ORDER_DATE", isGreaterThan: date1)
-      .where("ORDER_DATE", isLessThan: date2)
-      .get();
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection("ORDERS")
+          .where("ORDER_DATE", isGreaterThan: date1)
+          .where("ORDER_DATE", isLessThan: date2)
+          .get();
 
-  if (_disposed) return;
+      if (_disposed) return;
 
-  orderList.clear();
-  if (querySnapshot.docs.isNotEmpty) {
-  for (var doc in querySnapshot.docs) {
-  Map<String, dynamic> getmap = doc.data() as Map<String, dynamic>;
-  orderList.add(OrderModel.fromMap(getmap));
-  }
-  }
-  } catch (error) {
-  print("Error fetching orders: $error");
-  } finally {
-  if (!_disposed) {
-  orderLoader = false;
-  notifyListeners();
-  }
-  }
+      orderList.clear();
+      if (querySnapshot.docs.isNotEmpty) {
+        for (var doc in querySnapshot.docs) {
+          Map<String, dynamic> getmap = doc.data() as Map<String, dynamic>;
+          orderList.add(OrderModel.fromMap(getmap));
+        }
+      }
+    } catch (error) {
+      print("Error fetching orders: $error");
+    } finally {
+      if (!_disposed) {
+        orderLoader = false;
+        notifyListeners();
+      }
+    }
   }
 
   @override
@@ -2557,4 +2559,3 @@ class Mainprovider extends ChangeNotifier {
     super.dispose();
   }
 }
-
