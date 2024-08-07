@@ -367,7 +367,7 @@ class SalesScreen extends StatelessWidget {
         ),
         child: Consumer<Mainprovider>(
           builder: (context, provider, child) {
-            if (provider.orderList.isEmpty) {
+            if (provider.salesreportlist.isEmpty) {
               return Center(child: Text('No orders found'));
             }
             return ScrollableWidget(
@@ -389,29 +389,34 @@ class SalesScreen extends StatelessWidget {
                       width: 3,
                     ),
                     columns: const <DataColumn>[
+                      DataColumn(label: Text('SL\n no', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
                       DataColumn(label: Text('Date & Time', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
-                      DataColumn(label: Text('Items Name', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
-                      DataColumn(label: Text('Qty', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
-                      DataColumn(label: Text('Price', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
+                      DataColumn(label: Text('Invoice NO', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
+                      DataColumn(label: Text('Total Amount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
+                      DataColumn(label: Text('Order Type', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
                       DataColumn(label: Text('Printed', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
                     ],
-                    rows: provider.orderList.expand((order) {
-                      return order.products.entries.map((product) {
+                    rows: List<DataRow>.generate(
+                      provider.salesreportlist.length,
+                          (index) {
+                        final data = provider.salesreportlist[index];
                         return DataRow(
                           cells: <DataCell>[
-                            DataCell(Text(order.orderDate, style: TextStyle(color: cWhite))),
-                            DataCell(Text(product.key, style: TextStyle(color: cWhite))),
-                            DataCell(Text(product.value.qty, style: TextStyle(color: cWhite))),
-                            DataCell(Text(product.value.price, style: TextStyle(color: cWhite))),
+                            DataCell(Text("${index + 1}", style: TextStyle(color: cWhite))),
+                            DataCell(Text(data.orderdate, style: TextStyle(color: cWhite))),
+                            DataCell(Text(data.invoicenumber, style: TextStyle(color: cWhite))),
+                            DataCell(Text(data.totalamount, style: TextStyle(color: cWhite))),
+                            DataCell(Text(data.ordertype, style: TextStyle(color: cWhite))),
                             DataCell(Text('N/A', style: TextStyle(color: cWhite))), // Add a 'printed' field to your OrderModel if needed
                           ],
                         );
-                      }).toList();
-                    }).toList(),
+                      },
+                    ),
                   ),
                 ),
               ),
             );
+
           },
         )
       ),

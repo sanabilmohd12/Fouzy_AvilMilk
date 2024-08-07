@@ -142,39 +142,40 @@ class OrderScreen extends StatelessWidget {
                 itemCount: provider.orderList.length,
                 itemBuilder: (context, index) {
                   OrderModel order = provider.orderList[index];
-                  return ExpansionTile(
-                    backgroundColor: cYellow,
-                    collapsedBackgroundColor: Colors.white,
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Date: ${order.orderDate}'),
-                        Text('Total: ${order.totalAmount}'),
-                        Text('Order Type: ${order.orderType}'),
-                      ],
-                    ),
-                    children: [
-                      ListTile(title: Text('Order ID: ${order.orderId}')),
-                      ListTile(title: Text('Customer: ${order.customerName}')),
-                      ListTile(title: Text('Date: ${order.orderDate}')),
-                      ListTile(title: Text('Table: ${order.tableNo}')),
-                      ListTile(title: Text('Invoice: ${order.invoiceNo}')),
-                      ListTile(title: Text('Total: ${order.totalAmount}')),
-                      // Display products
-                      ...order.products.entries.map((entry) {
-                        String productName = entry.key;
-                        ProductModel product = entry.value;
-                        return ExpansionTile(
-                          title: Text(productName),
-                          children: [
-                            ListTile(title: Text('Quantity: ${product.qty}')),
-                            ListTile(title: Text('Price: ${product.price}')),
-                            ListTile(title: Text('Item Total: ${product.itemTotal}')),
-                          ],
-                        );
-                      }).toList(),
-                    ],
-                  );
+                  return  Text("kjhgfdcvbnm,");
+                  //   ExpansionTile(
+                  //   backgroundColor: cYellow,
+                  //   collapsedBackgroundColor: Colors.white,
+                  //   title: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text('Date: ${order.orderDate}'),
+                  //       Text('Total: ${order.totalAmount}'),
+                  //       Text('Order Type: ${order.orderType}'),
+                  //     ],
+                  //   ),
+                  //   children: [
+                  //     ListTile(title: Text('Order ID: ${order.orderId}')),
+                  //     ListTile(title: Text('Customer: ${order.customerName}')),
+                  //     ListTile(title: Text('Date: ${order.orderDate}')),
+                  //     ListTile(title: Text('Table: ${order.tableNo}')),
+                  //     ListTile(title: Text('Invoice: ${order.invoiceNo}')),
+                  //     ListTile(title: Text('Total: ${order.totalAmount}')),
+                  //     // Display products
+                  //     ...order.products.entries.map((entry) {
+                  //       String productName = entry.key;
+                  //       ProductModel product = entry.value;
+                  //       return ExpansionTile(
+                  //         title: Text(productName),
+                  //         children: [
+                  //           ListTile(title: Text('Quantity: ${product.qty}')),
+                  //           ListTile(title: Text('Price: ${product.price}')),
+                  //           ListTile(title: Text('Item Total: ${product.itemTotal}')),
+                  //         ],
+                  //       );
+                  //     }).toList(),
+                  //   ],
+                  // );
                 },
               ),
             );

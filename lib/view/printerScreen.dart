@@ -410,6 +410,7 @@ class Printerscreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: height/5),
                             child: ElevatedButton(
                               onPressed: () async {
+                                mainProvider.cartitemslist.clear();
                                 try {
                                   bool isConnected = await printerProvider.testPrinterConnection(
                                       printerProvider.Ip,
@@ -421,16 +422,9 @@ class Printerscreen extends StatelessWidget {
                                     double totalPrice = mainProvider.getTotalPrice();
 
                                     // Print the invoice
+
                                     await printerProvider.printInvoice(
-                                      context,
-                                      name: name,
-                                      deskno: deskno,
-                                      ordertype: ordertype,
-                                      datetime: datetime,
-                                      itemslist: mainProvider.cartitemslist,
-                                      invoiceNumber: '000${mainProvider.orderCount}',
-                                      totalPrice: totalPrice,
-                                    );
+                                      context, name: name, deskno: deskno, ordertype: ordertype, datetime: datetime, itemslist: mainProvider.cartitemslist, invoiceNumber: '000${mainProvider.orderCount}', totalPrice: totalPrice,);
 
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text('Printing completed successfully.')),

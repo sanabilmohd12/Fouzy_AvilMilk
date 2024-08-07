@@ -78,7 +78,9 @@ class JuciesAndShakesList extends StatelessWidget {
             children: [
               Consumer<Mainprovider>(
                 builder: (context,value,child) {
-                  return ListView.builder(
+                  return value.getjuiceshakeslistloader?Center(child: CircularProgressIndicator(color: Colors.green,)):
+                      value.juiceshakesitemslist.length>0?
+                  ListView.builder(
                     physics: ScrollPhysics(),
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
@@ -222,7 +224,7 @@ class JuciesAndShakesList extends StatelessWidget {
 
                       );
                     },
-                  );
+                  ):Text("The list is empty");
                 }
               ),
             ],

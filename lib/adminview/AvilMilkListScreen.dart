@@ -70,7 +70,8 @@ class Avil_Milk_Screen extends StatelessWidget {
         body:SingleChildScrollView(
           child: Consumer<Mainprovider>(
             builder: (context, value, child) {
-              return GridView.builder(
+              return value.getavilloader?Center(child: CircularProgressIndicator(color: Colors.green,)):
+              value.avilmilklist.length>0?GridView.builder(
                   itemCount: value.avilmilklist.length,
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
@@ -270,7 +271,7 @@ class Avil_Milk_Screen extends StatelessWidget {
                       ),
                     );
                   }
-              );
+              ):const Text("The list is empty");
             },
           ),
         )

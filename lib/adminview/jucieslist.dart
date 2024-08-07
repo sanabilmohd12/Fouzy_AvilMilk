@@ -63,164 +63,155 @@ class jucieslistScreen extends StatelessWidget {
             18,
           ),
         ),
-        body: FutureBuilder(
-          future: Provider.of<Mainprovider>(context, listen: false).getJuiceShakesAllItems(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text("Error: ${snapshot.error}"));
-            } else {
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Consumer<Mainprovider>(
-                      builder: (context, value, child) {
-                        return ListView.builder(
-                          physics: ScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: value.juciecategorylist.length,
-                          itemBuilder: (context, index) {
-                            var item = value.juciecategorylist[index];
-                            return InkWell(
-                              onTap: () {
-                                value.getJuiceShakesItems(value.juciecategorylist[index].id);
-                                callNext(context, JuciesAndShakesList(
-                                  jucietypeid: value.juciecategorylist[index].id,
-                                  jucietypename: value.juciecategorylist[index].name,
-                                  maincategoryid: value.juciecategorylist[index].maincatoryid,
-                                ));
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                width: width,
-                                height: height * .12,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: cWhite,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    FittedBox(child: text(item.name, FontWeight.w500, cgreen, 20)),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(),
-                                        Row(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) => AlertDialog(
-                                                    content: Text("Do you want to DELETE ?",
-                                                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: cBlack)),
-                                                    actions: <Widget>[
-                                                      Center(
-                                                        child: TextButton(
-                                                          onPressed: () {
-                                                            value.deleteJucieCategory(item.id, context);
-                                                            Navigator.of(context).pop();
-                                                          },
-                                                          child: Container(
-                                                            height: 45,
-                                                            width: 90,
-                                                            decoration: BoxDecoration(
-                                                              color: myRed,
-                                                              borderRadius: BorderRadius.circular(8),
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                  color: Color(0x26000000),
-                                                                  blurRadius: 2.0,
-                                                                  spreadRadius: 1.0,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            child: Center(
-                                                              child: Text("Delete",
-                                                                style: TextStyle(color: cWhite, fontSize: 17, fontWeight: FontWeight.w700),
-                                                              ),
-                                                            ),
+        body:  SingleChildScrollView(
+          child: Column(
+            children: [
+              Consumer<Mainprovider>(
+                builder: (context, value, child) {
+                  return value.getjuciecategoryloader? Center(child: CircularProgressIndicator(color: Colors.green,)):
+                  value.juciecategorylist.length>0?
+                  ListView.builder(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: value.juciecategorylist.length,
+                    itemBuilder: (context, index) {
+                      var item = value.juciecategorylist[index];
+                      return InkWell(
+                        onTap: () {
+                          value.getJuiceShakesItems(value.juciecategorylist[index].id);
+                          callNext(context, JuciesAndShakesList(
+                            jucietypeid: value.juciecategorylist[index].id,
+                            jucietypename: value.juciecategorylist[index].name,
+                            maincategoryid: value.juciecategorylist[index].maincatoryid,
+                          ));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          width: width,
+                          height: height * .12,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: cWhite,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              FittedBox(child: text(item.name, FontWeight.w500, cgreen, 20)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(),
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              content: Text("Do you want to DELETE ?",
+                                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: cBlack)),
+                                              actions: <Widget>[
+                                                Center(
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      value.deleteJucieCategory(item.id, context);
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                    child: Container(
+                                                      height: 45,
+                                                      width: 90,
+                                                      decoration: BoxDecoration(
+                                                        color: myRed,
+                                                        borderRadius: BorderRadius.circular(8),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Color(0x26000000),
+                                                            blurRadius: 2.0,
+                                                            spreadRadius: 1.0,
                                                           ),
+                                                        ],
+                                                      ),
+                                                      child: Center(
+                                                        child: Text("Delete",
+                                                          style: TextStyle(color: cWhite, fontSize: 17, fontWeight: FontWeight.w700),
                                                         ),
                                                       ),
-                                                    ],
+                                                    ),
                                                   ),
-                                                );
-                                              },
-                                              child: btn(20, 60, cWhite, "Delete", myRed, FontWeight.w500, 12, Icons.delete_outline),
+                                                ),
+                                              ],
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) => AlertDialog(
-                                                    content: Text("Do you want to EDIT ?",
-                                                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: cBlack)),
-                                                    actions: <Widget>[
-                                                      Center(
-                                                        child: TextButton(
-                                                          onPressed: () {
-                                                            print("dbjhbd" + item.id);
-                                                            value.editJucieCategory(item.id, context);
-                                                            callNext(
-                                                              context,
-                                                              AddJucieCategory(
-                                                                juicefrom: "EDIT",
-                                                                jucieoldid: item.id,
-                                                              ),
-                                                            );
-                                                          },
-                                                          child: Container(
-                                                            height: 45,
-                                                            width: 90,
-                                                            decoration: BoxDecoration(
-                                                              color: cgreen,
-                                                              borderRadius: BorderRadius.circular(8),
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                  color: Color(0x26000000),
-                                                                  blurRadius: 2.0,
-                                                                  spreadRadius: 1.0,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            child: Center(
-                                                              child: Text("Edit",
-                                                                style: TextStyle(color: cWhite, fontSize: 17, fontWeight: FontWeight.w700),
-                                                              ),
-                                                            ),
+                                          );
+                                        },
+                                        child: btn(20, 60, cWhite, "Delete", myRed, FontWeight.w500, 12, Icons.delete_outline),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              content: Text("Do you want to EDIT ?",
+                                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: cBlack)),
+                                              actions: <Widget>[
+                                                Center(
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      print("dbjhbd" + item.id);
+                                                      value.editJucieCategory(item.id, context);
+                                                      callNext(
+                                                        context,
+                                                        AddJucieCategory(
+                                                          juicefrom: "EDIT",
+                                                          jucieoldid: item.id,
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      height: 45,
+                                                      width: 90,
+                                                      decoration: BoxDecoration(
+                                                        color: cgreen,
+                                                        borderRadius: BorderRadius.circular(8),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Color(0x26000000),
+                                                            blurRadius: 2.0,
+                                                            spreadRadius: 1.0,
                                                           ),
+                                                        ],
+                                                      ),
+                                                      child: Center(
+                                                        child: Text("Edit",
+                                                          style: TextStyle(color: cWhite, fontSize: 17, fontWeight: FontWeight.w700),
                                                         ),
                                                       ),
-                                                    ],
+                                                    ),
                                                   ),
-                                                );
-                                              },
-                                              child: btn(20, 60, cWhite, "Edit", cgreen, FontWeight.w500, 12, Icons.edit_outlined),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 2),
-                                  ],
-                                ),
+                                          );
+                                        },
+                                        child: btn(20, 60, cWhite, "Edit", cgreen, FontWeight.w500, 12, Icons.edit_outlined),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
-            }
-          },
-        ),
+                              SizedBox(height: 2),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ):Text("The list is empty");
+                },
+              ),
+            ],
+          ),
+        )
       ),
     );
   }

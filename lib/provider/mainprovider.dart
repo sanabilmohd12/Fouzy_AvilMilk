@@ -449,8 +449,7 @@ class Mainprovider extends ChangeNotifier {
   void getfsptypes() async {
     print("asdfghjkl");
 
-    db.collection("FSPAVIL_MILK").get().then(
-      (value) {
+    db.collection("FSPAVIL_MILK").get().then((value) {
         if (value.docs.isNotEmpty) {
           for (var element in value.docs) {
             print("lllllllllllllllll");
@@ -469,8 +468,9 @@ class Mainprovider extends ChangeNotifier {
             notifyListeners();
           }
         }
-      },
-    );
+      },);
+    print("hhhiiihiih"+fspavilmilklist.length.toString());
+    notifyListeners();
     //
     // try {
     //
@@ -765,7 +765,7 @@ class Mainprovider extends ChangeNotifier {
 
   Future<void> getavilmilktypes() async {
     getavilloader = true;
-    // notifyListeners();
+    notifyListeners();
     db.collection("AVIL_MILK").get().then((value) {
       if (value.docs.isNotEmpty) {
         getavilloader = false;
@@ -1017,7 +1017,7 @@ class Mainprovider extends ChangeNotifier {
     juiceshakesitemslist.clear();
     print("heloooooooi");
     getjuiceshakeslistloader = true;
-    // notifyListeners();
+    notifyListeners();
     db
         .collection("JUICE_SHAKES_ITEMS")
         .where("JUICE_SHAKES_CATEGORY_ID", isEqualTo: juicetypeid)
@@ -1231,9 +1231,7 @@ class Mainprovider extends ChangeNotifier {
   }
 
   TextEditingController icecremaflavourCT = TextEditingController();
-
   TextEditingController icecremaSingleCT = TextEditingController();
-
   TextEditingController icecremDoubleCT = TextEditingController();
 
   Future<void> icecreamitem(
@@ -1267,7 +1265,6 @@ class Mainprovider extends ChangeNotifier {
 
     if (from == "EDIT") {
       db.collection("ICE_CREAM_ITEMS").doc(oldid).update(map);
-
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: cWhite,
         content: Text("Updated Successfully",
@@ -1280,9 +1277,7 @@ class Mainprovider extends ChangeNotifier {
       ));
     } else {
       print('hgfhjklm,');
-
       db.collection("ICE_CREAM_ITEMS").doc(id).set(map);
-
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: cWhite,
         content: Text("Added Successfully",
@@ -1313,11 +1308,9 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
 
     final querySnapshot = await db.collection("ICE_CREAM_ITEMS").get();
-
     if (querySnapshot.docs.isNotEmpty) {
       print('etehekhjsalkd');
       icecreamlist.clear();
-
       for (var doc in querySnapshot.docs) {
         Map<String, dynamic> data = doc.data();
         List<ScoopsList> flavours = [];
@@ -1381,17 +1374,11 @@ class Mainprovider extends ChangeNotifier {
     String id = DateTime.now().millisecondsSinceEpoch.toString();
 
     Map<String, Object> map = HashMap();
-
     map["DESSERTS_NAME"] = dessertsNameCT.text;
-
     map["DESSERTS_PRICE"] = dessertspriceCT.text;
-
     map["ICE_CATEGORY_NAME"] = icecate;
-
     map["ICE_CATEGORY_ID"] = icecategid;
-
     map["MAIN_CATEGORY_ID"] = maincateid;
-
     map["TYPE"] = "DESSERTS";
 
     if (from == "NEW") {
@@ -1471,9 +1458,7 @@ class Mainprovider extends ChangeNotifier {
           backgroundColor: Colors.red,
           content: Text(
             "Deleted successfully ",
-            style: TextStyle(color: cWhite, fontSize: 15),
-          )),
-    );
+            style: TextStyle(color: cWhite, fontSize: 15))));
 
     notifyListeners();
   }
@@ -2129,8 +2114,8 @@ class Mainprovider extends ChangeNotifier {
             DateTime(regStartDate.year, regStartDate.month, regStartDate.day);
         DateTime date2 =
             date1.add(const Duration(hours: 23, minutes: 59, seconds: 59));
-
-        fetchOrderList(date1, date2);
+        salesreport(date1, date2);
+        notifyListeners();
       } else {
         regStartDate = pickedDate;
         DateTime date1 =
@@ -2138,7 +2123,8 @@ class Mainprovider extends ChangeNotifier {
         DateTime date2 =
             date1.add(const Duration(hours: 23, minutes: 59, seconds: 59));
         dateDisplay = outputDayNode4.format(regStartDate).toString();
-        fetchOrderList(date1, date2);
+        salesreport(date1, date2);
+        notifyListeners();
       }
     }
 
@@ -2159,12 +2145,9 @@ class Mainprovider extends ChangeNotifier {
       if (event.snapshot.value != null) {
         Map<dynamic, dynamic> map = event.snapshot.value as Map;
         List<String> versions =
-            map[!Platform.isIOS ? 'AppVersion' : 'iOSVersion']
-                .toString()
-                .split(',');
+            map[!Platform.isIOS ? 'AppVersion' : 'iOSVersion'].toString().split(',');
         if (!versions.contains(appVersion)) {
-          String ADDRESS =
-              map[!Platform.isIOS ? 'ADDRESS' : 'ADDRESS_iOS'].toString();
+          String ADDRESS = map[!Platform.isIOS ? 'ADDRESS' : 'ADDRESS_iOS'].toString();
           String button = map['BUTTON'].toString();
           String text = map['TEXT'].toString();
           print(button + 'buttonnnn');
@@ -2460,7 +2443,7 @@ class Mainprovider extends ChangeNotifier {
   Future<void> addOrdersnew(
       List<CartItemsDetails> cartList,
       String customerName,
-      String date,
+
       String orderType,
       String tableNo,
       String invoiceNo,
@@ -2482,7 +2465,7 @@ class Mainprovider extends ChangeNotifier {
 
     map["ORDER_ID"] = id;
     map["CUSTOMER_NAME"] = customerName;
-    map["ORDER_DATE"] = date;
+    map["ORDER_DATE"] = DateTime.now();
     map["ORDER_TYPE"] = orderType;
     map["TABLE_NO"] = tableNo;
     map["INVOICE_NO"] = invoiceNo;
@@ -2521,37 +2504,112 @@ class Mainprovider extends ChangeNotifier {
   bool orderLoader = false;
   bool _disposed = false;
 
-  Future<void> fetchOrderList(DateTime date1, DateTime date2) async {
-    if (_disposed) return;
+  // Future<void> fetchOrderList(DateTime date1, DateTime date2) async {
+  //   if (_disposed) return;
+  //
+  //   orderLoader = true;
+  //   // notifyListeners();
+  //
+  //   try {
+  //     QuerySnapshot querySnapshot = await db
+  //         .collection("ORDERS")
+  //         .where("ORDER_DATE", isGreaterThan: date1)
+  //         .where("ORDER_DATE", isLessThan: date2)
+  //         .get();
+  //
+  //     if (_disposed) return;
+  //
+  //     orderList.clear();
+  //     if (querySnapshot.docs.isNotEmpty) {
+  //       for (var doc in querySnapshot.docs) {
+  //         Map<String, dynamic> getmap = doc.data() as Map<String, dynamic>;
+  //         orderList.add(OrderModel.fromMap(getmap));
+  //       }
+  //     }
+  //   } catch (error) {
+  //     print("Error fetching orders: $error");
+  //   } finally {
+  //     if (!_disposed) {
+  //       orderLoader = false;
+  //       notifyListeners();
+  //     }
+  //   }
+  // }
 
-    orderLoader = true;
-    // notifyListeners();
+  List<OrderModel> ordersList = [];
 
-    try {
-      QuerySnapshot querySnapshot = await db
-          .collection("ORDERS")
-          .where("ORDER_DATE", isGreaterThan: date1)
-          .where("ORDER_DATE", isLessThan: date2)
-          .get();
+   void fetchOrders() {
+     print("hhhhhhhhhk");
+    db.collection("ORDERS").get().then((value) {
+      if (value.docs.isNotEmpty) {
+        print("jhgfcvbnm");
+        for (var doc in value.docs) {
+          Map<String, dynamic> map = doc.data();
+          if (map['PRODUCTS'] != null) {
+            List<ProductModel> productList = [];
+            print("fpjjbn"+productList.length.toString());
+            for (var element in map['PRODUCTS'].entries) {
+              productList.add(ProductModel(
+                name: element.key,
+                qty: element.value['Qty'].toString(),
+                price: element.value['Price'].toString(),
+                itemTotal: element.value['Item Total'].toString(),
+              ));
+              print("fpjjbn"+productList.length.toString());
 
-      if (_disposed) return;
-
-      orderList.clear();
-      if (querySnapshot.docs.isNotEmpty) {
-        for (var doc in querySnapshot.docs) {
-          Map<String, dynamic> getmap = doc.data() as Map<String, dynamic>;
-          orderList.add(OrderModel.fromMap(getmap));
+            }
+            ordersList.add(OrderModel(
+              orderId: map['ORDER_ID'],
+              customerName: map['CUSTOMER_NAME'],
+              orderDate: map['ORDER_DATE'],
+              orderType: map['ORDER_TYPE'],
+              tableNo: map['TABLE_NO'],
+              invoiceNo: map['INVOICE_NO'],
+              products: productList,
+              totalAmount: map['TOTAL_AMOUT'].toString(),
+            ));
+          }
         }
       }
-    } catch (error) {
-      print("Error fetching orders: $error");
-    } finally {
-      if (!_disposed) {
-        orderLoader = false;
-        notifyListeners();
-      }
-    }
+    });
   }
+  
+  
+  List<SalesReportOrder>salesreportlist=[];
+    bool getsalsesloader=false;
+
+  void salesreport( DateTime date1, DateTime date2){
+    getsalsesloader=true;
+    notifyListeners();
+    print("fvkljhbfvhjbfn");
+     db.collection("ORDERS").where("ORDER_DATE", isGreaterThanOrEqualTo: date1)
+         .where("ORDER_DATE", isLessThanOrEqualTo: date2).get().then((value) {
+       print(date1.toString()+"jsjsjsjsj"+date2.toString());
+       if(value.docs.isNotEmpty){
+         salesreportlist.clear();
+         getsalsesloader=false;
+         notifyListeners();
+         for(var element in value.docs){
+           Map<dynamic,dynamic> getmap=element.data();
+           salesreportlist.add(SalesReportOrder(
+               getmap["ORDER_ID"].toString(),
+               getmap["CUSTOMER_NAME"].toString(),
+               getmap["INVOICE_NO"].toString(),
+               getmap["ORDER_DATE"].toString(),
+               getmap["ORDER_TYPE"].toString(),
+               getmap["TABLE_NO"].toString(),
+               getmap["TOTAL_AMOUT"].toString(),
+                   ));
+           notifyListeners();
+           print("gggggg"+salesreportlist.length.toString());
+
+         }
+       }
+     },);
+     notifyListeners();
+  }
+
+
 
   @override
   void dispose() {

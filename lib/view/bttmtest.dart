@@ -143,7 +143,8 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                               DateTime endDate2 = onlyDate.add(const Duration(hours: 23, seconds: 59, minutes: 59));
                               print("nkjdaksmd");
                               // provider.getordereddetils();
-                              provider.fetchOrderList(onlyDate,endDate2);
+                              provider.fetchOrders();
+                              // provider.fetchOrderList(onlyDate,endDate2);
                               print("fsfs"+provider.orderList.length.toString());
                               setBottomBarIndex(2);
                             },
@@ -155,7 +156,10 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                               size: 30,
                             ),
                             onPressed: () {
-
+                              DateTime day = DateTime.now();
+                              DateTime onlyDate = DateTime(day.year, day.month, day.day);
+                              DateTime endDate2 = onlyDate.add(const Duration(hours: 23, seconds: 59, minutes: 59));
+                              provider.salesreport(onlyDate,endDate2);
                               setBottomBarIndex(3);
                             },
                           ),

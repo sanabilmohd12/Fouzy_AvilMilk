@@ -1,19 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/provider/mainprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../constants/colors.dart';
-import '../constants/myimages.dart';
 import '../constants/widgets.dart';
-import 'cartScreen.dart';
 
 class FouzyMultiple extends StatelessWidget {
-  FouzyMultiple({
-    super.key,
-  });
+  FouzyMultiple({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +112,7 @@ class FouzyMultiple extends StatelessWidget {
                       return GridView.builder(
                         itemCount: value.filterfspavilmilklist.length,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: ScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 15,
@@ -126,6 +121,7 @@ class FouzyMultiple extends StatelessWidget {
                         ),
                         itemBuilder: (context, index) {
                           var item = value.filterfspavilmilklist[index];
+                          print("hrewasdcfvgbnm"+value.filterfspavilmilklist.length.toString());
                           return GestureDetector(
                             onTap: () {
                               value.AddCartDetails(
@@ -171,24 +167,16 @@ class FouzyMultiple extends StatelessWidget {
                                                   value: value.getCheckboxValue(index) ||
                                                       value.isInCart("AVIL_MILK", item.id),
                                                   onChanged: (bool? newValue) {
-                                                    value.AddCartDetails(
-                                                        item.name,
-                                                        item.id,
-                                                        item.price,
-                                                        item.maincatrgoryname,
-                                                        item.avilphoto,
-                                                        context
-                                                    );
+                                                    value.AddCartDetails(item.name, item.id, item.price, item.maincatrgoryname, item.avilphoto, context);
                                                     value.setCheckboxValue(index, newValue ?? false);
                                                     if (newValue == true) {
                                                       value.cartItemsControlls('AVIL_MILK', item.id, item);
-                                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                        content: Text("Item added to cart"),
-                                                        duration: Duration(seconds: 2),
+                                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                                        content: Text("Item added to cart"), duration: Duration(seconds: 2),
                                                       ));
                                                     } else {
                                                       value.cartItemsControlls('AVIL_MILK', item.id, item);
-                                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                                         content: Text("Item removed from cart"),
                                                         duration: Duration(seconds: 2),
                                                       ));
