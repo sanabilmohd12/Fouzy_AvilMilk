@@ -446,65 +446,41 @@ class Mainprovider extends ChangeNotifier {
   List<Fouzysp> fspavilmilklist = [];
   List<Fouzysp> filterfspavilmilklist = [];
 
-  void getfsptypes() async {
-    print("asdfghjkl");
+  Future<void> getfsptypes() async {
+    try {
+      print("Fetching FSPAVIL_MILK data");
 
-    db.collection("FSPAVIL_MILK").get().then((value) {
-        if (value.docs.isNotEmpty) {
-          for (var element in value.docs) {
-            print("lllllllllllllllll");
-            fspavilmilklist.clear();
-            Map<String, dynamic> data = element.data();
-            fspavilmilklist.add(Fouzysp(
-              data["FSPAVIL_MILK_ID"].toString(),
-              data["FOUZY_SPECIALS"].toString(),
-              data["FSP_AVIL_MILK_PRICE"].toString(),
-              data["FSP_DISCRETION"].toString(),
-              data["FSP_AVILMILK_CATEGORY"].toString(),
-              data["MAIN_CATEGORY"].toString(),
-              data["MAIN_CATEGORY_ID"].toString(),
-              data["FSpAVILMILK_PHOTO"].toString(),
-            ));
-            notifyListeners();
-          }
+      final querySnapshot = await db.collection("FSPAVIL_MILK").get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        fspavilmilklist.clear(); // Clear the list once before populating
+
+        for (var doc in querySnapshot.docs) {
+          print("djfhjf");
+            Map<String, dynamic> data = doc.data();
+          fspavilmilklist.add(Fouzysp(
+            data["FSPAVIL_MILK_ID"].toString(),
+            data["FOUZY_SPECIALS"].toString(),
+            data["FSP_AVIL_MILK_PRICE"].toString(),
+            data["FSP_DISCRETION"].toString(),
+            data["FSP_AVILMILK_CATEGORY"].toString(),
+            data["MAIN_CATEGORY"].toString(),
+            data["MAIN_CATEGORY_ID"].toString(),
+            data["FSpAVILMILK_PHOTO"].toString(),
+          ));
         }
-      },);
-    print("hhhiiihiih"+fspavilmilklist.length.toString());
-    notifyListeners();
-    //
-    // try {
-    //
-    //
-    //   final QuerySnapshot snapshot = await db.collection("FSPAVIL_MILK").get();
-    //
-    //   fspavilmilklist.clear();
-    //   filterfspavilmilklist.clear();
-    //
-    //   if (snapshot.docs.isNotEmpty) {
-    //     for (var doc in snapshot.docs) {
-    //       print("dscdvvdf");
-    //       final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    //       fspavilmilklist.add(Fouzysp(
-    //         data["FSPAVIL_MILK_ID"] as String,
-    //         data["FOUZY_SPECIALS"] as String,
-    //         data["FSP_AVIL_MILK_PRICE"] as String,
-    //         data["FSP_DISCRETION"] as String,
-    //         data["FSP_AVILMILK_CATEGORY"] as String,
-    //         data["MAIN_CATEGORY"] as String,
-    //         data["MAIN_CATEGORY_ID"] as String,
-    //         data["FSpAVILMILK_PHOTO"] as String,
-    //       ));
-    //     }
-    //     filterfspavilmilklist = List.from(fspavilmilklist);
-    //   }
-    // } catch (e) {
-    //   print("Error founding on  FSP: $e");
-    //   // You might want to rethrow the error or handle it differently
-    // } finally {
-    //   getavilloader = false;
-    //   notifyListeners();
-    // }
-    // return filterfspavilmilklist;
+
+        // If you need to use filterfspavilmilklist, you can populate it here
+        // filterfspavilmilklist = fspavilmilklist.where(...).toList();
+
+        notifyListeners(); // Notify listeners once after all data is processed
+      } else {
+        print("No documents found in FSPAVIL_MILK collection");
+      }
+    } catch (e) {
+      print("Error fetching FSPAVIL_MILK data: $e");
+      // Handle the error appropriately (e.g., show a user-friendly message)
+    }
   }
 
   Future<void> filterfsptypes(item) async {
@@ -2573,8 +2549,8 @@ class Mainprovider extends ChangeNotifier {
       }
     });
   }
-  
-  
+
+
   List<SalesReportOrder>salesreportlist=[];
     bool getsalsesloader=false;
 
