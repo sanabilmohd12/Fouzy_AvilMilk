@@ -110,17 +110,10 @@ class LoginScreen extends StatelessWidget {
                           suffixIcon: Padding(
                             padding:
                                 const EdgeInsets.only(right: 20.0, top: 20),
-                            child: Shimmer(
-                              gradient: LinearGradient(colors: [
-                                cYellow,
-                                cgreen
-                              ]),
-                              period: Duration(milliseconds: 40),
-                              child: Icon(
-                                Icons.login,
-                                color: cgreen,
-                                size: 30,
-                              ),
+                            child: Icon(
+                              Icons.login,
+                              color: cgreen,
+                              size: 30,
                             ),
                           ),
                           // contentPadding: const EdgeInsets.symmetric(vertical: 14),

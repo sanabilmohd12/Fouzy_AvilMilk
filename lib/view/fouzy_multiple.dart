@@ -114,7 +114,9 @@ class FouzyMultiple extends StatelessWidget {
                       horizontal: 18.0, vertical: 30),
                   child: Consumer<Mainprovider>(
                     builder: (context, value, child) {
+                      print("dfgkgk"+value.filterfspavilmilklist.length.toString());
                       return GridView.builder(
+
                         itemCount: value.filterfspavilmilklist.length,
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),

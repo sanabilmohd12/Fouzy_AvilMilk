@@ -17,6 +17,14 @@ class Home_screen extends StatelessWidget {
   @override
 
   Widget build(BuildContext context) {
+    Mainprovider provider = Provider.of(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      provider.getMainCategoy();
+      print("ffvfvfv" +
+          provider.mainCategorylist.length.toString());
+
+    });
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;

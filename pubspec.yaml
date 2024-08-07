@@ -60,6 +60,7 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   cached_network_image: ^3.2.3
   flutter_layout_grid: ^2.0.1
+  curved_navigation_bar: ^1.0.6
 
 
 
