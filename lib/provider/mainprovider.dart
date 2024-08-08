@@ -2565,17 +2565,17 @@ class Mainprovider extends ChangeNotifier {
     });
   }
 
-
   List<SalesReportOrder>salesreportlist=[];
+
     bool getsalsesloader=false;
 
-  void salesreport( DateTime date1, DateTime date2){
+  void salesreport(DateTime date1, DateTime date2){
     getsalsesloader=true;
     notifyListeners();
     print("fvkljhbfvhjbfn");
      db.collection("ORDERS").where("ORDER_DATE", isGreaterThanOrEqualTo: date1)
          .where("ORDER_DATE", isLessThanOrEqualTo: date2).get().then((value) {
-       print(date1.toString()+"jsjsjsjsj"+date2.toString());
+         print(date1.toString()+"jsjsjsjsj"+date2.toString());
        if(value.docs.isNotEmpty){
          salesreportlist.clear();
          getsalsesloader=false;
@@ -2586,10 +2586,7 @@ class Mainprovider extends ChangeNotifier {
                getmap["ORDER_ID"].toString(),
                getmap["CUSTOMER_NAME"].toString(),
                getmap["INVOICE_NO"].toString(),
-             DateFormat("dd-MM-yyyy hh:mm a")
-                 .format(getmap["ORDER_DATE"].toDate())
-                 .toString(),
-
+             DateFormat("dd-MM-yyyy hh:mm a").format(getmap["ORDER_DATE"].toDate()).toString(),
                getmap["ORDER_TYPE"].toString(),
                getmap["TABLE_NO"].toString(),
                getmap["TOTAL_AMOUT"].toString(),
@@ -2611,5 +2608,7 @@ class Mainprovider extends ChangeNotifier {
   void dispose() {
     _disposed = true;
     super.dispose();
+
+
   }
 }
