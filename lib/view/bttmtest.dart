@@ -58,13 +58,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
       provider.getCartItems();
     } else if (tappedIndex == 2) {
       print("here 2");
-      provider.clearlogin();
+
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => LoginScreen(),
       ));
       return; // Early return to prevent setState from running
     } else if (tappedIndex == 3) {
       print("here 3");
+
+      provider.fetchOrderList();
       // Your specific action for index 3
     } else if (tappedIndex == 4) {
       print("here 4");

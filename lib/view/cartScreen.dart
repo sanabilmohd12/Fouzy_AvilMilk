@@ -321,175 +321,177 @@ class Cart_Screen extends StatelessWidget {
             ),
           ),
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Consumer<Mainprovider>(builder: (context, value, child) {
-                  print("${value.cartitemslist}irshhhhh");
-                  return value.cartitemslist.isNotEmpty
-                      ? GridView.builder(
-                          itemCount: value.cartitemslist.length,
-                          shrinkWrap: true,
-                          physics: ScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 15,
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 1.0),
-                          itemBuilder: (context, index) {
-                            var items = value.cartitemslist[index];
-                            return Container(
-                              width: width,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Color(0xffefe686),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    width: width,
-
-                                    height: height/4.5,
-                                    // color: Colors.red,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: items.itemPhoto != ""
-                                                ? NetworkImage(
-                                                    items.itemPhoto,
-                                                    scale: 4,
-                                                  )
-                                                : AssetImage(
-                                                    "assets/Sundae (1).png"))),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  value.delefromtecart(
-                                                      items.cartId, context);
-                                                },
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  size: 35,
-                                                ),
-                                              ),
-                                            )),
-                                        // items.itemPhoto!=""?
-                                        // Image.network(items.itemPhoto,scale: 4,fit: BoxFit.contain,):Image.asset("assets/Sundae (1).png"),
-
-                                        Align(
-                                          alignment: Alignment.topRight,
-                                          child: Container(
-                                              width: width / 6,
-                                              height: height / 20,
-                                              decoration: const ShapeDecoration(
-                                                gradient:
-                                                    LinearGradient(colors: [
-                                                  Color(0xff0a410b),
-                                                  Color(0xff1e7c22),
-                                                  Color(0xff0a410b),
-                                                ]),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadiusDirectional
-                                                          .horizontal(
-                                                    start: Radius.circular(15),
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Shimmer(
-                                                gradient:
-                                                    LinearGradient(colors: [
-                                                  cWhite,
-                                                  cYellow,
-                                                  cgreen,
-                                                ]),
-                                                direction: ShimmerDirection.ltr,
-                                                child: Center(
-                                                  child: Text(
-                                                    items.count == 1
-                                                        ? "₹ " +
-                                                            items.itemPrice
-                                                                .toString()
-                                                        : "₹ " +
-                                                            items.totalPrice
-                                                                .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color:
-                                                            Color(0xfffff1e2)),
-                                                  ),
-                                                ),
-                                              )),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Text(
-                                              items.itemName,
-                                              style: const TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.bold),
-                                            ))
-                                      ],
-                                    ),
+            child:  Consumer<Mainprovider>(builder: (context, value, child) {
+                return   value.cartitemslist.isNotEmpty
+                    ? Column(
+                  children: [
+                    Consumer<Mainprovider>(builder: (context, value, child) {
+                      return  GridView.builder(
+                              itemCount: value.cartitemslist.length,
+                              shrinkWrap: true,
+                              physics: ScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 15,
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 1.0),
+                              itemBuilder: (context, index) {
+                                var items = value.cartitemslist[index];
+                                return Container(
+                                  width: width,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Color(0xffefe686),
                                   ),
-                                  Divider(color: cgreen,),
-                                  ListTile(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                            bottom: Radius.circular(30))),
-                                    tileColor: Color(0xfff9ea1f),
-                                    leading: IconButton(
-                                        onPressed: () {
-                                          value.countDecrement(
-                                              index, items.cartId);
-                                        },
-                                        icon: const Icon(
-                                          CustomIcons.minus_circle,
-                                          color: Colors.red,
-                                        )),
-                                    title: Center(
-                                      child: text(items.count.toString(),
-                                          FontWeight.w400, cgreen, 20),
-                                    ),
-                                    trailing: IconButton(
-                                        onPressed: () {
-                                          value.countIncrement(
-                                              index, items.cartId);
-                                        },
-                                        icon: Icon(
-                                          CustomIcons.plus_circle,
-                                          color: cgreen,
-                                        )),
-                                  )
-                                ],
-                              ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        width: width,
+
+                                        height: height/4.5,
+                                        // color: Colors.red,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: items.itemPhoto != ""
+                                                    ? NetworkImage(
+                                                        items.itemPhoto,
+                                                        scale: 4,
+                                                      )
+                                                    : AssetImage(
+                                                        "assets/Sundae (1).png"))),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      value.delefromtecart(
+                                                          items.cartId, context);
+                                                    },
+                                                    child: Icon(
+                                                      Icons.delete,
+                                                      size: 35,
+                                                    ),
+                                                  ),
+                                                )),
+                                            // items.itemPhoto!=""?
+                                            // Image.network(items.itemPhoto,scale: 4,fit: BoxFit.contain,):Image.asset("assets/Sundae (1).png"),
+
+                                            Align(
+                                              alignment: Alignment.topRight,
+                                              child: Container(
+                                                  width: width / 6,
+                                                  height: height / 20,
+                                                  decoration: const ShapeDecoration(
+                                                    gradient:
+                                                        LinearGradient(colors: [
+                                                      Color(0xff0a410b),
+                                                      Color(0xff1e7c22),
+                                                      Color(0xff0a410b),
+                                                    ]),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadiusDirectional
+                                                              .horizontal(
+                                                        start: Radius.circular(15),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  child: Shimmer(
+                                                    gradient:
+                                                        LinearGradient(colors: [
+                                                      cWhite,
+                                                      cYellow,
+                                                      cgreen,
+                                                    ]),
+                                                    direction: ShimmerDirection.ltr,
+                                                    child: Center(
+                                                      child: Text(
+                                                        items.count == 1
+                                                            ? "₹ " +
+                                                                items.itemPrice
+                                                                    .toString()
+                                                            : "₹ " +
+                                                                items.totalPrice
+                                                                    .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            color:
+                                                                Color(0xfffff1e2)),
+                                                      ),
+                                                    ),
+                                                  )),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Align(
+                                                alignment: Alignment.bottomCenter,
+                                                child: Text(
+                                                  items.itemName,
+                                                  style: const TextStyle(
+                                                      fontSize: 22,
+                                                      fontWeight: FontWeight.bold),
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                      Divider(color: cgreen,),
+                                      ListTile(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                                bottom: Radius.circular(30))),
+                                        tileColor: Color(0xfff9ea1f),
+                                        leading: IconButton(
+                                            onPressed: () {
+                                              value.countDecrement(
+                                                  index, items.cartId);
+                                            },
+                                            icon: const Icon(
+                                              CustomIcons.minus_circle,
+                                              color: Colors.red,
+                                            )),
+                                        title: Center(
+                                          child: text(items.count.toString(),
+                                              FontWeight.w400, cgreen, 20),
+                                        ),
+                                        trailing: IconButton(
+                                            onPressed: () {
+                                              value.countIncrement(
+                                                  index, items.cartId);
+                                            },
+                                            icon: Icon(
+                                              CustomIcons.plus_circle,
+                                              color: cgreen,
+                                            )),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
                             );
-                          },
-                        )
-                      : Center(
-                          child: Lottie.asset(
-                            "assets/bananalottie.json",
-                            width: 200,
-                            height: 200,
-                            fit: BoxFit.fill,
-                          ),
-                        );
-                }),
-                SizedBox(
-                  height: height / 5,
-                )
-              ],
+
+                    }),
+                    SizedBox(
+                      height: height / 5,
+                    )
+                  ],
+                ):Center(
+                  child: Lottie.asset(
+                    "assets/bananalottie.json",
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.fill,
+                  ),
+                );
+              }
             ),
           ),
         ));

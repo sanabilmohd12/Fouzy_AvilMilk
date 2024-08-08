@@ -70,10 +70,7 @@ class JuciesAndShakesList extends StatelessWidget {
             18,
           ),
         ),
-        body:
-
-
-        SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Column(
             children: [
               Consumer<Mainprovider>(

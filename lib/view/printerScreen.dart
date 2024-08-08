@@ -415,6 +415,7 @@ class Printerscreen extends StatelessWidget {
                     child: ElevatedButton(
 
                       onPressed: () async {
+
                         mainProvider.addOrdersnew(
                           mainProvider.cartitemslist,
                           name,
@@ -424,7 +425,9 @@ class Printerscreen extends StatelessWidget {
                           mainProvider.getTotalPrice().toString(),
                           context,
                         );
-                        mainProvider.cartitemslist.clear();
+
+                        callNextReplacement(context,  BottomNavBar(),);
+
 
                         try {
                           bool isConnected =
@@ -433,11 +436,20 @@ class Printerscreen extends StatelessWidget {
                                   int.parse(printerProvider.boxInPort));
 
                           if (isConnected) {
+                            mainProvider.addOrdersnew(
+                              mainProvider.cartitemslist,
+                              name,
+                              ordertype,
+                              deskno,
+                              '000' + mainProvider.orderCount.toString(),
+                              mainProvider.getTotalPrice().toString(),
+                              context,
+                            );
+
+
+
                             // Get the total price
                             double totalPrice = mainProvider.getTotalPrice();
-
-                            // Print the invoice
-
                             await printerProvider.printInvoice(
                               context,
                               name: name,
@@ -448,12 +460,13 @@ class Printerscreen extends StatelessWidget {
                               invoiceNumber: '000${mainProvider.orderCount}',
                               totalPrice: totalPrice,
                             );
-
+                            mainProvider.cartitemslist.clear();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                   content:
                                       Text('Printing completed successfully.')),
                             );
+                            callNextReplacement(context,  BottomNavBar(),);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
