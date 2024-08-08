@@ -12,25 +12,21 @@ Widget text(
     FontWeight weight,
     Color mycolor,
     double size, {
-      TextOverflow overflow = TextOverflow.clip,
       int? maxLines,
       TextAlign textAlign = TextAlign.left,
-      double? width,
+
     }) {
-  return Container(
-    width: width,
-    child: Text(
-      name,
-      style: TextStyle(
-        fontWeight: weight,
-        color: mycolor,
-        fontSize: size,
-        fontFamily: "poppines",
-      ),
-      overflow: overflow,
-      maxLines: maxLines,
-      textAlign: textAlign,
+  return Text(
+    name,
+    style: TextStyle(
+      fontWeight: weight,
+      color: mycolor,
+      fontSize: size,
+      fontFamily: "poppines",
     ),
+    overflow: TextOverflow.ellipsis,
+    maxLines: maxLines,
+    textAlign: textAlign,
   );
 }
 

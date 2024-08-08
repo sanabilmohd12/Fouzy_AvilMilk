@@ -104,69 +104,15 @@ class JuciesAndShakesList extends StatelessWidget {
                             FittedBox(child: text(data.name, FontWeight.w500, cgreen, 20)),
                             FittedBox(child: text("₹${data.price}", FontWeight.w500, cgreen, 15)),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                SizedBox(),
-                                Row(
-                                  children: [
-                                    InkWell(
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                              content: Text(
-                                                  "Do you want to DELETE ?",
-                                                  style: TextStyle(
-                                                      fontSize: 17,
-                                                      fontWeight: FontWeight.w600,
-                                                      color: cBlack)),
-                                              actions: <Widget>[
-                                                Center(
-                                                  child: TextButton(
-                                                    onPressed: () {
-                                                      value.deletejuiceshakes(data.id, jucietypeid, context);
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                    child: Container(
-
-                                                      height: 45,
-                                                      width: 90,
-                                                      decoration: BoxDecoration(
-                                                          color: myRed,
-                                                          borderRadius:
-                                                          BorderRadius.circular(8),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: Color(0x26000000),
-                                                              blurRadius:
-                                                              2.0, // soften the shadow
-                                                              spreadRadius:
-                                                              1.0, //extend the shadow
-                                                            ),
-                                                          ]),
-                                                      child: Center(
-                                                          child: Text("Delete",
-                                                              style: TextStyle(
-                                                                  color: cWhite,
-                                                                  fontSize: 17,
-                                                                  fontWeight:
-                                                                  FontWeight.w700))),
-                                                    ),
-                                                  ),
-                                                ),
-
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                        child: btn(20, 60, cWhite, "Delete", myRed, FontWeight.w500, 12,Icons.delete_outline)),
-
-                                    InkWell(    onTap: () {
+                                InkWell(
+                                    onTap: () {
                                       showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
                                           content: Text(
-                                              "Do you want to EDIT ?",
+                                              "Do you want to DELETE ?",
                                               style: TextStyle(
                                                   fontSize: 17,
                                                   fontWeight: FontWeight.w600,
@@ -175,18 +121,15 @@ class JuciesAndShakesList extends StatelessWidget {
                                             Center(
                                               child: TextButton(
                                                 onPressed: () {
-                                                  value.editjucieshake(data.id,jucietypeid,context);
-                                                  callNext(
-                                                      context,
-                                                      addJuciesAndShakes(
-                                                        jucieshakesfrom: "EDIT", jucieshakesoldid: data.id, jucietypename: jucietypename, jucietypeid: jucietypename,maincategory: maincategoryid,
-                                                      ));
+                                                  value.deletejuiceshakes(data.id, jucietypeid, context);
+                                                  Navigator.of(context).pop();
                                                 },
                                                 child: Container(
+
                                                   height: 45,
                                                   width: 90,
                                                   decoration: BoxDecoration(
-                                                      color: cgreen,
+                                                      color: myRed,
                                                       borderRadius:
                                                       BorderRadius.circular(8),
                                                       boxShadow: [
@@ -199,7 +142,7 @@ class JuciesAndShakesList extends StatelessWidget {
                                                         ),
                                                       ]),
                                                   child: Center(
-                                                      child: Text("Edit",
+                                                      child: Text("Delete",
                                                           style: TextStyle(
                                                               color: cWhite,
                                                               fontSize: 17,
@@ -208,14 +151,65 @@ class JuciesAndShakesList extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
+
                                           ],
                                         ),
                                       );
                                     },
-                                        child: btn(20, 60, cWhite, "Edit", cgreen, FontWeight.w500, 12,Icons.edit_outlined)),
+                                    child: btn(40, 100, cWhite, "Delete", myRed, FontWeight.w500, 12,Icons.delete_outline)),
 
-                                  ],
-                                ),
+                                InkWell(    onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      content: Text(
+                                          "Do you want to EDIT ?",
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600,
+                                              color: cBlack)),
+                                      actions: <Widget>[
+                                        Center(
+                                          child: TextButton(
+                                            onPressed: () {
+                                              value.editjucieshake(data.id,jucietypeid,context);
+                                              callNext(
+                                                  context,
+                                                  addJuciesAndShakes(
+                                                    jucieshakesfrom: "EDIT", jucieshakesoldid: data.id, jucietypename: jucietypename, jucietypeid: jucietypename,maincategory: maincategoryid,
+                                                  ));
+                                            },
+                                            child: Container(
+                                              height: 45,
+                                              width: 90,
+                                              decoration: BoxDecoration(
+                                                  color: cgreen,
+                                                  borderRadius:
+                                                  BorderRadius.circular(8),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Color(0x26000000),
+                                                      blurRadius:
+                                                      2.0, // soften the shadow
+                                                      spreadRadius:
+                                                      1.0, //extend the shadow
+                                                    ),
+                                                  ]),
+                                              child: Center(
+                                                  child: Text("Edit",
+                                                      style: TextStyle(
+                                                          color: cWhite,
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                          FontWeight.w700))),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                    child: btn(40, 100, cWhite, "Edit", cgreen, FontWeight.w500, 12,Icons.edit_outlined)),
                               ],
                             ),
                             SizedBox(height: 2,)

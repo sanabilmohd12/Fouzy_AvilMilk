@@ -453,10 +453,11 @@ class Mainprovider extends ChangeNotifier {
       final querySnapshot = await db.collection("FSPAVIL_MILK").get();
 
       if (querySnapshot.docs.isNotEmpty) {
-        fspavilmilklist.clear(); // Clear the list once before populating
+        filterfspavilmilklist.clear(); // Clear the list once before populating
 
         for (var doc in querySnapshot.docs) {
           print("djfhjf");
+
             Map<String, dynamic> data = doc.data();
           fspavilmilklist.add(Fouzysp(
             data["FSPAVIL_MILK_ID"].toString(),
@@ -469,7 +470,7 @@ class Mainprovider extends ChangeNotifier {
             data["FSpAVILMILK_PHOTO"].toString(),
           ));
         }
-
+        filterfspavilmilklist=fspavilmilklist;
         // If you need to use filterfspavilmilklist, you can populate it here
         // filterfspavilmilklist = fspavilmilklist.where(...).toList();
 
@@ -1162,6 +1163,7 @@ class Mainprovider extends ChangeNotifier {
   }
 
   List<IceCreamCategoryModel> icecategorylist = [];
+  List<IceCreamCategoryModel> filterIcecategorylist = [];
 
   bool geticecatloader = false;
 
@@ -1188,6 +1190,8 @@ class Mainprovider extends ChangeNotifier {
     });
     notifyListeners();
   }
+
+
 
   void deleteicecategory(String id, BuildContext context) {
     db.collection("ICE_CREAM_CATEGORY").doc(id).delete();

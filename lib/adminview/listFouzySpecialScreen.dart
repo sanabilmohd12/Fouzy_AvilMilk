@@ -87,7 +87,7 @@ class FouzySpecialScreen extends StatelessWidget {
                   return Container(
                     margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     width: width,
-                    height: height * .12,
+                    height: height/30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       color: cWhite,
@@ -95,18 +95,20 @@ class FouzySpecialScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: width,
-                          height: 250,
-                          child: item.avilphoto.isNotEmpty
-                              ? Image.network(
-                            item.avilphoto,
-                            errorBuilder: (context, error, stackTrace) {
-                              print('Error loading image: $error');
-                              return Icon(Icons.error);
-                            },
-                          )
-                              : Icon(Icons.image),
+                        FittedBox(
+                          child: Container(
+                            width: width,
+                            height: height/2,
+                            child: item.avilphoto.isNotEmpty
+                                ? Image.network(
+                              item.avilphoto,
+                              errorBuilder: (context, error, stackTrace) {
+                                print('Error loading image: $error');
+                                return Icon(Icons.error);
+                              },
+                            )
+                                : Icon(Icons.image),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),

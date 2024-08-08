@@ -95,17 +95,19 @@ class Avil_Milk_Screen extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                              width: width,
-                              height: 250,
-                              child: item.avilphoto != ""
-                                  ? Image(
-                                image: NetworkImage(
-                                    item.avilphoto,
-                                    scale: 0.5
-                                ),
-                              )
-                                  : SizedBox()
+                          FittedBox(
+                            child: Container(
+                                width: width,
+                                height: height/2,
+                                child: item.avilphoto != ""
+                                    ? Image(
+                                  image: NetworkImage(
+                                      item.avilphoto,
+                                      scale: 0.5
+                                  ),
+                                )
+                                    : SizedBox()
+                            ),
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
@@ -118,7 +120,7 @@ class Avil_Milk_Screen extends StatelessWidget {
                                         item.name,
                                         FontWeight.w800,
                                         cgreen,
-                                        item.name.length < 18 ? 18 : 14
+                                        item.name.length < 14 ? 14 : 10
                                     )
                                 ),
                                 FittedBox(

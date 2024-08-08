@@ -76,6 +76,50 @@ class IceCreamListScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                      child: Container(
+                          width: width/1,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: cYellow, width: 5,),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow:[
+                                BoxShadow(
+                                    offset: Offset(3, 4),
+                                    blurRadius: 3,
+                                    spreadRadius: -3,
+                                    color: cYellow
+                                ),
+                              ]
+                          ),
+                          child: Consumer<Mainprovider>(
+                              builder: (context, value, child) {
+                                return TextField(
+                                  onChanged: (text){
+                                    value.filterAvilmilk(text);
+                                  },
+                                  cursorColor: clblack,
+                                  decoration: InputDecoration(
+                                    fillColor: cWhite,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide: BorderSide.none
+                                    ),
+                                    prefixIcon: Icon(Icons.search, color: cGrey, size: height/60,),
+                                    hintText: "Search...",
+                                    hintStyle: TextStyle(
+                                      color: cGrey,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: height/70,
+                                    ),
+                                  ),
+                                );
+                              }
+                          )
+                      ),
+                    ),
                     Consumer<Mainprovider>(
                       builder: (context, value, child) {
                         return GridView.builder(
@@ -120,7 +164,7 @@ class IceCreamListScreen extends StatelessWidget {
                                       itemCount: 2,
                                       itemBuilder: (context, index) {
                                         return CheckboxListTile(
-                                          title: FittedBox(child: Text(items.scoops[index].name)),
+                                          title: Text(items.scoops[index].name,style: TextStyle(fontSize: 18,),),
                                           subtitle: Text(items.scoops[index].price.toString()),
                                           tileColor: cgreen,
                                           shape: RoundedRectangleBorder(
@@ -180,6 +224,7 @@ class IceCreamListScreen extends StatelessWidget {
                                   child: Column(children: [
                                     Container(
                                       width: width,
+
 
                                       // decoration: BoxDecoration(
                                       //     color: Colors.transparent,
