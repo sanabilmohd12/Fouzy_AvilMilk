@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/custom_icons_icons.dart';
@@ -127,6 +128,7 @@ class Cart_Screen extends StatelessWidget {
                                               ),
                                               const SizedBox(height: 10),
                                               TextFormField(
+                                                inputFormatters: [LengthLimitingTextInputFormatter(2)],
                                                 keyboardType:
                                                     TextInputType.number,
                                                 controller:

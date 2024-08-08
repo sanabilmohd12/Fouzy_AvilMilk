@@ -68,145 +68,142 @@ class LoginScreen extends StatelessWidget {
         //   }),
         // ),
         backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: EdgeInsets.symmetric(vertical: height / 8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: height / 40.0),
-                  child: Image.asset(
-                    'assets/fouzylogo.png',
-                    scale: 4,
+        body: SingleChildScrollView(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: height / 40.0),
+                child: Image.asset(
+                  'assets/fouzylogo.png',
+                  scale: 4,
+                ),
+              ),
+              Text(
+                "ADMIN",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+              ),
+              Consumer<Mainprovider>(builder: (context, value, child) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: height / 12,
                   ),
-                ),
-                Text(
-                  "ADMIN",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-                ),
-                Consumer<Mainprovider>(builder: (context, value, child) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: height / 12,
+                  child: Container(
+                    height: 70,
+                    decoration: BoxDecoration(
+                      color: Color(0xff19981CFF),
+                      borderRadius: BorderRadius.circular(
+                        20,
+                      ),
                     ),
-                    child: Container(
-                      height: 70,
-                      decoration: BoxDecoration(
-                        color: Color(0xff19981CFF),
-                        borderRadius: BorderRadius.circular(
-                          20,
+                    child: TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(6)],
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w700),
+                      textAlign: TextAlign.center,
+                      controller: value.loginCT,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        alignLabelWithHint: true,
+                        suffixIcon: Padding(
+                          padding:
+                              const EdgeInsets.only(right: 20.0, top: 20),
+                          child: Icon(
+                            Icons.login,
+                            color: cgreen,
+                            size: 30,
+                          ),
+                        ),
+                        // contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                        helperText: "",
+                        hintText: "Password",
+                        hintStyle: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 15,
+                          color: Color(0xc5025703),
+                          fontWeight: FontWeight.w400,
+                        ),
+                        contentPadding: EdgeInsets.only(left: 20, top: 20),
+                        isDense: true,
+                        // prefixIcon:const Icon(Icons.person,color: Colors.green,),
+                        border: InputBorder.none,
+                      ),
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return "Enter your code";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                );
+              }),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child:
+                    Consumer<Mainprovider>(builder: (context, value, child) {
+                  return SizedBox(
+                    width: height / 3.5,
+                    height: height / 16,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(15), // Adjust as needed
                         ),
                       ),
-                      child: TextFormField(
-                        inputFormatters: [LengthLimitingTextInputFormatter(6)],
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w700),
-                        textAlign: TextAlign.center,
-                        controller: value.loginCT,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          alignLabelWithHint: true,
-                          suffixIcon: Padding(
-                            padding:
-                                const EdgeInsets.only(right: 20.0, top: 20),
-                            child: Icon(
-                              Icons.login,
-                              color: cgreen,
-                              size: 30,
+                      onPressed: () {
+                        if (value.loginCT.text == "123456") {
+                          callNextReplacement(context, Admin_Home_Screen());
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Incorrect Code",
+                                style: TextStyle(
+                                  color: cgreen,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w800,
+                                )),
+                            duration: Duration(milliseconds: 3000),
+                          ));
+                        }
+                      },
+                      child: Shimmer(
+                        gradient: LinearGradient(colors: [
+                          cgreen,
+                          cYellow,
+                          cgreen,
+                        ]),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xff22ab24), cgreen],
+                              // Change colors as desired
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                                15), // Match the button's shape
+                          ),
+                          child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            alignment: Alignment.center,
+                            child: text(
+                              "LOGIN",
+                              FontWeight.w700,
+                              cWhite,
+                              18,
                             ),
                           ),
-                          // contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                          helperText: "",
-                          hintText: "Password",
-                          hintStyle: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: 15,
-                            color: Color(0xc5025703),
-                            fontWeight: FontWeight.w400,
-                          ),
-                          contentPadding: EdgeInsets.only(left: 20, top: 20),
-                          isDense: true,
-                          // prefixIcon:const Icon(Icons.person,color: Colors.green,),
-                          border: InputBorder.none,
                         ),
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Enter your code";
-                          } else {
-                            return null;
-                          }
-                        },
                       ),
                     ),
                   );
                 }),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child:
-                      Consumer<Mainprovider>(builder: (context, value, child) {
-                    return SizedBox(
-                      width: height / 3.5,
-                      height: height / 16,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(15), // Adjust as needed
-                          ),
-                        ),
-                        onPressed: () {
-                          if (value.loginCT.text == "123456") {
-                            callNextReplacement(context, Admin_Home_Screen());
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Incorrect Code",
-                                  style: TextStyle(
-                                    color: cgreen,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w800,
-                                  )),
-                              duration: Duration(milliseconds: 3000),
-                            ));
-                          }
-                        },
-                        child: Shimmer(
-                          gradient: LinearGradient(colors: [
-                            cgreen,
-                            cYellow,
-                            cgreen,
-                          ]),
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Color(0xff22ab24), cgreen],
-                                // Change colors as desired
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(
-                                  15), // Match the button's shape
-                            ),
-                            child: Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              alignment: Alignment.center,
-                              child: text(
-                                "LOGIN",
-                                FontWeight.w700,
-                                cWhite,
-                                18,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

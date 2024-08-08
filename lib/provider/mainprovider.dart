@@ -985,6 +985,7 @@ class Mainprovider extends ChangeNotifier {
   }
 
   List<JucieAndShakesItems> juiceshakesitemslist = [];
+  List<JucieAndShakesItems> filterjuiceshakesitemslist = [];
   List<JucieAndShakesItems> Juiceshakesalllist = [];
 
   bool getjuiceshakeslistloader = false;
@@ -1022,14 +1023,16 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool getjucieloader=false;
   Future<void> getJuiceShakesAllItems() async {
-    Juiceshakesalllist.clear();
+    filterjuiceshakesitemslist.clear();
     print("dcdc");
-    getjuiceshakeslistloader = true;
+    getjucieloader = true;
     notifyListeners();
     db.collection("JUICE_SHAKES_ITEMS").get().then((value) {
       if (value.docs.isNotEmpty) {
-        getjuiceshakeslistloader = false;
+        Juiceshakesalllist.clear();
+        getjucieloader = false;
         notifyListeners();
 
         for (var element in value.docs) {
@@ -1043,13 +1046,21 @@ class Mainprovider extends ChangeNotifier {
             getjucieshakeitemmap["JUICE_SHAKES_CATEGORY"].toString(),
             getjucieshakeitemmap["MAIN_CATEGORY_ID"].toString(),
           ));
+          filterjuiceshakesitemslist=Juiceshakesalllist;
           notifyListeners();
         }
       }
     });
     notifyListeners();
   }
-
+  void juicesearch(item) {
+    filterjuiceshakesitemslist = Juiceshakesalllist
+        .where((a) =>
+    a.name.toLowerCase().contains(item.toLowerCase()) ||
+        a.price.toLowerCase().contains(item.toLowerCase()))
+        .toList();
+    notifyListeners();
+  }
   void juiceshakesclear() {
     jucieandShakesnameCt.clear();
     jucieandShakespriceCt.clear();
@@ -1544,6 +1555,10 @@ class Mainprovider extends ChangeNotifier {
     } else {
       return false;
     }
+  }
+  void clearlogin(){
+    loginCT.clear();
+    notifyListeners();
   }
 
   bool itemStatus = false;
@@ -2571,7 +2586,10 @@ class Mainprovider extends ChangeNotifier {
                getmap["ORDER_ID"].toString(),
                getmap["CUSTOMER_NAME"].toString(),
                getmap["INVOICE_NO"].toString(),
-               getmap["ORDER_DATE"].toString(),
+             DateFormat("dd-MM-yyyy hh:mm a")
+                 .format(getmap["ORDER_DATE"].toDate())
+                 .toString(),
+
                getmap["ORDER_TYPE"].toString(),
                getmap["TABLE_NO"].toString(),
                getmap["TOTAL_AMOUT"].toString(),
