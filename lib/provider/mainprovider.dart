@@ -2595,6 +2595,7 @@ class Mainprovider extends ChangeNotifier {
                getmap["TOTAL_AMOUT"].toString(),
                    ));
            notifyListeners();
+
            print("gggggg"+salesreportlist.length.toString());
 
          }
@@ -2602,6 +2603,7 @@ class Mainprovider extends ChangeNotifier {
      },);
      notifyListeners();
   }
+  ///
 
 
 
