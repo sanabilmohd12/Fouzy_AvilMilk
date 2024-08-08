@@ -60,9 +60,9 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: height/20, left: 30),
+                padding: EdgeInsets.only(top: height/20, left: 30,right: 30),
                 child: Container(
-                    width: width/2.5,
+                    width: width/1,
                     decoration: BoxDecoration(
                         border: Border.all(color: cYellow, width: 5,),
                         color: Colors.white,
@@ -222,18 +222,16 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                   FontWeight.w800,
                                                   cgreen,
                                                   width/30,
-                                                  overflow: TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  width: width * 0.3,
+                                                  // width: width * 0.3,
                                                 ),
                                                 text(
                                                   item.describtion,
                                                   FontWeight.w400,
                                                   cgreen,
                                                   width/40,
-                                                  overflow: TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  width: width * 0.3,
+                                                  // width: width * 0.3,
                                                 ),
                                               ],
                                             ),
@@ -257,7 +255,6 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                     FontWeight.w700,
                                                     cWhite,
                                                     20,
-                                                    overflow: TextOverflow.ellipsis,
                                                     maxLines: 1,
                                                   ),
                                                 ),

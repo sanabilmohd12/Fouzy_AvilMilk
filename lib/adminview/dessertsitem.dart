@@ -85,15 +85,15 @@ class DeseertsItemScreen extends StatelessWidget {
                       physics: ScrollPhysics(),
                       gridDelegate:
                       SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisSpacing: 15,
-                          mainAxisSpacing: 0.5,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 0.2,
                           crossAxisCount: 2,
-                          childAspectRatio: 1.3),
+                          childAspectRatio: 1),
                       itemBuilder: (context, index) {
                         var items = value.dessertslist[index];
                         return Container(
                           margin: EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 35),
+                              horizontal: 30, vertical: 35),
                           width: width,
                           height: height*.5,
                           decoration: BoxDecoration(
@@ -109,69 +109,17 @@ class DeseertsItemScreen extends StatelessWidget {
 
 
 
+                              SizedBox(),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SizedBox(),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => AlertDialog(
-                                                content: Text(
-                                                    "Do you want to DELETE ?",
-                                                    style: TextStyle(
-                                                        fontSize: 17,
-                                                        fontWeight: FontWeight.w600,
-                                                        color: cBlack)),
-                                                actions: <Widget>[
-                                                  Center(
-                                                    child: TextButton(
-                                                      onPressed: () {
-                                                        value.deleteDessert(items.id,context);
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: Container(
-                                                        height: 45,
-                                                        width: 90,
-                                                        decoration: BoxDecoration(
-                                                            color: myRed,
-                                                            borderRadius:
-                                                            BorderRadius.circular(8),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Color(0x26000000),
-                                                                blurRadius:
-                                                                2.0, // soften the shadow
-                                                                spreadRadius:
-                                                                1.0, //extend the shadow
-                                                              ),
-                                                            ]),
-                                                        child: Center(
-                                                            child: Text("Delete",
-                                                                style: TextStyle(
-                                                                    color: cWhite,
-                                                                    fontSize: 17,
-                                                                    fontWeight:
-                                                                    FontWeight.w700))),
-                                                      ),
-                                                    ),
-                                                  ),
-
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          child: btn(20, 60, cWhite, "Delete", myRed, FontWeight.w500, 12,Icons.delete_outline)),
-
-                                      InkWell(    onTap: () {
+                                  InkWell(
+                                      onTap: () {
                                         showDialog(
                                           context: context,
                                           builder: (context) => AlertDialog(
                                             content: Text(
-                                                "Do you want to EDIT ?",
+                                                "Do you want to DELETE ?",
                                                 style: TextStyle(
                                                     fontSize: 17,
                                                     fontWeight: FontWeight.w600,
@@ -180,18 +128,14 @@ class DeseertsItemScreen extends StatelessWidget {
                                               Center(
                                                 child: TextButton(
                                                   onPressed: () {
-                                                    print("hgfds0"+items.id);
-                                                    value.editDessertList(items.id, context);
-                                                    callNext(context, adddessertsScreen(dessertsfrom: "EDIT", dessertsoldid: items.id,
-                                                      icecategory: icecategory, icecategoryid: icecategoryid, maincategoryid: maincategoryid,));
-
-
+                                                    value.deleteDessert(items.id,context);
+                                                    Navigator.of(context).pop();
                                                   },
                                                   child: Container(
-                                                    height: 45,
-                                                    width: 90,
+                                                    height: 40,
+                                                    width: 100,
                                                     decoration: BoxDecoration(
-                                                        color: cgreen,
+                                                        color: myRed,
                                                         borderRadius:
                                                         BorderRadius.circular(8),
                                                         boxShadow: [
@@ -204,7 +148,7 @@ class DeseertsItemScreen extends StatelessWidget {
                                                           ),
                                                         ]),
                                                     child: Center(
-                                                        child: Text("Edit",
+                                                        child: Text("Delete",
                                                             style: TextStyle(
                                                                 color: cWhite,
                                                                 fontSize: 17,
@@ -213,14 +157,66 @@ class DeseertsItemScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
+
                                             ],
                                           ),
                                         );
                                       },
-                                          child: btn(20, 60, cWhite, "Edit", cgreen, FontWeight.w500, 12,Icons.edit_outlined)),
+                                      child: btn(40, 80, cWhite, "Delete", myRed, FontWeight.w500, 12,Icons.delete_outline)),
 
-                                    ],
-                                  ),
+                                  InkWell(    onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: Text(
+                                            "Do you want to EDIT ?",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w600,
+                                                color: cBlack)),
+                                        actions: <Widget>[
+                                          Center(
+                                            child: TextButton(
+                                              onPressed: () {
+                                                print("hgfds0"+items.id);
+                                                value.editDessertList(items.id, context);
+                                                callNext(context, adddessertsScreen(dessertsfrom: "EDIT", dessertsoldid: items.id,
+                                                  icecategory: icecategory, icecategoryid: icecategoryid, maincategoryid: maincategoryid,));
+
+
+                                              },
+                                              child: Container(
+                                                height: 45,
+                                                width: 90,
+                                                decoration: BoxDecoration(
+                                                    color: cgreen,
+                                                    borderRadius:
+                                                    BorderRadius.circular(8),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Color(0x26000000),
+                                                        blurRadius:
+                                                        2.0, // soften the shadow
+                                                        spreadRadius:
+                                                        1.0, //extend the shadow
+                                                      ),
+                                                    ]),
+                                                child: Center(
+                                                    child: Text("Edit",
+                                                        style: TextStyle(
+                                                            color: cWhite,
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                            FontWeight.w700))),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                      child: btn(40, 80, cWhite, "Edit", cgreen, FontWeight.w500, 12,Icons.edit_outlined)),
+
                                 ],
                               ),
                               SizedBox(height: 2,)

@@ -111,68 +111,15 @@ class IcrecreamListScreen extends StatelessWidget {
                           children: [
                             FittedBox(child: text(icedata.name, FontWeight.w500, cgreen, 20)),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                SizedBox(),
-                                Row(
-                                  children: [
-                                    InkWell(
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                              content: Text(
-                                                  "Do you want to DELETE ?",
-                                                  style: TextStyle(
-                                                      fontSize: 17,
-                                                      fontWeight: FontWeight.w600,
-                                                      color: cBlack)),
-                                              actions: <Widget>[
-                                                Center(
-                                                  child: TextButton(
-                                                    onPressed: () {
-                                                      value.deleteicecategory(value.icecategorylist[index].id,context);
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                    child: Container(
-                                                      height: 45,
-                                                      width: 90,
-                                                      decoration: BoxDecoration(
-                                                          color: myRed,
-                                                          borderRadius:
-                                                          BorderRadius.circular(8),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: Color(0x26000000),
-                                                              blurRadius:
-                                                              2.0, // soften the shadow
-                                                              spreadRadius:
-                                                              1.0, //extend the shadow
-                                                            ),
-                                                          ]),
-                                                      child: Center(
-                                                          child: Text("Delete",
-                                                              style: TextStyle(
-                                                                  color: cWhite,
-                                                                  fontSize: 17,
-                                                                  fontWeight:
-                                                                  FontWeight.w700))),
-                                                    ),
-                                                  ),
-                                                ),
-
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                        child: btn(20, 60, cWhite, "Delete", myRed, FontWeight.w500, 12,Icons.delete_outline)),
-
-                                    InkWell(    onTap: () {
+                                InkWell(
+                                    onTap: () {
                                       showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
                                           content: Text(
-                                              "Do you want to EDIT ?",
+                                              "Do you want to DELETE ?",
                                               style: TextStyle(
                                                   fontSize: 17,
                                                   fontWeight: FontWeight.w600,
@@ -181,15 +128,14 @@ class IcrecreamListScreen extends StatelessWidget {
                                             Center(
                                               child: TextButton(
                                                 onPressed: () {
-                                                  print("HBHB"+icedata.id);
-                                                  value.editicecategory(value.icecategorylist[index].id, context);
-                                                     callNext(context, AddIceCreamCategory(icecategoryfrom: "EDIT", icecategoryoldid:value.icecategorylist[index].id,));
+                                                  value.deleteicecategory(value.icecategorylist[index].id,context);
+                                                  Navigator.of(context).pop();
                                                 },
                                                 child: Container(
                                                   height: 45,
                                                   width: 90,
                                                   decoration: BoxDecoration(
-                                                      color: cgreen,
+                                                      color: myRed,
                                                       borderRadius:
                                                       BorderRadius.circular(8),
                                                       boxShadow: [
@@ -202,7 +148,7 @@ class IcrecreamListScreen extends StatelessWidget {
                                                         ),
                                                       ]),
                                                   child: Center(
-                                                      child: Text("Edit",
+                                                      child: Text("Delete",
                                                           style: TextStyle(
                                                               color: cWhite,
                                                               fontSize: 17,
@@ -211,14 +157,62 @@ class IcrecreamListScreen extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
+
                                           ],
                                         ),
                                       );
                                     },
-                                        child: btn(20, 60, cWhite, "Edit", cgreen, FontWeight.w500, 12,Icons.edit_outlined)),
+                                    child: btn(40, 100, cWhite, "Delete", myRed, FontWeight.w500, 12,Icons.delete_outline)),
 
-                                  ],
-                                ),
+                                InkWell(    onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      content: Text(
+                                          "Do you want to EDIT ?",
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600,
+                                              color: cBlack)),
+                                      actions: <Widget>[
+                                        Center(
+                                          child: TextButton(
+                                            onPressed: () {
+                                              print("HBHB"+icedata.id);
+                                              value.editicecategory(value.icecategorylist[index].id, context);
+                                                 callNext(context, AddIceCreamCategory(icecategoryfrom: "EDIT", icecategoryoldid:value.icecategorylist[index].id,));
+                                            },
+                                            child: Container(
+                                              height: 45,
+                                              width: 90,
+                                              decoration: BoxDecoration(
+                                                  color: cgreen,
+                                                  borderRadius:
+                                                  BorderRadius.circular(8),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Color(0x26000000),
+                                                      blurRadius:
+                                                      2.0, // soften the shadow
+                                                      spreadRadius:
+                                                      1.0, //extend the shadow
+                                                    ),
+                                                  ]),
+                                              child: Center(
+                                                  child: Text("Edit",
+                                                      style: TextStyle(
+                                                          color: cWhite,
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                          FontWeight.w700))),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                    child: btn(40, 100, cWhite, "Edit", cgreen, FontWeight.w500, 12,Icons.edit_outlined)),
                               ],
                             ),
                             SizedBox(height: 2,)

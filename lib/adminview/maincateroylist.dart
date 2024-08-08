@@ -74,21 +74,17 @@ class Main_Category extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Center(child: FittedBox(child: text(items.name, FontWeight.w800, cgreen, 20))),
+                        SizedBox(),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            SizedBox(),
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () => _showDeleteDialog(context, value, items.id),
-                                  child: btn(20, 60, cWhite, "Delete", myRed, FontWeight.w500, 12, Icons.delete_outline),
-                                ),
-                                InkWell(
-                                  onTap: () => _showEditDialog(context, value, items.id),
-                                  child: btn(20, 60, cWhite, "Edit", cgreen, FontWeight.w500, 12, Icons.edit_outlined),
-                                ),
-                              ],
+                            InkWell(
+                              onTap: () => _showDeleteDialog(context, value, items.id),
+                              child: btn(40, 100, cWhite, "Delete", myRed, FontWeight.w500, 12, Icons.delete_outline),
+                            ),
+                            InkWell(
+                              onTap: () => _showEditDialog(context, value, items.id),
+                              child: btn(40, 100, cWhite, "Edit", cgreen, FontWeight.w500, 12, Icons.edit_outlined),
                             ),
                           ],
                         ),

@@ -57,28 +57,25 @@ class Admin_Home_Screen extends StatelessWidget {
         body:SingleChildScrollView(
           child: Column(
             children: [
-              Builder(
-                builder: (context) {
-                  return Consumer<Mainprovider>(
-                    builder: (context,val,child) {
-                      return InkWell(onTap: () {
-                        val.getfsptypes();
-                                   callNext(context, FouzySpecialScreen());
-                      },
-                          child: Button(height*.10,width,cgreen,"Fouzy Special",cWhite,FontWeight.w800, 22));
-                    }
-                  );
-                }
-              ),
               Consumer<Mainprovider>(
                 builder: (context,value,child) {
                   return InkWell(onTap: () {
                     value.getMainCategoy();
                         callNext(context, Main_Category());
                   },
-                      child: Button(height*.10,width,cgreen,"Main Category",cWhite,FontWeight.w800, 22));
+                      child: Button(height*.10,width,Color(0xff019331),"Main Category",cWhite,FontWeight.w800, 22));
                 }
               ),
+
+              Consumer<Mainprovider>(
+              builder: (context,val,child) {
+                return InkWell(onTap: () {
+                  val.getfsptypes();
+                             callNext(context, FouzySpecialScreen());
+                },
+                    child: Button(height*.10,width,cgreen,"Fouzy Special",cWhite,FontWeight.w800, 22));
+              }
+                                ),
               Consumer<Mainprovider>(
                 builder: (context,val,child) {
                   return InkWell(onTap: () {
