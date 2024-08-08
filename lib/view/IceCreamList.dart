@@ -120,7 +120,7 @@ class IceCreamListScreen extends StatelessWidget {
                                       itemCount: 2,
                                       itemBuilder: (context, index) {
                                         return CheckboxListTile(
-                                          title: Text(items.scoops[index].name),
+                                          title: FittedBox(child: Text(items.scoops[index].name)),
                                           subtitle: Text(items.scoops[index].price.toString()),
                                           tileColor: cgreen,
                                           shape: RoundedRectangleBorder(

@@ -67,106 +67,158 @@ class Juice_ShakesListScreen extends StatelessWidget {
               ),
             ),
           ),
-          child: Consumer<Mainprovider>(builder: (context, value, child) {
-            return value.getjuiceshakeslistloader
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: cgreen,
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 18.0, vertical: 30),
-                    child: Consumer<Mainprovider>(
-                        builder: (context, value, child) {
-                      print("jhgfdszxcvb" +
-                          value.Juiceshakesalllist.length.toString());
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
 
-                      return GridView.builder(
-                        itemCount: value.Juiceshakesalllist.length,
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisSpacing: 15,
-                                mainAxisSpacing: 0.5,
-                                crossAxisCount: 3,
-                                childAspectRatio: 1.3),
-                        itemBuilder: (context, index) {
-                          var item = value.Juiceshakesalllist[index];
-                          return GestureDetector(
-                              onTap: () {
-                                value.AddCartDetails(item.name, item.id,
-                                    item.price, item.categoryname, "", context);
-                                value.setCheckboxValue(
-                                    index, !value.getCheckboxValue(index));
+              children: [
+
+                Padding(
+                  padding: EdgeInsets.only(top: height/20, left: 30),
+                  child: Container(
+                      width: width/2.5,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: cYellow, width: 5,),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow:[
+                            BoxShadow(
+                                offset: Offset(3, 4),
+                                blurRadius: 3,
+                                spreadRadius: -3,
+                                color: cYellow
+                            ),
+                          ]
+                      ),
+                      child: Consumer<Mainprovider>(
+                          builder: (context, value, child) {
+                            return TextField(
+                              onChanged: (text){
+                                value.juicesearch(text);
                               },
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 5),
-                                width: width,
-                                height: height * .12,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: cYellow,
+                              cursorColor: clblack,
+                              decoration: InputDecoration(
+                                fillColor: cWhite,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: BorderSide.none
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      // decoration: BoxDecoration(
-                                      //     color: Colors.transparent,
-                                      //     image: DecorationImage(
-                                      //         image: item.avilphoto != ""
-                                      //             ? NetworkImage(
-                                      //           item.avilphoto,
-                                      //         )
-                                      //             : AssetImage(""))),
+                                prefixIcon: Icon(Icons.search, color: cGrey, size: height/60,),
+                                hintText: "Search...",
+                                hintStyle: TextStyle(
+                                  color: cGrey,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: height/70,
+                                ),
+                              ),
+                            );
+                          }
+                      )
+                  ),
+                ),
+                Consumer<Mainprovider>(builder: (context, value, child) {
+                  return value.getjucieloader
+                      ? Center(child: CircularProgressIndicator(
+                            color: cgreen,
+                          ),
+                        )
+                      : value.filterjuiceshakesitemslist.length>0?Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 18.0, vertical: 30),
+                          child: Consumer<Mainprovider>(
+                              builder: (context, value, child) {
+                            print("jhgfdszxcvb" +
+                                value.filterjuiceshakesitemslist.length.toString());
 
-                                      child: Consumer<Mainprovider>(
-                                          builder: (context, value, child) {
-                                        return Align(
-                                            alignment: Alignment.topRight,
-                                            child: Transform.scale(
-                                              scale: 1.5,
-                                              child: Checkbox(
-                                                shape: CircleBorder(),
-                                                value: value
-                                                    .getCheckboxValue(index),
-                                                onChanged: (bool? newValue) {
-                                                  value.AddCartDetails(
-                                                      item.name,
-                                                      item.id,
-                                                      item.price,
-                                                      item.categoryname,
-                                                      "",
-                                                      context);
-                                                  value.setCheckboxValue(
-                                                      index, newValue ?? false);
-                                                },
-                                                checkColor: Colors.green,
-                                                fillColor:
-                                                    WidgetStatePropertyAll(
-                                                        Colors.white),
-                                              ),
-                                            ));
-                                      }),
-                                    ),
-                                    FittedBox(
-                                        child: text(item.name, FontWeight.w800,
-                                            cgreen, 25)),
-                                    FittedBox(
-                                        child: text("₹" + item.price,
-                                            FontWeight.w800, cgreen, 25)),
-                                    SizedBox(),
-                                  ],
-                                ),
-                              ));
-                        },
-                      );
-                    }),
-                  );
-          }),
+                            return GridView.builder(
+                              itemCount: value.filterjuiceshakesitemslist.length,
+                              shrinkWrap: true,
+                              physics: ScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisSpacing: 15,
+                                      mainAxisSpacing: 0.5,
+                                      crossAxisCount: 3,
+                                      childAspectRatio: 1.3),
+                              itemBuilder: (context, index) {
+                                var item = value.filterjuiceshakesitemslist[index];
+                                return GestureDetector(
+                                    onTap: () {
+                                      value.AddCartDetails(item.name, item.id,
+                                          item.price, item.categoryname, "", context);
+                                      value.setCheckboxValue(
+                                          index, !value.getCheckboxValue(index));
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 5),
+                                      width: width,
+                                      // height: height * .12,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: cYellow,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            // decoration: BoxDecoration(
+                                            //     color: Colors.transparent,
+                                            //     image: DecorationImage(
+                                            //         image: item.avilphoto != ""
+                                            //             ? NetworkImage(
+                                            //           item.avilphoto,
+                                            //         )
+                                            //             : AssetImage(""))),
+
+                                            child: Consumer<Mainprovider>(
+                                                builder: (context, value, child) {
+                                              return Align(
+                                                  alignment: Alignment.topRight,
+                                                  child: Transform.scale(
+                                                    scale: 1.5,
+                                                    child: Checkbox(
+                                                      shape: CircleBorder(),
+                                                      value: value
+                                                          .getCheckboxValue(index),
+                                                      onChanged: (bool? newValue) {
+                                                        value.AddCartDetails(
+                                                            item.name,
+                                                            item.id,
+                                                            item.price,
+                                                            item.categoryname,
+                                                            "",
+                                                            context);
+                                                        value.setCheckboxValue(
+                                                            index, newValue ?? false);
+                                                      },
+                                                      checkColor: Colors.green,
+                                                      fillColor:
+                                                          WidgetStatePropertyAll(
+                                                              Colors.white),
+                                                    ),
+                                                  ));
+                                            }),
+                                          ),
+                                          FittedBox(
+                                              child: text(item.name, FontWeight.w800,
+                                                  cgreen, 25)),
+                                          FittedBox(
+                                              child: text("₹" + item.price,
+                                                  FontWeight.w800, cgreen, 25)),
+                                          SizedBox(),
+                                        ],
+                                      ),
+                                    ));
+                              },
+                            );
+                          }),
+                        ):Center(child: Text("The list is empty"));
+                }),
+              ],
+            ),
+          ),
         ));
   }
 }

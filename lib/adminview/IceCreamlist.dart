@@ -92,10 +92,10 @@ class IceCreamTypesListScreen extends StatelessWidget {
                       return Container(
 
                           margin: EdgeInsets.symmetric(
-                              horizontal: width / 90),
+                              horizontal: width / 90,vertical: 5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: cYellow,
+                            color: Colors.amberAccent,
                           ),
                           child: Column(children: [
                             FittedBox(

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/colors.dart';
+import 'package:fouzy/main.dart';
 import 'package:fouzy/provider/mainprovider.dart';
 import 'package:fouzy/provider/printerProvider.dart';
 import 'package:provider/provider.dart';
@@ -410,6 +411,9 @@ class Printerscreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: height/5),
                             child: ElevatedButton(
                               onPressed: () async {
+                                mainProvider.addOrdersnew( mainProvider.cartitemslist,name,ordertype,deskno, '000'+mainProvider.orderCount.toString(),mainProvider.getTotalPrice().toString(),context);
+                                mainProvider.cartitemslist.clear();
+
                                 try {
                                   bool isConnected = await printerProvider.testPrinterConnection(
                                       printerProvider.Ip,
@@ -421,16 +425,9 @@ class Printerscreen extends StatelessWidget {
                                     double totalPrice = mainProvider.getTotalPrice();
 
                                     // Print the invoice
+
                                     await printerProvider.printInvoice(
-                                      context,
-                                      name: name,
-                                      deskno: deskno,
-                                      ordertype: ordertype,
-                                      datetime: datetime,
-                                      itemslist: mainProvider.cartitemslist,
-                                      invoiceNumber: '000${mainProvider.orderCount}',
-                                      totalPrice: totalPrice,
-                                    );
+                                      context, name: name, deskno: deskno, ordertype: ordertype, datetime: datetime, itemslist: mainProvider.cartitemslist, invoiceNumber: '000${mainProvider.orderCount}', totalPrice: totalPrice,);
 
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text('Printing completed successfully.')),
