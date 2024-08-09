@@ -88,7 +88,7 @@ class Home_screen extends StatelessWidget {
                           callNext(context, Juice_ShakesListScreen());
                         }
                       },
-                      child: Padding(
+                      child: Padding(j
                         padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 28),
                         child: Container(
                           height: height / 12,
