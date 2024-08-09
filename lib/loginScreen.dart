@@ -157,14 +157,18 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () {
                         if (value.loginCT.text == "123456") {
                           callNextReplacement(context, Admin_Home_Screen());
+                          value.loginCT.clear();
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Incorrect Code",
-                                style: TextStyle(
-                                  color: cgreen,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w800,
-                                )),
+                            backgroundColor: Colors.red,
+                            content: Center(
+                              child: Text("Incorrect Code",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800,
+                                  )),
+                            ),
                             duration: Duration(milliseconds: 3000),
                           ));
                         }

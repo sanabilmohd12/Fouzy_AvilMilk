@@ -1560,10 +1560,7 @@ class Mainprovider extends ChangeNotifier {
       return false;
     }
   }
-  void clearlogin(){
-    loginCT.clear();
-    notifyListeners();
-  }
+
 
   bool itemStatus = false;
 
@@ -2299,48 +2296,48 @@ class Mainprovider extends ChangeNotifier {
   //     ));
   //   });
   // }
-
-  void AddOrder(
-      String name,
-      String date,
-      String ordertype,
-      List itemslist,
-      String tableno,
-      String invoiceno,
-      String totalprice,
-      String slno,
-      BuildContext context) {
-    print("vbfdbdfbfbdfbdfbdfbbbbbbbb");
-
-    String id = DateTime.now().millisecondsSinceEpoch.toString();
-
-    Map<String, dynamic> ordermap = HashMap();
-
-    ordermap["ORDER_ID"] = id;
-    ordermap["CUSTOMER_NAME"] = name;
-    ordermap["DATE_TIME"] = date;
-    ordermap["ORDER_TYPE"] = ordertype;
-    ordermap["ITEMS_LIST"] = itemslist;
-    ordermap["TABLE_NO"] = tableno;
-    ordermap["INVOIVE_NO"] = invoiceno;
-    ordermap["TOTAL_PRICE"] = totalprice;
-    ordermap["ITEMS_COUNT"] = slno;
-    ordermap["PRINTED"] = "YES";
-
-    db.collection("ORDER_DETAILS").doc(id).set(ordermap);
-
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Center(
-          child: Text("Your Order Is Confirmed",
-              style: TextStyle(
-                  color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
-      backgroundColor: cgreen,
-      elevation: 10,
-      behavior: SnackBarBehavior.floating,
-      margin: EdgeInsets.all(5),
-    ));
-    notifyListeners();
-  }
+  //
+  // void AddOrder(
+  //     String name,
+  //     String date,
+  //     String ordertype,
+  //     List itemslist,
+  //     String tableno,
+  //     String invoiceno,
+  //     String totalprice,
+  //     String slno,
+  //     BuildContext context) {
+  //   print("vbfdbdfbfbdfbdfbdfbbbbbbbb");
+  //
+  //   String id = DateTime.now().millisecondsSinceEpoch.toString();
+  //
+  //   Map<String, dynamic> ordermap = HashMap();
+  //
+  //   ordermap["ORDER_ID"] = id;
+  //   ordermap["CUSTOMER_NAME"] = name;
+  //   ordermap["DATE_TIME"] = date;
+  //   ordermap["ORDER_TYPE"] = ordertype;
+  //   ordermap["ITEMS_LIST"] = itemslist;
+  //   ordermap["TABLE_NO"] = tableno;
+  //   ordermap["INVOIVE_NO"] = invoiceno;
+  //   ordermap["TOTAL_PRICE"] = totalprice;
+  //   ordermap["ITEMS_COUNT"] = slno;
+  //   ordermap["PRINTED"] = "YES";
+  //
+  //   db.collection("ORDER_DETAILS").doc(id).set(ordermap);
+  //
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     content: Center(
+  //         child: Text("Your Order Is Confirmed",
+  //             style: TextStyle(
+  //                 color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
+  //     backgroundColor: cgreen,
+  //     elevation: 10,
+  //     behavior: SnackBarBehavior.floating,
+  //     margin: EdgeInsets.all(5),
+  //   ));
+  //   notifyListeners();
+  // }
 
   List<String> cartitemidlist = [];
 
@@ -2482,8 +2479,10 @@ class Mainprovider extends ChangeNotifier {
       margin: EdgeInsets.all(5),
     ));
 
+
     notifyListeners();
   }
+
 
 // List<OrderModel> OrderList = [];
 //   Stream<List<OrderModel>> getOrdersStream() {
@@ -2499,87 +2498,87 @@ class Mainprovider extends ChangeNotifier {
   bool orderLoader = false;
   bool _disposed = false;
 
-  // Future<void> fetchOrderList(DateTime date1, DateTime date2) async {
-  //   if (_disposed) return;
-  //
-  //   orderLoader = true;
-  //   // notifyListeners();
-  //
-  //   try {
-  //     QuerySnapshot querySnapshot = await db
-  //         .collection("ORDERS")
-  //         .where("ORDER_DATE", isGreaterThan: date1)
-  //         .where("ORDER_DATE", isLessThan: date2)
-  //         .get();
-  //
-  //     if (_disposed) return;
-  //
-  //     orderList.clear();
-  //     if (querySnapshot.docs.isNotEmpty) {
-  //       for (var doc in querySnapshot.docs) {
-  //         Map<String, dynamic> getmap = doc.data() as Map<String, dynamic>;
-  //         orderList.add(OrderModel.fromMap(getmap));
-  //       }
-  //     }
-  //   } catch (error) {
-  //     print("Error fetching orders: $error");
-  //   } finally {
-  //     if (!_disposed) {
-  //       orderLoader = false;
-  //       notifyListeners();
-  //     }
-  //   }
-  // }
+  Future<void> fetchOrderList() async {
+    if (_disposed) return;
 
-  List<OrderModel> ordersList = [];
+    orderLoader = true;
+    notifyListeners();
 
-   void fetchOrders() {
-     print("hhhhhhhhhk");
-    db.collection("ORDERS").get().then((value) {
-      if (value.docs.isNotEmpty) {
-        print("jhgfcvbnm");
-        for (var doc in value.docs) {
-          Map<String, dynamic> map = doc.data();
-          if (map['PRODUCTS'] != null) {
-            List<ProductModel> productList = [];
-            print("fpjjbn"+productList.length.toString());
-            for (var element in map['PRODUCTS'].entries) {
-              productList.add(ProductModel(
-                name: element.key,
-                qty: element.value['Qty'].toString(),
-                price: element.value['Price'].toString(),
-                itemTotal: element.value['Item Total'].toString(),
-              ));
-              print("fpjjbn"+productList.length.toString());
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection("ORDERS")
 
-            }
-            ordersList.add(OrderModel(
-              orderId: map['ORDER_ID'],
-              customerName: map['CUSTOMER_NAME'],
-              orderDate: map['ORDER_DATE'],
-              orderType: map['ORDER_TYPE'],
-              tableNo: map['TABLE_NO'],
-              invoiceNo: map['INVOICE_NO'],
-              products: productList,
-              totalAmount: map['TOTAL_AMOUT'].toString(),
-            ));
-          }
+          .get();
+
+      if (_disposed) return;
+
+      orderList.clear();
+      if (querySnapshot.docs.isNotEmpty) {
+        orderLoader = false;
+        notifyListeners();
+        for (var doc in querySnapshot.docs) {
+          Map<String, dynamic> getmap = doc.data() as Map<String, dynamic>;
+          orderList.add(OrderModel.fromMap(getmap));
         }
       }
-    });
+    } catch (error) {
+      print("Error fetching orders: $error");
+    } finally {
+      if (!_disposed) {
+
+      }
+    }
   }
 
+  // List<OrderModel> ordersList = [];
+  //
+  //  void fetchOrders() {
+  //    print("hhhhhhhhhk");
+  //   db.collection("ORDERS").get().then((value) {
+  //     if (value.docs.isNotEmpty) {
+  //       print("jhgfcvbnm");
+  //       for (var doc in value.docs) {
+  //         Map<String, dynamic> map = doc.data();
+  //         if (map['PRODUCTS'] != null) {
+  //           List<ProductModel> productList = [];
+  //           print("fpjjbn"+productList.length.toString());
+  //           for (var element in map['PRODUCTS'].entries) {
+  //             productList.add(ProductModel(
+  //               name: element.key,
+  //               qty: element.value['Qty'].toString(),
+  //               price: element.value['Price'].toString(),
+  //               itemTotal: element.value['Item Total'].toString(),
+  //             ));
+  //             print("fpjjbn"+productList.length.toString());
+  //
+  //           }
+  //           ordersList.add(OrderModel(
+  //             orderId: map['ORDER_ID'],
+  //             customerName: map['CUSTOMER_NAME'],
+  //             orderDate: map['ORDER_DATE'],
+  //             orderType: map['ORDER_TYPE'],
+  //             tableNo: map['TABLE_NO'],
+  //             invoiceNo: map['INVOICE_NO'],
+  //             products: productList,
+  //             totalAmount: map['TOTAL_AMOUT'].toString(),
+  //           ));
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
 
   List<SalesReportOrder>salesreportlist=[];
+
     bool getsalsesloader=false;
 
-  void salesreport( DateTime date1, DateTime date2){
+  void salesreport(DateTime date1, DateTime date2){
     getsalsesloader=true;
     notifyListeners();
     print("fvkljhbfvhjbfn");
      db.collection("ORDERS").where("ORDER_DATE", isGreaterThanOrEqualTo: date1)
          .where("ORDER_DATE", isLessThanOrEqualTo: date2).get().then((value) {
-       print(date1.toString()+"jsjsjsjsj"+date2.toString());
+         print(date1.toString()+"jsjsjsjsj"+date2.toString());
        if(value.docs.isNotEmpty){
          salesreportlist.clear();
          getsalsesloader=false;
@@ -2590,15 +2589,13 @@ class Mainprovider extends ChangeNotifier {
                getmap["ORDER_ID"].toString(),
                getmap["CUSTOMER_NAME"].toString(),
                getmap["INVOICE_NO"].toString(),
-             DateFormat("dd-MM-yyyy hh:mm a")
-                 .format(getmap["ORDER_DATE"].toDate())
-                 .toString(),
-
+             DateFormat("dd-MM-yyyy hh:mm a").format(getmap["ORDER_DATE"].toDate()).toString(),
                getmap["ORDER_TYPE"].toString(),
                getmap["TABLE_NO"].toString(),
                getmap["TOTAL_AMOUT"].toString(),
                    ));
            notifyListeners();
+
            print("gggggg"+salesreportlist.length.toString());
 
          }
@@ -2606,6 +2603,7 @@ class Mainprovider extends ChangeNotifier {
      },);
      notifyListeners();
   }
+  ///
 
 
 
@@ -2613,5 +2611,7 @@ class Mainprovider extends ChangeNotifier {
   void dispose() {
     _disposed = true;
     super.dispose();
+
+
   }
 }

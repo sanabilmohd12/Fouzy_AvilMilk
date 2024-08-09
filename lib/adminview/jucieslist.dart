@@ -79,6 +79,7 @@ class jucieslistScreen extends StatelessWidget {
                       var item = value.juciecategorylist[index];
                       return InkWell(
                         onTap: () {
+                          print("kjnkvjnf0"+value.juciecategorylist[index].name);
                           value.getJuiceShakesItems(value.juciecategorylist[index].id);
                           callNext(context, JuciesAndShakesList(
                             jucietypeid: value.juciecategorylist[index].id,
