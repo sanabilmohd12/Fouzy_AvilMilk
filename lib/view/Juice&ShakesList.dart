@@ -147,8 +147,8 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                     onTap: () {
                                       value.AddCartDetails(item.name, item.id,
                                           item.price, item.categoryname, "", context);
-                                      value.setCheckboxValue(
-                                          index, !value.getCheckboxValue(index));
+                                      value.JUICESsetCheckboxValue(
+                                          index, !value.JUICESgetCheckboxValue(index));
                                     },
                                     child: Container(
                                       margin: const EdgeInsets.symmetric(
@@ -181,7 +181,7 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                                     child: Checkbox(
                                                       shape: CircleBorder(),
                                                       value: value
-                                                          .getCheckboxValue(index),
+                                                          .JUICESgetCheckboxValue(index),
                                                       onChanged: (bool? newValue) {
                                                         value.AddCartDetails(
                                                             item.name,
@@ -190,7 +190,7 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                                             item.categoryname,
                                                             "",
                                                             context);
-                                                        value.setCheckboxValue(
+                                                        value.JUICESsetCheckboxValue(
                                                             index, newValue ?? false);
                                                       },
                                                       checkColor: Colors.green,

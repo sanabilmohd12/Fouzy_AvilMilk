@@ -77,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
               ),
-              Image.asset('assets/fouzylogo.png',scale: 5,),
+              Image.asset('assets/ic_launcher.png',),
             ],
           ),
         ),

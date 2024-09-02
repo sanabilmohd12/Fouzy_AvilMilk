@@ -134,7 +134,7 @@ class FouzyMultiple extends StatelessWidget {
                                   item.avilphoto,
                                   context
                               );
-                              value.setCheckboxValue(index, !value.getCheckboxValue(index));
+                              value.FSPsetCheckboxValue(index, !value.FSPgetCheckboxValue(index));
                             },
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
@@ -166,11 +166,11 @@ class FouzyMultiple extends StatelessWidget {
                                                 scale: 1.5,
                                                 child: Checkbox(
                                                   shape: CircleBorder(),
-                                                  value: value.getCheckboxValue(index) ||
+                                                  value: value.FSPgetCheckboxValue(index) ||
                                                       value.isInCart("AVIL_MILK", item.id),
                                                   onChanged: (bool? newValue) {
                                                     value.AddCartDetails(item.name, item.id, item.price, item.maincatrgoryname, item.avilphoto, context);
-                                                    value.setCheckboxValue(index, newValue ?? false);
+                                                    value.FSPsetCheckboxValue(index, newValue ?? false);
                                                     if (newValue == true) {
                                                       value.cartItemsControlls('AVIL_MILK', item.id, item);
                                                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

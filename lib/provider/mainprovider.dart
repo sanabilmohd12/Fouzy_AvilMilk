@@ -15,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../constants/callFunctions.dart';
 import '../modelClass/MainCategoryModelClass.dart';
 import '../modelClass/avilmilktypesModelClass.dart';
@@ -576,7 +577,7 @@ class Mainprovider extends ChangeNotifier {
   Future<void> addAvilMilkItems(
       BuildContext context1, String from, String oldId) async {
     avilloader = true;
-    notifyListeners();
+    // notifyListeners();
     String id = DateTime.now().millisecondsSinceEpoch.toString();
     HashMap<String, dynamic> map = HashMap();
 
@@ -742,7 +743,7 @@ class Mainprovider extends ChangeNotifier {
 
   Future<void> getavilmilktypes() async {
     getavilloader = true;
-    notifyListeners();
+    // notifyListeners();
     db.collection("AVIL_MILK").get().then((value) {
       if (value.docs.isNotEmpty) {
         getavilloader = false;
@@ -995,7 +996,7 @@ class Mainprovider extends ChangeNotifier {
     juiceshakesitemslist.clear();
     print("heloooooooi");
     getjuiceshakeslistloader = true;
-    notifyListeners();
+    // notifyListeners();
     db
         .collection("JUICE_SHAKES_ITEMS")
         .where("JUICE_SHAKES_CATEGORY_ID", isEqualTo: juicetypeid)
@@ -1029,7 +1030,7 @@ class Mainprovider extends ChangeNotifier {
     filterjuiceshakesitemslist.clear();
     print("dcdc");
     getjucieloader = true;
-    notifyListeners();
+    // notifyListeners();
     db.collection("JUICE_SHAKES_ITEMS").get().then((value) {
       if (value.docs.isNotEmpty) {
         Juiceshakesalllist.clear();
@@ -1470,19 +1471,43 @@ class Mainprovider extends ChangeNotifier {
   /// CheckBox ** //
 
   Map<int, bool> checkboxStates = {};
+  Map<int, bool> AVILcheckboxStates = {};
+  Map<int, bool> JUICEScheckboxStates = {};
   Map<int, bool> iceCreamCheckboxStates = {};
   Map<int, bool> dessertCheckboxStates = {};
 
-  bool getCheckboxValue(
+  bool FSPgetCheckboxValue(
     int index1,
   ) {
     return checkboxStates[index1] ?? false;
   }
 
-  void setCheckboxValue(int index, bool value) {
+  void FSPsetCheckboxValue(int index, bool value) {
     checkboxStates[index] = value;
     notifyListeners();
   }
+bool AVILgetCheckboxValue(
+    int index1,
+  ) {
+    return AVILcheckboxStates[index1] ?? false;
+  }
+
+  void AVILsetCheckboxValue(int index, bool value) {
+    AVILcheckboxStates[index] = value;
+    notifyListeners();
+  }
+bool JUICESgetCheckboxValue(
+    int index1,
+  ) {
+    return JUICEScheckboxStates[index1] ?? false;
+  }
+
+  void JUICESsetCheckboxValue(int index, bool value) {
+    JUICEScheckboxStates[index] = value;
+    notifyListeners();
+  }
+
+
 
   /// New functions for ice cream
   bool getIceCreamCheckboxValue(int index) {
@@ -1622,6 +1647,55 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  /// clear checkbox selection
+  void ClearFSPCheckBoxs() {
+    for (int i = 0; i < checkboxStates.length; i++) {
+      checkboxStates[i] = false;
+    }
+    notifyListeners();
+  }
+  void ClearAVILMILKCheckBoxs() {
+    for (int i = 0; i < AVILcheckboxStates.length; i++) {
+      AVILcheckboxStates[i] = false;
+    }
+    notifyListeners();
+  }void ClearJUICESCheckBoxs() {
+    for (int i = 0; i < JUICEScheckboxStates.length; i++) {
+      JUICEScheckboxStates[i] = false;
+    }
+    notifyListeners();
+  }
+  Future<void> clearAllIceCreamSelections(BuildContext context) async {
+    for (int iceCreamIndex = 0; iceCreamIndex < icecreamlist.length; iceCreamIndex++) {
+      var iceCream = icecreamlist[iceCreamIndex];
+      for (int scoopIndex = 0; scoopIndex < iceCream.scoops.length; scoopIndex++) {
+        var scoop = iceCream.scoops[scoopIndex];
+        if (scoop.isClicked) {
+          scoop.isClicked = false;
+          await removeItemFromCart(
+            context: context,
+            itemsid: "${iceCream.flavourName}_${scoop.name}",
+          );
+        }
+      }
+    }
+    notifyListeners();
+  }
+  void clearDessertCheckbox() {
+    for (int i = 0; i < dessertCheckboxStates.length; i++) {
+      dessertCheckboxStates[i] = false;
+    }
+    notifyListeners();
+  }
+
+  void ClearAllCheckBoxes(BuildContext context){
+    ClearFSPCheckBoxs();
+    ClearAVILMILKCheckBoxs();
+    ClearJUICESCheckBoxs();
+    clearAllIceCreamSelections(context);
+    clearDessertCheckbox();
+  }
   // List<CartItemsDetails> cartitemslist = [];
   // bool getcart = false;
   // String slno = "";
@@ -1667,53 +1741,53 @@ class Mainprovider extends ChangeNotifier {
   bool getcart = false;
   String slno = "";
 
-  Future<void> getCartItems() async {
-    print("Fetching cart items...");
-    try {
-      getcart = true;
-      // notifyListeners();
+    Future<void> getCartItems() async {
+      print("Fetching cart items...");
+      try {
+        getcart = true;
+        // notifyListeners();
 
-      final QuerySnapshot snapshot = await db.collection("CART").get();
+        final QuerySnapshot snapshot = await db.collection("CART").get();
 
 
-      if (snapshot.docs.isNotEmpty) {
-        cartitemslist.clear();
+        if (snapshot.docs.isNotEmpty) {
+          cartitemslist.clear();
 
-        for (var doc in snapshot.docs) {
-          Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
+          for (var doc in snapshot.docs) {
+            Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
 
-          DateTime dateTime = cartData["DATE_TIME"].toDate();
-          String dateString = dateTime.toString();
+            DateTime dateTime = cartData["DATE_TIME"].toDate();
+            String dateString = dateTime.toString();
 
-          cartitemslist.add(CartItemsDetails(
-            cartData["CART_ID"].toString(),
-            dateString,
-            // DateFormat("dd-MM-yyyy hh:mm a")
-            //     .format(cartData["DATE_TIME"].toDate()),
-            cartData["ITEMS_CATEGORY"].toString(),
-            cartData["ITEMS_ID"].toString(),
-            cartData["ITEMS_NAME"].toString(),
-            cartData["ITEMS_PHOTO"] ?? "",
-            cartData["ITEMS_PRICE"].toString(),
+            cartitemslist.add(CartItemsDetails(
+              cartData["CART_ID"].toString(),
+              dateString,
+              // DateFormat("dd-MM-yyyy hh:mm a")
+              //     .format(cartData["DATE_TIME"].toDate()),
+              cartData["ITEMS_CATEGORY"].toString(),
+              cartData["ITEMS_ID"].toString(),
+              cartData["ITEMS_NAME"].toString(),
+              cartData["ITEMS_PHOTO"] ?? "",
+              cartData["ITEMS_PRICE"].toString(),
 
-            cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
+              cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
 
-            cartData["TOTAL_PRICE"].toString(),
-            cartData["QTY"].toString(),
-          ));
+              cartData["TOTAL_PRICE"].toString(),
+              cartData["QTY"].toString(),
+            ));
+          }
+          print("Cart items fetched: ${cartitemslist.length}");
+        } else {
+          print("No cart items found.");
         }
-        print("Cart items fetched: ${cartitemslist.length}");
-      } else {
-        print("No cart items found.");
+      } catch (e) {
+        print("Error fetching cart items: $e");
+      } finally {
+        getcart = false;
+        slno = cartitemslist.length.toString();
+        notifyListeners();
       }
-    } catch (e) {
-      print("Error fetching cart items: $e");
-    } finally {
-      getcart = false;
-      slno = cartitemslist.length.toString();
-      notifyListeners();
     }
-  }
 
   Future<void> delefromtecart(String id, BuildContext context) async {
     try {
@@ -1750,6 +1824,48 @@ class Mainprovider extends ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.red,
         content: Text("Error deleting item: $e"),
+      ));
+    }
+  }
+
+
+  Future<void> deleteAllFromCart(BuildContext context) async {
+    try {
+      // Start a batch
+      WriteBatch batch = db.batch();
+
+      // Get all documents in the CART collection
+      QuerySnapshot querySnapshot = await db.collection("CART").get();
+
+      // Add delete operations to the batch
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        batch.delete(doc.reference);
+      }
+
+      // Commit the batch
+      await batch.commit();
+
+      // Clear the local list
+      cartitemslist.clear();
+      notifyListeners(); // Update UI immediately
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        duration: Duration(milliseconds: 500),
+        backgroundColor: Colors.transparent,
+        content: CustomSnackBarContent(
+          colorcontainer: Colors.orange,
+          errorText: " ",
+          errorHeadline: "Cart Cleared!",
+          colorbubble: Colors.red,
+          img: "assets/close.svg",
+        ),
+      ));
+
+    } catch (e) {
+      print("Error deleting all items: $e");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Error deleting all items: $e"),
       ));
     }
   }
@@ -2613,5 +2729,33 @@ class Mainprovider extends ChangeNotifier {
     super.dispose();
 
 
+  }
+
+
+
+
+
+
+
+  // / call
+  void makingPhoneCall(String Phone) async {
+    String url = "";
+    url = 'tel:$Phone';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+//whatsapp
+  void launchWhatsApp({required String phoneNumber, required String message}) async {
+    String url = "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

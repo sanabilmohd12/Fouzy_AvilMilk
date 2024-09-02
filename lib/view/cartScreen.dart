@@ -294,6 +294,19 @@ class Cart_Screen extends StatelessWidget {
         }),
         backgroundColor: cYellow,
         appBar: AppBar(
+         actions: [
+           Consumer <Mainprovider>(
+             builder: (context,provider,child) {
+               return Padding(
+                 padding: const EdgeInsets.all(28.0),
+                 child: ElevatedButton(
+                   onPressed: () => provider.deleteAllFromCart(context),
+                   child: Text("Clear Cart"),
+                 ),
+               );
+             }
+           )
+         ],
           title: const Text("Orders",
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800)),
           centerTitle: true,

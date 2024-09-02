@@ -167,86 +167,86 @@ Widget text(
   );
 }
 
-  Widget gridWidget(
-    int itemCount,
-    double width,
-    double height,
-    ImageProvider image,
-    String imagePath,
-    String name,
-    String price,
-    String description) {
-  return GridView.builder(
-    itemCount: itemCount,
-    shrinkWrap: true,
-    physics: ScrollPhysics(),
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 15,
-        crossAxisCount: 2,
-        childAspectRatio: 1),
-    itemBuilder: (context, index) {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: cYellow,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: width,
-              height: 250,
-              decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  image: DecorationImage(
-                      image: image != ""
-                          ? NetworkImage(
-                              imagePath,
-                            )
-                          : AssetImage(""))),
-              child: Consumer<Mainprovider>(builder: (context, value, child) {
-                return Align(
-                    alignment: Alignment.topRight,
-                    child: Transform.scale(
-                      scale: 1.5,
-                      child: Checkbox(
-                        shape: CircleBorder(),
-                        value: value.getCheckboxValue(index),
-                        onChanged: (bool? newValue) {
-                          value.setCheckboxValue(index, newValue ?? false);
-                        },
-                        checkColor: Colors.green,
-                        fillColor: WidgetStatePropertyAll(Colors.white),
-                      ),
-                    ));
-              }),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FittedBox(child: text(name, FontWeight.w800, cgreen, 25)),
-                  FittedBox(
-                      child: text("₹  " + price, FontWeight.w700, cgreen, 20)),
-                ],
-              ),
-            ),
-            Column(
-              children: [
-                FittedBox(
-                    child: text(description, FontWeight.w400, cgreen, 22)),
-              ],
-            ),
-            SizedBox(),
-          ],
-        ),
-      );
-    },
-  );
-}
+//   Widget gridWidget(
+//     int itemCount,
+//     double width,
+//     double height,
+//     ImageProvider image,
+//     String imagePath,
+//     String name,
+//     String price,
+//     String description) {
+//   return GridView.builder(
+//     itemCount: itemCount,
+//     shrinkWrap: true,
+//     physics: ScrollPhysics(),
+//     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//         crossAxisSpacing: 10,
+//         mainAxisSpacing: 15,
+//         crossAxisCount: 2,
+//         childAspectRatio: 1),
+//     itemBuilder: (context, index) {
+//       return Container(
+//         margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+//         width: width,
+//         height: height,
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(12),
+//           color: cYellow,
+//         ),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             Container(
+//               width: width,
+//               height: 250,
+//               decoration: BoxDecoration(
+//                   color: Colors.transparent,
+//                   image: DecorationImage(
+//                       image: image != ""
+//                           ? NetworkImage(
+//                               imagePath,
+//                             )
+//                           : AssetImage(""))),
+//               child: Consumer<Mainprovider>(builder: (context, value, child) {
+//                 return Align(
+//                     alignment: Alignment.topRight,
+//                     child: Transform.scale(
+//                       scale: 1.5,
+//                       child: Checkbox(
+//                         shape: CircleBorder(),
+//                         value: value.getCheckboxValue(index),
+//                         onChanged: (bool? newValue) {
+//                           value.setCheckboxValue(index, newValue ?? false);
+//                         },
+//                         checkColor: Colors.green,
+//                         fillColor: WidgetStatePropertyAll(Colors.white),
+//                       ),
+//                     ));
+//               }),
+//             ),
+//             Padding(
+//               padding: const EdgeInsets.symmetric(horizontal: 20.0),
+//               child: Row(
+//                 // crossAxisAlignment: CrossAxisAlignment.start,
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   FittedBox(child: text(name, FontWeight.w800, cgreen, 25)),
+//                   FittedBox(
+//                       child: text("₹  " + price, FontWeight.w700, cgreen, 20)),
+//                 ],
+//               ),
+//             ),
+//             Column(
+//               children: [
+//                 FittedBox(
+//                     child: text(description, FontWeight.w400, cgreen, 22)),
+//               ],
+//             ),
+//             SizedBox(),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }

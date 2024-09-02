@@ -428,6 +428,8 @@ class Printerscreen extends StatelessWidget {
 
                         callNextReplacement(context,  BottomNavBar(),);
 
+                        mainProvider.deleteAllFromCart( context);
+                        mainProvider.ClearAllCheckBoxes(context);
 
                         try {
                           bool isConnected =
@@ -460,7 +462,8 @@ class Printerscreen extends StatelessWidget {
                               invoiceNumber: '000${mainProvider.orderCount}',
                               totalPrice: totalPrice,
                             );
-                            mainProvider.cartitemslist.clear();
+                            mainProvider.deleteAllFromCart( context);
+                            mainProvider.ClearAllCheckBoxes(context);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                   content:

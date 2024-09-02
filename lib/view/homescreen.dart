@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:fouzy/constants/callFunctions.dart';
 import 'package:fouzy/constants/colors.dart';
 import 'package:provider/provider.dart';
@@ -11,19 +12,15 @@ import 'Juice&ShakesList.dart';
 import 'fouzy_multiple.dart';
 
 class Home_screen extends StatelessWidget {
-
   const Home_screen({super.key});
 
   @override
-
   Widget build(BuildContext context) {
     Mainprovider provider = Provider.of(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       provider.getMainCategoy();
-      print("ffvfvfv" +
-          provider.mainCategorylist.length.toString());
-
+      print("ffvfvfv" + provider.mainCategorylist.length.toString());
     });
 
     var height = MediaQuery.of(context).size.height;
@@ -36,6 +33,9 @@ class Home_screen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: cYellow,
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => ZoomDrawer.of(context)!.toggle(),
+              icon: Icon(Icons.food_bank_rounded,color: cgreen,size: 60,)),
           automaticallyImplyLeading: false,
           toolbarHeight: 100,
           flexibleSpace: Container(
@@ -50,27 +50,26 @@ class Home_screen extends StatelessWidget {
         body: SingleChildScrollView(
           // scrollDirection: Axis.vertical,
           child: Container(
-            height: height,
-            width: width,
-            decoration: ShapeDecoration(
-              color: cgreen,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+              height: height,
+              width: width,
+              decoration: ShapeDecoration(
+                color: cgreen,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
                 ),
               ),
-            ),
-            child: Consumer<Mainprovider>(
-              builder: (context,value,child) {
+              child: Consumer<Mainprovider>(builder: (context, value, child) {
                 return ListView.builder(
                   physics: ScrollPhysics(),
                   shrinkWrap: true,
-
                   itemCount: value.mainCategorylist.length,
                   itemBuilder: (context, index) {
                     var items = value.mainCategorylist[index];
-                    print("vfjvbfjnvjn"+value.mainCategorylist.length.toString());
+                    print("vfjvbfjnvjn" +
+                        value.mainCategorylist.length.toString());
                     return InkWell(
                       onTap: () {
                         if (index == 0) {
@@ -88,8 +87,9 @@ class Home_screen extends StatelessWidget {
                           callNext(context, Juice_ShakesListScreen());
                         }
                       },
-                      child: Padding(j
-                        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 28),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 18.0, vertical: 28),
                         child: Container(
                           height: height / 12,
                           width: width * .2,
@@ -115,9 +115,7 @@ class Home_screen extends StatelessWidget {
                     );
                   },
                 );
-              }
-            )
-          ),
+              })),
         ),
       ),
     );
