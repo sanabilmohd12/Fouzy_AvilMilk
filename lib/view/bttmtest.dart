@@ -164,7 +164,7 @@ class MenuScreen extends StatelessWidget {
                                           value.launchWhatsApp(
                                             phoneNumber:
                                             '+917736310880', // Replace with the target phone number
-                                            message: 'Hello, How can I help you?',
+                                            message: 'Hello',
                                           );
                                         },
                                         child: Container(

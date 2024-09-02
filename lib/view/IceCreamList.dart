@@ -167,6 +167,8 @@ class IceCreamListScreen extends StatelessWidget {
                             var items = value.dessertslist[index];
                             return GestureDetector(
                               onTap: () {
+                                value.AddCartDetails(items.name, items.id,
+                                    items.price, items.icecreamcategoryname, "", context);
                                 value.setDessertCheckboxValue(
                                     index, !value.getDessertCheckboxValue(index));
                               },

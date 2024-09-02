@@ -1589,64 +1589,127 @@ bool JUICESgetCheckboxValue(
 
   bool itemStatus = false;
 
+  // Future<void> AddCartDetails(
+  //   String name,
+  //   String itemsid,
+  //   String price,
+  //   String itemname,
+  //   String photo,
+  //   BuildContext context,
+  // ) async {
+  //   print("kjhgfcvbn");
+  //   String id = DateTime.now().millisecondsSinceEpoch.toString();
+  //
+  //   Map<String, Object> map = HashMap();
+  //
+  //   map["CART_ID"] = id;
+  //   map["DATE_TIME"] = DateTime.now();
+  //   map["ITEMS_NAME"] = name;
+  //   map["ITEMS_ID"] = itemsid;
+  //   map["ITEMS_PRICE"] = price;
+  //   map["ITEMS_CATEGORY"] = itemname;
+  //   map["ITEMS_PHOTO"] = photo;
+  //   map["QTY"] = 1;
+  //   map["TOTAL_PRICE"] = price;
+  //
+  //   itemStatus = await checkItemExist(itemsid);
+  //   if (!itemStatus) {
+  //     print("heeloooooooi");
+  //     db.collection("CART").doc(id).set(map, SetOptions(merge: true));
+  //
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       duration: Duration(seconds: 1),
+  //       content: CustomSnackBarContent(
+  //           colorcontainer: Color.fromARGB(255, 0, 204, 0),
+  //           errorText: "Items Already To Cart",
+  //           errorHeadline: "Oh Snap",
+  //           colorbubble: cYellow,
+  //           img: "assets/check.svg"),
+  //       behavior: SnackBarBehavior.floating,
+  //       backgroundColor: Colors.transparent,
+  //       margin: EdgeInsets.all(5),
+  //     ));
+  //     notifyListeners();
+  //   } else {
+  //     print("djiidi");
+  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //       duration: Duration(days: 3000),
+  //       backgroundColor: Colors.transparent,
+  //       content: CustomSnackBarContent(
+  //         colorcontainer: Colors.orange,
+  //         errorText: "Items Already Exist",
+  //         errorHeadline: "Warning",
+  //         colorbubble: Colors.red,
+  //         img: "assets/close.svg",
+  //       ),
+  //     ));
+  //   }
+  //   notifyListeners();
+  // }
+
   Future<void> AddCartDetails(
-    String name,
-    String itemsid,
-    String price,
-    String itemname,
-    String photo,
-    BuildContext context,
-  ) async {
+      String name,
+      String itemsid,
+      String price,
+      String itemname,
+      String photo,
+      BuildContext context,
+      ) async {
     print("kjhgfcvbn");
-    String id = DateTime.now().millisecondsSinceEpoch.toString();
 
-    Map<String, Object> map = HashMap();
+    // Check if the item is already in the cart
+    QuerySnapshot snapshot = await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
+    if (snapshot.docs.isNotEmpty) {
+      // Item is already in the cart, remove it
+      String id = snapshot.docs.first.id;
+      await db.collection("CART").doc(id).delete();
 
-    map["CART_ID"] = id;
-    map["DATE_TIME"] = DateTime.now();
-    map["ITEMS_NAME"] = name;
-    map["ITEMS_ID"] = itemsid;
-    map["ITEMS_PRICE"] = price;
-    map["ITEMS_CATEGORY"] = itemname;
-    map["ITEMS_PHOTO"] = photo;
-    map["QTY"] = 1;
-    map["TOTAL_PRICE"] = price;
-
-    itemStatus = await checkItemExist(itemsid);
-    if (!itemStatus) {
-      print("heeloooooooi");
-      db.collection("CART").doc(id).set(map, SetOptions(merge: true));
-
+      // Show a snackbar to indicate the item has been removed
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
-            colorcontainer: Color.fromARGB(255, 0, 204, 0),
-            errorText: "Items Already To Cart",
-            errorHeadline: "Oh Snap",
+            colorcontainer: Color.fromARGB(255, 204, 0, 0),
+            errorText: "Item removed from cart",
+            errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
         margin: EdgeInsets.all(5),
       ));
-      notifyListeners();
     } else {
-      print("djiidi");
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(days: 3000),
-        backgroundColor: Colors.transparent,
+      // Item is not in the cart, add it
+      String id = DateTime.now().millisecondsSinceEpoch.toString();
+      Map<String, Object> map = HashMap();
+      map["CART_ID"] = id;
+      map["DATE_TIME"] = DateTime.now();
+      map["ITEMS_NAME"] = name;
+      map["ITEMS_ID"] = itemsid;
+      map["ITEMS_PRICE"] = price;
+      map["ITEMS_CATEGORY"] = itemname;
+      map["ITEMS_PHOTO"] = photo;
+      map["QTY"] = 1;
+      map["TOTAL_PRICE"] = price;
+      // Add the item to the cart
+      await db.collection("CART").doc(id).set(map, SetOptions(merge: true));
+
+      // Show a snackbar to indicate the item has been added
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
-          colorcontainer: Colors.orange,
-          errorText: "Items Already Exist",
-          errorHeadline: "Warning",
-          colorbubble: Colors.red,
-          img: "assets/close.svg",
-        ),
+            colorcontainer: Color.fromARGB(255, 0, 204, 0),
+            errorText: "Item added to cart",
+            errorHeadline: "Success",
+            colorbubble: cYellow,
+            img: "assets/check.svg"),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        margin: EdgeInsets.all(5),
       ));
     }
+
     notifyListeners();
   }
-
 
   /// clear checkbox selection
   void ClearFSPCheckBoxs() {
@@ -1847,6 +1910,7 @@ bool JUICESgetCheckboxValue(
 
       // Clear the local list
       cartitemslist.clear();
+      ClearAllCheckBoxes(context);
       notifyListeners(); // Update UI immediately
 
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -2749,13 +2813,33 @@ bool JUICESgetCheckboxValue(
   }
 
 //whatsapp
-  void launchWhatsApp({required String phoneNumber, required String message}) async {
-    String url = "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+//   void launchWhatsApp({required String phoneNumber, required String message}) async {
+//     String url = "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+//
+//     if (await canLaunch(url)) {
+//       await launch(url);
+//     } else {
+//       throw 'Could not launch $url';
+//     }
+//   }
 
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+  Future<void> launchWhatsApp({required String phoneNumber, required String message}) async {
+    final String url = "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+
+    try {
+      if (!await launchUrl(Uri.parse(url))) {
+        throw 'Could not launch $url';
+      }
+    } catch (e) {
+      // Handle any errors that occur during the launch
+      print('Error opening WhatsApp: $e');
     }
   }
+
+
+
+
+
+
+
 }

@@ -300,7 +300,11 @@ class Cart_Screen extends StatelessWidget {
                return Padding(
                  padding: const EdgeInsets.all(28.0),
                  child: ElevatedButton(
-                   onPressed: () => provider.deleteAllFromCart(context),
+                   onPressed: () {
+
+                         provider.deleteAllFromCart(context);
+                         provider.ClearAllCheckBoxes(context);
+                   },
                    child: Text("Clear Cart"),
                  ),
                );
