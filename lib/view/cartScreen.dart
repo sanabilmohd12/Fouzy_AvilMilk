@@ -178,8 +178,8 @@ class Cart_Screen extends StatelessWidget {
                                                   margin: const EdgeInsets
                                                       .symmetric(
                                                       horizontal: 15),
-                                                  height: height / 20,
-                                                  width: width / 2,
+                                                  height: height / 18,
+                                                  width: width / 1.7,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -189,29 +189,40 @@ class Cart_Screen extends StatelessWidget {
                                                         color: cgreen),
                                                     color: cWhite,
                                                   ),
-                                                  child: DropdownButton(
-                                                    underline: Container(
-                                                        color: Colors.white),
-                                                    value: value.dropdownval,
-                                                    icon: const Icon(Icons
-                                                        .keyboard_arrow_down),
-                                                    items: value.odertype
-                                                        .map((String items) {
-                                                      return DropdownMenuItem(
-                                                        value: items,
-                                                        child: Text(items,
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: cBlue)),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged:
-                                                        (String? newVal) {
-                                                      value.dropdown(newVal!);
-                                                    },
+                                                  child: Center(
+                                                    child: DropdownButton(padding: EdgeInsets.all(10),dropdownColor: clightgold,
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      underline: Container(
+                                                          color: Colors.white),
+                                                      value: value.dropdownval,
+                                                      icon:  Icon(Icons
+                                                          .keyboard_arrow_down),
+
+                                                      items: value.odertype
+                                                          .map((String items) {
+                                                        return DropdownMenuItem(
+                                                          value: items,
+                                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+                                                            children: [
+                                                              Text(items,
+                                                                  style: TextStyle(
+                                                                      fontSize: 20,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: cBlue)),
+                                                              Image.asset(items == "Dine In"?"assets/DineIn.png":items == "Parcel"
+                                                                  ""?"assets/Parcel.png":"assets/HOMEDELIVERY.png", width: 40, height: 40),
+
+                                                            ],
+                                                          ),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged:
+                                                          (String? newVal) {
+                                                        value.dropdown(newVal!);
+                                                      },
+                                                    ),
                                                   ),
                                                 );
                                               }),

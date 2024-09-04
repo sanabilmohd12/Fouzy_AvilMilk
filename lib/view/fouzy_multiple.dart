@@ -173,19 +173,19 @@ class FouzyMultiple extends StatelessWidget {
                                                     value.FSPsetCheckboxValue(index, newValue ?? false);
                                                     if (newValue == true) {
                                                       value.cartItemsControlls('AVIL_MILK', item.id, item);
-                                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                                        content: Text("Item added to cart"), duration: Duration(seconds: 2),
-                                                      ));
+                                                      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                                      //   content: Text("Item added to cart"), duration: Duration(seconds: 2),
+                                                      // ));
                                                     } else {
                                                       value.cartItemsControlls('AVIL_MILK', item.id, item);
-                                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                                        content: Text("Item removed from cart"),
-                                                        duration: Duration(seconds: 2),
-                                                      ));
+                                                      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                                      //   content: Text("Item removed from cart"),
+                                                      //   duration: Duration(seconds: 2),
+                                                      // ));
                                                     }
                                                   },
                                                   checkColor: Colors.green,
-                                                  fillColor: MaterialStateProperty.all(Colors.white),
+                                                  fillColor: WidgetStateProperty.all(Colors.white),
                                                 ),
                                               )
                                           );

@@ -1981,8 +1981,8 @@ bool JUICESgetCheckboxValue(
   String dropdownval = 'Dine In';
   var odertype = [
     "Dine In",
-    "Take Away",
-    "Delivery",
+    "Parcel",
+    "Home Delivery",
   ];
 
   void dropdown(String? newVal) {
@@ -2021,6 +2021,7 @@ bool JUICESgetCheckboxValue(
       map["ITEMS_ID"] = itemsid;
       map["ITEMS_PRICE"] = price;
       map["ITEMS_CATEGORY"] = itemname;
+
       // map["ITEMS_PHOTO"] = photo;
       map["QTY"] = 1;
       map["TOTAL_PRICE"] = double.parse(price);
@@ -2043,7 +2044,21 @@ bool JUICESgetCheckboxValue(
       await doc.reference.delete();
     }
 
-    showSnackBar(context, "Item Removed from Cart", isSuccess: true);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: Duration(seconds: 2),
+      content: CustomSnackBarContent(
+        colorcontainer:
+        Colors.red,
+
+        errorText: "Item Removed Succesfully",
+        errorHeadline: "Warning",
+        colorbubble: cYellow ,
+        img:  "assets/close.svg",
+      ),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      margin: EdgeInsets.all(5),
+    ));
   }
 
   Future<bool> checkItemExisticecream(String itemsid) async {

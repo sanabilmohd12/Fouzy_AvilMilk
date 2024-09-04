@@ -154,7 +154,7 @@ class OrderScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: provider.orderList.length,
                       itemBuilder: (context, index) {
-                        OrderModel order = provider.orderList[index];
+                        OrderModel order = provider.orderList[index] as OrderModel;
                         return Container(
                           decoration: BoxDecoration(color: lgtGrey,borderRadius: BorderRadius.circular(15)),
                           margin: EdgeInsets.symmetric(vertical: 10),

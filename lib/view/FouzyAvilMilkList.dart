@@ -187,20 +187,20 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                   value.AVILsetCheckboxValue(index, newValue ?? false);
                                                   if (newValue == true) {
                                                     value.cartItemsControlls('AVIL_MILK', item.id, item);
-                                                    ScaffoldMessenger.of(context).showSnackBar(
-                                                        const SnackBar(
-                                                          content: Text("Item added to cart"),
-                                                          duration: Duration(seconds: 2),
-                                                        )
-                                                    );
+                                                    // ScaffoldMessenger.of(context).showSnackBar(
+                                                    //     const SnackBar(
+                                                    //       content: Text("Item added to cart"),
+                                                    //       duration: Duration(seconds: 2),
+                                                    //     )
+                                                    // );
                                                   } else {
                                                     value.cartItemsControlls('AVIL_MILK', item.id, item);
-                                                    ScaffoldMessenger.of(context).showSnackBar(
-                                                        const SnackBar(
-                                                          content: Text("Item removed from cart"),
-                                                          duration: Duration(seconds: 2),
-                                                        )
-                                                    );
+                                                    // ScaffoldMessenger.of(context).showSnackBar(
+                                                    //     const SnackBar(
+                                                    //       content: Text("Item removed from cart"),
+                                                    //       duration: Duration(seconds: 2),
+                                                    //     )
+                                                    // );
                                                   }
                                                 },
                                                 checkColor: Colors.green,
