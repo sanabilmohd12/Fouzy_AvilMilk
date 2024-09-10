@@ -1470,32 +1470,32 @@ class Mainprovider extends ChangeNotifier {
 
   /// CheckBox ** //
 
-  Map<int, bool> checkboxStates = {};
-  Map<int, bool> AVILcheckboxStates = {};
-  Map<int, bool> JUICEScheckboxStates = {};
-  Map<int, bool> iceCreamCheckboxStates = {};
-  Map<int, bool> dessertCheckboxStates = {};
+    Map<int, bool> checkboxStates = {};
+    Map<int, bool> AVILcheckboxStates = {};
+    Map<int, bool> JUICEScheckboxStates = {};
+    Map<int, bool> iceCreamCheckboxStates = {};
+    Map<int, bool> dessertCheckboxStates = {};
 
-  bool FSPgetCheckboxValue(
-    int index1,
-  ) {
-    return checkboxStates[index1] ?? false;
-  }
+    bool FSPgetCheckboxValue(
+      int index1,
+    ) {
+      return checkboxStates[index1] ?? false;
+    }
 
-  void FSPsetCheckboxValue(int index, bool value) {
-    checkboxStates[index] = value;
-    notifyListeners();
-  }
-bool AVILgetCheckboxValue(
-    int index1,
-  ) {
-    return AVILcheckboxStates[index1] ?? false;
-  }
+    void FSPsetCheckboxValue(int index, bool value) {
+      checkboxStates[index] = value;
+      notifyListeners();
+    }
+  bool AVILgetCheckboxValue(
+      int index1,
+    ) {
+      return AVILcheckboxStates[index1] ?? false;
+    }
 
-  void AVILsetCheckboxValue(int index, bool value) {
-    AVILcheckboxStates[index] = value;
-    notifyListeners();
-  }
+    void AVILsetCheckboxValue(int index, bool value) {
+      AVILcheckboxStates[index] = value;
+      notifyListeners();
+    }
 bool JUICESgetCheckboxValue(
     int index1,
   ) {
@@ -1669,7 +1669,7 @@ bool JUICESgetCheckboxValue(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 204, 0, 0),
-            errorText: "Item removed from cart",
+            errorText: name+" removed from cart",
             errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1698,7 +1698,7 @@ bool JUICESgetCheckboxValue(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 0, 204, 0),
-            errorText: "Item added to cart",
+            errorText: name+" added to cart",
             errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1708,6 +1708,193 @@ bool JUICESgetCheckboxValue(
       ));
     }
 
+    notifyListeners();
+  }
+
+  Future<void> AddCartDetailsAvilMilk(
+      String name,
+      String itemsid,
+      String price,
+      String itemname,
+      String photo,
+      BuildContext context,
+      ) async {
+    print("kjhgfcvbn");
+
+    // Check if the item is already in the cart
+    QuerySnapshot snapshot = await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
+    if (snapshot.docs.isNotEmpty) {
+      // Item is already in the cart, remove it
+      String id = snapshot.docs.first.id;
+      await db.collection("CART").doc(id).delete();
+
+      // Show a snackbar to indicate the item has been removed
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 1),
+        content: CustomSnackBarContent(
+            colorcontainer: Color.fromARGB(255, 204, 0, 0),
+            errorText: name+" removed from cart",
+            errorHeadline: "Success",
+            colorbubble: cYellow,
+            img: "assets/check.svg"),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        margin: EdgeInsets.all(5),
+      ));
+    } else {
+      // Item is not in the cart, add it
+      String id = DateTime.now().millisecondsSinceEpoch.toString();
+      Map<String, Object> map = HashMap();
+      map["CART_ID"] = id;
+      map["DATE_TIME"] = DateTime.now();
+      map["ITEMS_NAME"] = name;
+      map["ITEMS_ID"] = itemsid;
+      map["ITEMS_PRICE"] = price;
+      map["ITEMS_CATEGORY"] = itemname;
+      map["ITEMS_PHOTO"] = photo;
+      map["QTY"] = 1;
+      map["TOTAL_PRICE"] = price;
+      // Add the item to the cart
+      await db.collection("CART").doc(id).set(map, SetOptions(merge: true));
+
+      // Show a snackbar to indicate the item has been added
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 1),
+        content: CustomSnackBarContent(
+            colorcontainer: Color.fromARGB(255, 0, 204, 0),
+            errorText: name+" added to cart",
+            errorHeadline: "Success",
+            colorbubble: cYellow,
+            img: "assets/check.svg"),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        margin: EdgeInsets.all(5),
+      ));
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> AddCartDetailsDessert(
+      String name,
+      String itemsid,
+      String price,
+      String itemname,
+      BuildContext context,
+      ) async {
+    print("kjhgfcvbn");
+
+    // Check if the item is already in the cart
+    QuerySnapshot snapshot = await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
+    if (snapshot.docs.isNotEmpty) {
+      // Item is already in the cart, remove it
+      String id = snapshot.docs.first.id;
+      await db.collection("CART").doc(id).delete();
+
+      // Show a snackbar to indicate the item has been removed
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 1),
+        content: CustomSnackBarContent(
+            colorcontainer: Color.fromARGB(255, 204, 0, 0),
+            errorText: name+" removed from cart",
+            errorHeadline: "Success",
+            colorbubble: cYellow,
+            img: "assets/check.svg"),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        margin: EdgeInsets.all(5),
+      ));
+    } else {
+      // Item is not in the cart, add it
+      String id = DateTime.now().millisecondsSinceEpoch.toString();
+      Map<String, Object> map = HashMap();
+      map["CART_ID"] = id;
+      map["DATE_TIME"] = DateTime.now();
+      map["ITEMS_NAME"] = name;
+      map["ITEMS_ID"] = itemsid;
+      map["ITEMS_PRICE"] = price;
+      map["ITEMS_CATEGORY"] = itemname;
+      map["QTY"] = 1;
+      map["TOTAL_PRICE"] = price;
+      // Add the item to the cart
+      await db.collection("CART").doc(id).set(map, SetOptions(merge: true));
+
+      // Show a snackbar to indicate the item has been added
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 1),
+        content: CustomSnackBarContent(
+            colorcontainer: Color.fromARGB(255, 0, 204, 0),
+            errorText: name+" added to cart",
+            errorHeadline: "Success",
+            colorbubble: cYellow,
+            img: "assets/check.svg"),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        margin: EdgeInsets.all(5),
+      ));
+    }
+    notifyListeners();
+  }
+
+
+Future<void> AddCartDetailsJuices(
+      String name,
+      String itemsid,
+      String price,
+      String itemname,
+      BuildContext context,
+      ) async {
+    print("kjhgfcvbn");
+
+    // Check if the item is already in the cart
+    QuerySnapshot snapshot = await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
+    if (snapshot.docs.isNotEmpty) {
+      // Item is already in the cart, remove it
+      String id = snapshot.docs.first.id;
+      await db.collection("CART").doc(id).delete();
+
+      // Show a snackbar to indicate the item has been removed
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 1),
+        content: CustomSnackBarContent(
+            colorcontainer: Color.fromARGB(255, 204, 0, 0),
+            errorText: name+" removed from cart",
+            errorHeadline: "Success",
+            colorbubble: cYellow,
+            img: "assets/check.svg"),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        margin: EdgeInsets.all(5),
+      ));
+    } else {
+      // Item is not in the cart, add it
+      String id = DateTime.now().millisecondsSinceEpoch.toString();
+      Map<String, Object> map = HashMap();
+      map["CART_ID"] = id;
+      map["DATE_TIME"] = DateTime.now();
+      map["ITEMS_NAME"] = name;
+      map["ITEMS_ID"] = itemsid;
+      map["ITEMS_PRICE"] = price;
+      map["ITEMS_CATEGORY"] = itemname;
+      map["QTY"] = 1;
+      map["TOTAL_PRICE"] = price;
+      // Add the item to the cart
+      await db.collection("CART").doc(id).set(map, SetOptions(merge: true));
+
+      // Show a snackbar to indicate the item has been added
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 1),
+        content: CustomSnackBarContent(
+            colorcontainer: Color.fromARGB(255, 0, 204, 0),
+            errorText: name+" added to cart",
+            errorHeadline: "Success",
+            colorbubble: cYellow,
+            img: "assets/check.svg"),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        margin: EdgeInsets.all(5),
+      ));
+    }
     notifyListeners();
   }
 
@@ -1723,41 +1910,69 @@ bool JUICESgetCheckboxValue(
       AVILcheckboxStates[i] = false;
     }
     notifyListeners();
-  }void ClearJUICESCheckBoxs() {
+  }
+  void ClearJUICESCheckBoxs() {
     for (int i = 0; i < JUICEScheckboxStates.length; i++) {
       JUICEScheckboxStates[i] = false;
     }
     notifyListeners();
   }
+
   Future<void> clearAllIceCreamSelections(BuildContext context) async {
     for (int iceCreamIndex = 0; iceCreamIndex < icecreamlist.length; iceCreamIndex++) {
       var iceCream = icecreamlist[iceCreamIndex];
       for (int scoopIndex = 0; scoopIndex < iceCream.scoops.length; scoopIndex++) {
         var scoop = iceCream.scoops[scoopIndex];
         if (scoop.isClicked) {
-          scoop.isClicked = false;
+          scoop.isClicked =
+          false;
           await removeItemFromCart(
             context: context,
-            itemsid: "${iceCream.flavourName}_${scoop.name}",
+            itemsid: "${iceCream.flavourName}_${scoop.name}", name: "${iceCream.flavourName}_${scoop.name}",
           );
+          notifyListeners();
         }
+
       }
-    }
-    notifyListeners();
-  }
-  void clearDessertCheckbox() {
-    for (int i = 0; i < dessertCheckboxStates.length; i++) {
-      dessertCheckboxStates[i] = false;
+
     }
     notifyListeners();
   }
 
-  void ClearAllCheckBoxes(BuildContext context){
-    ClearFSPCheckBoxs();
-    ClearAVILMILKCheckBoxs();
-    ClearJUICESCheckBoxs();
-    clearAllIceCreamSelections(context);
-    clearDessertCheckbox();
+  //
+  // void ClearAllCheckBoxes(BuildContext context){
+  //   ClearFSPCheckBoxs();
+  //   ClearAVILMILKCheckBoxs();
+  //   ClearJUICESCheckBoxs();
+  //   clearAllIceCreamSelections(context);
+  //   clearDessertCheckbox();
+  // }
+
+
+  void ClearAllCheckBoxes(BuildContext context) {
+    debugPrint('Clearing all checkboxes');
+
+    clearMap(checkboxStates);
+    debugPrint('FSP checkboxes cleared');
+
+    clearMap(AVILcheckboxStates);
+    debugPrint('AVILMILK checkboxes cleared');
+
+    clearMap(JUICEScheckboxStates);
+    debugPrint('JUICES checkboxes cleared');
+
+    clearMap(iceCreamCheckboxStates);
+    debugPrint('Ice cream selections cleared');
+
+    clearMap(dessertCheckboxStates);
+    debugPrint('Dessert checkbox cleared');
+
+    // Final notification to ensure all listeners are updated
+    notifyListeners();
+  }
+  void clearMap(Map<int, bool> map) {
+    map.clear();
+    notifyListeners();
   }
   // List<CartItemsDetails> cartitemslist = [];
   // bool getcart = false;
@@ -1951,10 +2166,11 @@ bool JUICESgetCheckboxValue(
         itemname: "Ice Cream",
         // photo: iceCream.photo ?? "",
       );
+
     } else {
       await removeItemFromCart(
         context: context,
-        itemsid: "${iceCream.flavourName}_${scoop.name}",
+        itemsid: "${iceCream.flavourName}_${scoop.name}", name: "${iceCream.flavourName}_${scoop.name}",
       );
     }
 
@@ -2027,15 +2243,16 @@ bool JUICESgetCheckboxValue(
       map["TOTAL_PRICE"] = double.parse(price);
 
       await db.collection("CART").doc(id).set(map, SetOptions(merge: true));
-      showSnackBar(context, "Item Added to Cart", isSuccess: true);
+      showSnackBar(context, name+" Added to Cart", isSuccess: true);
     } else {
-      showSnackBar(context, "Item Already in Cart", isSuccess: false);
+      showSnackBar(context, name+" Already in Cart", isSuccess: false);
     }
   }
 
   Future<void> removeItemFromCart({
     required BuildContext context,
     required String itemsid,
+    required String name,
   }) async {
     QuerySnapshot querySnapshot =
         await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
@@ -2050,7 +2267,7 @@ bool JUICESgetCheckboxValue(
         colorcontainer:
         Colors.red,
 
-        errorText: "Item Removed Succesfully",
+        errorText: name+" Removed Succesfully",
         errorHeadline: "Warning",
         colorbubble: cYellow ,
         img:  "assets/close.svg",

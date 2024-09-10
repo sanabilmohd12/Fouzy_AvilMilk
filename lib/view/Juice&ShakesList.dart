@@ -183,12 +183,11 @@ class Juice_ShakesListScreen extends StatelessWidget {
                                                       value: value
                                                           .JUICESgetCheckboxValue(index),
                                                       onChanged: (bool? newValue) {
-                                                        value.AddCartDetails(
+                                                        value.AddCartDetailsJuices(
                                                             item.name,
                                                             item.id,
                                                             item.price,
                                                             item.categoryname,
-                                                            "",
                                                             context);
                                                         value.JUICESsetCheckboxValue(
                                                             index, newValue ?? false);

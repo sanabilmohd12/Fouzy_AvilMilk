@@ -169,19 +169,12 @@ class FouzyMultiple extends StatelessWidget {
                                                   value: value.FSPgetCheckboxValue(index) ||
                                                       value.isInCart("AVIL_MILK", item.id),
                                                   onChanged: (bool? newValue) {
-                                                    value.AddCartDetails(item.name, item.id, item.price, item.maincatrgoryname, item.avilphoto, context);
+                                                    // value.AddCartDetails(item.name, item.id, item.price, item.maincatrgoryname, item.avilphoto, context);
                                                     value.FSPsetCheckboxValue(index, newValue ?? false);
                                                     if (newValue == true) {
                                                       value.cartItemsControlls('AVIL_MILK', item.id, item);
-                                                      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                                      //   content: Text("Item added to cart"), duration: Duration(seconds: 2),
-                                                      // ));
                                                     } else {
                                                       value.cartItemsControlls('AVIL_MILK', item.id, item);
-                                                      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                                      //   content: Text("Item removed from cart"),
-                                                      //   duration: Duration(seconds: 2),
-                                                      // ));
                                                     }
                                                   },
                                                   checkColor: Colors.green,

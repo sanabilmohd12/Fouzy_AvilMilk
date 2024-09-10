@@ -164,11 +164,11 @@ class IceCreamListScreen extends StatelessWidget {
                               mainAxisSpacing: 0.4,
                               childAspectRatio: 0.90),
                           itemBuilder: (context, index) {
-                            var items = value.dessertslist[index];
+                            var desserts = value.dessertslist[index];
                             return GestureDetector(
                               onTap: () {
-                                value.AddCartDetails(items.name, items.id,
-                                    items.price, items.icecreamcategoryname, "", context);
+                                value.AddCartDetailsDessert(desserts.name, desserts.id,
+                                    desserts.price, desserts.icecreamcategoryname,  context);
                                 value.setDessertCheckboxValue(
                                     index, !value.getDessertCheckboxValue(index));
                               },
@@ -182,8 +182,6 @@ class IceCreamListScreen extends StatelessWidget {
                                   child: Column(children: [
                                     Container(
                                       width: width,
-
-
                                       // decoration: BoxDecoration(
                                       //     color: Colors.transparent,
                                       //     image: DecorationImage(
@@ -215,9 +213,9 @@ class IceCreamListScreen extends StatelessWidget {
                                     ),
                                     FittedBox(
                                         child: text(
-                                            items.name, FontWeight.w800, cgreen, 25)),
+                                            desserts.name, FontWeight.w800, cgreen, 25)),
                                     FittedBox(
-                                        child: text("₹  " + items.price,
+                                        child: text("₹  " + desserts.price,
                                             FontWeight.w700, cgreen, 20)),
                                   ])),
                             );

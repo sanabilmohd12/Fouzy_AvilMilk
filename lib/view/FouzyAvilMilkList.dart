@@ -176,7 +176,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                 shape: CircleBorder(),
                                                 value: value.AVILgetCheckboxValue(index) || value.isInCart("AVIL_MILK", item.id),
                                                 onChanged: (bool? newValue) {
-                                                  value.AddCartDetails(
+                                                  value.AddCartDetailsAvilMilk(
                                                       item.name,
                                                       item.id,
                                                       item.price,
@@ -187,20 +187,9 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                   value.AVILsetCheckboxValue(index, newValue ?? false);
                                                   if (newValue == true) {
                                                     value.cartItemsControlls('AVIL_MILK', item.id, item);
-                                                    // ScaffoldMessenger.of(context).showSnackBar(
-                                                    //     const SnackBar(
-                                                    //       content: Text("Item added to cart"),
-                                                    //       duration: Duration(seconds: 2),
-                                                    //     )
-                                                    // );
                                                   } else {
                                                     value.cartItemsControlls('AVIL_MILK', item.id, item);
-                                                    // ScaffoldMessenger.of(context).showSnackBar(
-                                                    //     const SnackBar(
-                                                    //       content: Text("Item removed from cart"),
-                                                    //       duration: Duration(seconds: 2),
-                                                    //     )
-                                                    // );
+
                                                   }
                                                 },
                                                 checkColor: Colors.green,
