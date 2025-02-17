@@ -212,7 +212,7 @@ class Cart_Screen extends StatelessWidget {
                                                                               .bold,
                                                                       color: cBlue)),
                                                               Image.asset(items == "Dine In"?"assets/DineIn.png":items == "Parcel"
-                                                                  ""?"assets/Parcel.png":"assets/HOMEDELIVERY.png", width: 40, height: 40),
+                                                                  ""?"assets/Parcel.png":"assets/DineIn.png", width: 40, height: 40),
 
                                                             ],
                                                           ),
@@ -310,13 +310,18 @@ class Cart_Screen extends StatelessWidget {
              builder: (context,provider,child) {
                return Padding(
                  padding: const EdgeInsets.all(28.0),
-                 child: ElevatedButton(
-                   onPressed: () {
+                 child: Consumer<Mainprovider>(
+                   builder: (context,value,child) {
+                     return ElevatedButton(
+                       onPressed: () {
 
-                         provider.deleteAllFromCart(context);
-                         provider.ClearAllCheckBoxes(context);
-                   },
-                   child: Text("Clear Cart"),
+                             provider.deleteAllFromCart(context);
+                             provider.clearAllCheckBoxes(context);
+                             value.saveState();
+                       },
+                       child: Text("Clear Cart"),
+                     );
+                   }
                  ),
                );
              }

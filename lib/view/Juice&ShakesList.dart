@@ -25,19 +25,7 @@ class Juice_ShakesListScreen extends StatelessWidget {
     final int index1;
     return Scaffold(
         backgroundColor: cYellow,
-        // floatingActionButton:
-        //     Consumer<Mainprovider>(builder: (context, value, child) {
-        //   bool isAnySelected = false;
-        //   for (int i = 0; i < value.avilmilklist.length; i++) {
-        //     if (value.getCheckboxValue(i) == true) {
-        //       isAnySelected = true;
-        //       break;
-        //     }
-        //   }
-        //   return isAnySelected
-        //       ?Container(height: 100,width: 500,color: Colors.red,)
-        //       : SizedBox();
-        // }),
+
         appBar: AppBar(
           title: const Text(
             "FOUZY JUICE & SHAKES",

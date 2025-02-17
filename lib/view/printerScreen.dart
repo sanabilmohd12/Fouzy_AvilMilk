@@ -409,96 +409,62 @@ class Printerscreen extends StatelessWidget {
               SizedBox(height: 30),
               Consumer<Mainprovider>(builder: (context, mainProvider, child) {
                 return Consumer<PrinterProvider>(
-                    builder: (context, printerProvider, child) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: height / 5),
-                    child: ElevatedButton(
-
+                  builder: (context, printerProvider, child) {
+                    return ElevatedButton(
                       onPressed: () async {
-
-                        mainProvider.addOrdersnew(
-                          mainProvider.cartitemslist,
-                          name,
-                          ordertype,
-                          deskno,
-                          '000' + mainProvider.orderCount.toString(),
-                          mainProvider.getTotalPrice().toString(),
-                          context,
-                        );
-
-                        callNextReplacement(context,  BottomNavBar(),);
-
-                        mainProvider.deleteAllFromCart( context);
-                        mainProvider.ClearAllCheckBoxes(context);
-
                         try {
-                          bool isConnected =
-                              await printerProvider.testPrinterConnection(
-                                  printerProvider.Ip,
-                                  int.parse(printerProvider.boxInPort));
+                          // Show loading feedback
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => Center(child: CircularProgressIndicator()),
+                          );
+
+                          // Check printer connection
+                          bool isConnected = await printerProvider.testPrinterConnection(
+                            printerProvider.Ip,
+                            int.parse(printerProvider.boxInPort),
+                          );
+
+                          // Dismiss loading dialog
+                          Navigator.of(context).pop();
 
                           if (isConnected) {
-                            mainProvider.addOrdersnew(
-                              mainProvider.cartitemslist,
-                              name,
-                              ordertype,
-                              deskno,
-                              '000' + mainProvider.orderCount.toString(),
-                              mainProvider.getTotalPrice().toString(),
-                              context,
-                            );
-
-
-
-                            // Get the total price
-                            double totalPrice = mainProvider.getTotalPrice();
+                            // Proceed with printing if connected
                             await printerProvider.printInvoice(
                               context,
-                              name: name,
-                              deskno: deskno,
-                              ordertype: ordertype,
-                              datetime: datetime,
-                              itemslist: mainProvider.cartitemslist,
-                              invoiceNumber: '000${mainProvider.orderCount}',
-                              totalPrice: totalPrice,
+                              name: name, // Use dynamic value
+                              deskno: deskno, // Use dynamic value
+                              ordertype: ordertype, // Use dynamic value
+                              datetime: datetime, // Use dynamic value
+                              itemslist: itemslist, // Use dynamic list of items
+                              invoiceNumber: '0001', // Replace with actual invoice number
+                              totalPrice: Provider.of<Mainprovider>(context, listen: false).getTotalPrice(),
                             );
-                            mainProvider.deleteAllFromCart( context);
-                            mainProvider.ClearAllCheckBoxes(context);
+
+                            // Show success feedback
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content:
-                                      Text('Printing completed successfully.')),
+                              SnackBar(content: Text('Printing completed successfully')),
                             );
-                            callNextReplacement(context,  BottomNavBar(),);
                           } else {
+                            // Show connection error feedback
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      'Printer is not connected. Please check the printer and try again.')),
+                              SnackBar(content: Text('Printer not connected')),
                             );
                           }
                         } catch (e) {
-                          print('Error during printing process: $e');
+                          // Handle and show any errors
+                          Navigator.of(context).pop(); // Dismiss loading if error
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(
-                                    'An error occurred while trying to print. Please try again.')),
+                            SnackBar(content: Text('An error occurred: $e')),
                           );
                         }
                       },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.print,),
-                          SizedBox(
-                            width:10,
-                          ),
-                          Text('Print',style: TextStyle(fontSize: 18,),)
-                        ],
-                      ),
-                    ),
-                  );
-                });
+                      child: Text('Print Invoice'),
+                    );
+                  },
+                );
+
               })
               // Consumer<Mainprovider>(
               //     builder: (context,value,child) {

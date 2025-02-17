@@ -30,43 +30,7 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       child: Scaffold(
-        // floatingActionButtonLocation:
-        //     FloatingActionButtonLocation.miniCenterFloat,
-        // floatingActionButton: SizedBox(
-        //   height: 49,
-        //   width: width / 1.1,
-        //   child: Consumer<Mainprovider>(builder: (context, value, child) {
-        //     return FloatingActionButton(
-        //       onPressed: () {
-        //         if (value.loginCT.text == "696969") {
-        //           callNextReplacement(context, Admin_Home_Screen());
-        //         } else {
-        //           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //             backgroundColor: cWhite,
-        //             content: Text("Incorrect Code",
-        //                 style: TextStyle(
-        //                   color: cgreen,
-        //                   fontSize: 15,
-        //                   fontWeight: FontWeight.w800,
-        //                 )),
-        //             duration: Duration(milliseconds: 3000),
-        //           ));
-        //         }
-        //       },
-        //       elevation: 0,
-        //       backgroundColor: cgreen,
-        //       shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(42),
-        //       ),
-        //       child: text(
-        //         "LOGIN",
-        //         FontWeight.w700,
-        //         cWhite,
-        //         18,
-        //       ),
-        //     );
-        //   }),
-        // ),
+
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
           child: Column(

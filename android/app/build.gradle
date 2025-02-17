@@ -29,6 +29,7 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -36,7 +37,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.fouzy"
-        minSdk = 33
+        minSdk = 23
         targetSdk = 33
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
@@ -45,6 +46,10 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.debug
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
         }
     }
 }

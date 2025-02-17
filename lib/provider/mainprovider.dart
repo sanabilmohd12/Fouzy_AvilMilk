@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:io';
 import 'package:intl/intl.dart';
 
@@ -14,6 +15,7 @@ import 'package:fouzy/view/flashsnackbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../constants/callFunctions.dart';
@@ -53,8 +55,7 @@ class Mainprovider extends ChangeNotifier {
 
   /// Count
 
-  // List<CartItem> cartitemslist = [];
-  // FirebaseFirestore db = FirebaseFirestore.instance;
+
 
   void countIncrement(int index, String id) {
     print("Increment called for index: $index");
@@ -98,74 +99,7 @@ class Mainprovider extends ChangeNotifier {
     }
   }
 
-  //
-  // void countIncrement(int index, String id) {
-  //   if (index >= 0 && index < cartitemslist.length) {
-  //     cartitemslist[index].count++;
-  //     updateItemDetails(index, id);
-  //   }
-  // }
-  //
-  // void countDecrement(int index, String id) {
-  //   if (index >= 0 && index < cartitemslist.length && cartitemslist[index].count > 1) {
-  //     cartitemslist[index].count--;
-  //     updateItemDetails(index, id);
-  //   }
-  // }
-  //
-  // Future<void> updateItemDetails(int index, String id) async {
-  //   double initialPrice = double.parse(cartitemslist[index].itemPrice);
-  //   double newPrice = initialPrice * cartitemslist[index].count;
-  //
-  //   cartitemslist[index].totalPrice = newPrice.toStringAsFixed(2);
-  //   cartitemslist[index].qty = cartitemslist[index].count.toString();
-  //
-  //   debugPrint("Item: ${cartitemslist[index].itemName}");
-  //   debugPrint("Count: ${cartitemslist[index].count}");
-  //   debugPrint("Qty: ${cartitemslist[index].qty}");
-  //   debugPrint("Total Price: ${cartitemslist[index].totalPrice}");
-  //
-  //   await db.collection("CART").doc(id).set({
-  //     "TOTAL_PRICE": cartitemslist[index].totalPrice,
-  //     "QTY": cartitemslist[index].qty
-  //   }, SetOptions(merge: true));
-  //
-  //   notifyListeners();
-  // }
 
-  // void countIncrement(int index, String id) {
-  //   if (index >= 0 && index < cartitemslist.length) {
-  //     cartitemslist[index].count++;
-  //     updateItemDetails(index, id);
-  //   }
-  // }
-  //
-  // void countDecrement(int index, String id) {
-  //   if (index >= 0 && index < cartitemslist.length && cartitemslist[index].count > 1) {
-  //     cartitemslist[index].count--;
-  //     updateItemDetails(index, id);
-  //   }
-  // }
-  //
-  // Future<void> updateItemDetails(int index, String id) async {
-  //   double initialPrice = double.parse(cartitemslist[index].itemPrice);
-  //   double newPrice = initialPrice * cartitemslist[index].count;
-  //
-  //   cartitemslist[index].totalPrice = newPrice.toStringAsFixed(2);
-  //   cartitemslist[index].qty = cartitemslist[index].count.toString();
-  //
-  //   debugPrint("Item: ${cartitemslist[index].itemName}");
-  //   debugPrint("Count: ${cartitemslist[index].count}");
-  //   debugPrint("Qty: ${cartitemslist[index].qty}");
-  //   debugPrint("Total Price: ${cartitemslist[index].totalPrice}");
-  //
-  //   await db.collection("CART").doc(id).set({
-  //     "TOTAL_PRICE": cartitemslist[index].totalPrice,
-  //     "QTY": cartitemslist[index].qty
-  //   }, SetOptions(merge: true));
-  //
-  //   notifyListeners();
-  // }
 
   ///
   Map<String, dynamic> cartItems = {};
@@ -267,40 +201,6 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<List<MainCategory>> getMainCategoy() async {
-  //   print("Starting getMainCategory function");
-  //   getloader = true;
-  //   notifyListeners();
-  //
-  //   try {
-  //     print("Attempting to fetch data from Firestore");
-  //     final QuerySnapshot value = await db.collection("MAIN_CATEGORY").get();
-  //
-  //     print("Received response from Firestore");
-  //     if (value.docs.isNotEmpty) {
-  //       print("Documents found: ${value.docs.length}");
-  //       mainCategorylist.clear();
-  //       for (var element in value.docs) {
-  //         Map<String, dynamic> getmap = element.data() as Map<String, dynamic>;
-  //         print("Processing document: ${getmap["MAIN_CATEGORY_ID"]}");
-  //         mainCategorylist.add(MainCategory(
-  //           getmap["MAIN_CATEGORY_ID"].toString(),
-  //           getmap["MAIN_CATEGORY_NAME"].toString(),
-  //         ));
-  //       }
-  //     } else {
-  //       print("No documents found in MAIN_CATEGORY collection");
-  //     }
-  //   } catch (error) {
-  //     print("Error fetching data: $error");
-  //     // You might want to rethrow the error or handle it differently
-  //   } finally {
-  //     getloader = false;
-  //     notifyListeners();
-  //     }
-  //
-  //   return mainCategorylist;
-  // }
 
   void deletemaincategory(String id, BuildContext context) {
     db.collection("MAIN_CATEGORY").doc(id).delete();
@@ -386,30 +286,11 @@ class Mainprovider extends ChangeNotifier {
 
     if (from == "EDIT") {
       db.collection("FSPAVIL_MILK").doc(oldId).update(map);
-      // ScaffoldMessenger.of().showSnackBar(SnackBar(
-      //   backgroundColor: cWhite,
-      //   content: Text("Updated Successfully",
-      //       style: TextStyle(
-      //         color: cgreen,
-      //         fontSize: 15,
-      //         fontWeight: FontWeight.w800,
-      //       )),
-      //   duration: Duration(milliseconds: 3000),
-      // ));
+
     } else {
       print('jhsadjkasd');
       db.collection("FSPAVIL_MILK").doc(id).set(map);
-      // ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
-      //   backgroundColor: cWhite,
-      //   content: Text("Added Successfully",
-      //       style: TextStyle(
-      //         color: cgreen,
-      //         fontSize: 15,
-      //         fontWeight: FontWeight.w800,
-      //       )),
-      //   duration: Duration(milliseconds: 3000),
-      // ));
-    }
+     }
     fsploader = false;
 
     getfsptypes();
@@ -459,7 +340,7 @@ class Mainprovider extends ChangeNotifier {
         for (var doc in querySnapshot.docs) {
           print("djfhjf");
 
-            Map<String, dynamic> data = doc.data();
+          Map<String, dynamic> data = doc.data();
           fspavilmilklist.add(Fouzysp(
             data["FSPAVIL_MILK_ID"].toString(),
             data["FOUZY_SPECIALS"].toString(),
@@ -471,9 +352,8 @@ class Mainprovider extends ChangeNotifier {
             data["FSpAVILMILK_PHOTO"].toString(),
           ));
         }
-        filterfspavilmilklist=fspavilmilklist;
-        // If you need to use filterfspavilmilklist, you can populate it here
-        // filterfspavilmilklist = fspavilmilklist.where(...).toList();
+        filterfspavilmilklist = fspavilmilklist;
+
 
         notifyListeners(); // Notify listeners once after all data is processed
       } else {
@@ -539,7 +419,7 @@ class Mainprovider extends ChangeNotifier {
       fsploader = false;
       notifyListeners();
     }
-      }
+  }
 
   void editFSPAvilMilk(String id, BuildContext context) {
     db.collection('FSPAVIL_MILK').doc(id).get().then((value) {
@@ -618,29 +498,9 @@ class Mainprovider extends ChangeNotifier {
 
     if (from == "EDIT") {
       db.collection("AVIL_MILK").doc(oldId).update(map);
-      // ScaffoldMessenger.of().showSnackBar(SnackBar(
-      //   backgroundColor: cWhite,
-      //   content: Text("Updated Successfully",
-      //       style: TextStyle(
-      //         color: cgreen,
-      //         fontSize: 15,
-      //         fontWeight: FontWeight.w800,
-      //       )),
-      //   duration: Duration(milliseconds: 3000),
-      // ));
-    } else {
+     } else {
       db.collection("AVIL_MILK").doc(id).set(map);
-      // ScaffoldMessenger.of(context1).showSnackBar(SnackBar(
-      //   backgroundColor: cWhite,
-      //   content: Text("Added Successfully",
-      //       style: TextStyle(
-      //         color: cgreen,
-      //         fontSize: 15,
-      //         fontWeight: FontWeight.w800,
-      //       )),
-      //   duration: Duration(milliseconds: 3000),
-      // ));
-    }
+     }
     avilloader = false;
     avilmilkclear();
     getavilmilktypes();
@@ -675,50 +535,6 @@ class Mainprovider extends ChangeNotifier {
     }
   }
 
-  // Future<void> cropImage(String path, String from) async {
-  //   final croppedFile = await ImageCropper().cropImage(
-  //     sourcePath: path,
-  //     aspectRatioPresets: Platform.isAndroid
-  //         ? [
-  //       CropAspectRatioPreset.square,
-  //       CropAspectRatioPreset.ratio3x2,
-  //       CropAspectRatioPreset.original,
-  //       CropAspectRatioPreset.ratio4x3,
-  //       CropAspectRatioPreset.ratio16x9,
-  //     ]
-  //         : [
-  //       CropAspectRatioPreset.original,
-  //       CropAspectRatioPreset.square,
-  //       CropAspectRatioPreset.ratio3x2,
-  //       CropAspectRatioPreset.ratio4x3,
-  //       CropAspectRatioPreset.ratio5x3,
-  //       CropAspectRatioPreset.ratio5x4,
-  //       CropAspectRatioPreset.ratio7x5,
-  //       CropAspectRatioPreset.ratio16x9,
-  //       CropAspectRatioPreset.ratio16x9
-  //     ],
-  //     uiSettings: [
-  //       AndroidUiSettings(
-  //           toolbarTitle: 'Cropper',
-  //           toolbarColor: Colors.white,
-  //           toolbarWidgetColor: Colors.black,
-  //           initAspectRatio: CropAspectRatioPreset.original,
-  //           lockAspectRatio: false),
-  //       IOSUiSettings(
-  //         title: 'Cropper',
-  //       )
-  //     ],
-  //   );
-  //   if (croppedFile != null) {
-  //     Registerfileimg = File(croppedFile.path);
-  //     notifyListeners();
-  //   }
-  // }
-
-  // void customerclear(){
-  //   customerDeskCT.clear();
-  //   customerNameCT.clear();
-  // }
 
   void avilmilkclear() {
     avilMilkNameCt.clear();
@@ -893,7 +709,6 @@ class Mainprovider extends ChangeNotifier {
     });
 
     notifyListeners();
-
   }
 
   void deleteJucieCategory(String id, BuildContext context) {
@@ -919,7 +734,6 @@ class Mainprovider extends ChangeNotifier {
       }
 
       notifyListeners();
-
     });
 
     getJucieCategory();
@@ -1025,7 +839,7 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool getjucieloader=false;
+  bool getjucieloader = false;
   Future<void> getJuiceShakesAllItems() async {
     filterjuiceshakesitemslist.clear();
     print("dcdc");
@@ -1048,21 +862,21 @@ class Mainprovider extends ChangeNotifier {
             getjucieshakeitemmap["JUICE_SHAKES_CATEGORY"].toString(),
             getjucieshakeitemmap["MAIN_CATEGORY_ID"].toString(),
           ));
-          filterjuiceshakesitemslist=Juiceshakesalllist;
+          filterjuiceshakesitemslist = Juiceshakesalllist;
           notifyListeners();
         }
       }
     });
     notifyListeners();
   }
+
   void juicesearch(item) {
-    filterjuiceshakesitemslist = Juiceshakesalllist
-        .where((a) =>
-    a.name.toLowerCase().contains(item.toLowerCase()) ||
-        a.price.toLowerCase().contains(item.toLowerCase()))
-        .toList();
+    filterjuiceshakesitemslist = Juiceshakesalllist.where((a) =>
+        a.name.toLowerCase().contains(item.toLowerCase()) ||
+        a.price.toLowerCase().contains(item.toLowerCase())).toList();
     notifyListeners();
   }
+
   void juiceshakesclear() {
     jucieandShakesnameCt.clear();
     jucieandShakespriceCt.clear();
@@ -1192,8 +1006,6 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   void deleteicecategory(String id, BuildContext context) {
     db.collection("ICE_CREAM_CATEGORY").doc(id).delete();
     getIceCreamCategoy();
@@ -1296,38 +1108,37 @@ class Mainprovider extends ChangeNotifier {
   bool geticelist = false;
 
   Future<void> fetchIceCreamList() async {
-    // isLoading = true;
     notifyListeners();
 
     final querySnapshot = await db.collection("ICE_CREAM_ITEMS").get();
     if (querySnapshot.docs.isNotEmpty) {
-      print('etehekhjsalkd');
       icecreamlist.clear();
       for (var doc in querySnapshot.docs) {
         Map<String, dynamic> data = doc.data();
         List<ScoopsList> flavours = [];
-        print(data["PRODUCTS"]);
+
         if (data["PRODUCTS"] != null) {
           data["PRODUCTS"].forEach((key, value) {
+            // We'll load the state after creating the full list
             flavours.add(ScoopsList(key, double.parse(value), false));
           });
         }
-        print('aksbdkjasd');
 
         icecreamlist.add(IceCreamList(
           data["ID"].toString(),
           data["ICE_FLAVOUR"].toString(),
           flavours,
         ));
-        print(icecreamlist.length.toString() + 'as;lkfjaslkd');
       }
-      notifyListeners();
-      print(icecreamlist.length.toString() + 'as;lkfjaslkd');
-    }
 
-    print(icecreamlist.length.toString() + 'jhhknkl');
-    notifyListeners();
+      // Load the state after creating the full list
+      await loadState();
+
+      notifyListeners();
+    }
   }
+
+
 
   void deleteicelist(String id, BuildContext context) {
     db.collection("ICE_CREAM_ITEMS").doc(id).delete();
@@ -1445,11 +1256,9 @@ class Mainprovider extends ChangeNotifier {
   void deleteDessert(String id, BuildContext context) {
     db.collection("DESSERTS_ITEMS").doc(id).delete();
     fetchDessertList();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          backgroundColor: Colors.red,
-          content: Text(
-            "Deleted successfully ",
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Deleted successfully ",
             style: TextStyle(color: cWhite, fontSize: 15))));
 
     notifyListeners();
@@ -1470,33 +1279,35 @@ class Mainprovider extends ChangeNotifier {
 
   /// CheckBox ** //
 
-    Map<int, bool> checkboxStates = {};
-    Map<int, bool> AVILcheckboxStates = {};
-    Map<int, bool> JUICEScheckboxStates = {};
-    Map<int, bool> iceCreamCheckboxStates = {};
-    Map<int, bool> dessertCheckboxStates = {};
+  Map<int, bool> checkboxStates = {};
+  Map<int, bool> AVILcheckboxStates = {};
+  Map<int, bool> JUICEScheckboxStates = {};
+  Map<int, bool> iceCreamCheckboxStates = {};
+  Map<int, bool> dessertCheckboxStates = {};
 
-    bool FSPgetCheckboxValue(
-      int index1,
-    ) {
-      return checkboxStates[index1] ?? false;
-    }
+  bool FSPgetCheckboxValue(
+    int index1,
+  ) {
+    return checkboxStates[index1] ?? false;
+  }
 
-    void FSPsetCheckboxValue(int index, bool value) {
-      checkboxStates[index] = value;
-      notifyListeners();
-    }
+  void FSPsetCheckboxValue(int index, bool value) {
+    checkboxStates[index] = value;
+    notifyListeners();
+  }
+
   bool AVILgetCheckboxValue(
-      int index1,
-    ) {
-      return AVILcheckboxStates[index1] ?? false;
-    }
+    int index1,
+  ) {
+    return AVILcheckboxStates[index1] ?? false;
+  }
 
-    void AVILsetCheckboxValue(int index, bool value) {
-      AVILcheckboxStates[index] = value;
-      notifyListeners();
-    }
-bool JUICESgetCheckboxValue(
+  void AVILsetCheckboxValue(int index, bool value) {
+    AVILcheckboxStates[index] = value;
+    notifyListeners();
+  }
+
+  bool JUICESgetCheckboxValue(
     int index1,
   ) {
     return JUICEScheckboxStates[index1] ?? false;
@@ -1506,8 +1317,6 @@ bool JUICESgetCheckboxValue(
     JUICEScheckboxStates[index] = value;
     notifyListeners();
   }
-
-
 
   /// New functions for ice cream
   bool getIceCreamCheckboxValue(int index) {
@@ -1586,79 +1395,22 @@ bool JUICESgetCheckboxValue(
     }
   }
 
-
   bool itemStatus = false;
 
-  // Future<void> AddCartDetails(
-  //   String name,
-  //   String itemsid,
-  //   String price,
-  //   String itemname,
-  //   String photo,
-  //   BuildContext context,
-  // ) async {
-  //   print("kjhgfcvbn");
-  //   String id = DateTime.now().millisecondsSinceEpoch.toString();
-  //
-  //   Map<String, Object> map = HashMap();
-  //
-  //   map["CART_ID"] = id;
-  //   map["DATE_TIME"] = DateTime.now();
-  //   map["ITEMS_NAME"] = name;
-  //   map["ITEMS_ID"] = itemsid;
-  //   map["ITEMS_PRICE"] = price;
-  //   map["ITEMS_CATEGORY"] = itemname;
-  //   map["ITEMS_PHOTO"] = photo;
-  //   map["QTY"] = 1;
-  //   map["TOTAL_PRICE"] = price;
-  //
-  //   itemStatus = await checkItemExist(itemsid);
-  //   if (!itemStatus) {
-  //     print("heeloooooooi");
-  //     db.collection("CART").doc(id).set(map, SetOptions(merge: true));
-  //
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       duration: Duration(seconds: 1),
-  //       content: CustomSnackBarContent(
-  //           colorcontainer: Color.fromARGB(255, 0, 204, 0),
-  //           errorText: "Items Already To Cart",
-  //           errorHeadline: "Oh Snap",
-  //           colorbubble: cYellow,
-  //           img: "assets/check.svg"),
-  //       behavior: SnackBarBehavior.floating,
-  //       backgroundColor: Colors.transparent,
-  //       margin: EdgeInsets.all(5),
-  //     ));
-  //     notifyListeners();
-  //   } else {
-  //     print("djiidi");
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //       duration: Duration(days: 3000),
-  //       backgroundColor: Colors.transparent,
-  //       content: CustomSnackBarContent(
-  //         colorcontainer: Colors.orange,
-  //         errorText: "Items Already Exist",
-  //         errorHeadline: "Warning",
-  //         colorbubble: Colors.red,
-  //         img: "assets/close.svg",
-  //       ),
-  //     ));
-  //   }
-  //   notifyListeners();
-  // }
 
   Future<void> AddCartDetails(
-      String name,
-      String itemsid,
-      String price,
-      String itemname,
-      String photo,
-      BuildContext context,
-      ) async {
+    String name,
+    String itemsid,
+    String price,
+    String itemname,
+    String photo,
+    BuildContext context,
+  ) async {
     print("kjhgfcvbn");
 
     // Check if the item is already in the cart
-    QuerySnapshot snapshot = await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
+    QuerySnapshot snapshot =
+        await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
     if (snapshot.docs.isNotEmpty) {
       // Item is already in the cart, remove it
       String id = snapshot.docs.first.id;
@@ -1669,7 +1421,7 @@ bool JUICESgetCheckboxValue(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 204, 0, 0),
-            errorText: name+" removed from cart",
+            errorText: name + " removed from cart",
             errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1698,7 +1450,7 @@ bool JUICESgetCheckboxValue(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 0, 204, 0),
-            errorText: name+" added to cart",
+            errorText: name + " added to cart",
             errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1712,17 +1464,18 @@ bool JUICESgetCheckboxValue(
   }
 
   Future<void> AddCartDetailsAvilMilk(
-      String name,
-      String itemsid,
-      String price,
-      String itemname,
-      String photo,
-      BuildContext context,
-      ) async {
+    String name,
+    String itemsid,
+    String price,
+    String itemname,
+    String photo,
+    BuildContext context,
+  ) async {
     print("kjhgfcvbn");
 
     // Check if the item is already in the cart
-    QuerySnapshot snapshot = await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
+    QuerySnapshot snapshot =
+        await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
     if (snapshot.docs.isNotEmpty) {
       // Item is already in the cart, remove it
       String id = snapshot.docs.first.id;
@@ -1733,7 +1486,7 @@ bool JUICESgetCheckboxValue(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 204, 0, 0),
-            errorText: name+" removed from cart",
+            errorText: name + " removed from cart",
             errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1762,7 +1515,7 @@ bool JUICESgetCheckboxValue(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 0, 204, 0),
-            errorText: name+" added to cart",
+            errorText: name + " added to cart",
             errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1776,16 +1529,17 @@ bool JUICESgetCheckboxValue(
   }
 
   Future<void> AddCartDetailsDessert(
-      String name,
-      String itemsid,
-      String price,
-      String itemname,
-      BuildContext context,
-      ) async {
+    String name,
+    String itemsid,
+    String price,
+    String itemname,
+    BuildContext context,
+  ) async {
     print("kjhgfcvbn");
 
     // Check if the item is already in the cart
-    QuerySnapshot snapshot = await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
+    QuerySnapshot snapshot =
+        await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
     if (snapshot.docs.isNotEmpty) {
       // Item is already in the cart, remove it
       String id = snapshot.docs.first.id;
@@ -1796,7 +1550,7 @@ bool JUICESgetCheckboxValue(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 204, 0, 0),
-            errorText: name+" removed from cart",
+            errorText: name + " removed from cart",
             errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1824,7 +1578,7 @@ bool JUICESgetCheckboxValue(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 0, 204, 0),
-            errorText: name+" added to cart",
+            errorText: name + " added to cart",
             errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1836,18 +1590,18 @@ bool JUICESgetCheckboxValue(
     notifyListeners();
   }
 
-
-Future<void> AddCartDetailsJuices(
-      String name,
-      String itemsid,
-      String price,
-      String itemname,
-      BuildContext context,
-      ) async {
+  Future<void> AddCartDetailsJuices(
+    String name,
+    String itemsid,
+    String price,
+    String itemname,
+    BuildContext context,
+  ) async {
     print("kjhgfcvbn");
 
     // Check if the item is already in the cart
-    QuerySnapshot snapshot = await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
+    QuerySnapshot snapshot =
+        await db.collection("CART").where("ITEMS_ID", isEqualTo: itemsid).get();
     if (snapshot.docs.isNotEmpty) {
       // Item is already in the cart, remove it
       String id = snapshot.docs.first.id;
@@ -1858,7 +1612,7 @@ Future<void> AddCartDetailsJuices(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 204, 0, 0),
-            errorText: name+" removed from cart",
+            errorText: name + " removed from cart",
             errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1886,7 +1640,7 @@ Future<void> AddCartDetailsJuices(
         duration: Duration(seconds: 1),
         content: CustomSnackBarContent(
             colorcontainer: Color.fromARGB(255, 0, 204, 0),
-            errorText: name+" added to cart",
+            errorText: name + " added to cart",
             errorHeadline: "Success",
             colorbubble: cYellow,
             img: "assets/check.svg"),
@@ -1905,12 +1659,14 @@ Future<void> AddCartDetailsJuices(
     }
     notifyListeners();
   }
+
   void ClearAVILMILKCheckBoxs() {
     for (int i = 0; i < AVILcheckboxStates.length; i++) {
       AVILcheckboxStates[i] = false;
     }
     notifyListeners();
   }
+
   void ClearJUICESCheckBoxs() {
     for (int i = 0; i < JUICEScheckboxStates.length; i++) {
       JUICEScheckboxStates[i] = false;
@@ -1918,154 +1674,117 @@ Future<void> AddCartDetailsJuices(
     notifyListeners();
   }
 
-  Future<void> clearAllIceCreamSelections(BuildContext context) async {
-    for (int iceCreamIndex = 0; iceCreamIndex < icecreamlist.length; iceCreamIndex++) {
-      var iceCream = icecreamlist[iceCreamIndex];
-      for (int scoopIndex = 0; scoopIndex < iceCream.scoops.length; scoopIndex++) {
-        var scoop = iceCream.scoops[scoopIndex];
-        if (scoop.isClicked) {
-          scoop.isClicked =
-          false;
-          await removeItemFromCart(
-            context: context,
-            itemsid: "${iceCream.flavourName}_${scoop.name}", name: "${iceCream.flavourName}_${scoop.name}",
-          );
-          notifyListeners();
-        }
+  Future<void> clearAllCheckBoxes(BuildContext context) async {
+    debugPrint('Before clearing: ${getCheckboxStates()}');
 
-      }
-
-    }
-    notifyListeners();
-  }
-
-  //
-  // void ClearAllCheckBoxes(BuildContext context){
-  //   ClearFSPCheckBoxs();
-  //   ClearAVILMILKCheckBoxs();
-  //   ClearJUICESCheckBoxs();
-  //   clearAllIceCreamSelections(context);
-  //   clearDessertCheckbox();
-  // }
-
-
-  void ClearAllCheckBoxes(BuildContext context) {
-    debugPrint('Clearing all checkboxes');
-
+    // Clear other checkboxes
     clearMap(checkboxStates);
-    debugPrint('FSP checkboxes cleared');
-
     clearMap(AVILcheckboxStates);
-    debugPrint('AVILMILK checkboxes cleared');
-
     clearMap(JUICEScheckboxStates);
-    debugPrint('JUICES checkboxes cleared');
-
-    clearMap(iceCreamCheckboxStates);
-    debugPrint('Ice cream selections cleared');
-
     clearMap(dessertCheckboxStates);
-    debugPrint('Dessert checkbox cleared');
+
+    debugPrint('After clearing maps: ${getCheckboxStates()}');
+
+    // Clear ice cream selections
+    await clearIceCreamSelections();
+
+    debugPrint('After clearing ice cream: ${getCheckboxStates()}');
+
+    // Clear cart items
+    clearCartItems();
+
+    debugPrint('After clearing cart items: ${getCheckboxStates()}');
 
     // Final notification to ensure all listeners are updated
     notifyListeners();
+
+    // Save the cleared state
+    await saveState();
+
+    debugPrint('After saving state: ${getCheckboxStates()}');
   }
+
+  String getCheckboxStates() {
+    return 'Checkbox: $checkboxStates, AVIL: $AVILcheckboxStates, JUICES: $JUICEScheckboxStates, Dessert: $dessertCheckboxStates';
+  }
+
+  void clearCartItems() {
+    cartitemslist.clear(); // Assuming cartitemslist is your cart items collection
+  }
+  Future<void> clearIceCreamSelections() async {
+    for (var iceCream in icecreamlist) {
+      for (var scoop in iceCream.scoops) {
+        scoop.isClicked = false;
+      }
+    }
+    debugPrint('Ice cream selections cleared');
+    notifyListeners();
+
+    // Clear the saved state in SharedPreferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    for (var iceCream in icecreamlist) {
+      for (var scoop in iceCream.scoops) {
+        String key = 'iceCream_${iceCream.flavourName}_${scoop.name}';
+        await prefs.remove(key);
+      }
+    }
+  }
+
   void clearMap(Map<int, bool> map) {
     map.clear();
     notifyListeners();
   }
-  // List<CartItemsDetails> cartitemslist = [];
-  // bool getcart = false;
-  // String slno = "";
-  //
-  // Future<void> getCartItems() async {
-  //   try {
-  //     getcart = true;
-  //     notifyListeners();
-  //
-  //     final QuerySnapshot snapshot = await db.collection("CART").get();
-  //
-  //     cartitemslist.clear();
-  //
-  //     if (snapshot.docs.isNotEmpty) {
-  //       for (var doc in snapshot.docs) {
-  //         Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
-  //         cartitemslist.add(CartItemsDetails(
-  //           cartData["CART_ID"].toString(),
-  //           DateFormat("dd-MM-yyyy hh:mm a")
-  //               .format(cartData["DATE_TIME"].toDate()),
-  //           cartData["ITEMS_CATEGORY"].toString(),
-  //           cartData["ITEMS_ID"].toString(),
-  //           cartData["ITEMS_NAME"].toString(),
-  //           cartData["ITEMS_PHOTO"].toString(),
-  //           cartData["ITEMS_PRICE"].toString(),
-  //           cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
-  //           cartData["TOTAL_PRICE"].toString(),
-  //           cartData["QTY"].toString(),
-  //         ));
-  //       }
-  //     }
-  //   } catch (e) {
-  //     print("Error fetching cart items: $e");
-  //     // Handle the error appropriately
-  //   } finally {
-  //     getcart = false;
-  //     slno = cartitemslist.length.toString();
-  //     notifyListeners();
-  //   }
-  // }
 
   List<CartItemsDetails> cartitemslist = [];
   bool getcart = false;
   String slno = "";
 
-    Future<void> getCartItems() async {
-      print("Fetching cart items...");
-      try {
-        getcart = true;
-        // notifyListeners();
+  Future<void> getCartItems() async {
+    print("Fetching cart items...");
+    try {
+      getcart = true;
+      // notifyListeners();
 
-        final QuerySnapshot snapshot = await db.collection("CART").get();
+      final QuerySnapshot snapshot = await db.collection("CART").get();
 
+      if (snapshot.docs.isNotEmpty) {
+        cartitemslist.clear();
 
-        if (snapshot.docs.isNotEmpty) {
-          cartitemslist.clear();
+        for (var doc in snapshot.docs) {
+          Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
 
-          for (var doc in snapshot.docs) {
-            Map<String, dynamic> cartData = doc.data() as Map<String, dynamic>;
+          DateTime dateTime = cartData["DATE_TIME"].toDate();
+          String dateString = dateTime.toString();
 
-            DateTime dateTime = cartData["DATE_TIME"].toDate();
-            String dateString = dateTime.toString();
+          cartitemslist.add(CartItemsDetails(
+            cartData["CART_ID"].toString(),
+            dateString,
+            // DateFormat("dd-MM-yyyy hh:mm a")
+            //     .format(cartData["DATE_TIME"].toDate()),
+            cartData["ITEMS_CATEGORY"].toString(),
+            cartData["ITEMS_ID"].toString(),
+            cartData["ITEMS_NAME"].toString(),
+            cartData["ITEMS_PHOTO"] ?? "",
+            cartData["ITEMS_PRICE"].toString(),
 
-            cartitemslist.add(CartItemsDetails(
-              cartData["CART_ID"].toString(),
-              dateString,
-              // DateFormat("dd-MM-yyyy hh:mm a")
-              //     .format(cartData["DATE_TIME"].toDate()),
-              cartData["ITEMS_CATEGORY"].toString(),
-              cartData["ITEMS_ID"].toString(),
-              cartData["ITEMS_NAME"].toString(),
-              cartData["ITEMS_PHOTO"] ?? "",
-              cartData["ITEMS_PRICE"].toString(),
+            cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
 
-              cartData["COUNT"] != null ? cartData["COUNT"] as int : 1,
-
-              cartData["TOTAL_PRICE"].toString(),
-              cartData["QTY"].toString(),
-            ));
-          }
-          print("Cart items fetched: ${cartitemslist.length}");
-        } else {
-          print("No cart items found.");
+            cartData["TOTAL_PRICE"].toString(),
+            cartData["QTY"].toString(),
+          ));
         }
-      } catch (e) {
-        print("Error fetching cart items: $e");
-      } finally {
-        getcart = false;
-        slno = cartitemslist.length.toString();
-        notifyListeners();
+        print("Cart items fetched: ${cartitemslist.length}");
+      } else {
+        print("No cart items found.");
       }
+    } catch (e) {
+      print("Error fetching cart items: $e");
+    } finally {
+      getcart = false;
+      slno = cartitemslist.length.toString();
+      notifyListeners();
     }
+  }
 
   Future<void> delefromtecart(String id, BuildContext context) async {
     try {
@@ -2106,7 +1825,6 @@ Future<void> AddCartDetailsJuices(
     }
   }
 
-
   Future<void> deleteAllFromCart(BuildContext context) async {
     try {
       // Start a batch
@@ -2125,8 +1843,12 @@ Future<void> AddCartDetailsJuices(
 
       // Clear the local list
       cartitemslist.clear();
-      ClearAllCheckBoxes(context);
-      notifyListeners(); // Update UI immediately
+
+      // Clear all checkboxes and save the state
+      await clearAllCheckBoxes(context);
+
+      // Update UI
+      notifyListeners();
 
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         duration: Duration(milliseconds: 500),
@@ -2139,7 +1861,6 @@ Future<void> AddCartDetailsJuices(
           img: "assets/close.svg",
         ),
       ));
-
     } catch (e) {
       print("Error deleting all items: $e");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -2152,30 +1873,69 @@ Future<void> AddCartDetailsJuices(
   /// icecreame Selections
   Future<void> toggleIceCreamSelection(
       BuildContext context, int iceCreamIndex, int scoopIndex) async {
-    var iceCream = icecreamlist[iceCreamIndex];
-    var scoop = iceCream.scoops[scoopIndex];
+    try {
+      final iceCream = icecreamlist[iceCreamIndex];
+      final scoop = iceCream.scoops[scoopIndex];
 
-    scoop.isClicked = !scoop.isClicked;
+      // Toggle the 'isClicked' state
+      scoop.isClicked = !scoop.isClicked;
 
-    if (scoop.isClicked) {
-      await addItemToCart(
-        context: context,
-        name: "${iceCream.flavourName} - ${scoop.name}",
-        itemsid: "${iceCream.flavourName}_${scoop.name}",
-        price: scoop.price.toString(),
-        itemname: "Ice Cream",
-        // photo: iceCream.photo ?? "",
-      );
+      if (scoop.isClicked) {
+        // Add the item to the cart
+        await addItemToCart(
+          iceCreamIndex,
+          scoopIndex,
+          itemsid: "${iceCream.flavourName}_${scoop.name}",
+          price: scoop.price.toString(),
+          name: "${iceCream.flavourName} ${scoop.name}",
+          icecreamIndex: iceCreamIndex,
+          scoopindex: scoopIndex,
+          itemname: '',
+          context: context,
+        );
+      } else {
+        // Remove the item from the cart
+        await removeItemFromCart(
+          context: context,
+          itemsid: "${iceCream.flavourName}_${scoop.name}",
+          name: "${iceCream.flavourName} ${scoop.name}",
+        );
+      }
 
-    } else {
-      await removeItemFromCart(
-        context: context,
-        itemsid: "${iceCream.flavourName}_${scoop.name}", name: "${iceCream.flavourName}_${scoop.name}",
-      );
+      // Save state and notify listeners for UI updates
+      await saveState();  // Ensure this saves the `isClicked` status
+      notifyListeners();  // Notify UI to rebuild
+    } catch (e) {
+      print('Error toggling ice cream selection: $e');
     }
+  }
 
+
+
+  
+
+
+  Future<void> loadState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    for (var iceCream in icecreamlist) {
+      for (var scoop in iceCream.scoops) {
+        String key = 'iceCream_${iceCream.flavourName}_${scoop.name}';
+        scoop.isClicked = prefs.getBool(key) ?? false;
+      }
+    }
     notifyListeners();
   }
+  Future<void> saveState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    for (var iceCream in icecreamlist) {
+      for (var scoop in iceCream.scoops) {
+        String key = 'iceCream_${iceCream.flavourName}_${scoop.name}';
+        await prefs.setBool(key, scoop.isClicked);
+      }
+    }
+    notifyListeners();
+  }
+
 
   TextEditingController namecontroller = TextEditingController();
   TextEditingController desknocontroller = TextEditingController();
@@ -2218,12 +1978,16 @@ Future<void> AddCartDetailsJuices(
 
   /// details timefromate
 
-  Future<void> addItemToCart({
+  Future<void> addItemToCart(
+    int iceCreamIndex,
+    int scoopIndex, {
     required BuildContext context,
     required String name,
     required String itemsid,
     required String price,
     required String itemname,
+    required int scoopindex,
+    required int icecreamIndex,
     // required String photo,
   }) async {
     bool itemExists = await checkItemExist(itemsid);
@@ -2243,9 +2007,9 @@ Future<void> AddCartDetailsJuices(
       map["TOTAL_PRICE"] = double.parse(price);
 
       await db.collection("CART").doc(id).set(map, SetOptions(merge: true));
-      showSnackBar(context, name+" Added to Cart", isSuccess: true);
+      showSnackBar(context, name + " Added to Cart", isSuccess: true);
     } else {
-      showSnackBar(context, name+" Already in Cart", isSuccess: false);
+      showSnackBar(context, name + " Already in Cart", isSuccess: false);
     }
   }
 
@@ -2264,13 +2028,11 @@ Future<void> AddCartDetailsJuices(
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: Duration(seconds: 2),
       content: CustomSnackBarContent(
-        colorcontainer:
-        Colors.red,
-
-        errorText: name+" Removed Succesfully",
+        colorcontainer: Colors.red,
+        errorText: name + " Removed Succesfully",
         errorHeadline: "Warning",
-        colorbubble: cYellow ,
-        img:  "assets/close.svg",
+        colorbubble: cYellow,
+        img: "assets/close.svg",
       ),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
@@ -2319,175 +2081,9 @@ Future<void> AddCartDetailsJuices(
     }
   }
 
-  // double getTotalCartPrice() {
-  // return cartitemscountlist.fold(0, (total, item) => total + (item.itemprice * item.count));
-  // }
-
-  //
-  // int count = 0;
-  // void additems() {
-  //   count++;
-  //   notifyListeners();
-  // }
-  //
-  // void minusitems() {
-  //   count--;
-  //   notifyListeners();
-  // }
 
   /// datepicker
 
-  // DateRangePickerController dateRangePickerController =
-  //     DateRangePickerController();
-  //
-  // DateRangePickerController joiningDateTime = DateRangePickerController();
-  // DateTime _startDate = DateTime.now();
-  // DateTime _endDate = DateTime.now();
-  // DateTime firstDate = DateTime.now();
-  // DateTime secondDate = DateTime.now();
-  // String startDateFormat = '';
-  // String endDateFormat = '';
-  // String showSelectedDate = '';
-  // String sortStartDate = "";
-  // String sortEndDate = "";
-  // bool isDateSelected = false;
-  // DateRangePickerController attedancePickerController =
-  //     DateRangePickerController();
-  // DateRangePickerController attedancereport = DateRangePickerController();
-  // var outputDayNode1 = DateFormat('dd/MM/yyy');
-  // DateTime attedance = DateTime.now();
-  // int sundays = 0;
-  //
-  // void salesReport(
-  //   BuildContext context,
-  // ) {
-  //   Widget calendarWidget() {
-  //     return SizedBox(
-  //       width: 300,
-  //       height: 300,
-  //       child: SfDateRangePicker(
-  //         selectionMode: DateRangePickerSelectionMode.range,
-  //         controller: attedancePickerController,
-  //         initialSelectedRange: PickerDateRange(_startDate, _endDate),
-  //         allowViewNavigation: true,
-  //         headerHeight: 20.0,
-  //         showTodayButton: true,
-  //         headerStyle: const DateRangePickerHeaderStyle(
-  //           textAlign: TextAlign.center,
-  //         ),
-  //         initialSelectedDate: DateTime.now(),
-  //         navigationMode: DateRangePickerNavigationMode.snap,
-  //         monthCellStyle: const DateRangePickerMonthCellStyle(
-  //             todayTextStyle: TextStyle(fontWeight: FontWeight.bold)),
-  //         showActionButtons: true,
-  //         onSubmit: (Object? val) async {
-  //           isDateSelected = true;
-  //
-  //           // isDateSelected = true;
-  //           attedancePickerController.selectedRange = val as PickerDateRange?;
-  //
-  //           if (attedancePickerController.selectedRange!.endDate == null) {
-  //             ///single date picker
-  //             firstDate = attedancePickerController.selectedRange!.startDate!;
-  //             secondDate = attedancePickerController.selectedRange!.startDate!;
-  //             _endDate = secondDate.add(const Duration(hours: 24));
-  //             DateTime firstDate2 = firstDate.subtract(Duration(
-  //                 hours: firstDate.hour,
-  //                 minutes: firstDate.minute,
-  //                 seconds: firstDate.second));
-  //
-  //             final formatter = DateFormat('dd/MM/yyyy');
-  //             showSelectedDate = formatter.format(firstDate);
-  //             sortStartDate = formatter.format(firstDate);
-  //
-  //             notifyListeners();
-  //           } else {
-  //             ///two dates select picker
-  //             firstDate = attedancePickerController.selectedRange!.startDate!;
-  //             secondDate = attedancePickerController.selectedRange!.endDate!;
-  //             _endDate = secondDate.add(const Duration(hours: 24));
-  //             DateTime firstDate2 = firstDate.subtract(Duration(
-  //                 hours: firstDate.hour,
-  //                 minutes: firstDate.minute,
-  //                 seconds: firstDate.second));
-  //             print("jhbjdbvv" + _endDate.toString());
-  //             print("Number of Sundays: $sundays");
-  //             // getStaffData(companyid,subcompany);
-  //             // getData(companyid,subcompany);
-  //
-  //             // if (from == "User_attendance") {
-  //             //   getUserAttendance(userId, firstDate2, endDate2);
-  //             // } else {
-  //             //   getStaffAttendance(
-  //             //       firstDate2, endDate2, from, userId, companyid);
-  //             // }
-  //             isDateSelected = true;
-  //             final formatter = DateFormat('dd/MM/yyyy');
-  //             startDateFormat = formatter.format(firstDate);
-  //             endDateFormat = formatter.format(secondDate);
-  //             if (startDateFormat != endDateFormat) {
-  //               showSelectedDate = "$startDateFormat - $endDateFormat";
-  //             } else {
-  //               showSelectedDate = startDateFormat;
-  //             }
-  //
-  //             notifyListeners();
-  //           }
-  //           back(context);
-  //         },
-  //         onCancel: () {
-  //           isDateSelected = false;
-  //
-  //           attedancePickerController.selectedRange = null;
-  //           attedancePickerController.selectedDate = null;
-  //           showSelectedDate = '';
-  //
-  //           DateTime date = DateTime.now();
-  //           DateTime date1 = date.subtract(Duration(
-  //               hours: date.hour, minutes: date.minute, seconds: date.second));
-  //
-  //           DateTime date2 = date.add(const Duration(hours: 24));
-  //           // getStaffData(companyid,subcompany);
-  //           // getData(companyid,subcompany);
-  //           //
-  //           // if (from != "graph") {
-  //           //   getattadencelist(date1, date2, companyid,subcompany);
-  //           // } else if (from == "projectwise") {
-  //           //   getprojectwisereport(date1, date2, companyid);
-  //           // } else if (from == "empprojectwise") {
-  //           //   getempprojectreport(date1, date2, companyid, emplid);
-  //           // } else {
-  //           //   graphreports(date1, date2, companyid);
-  //           // }
-  //
-  //           // if (from == "User_attendance") {
-  //           //   getUserAttendance(userId, date1, date2);
-  //           // } else {
-  //           //   getStaffAttendance(date1, date2, "All", "", companyid);
-  //           // }
-  //           notifyListeners();
-  //           back(context);
-  //         },
-  //       ),
-  //     );
-  //   }
-  //
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           shape: const RoundedRectangleBorder(
-  //               borderRadius: BorderRadius.all(Radius.circular(12.0))),
-  //           contentPadding: const EdgeInsets.only(
-  //             top: 10.0,
-  //           ),
-  //           // title: Container(
-  //           //     child: Text('Printers', style: TextStyle(color: my_white))),
-  //           content: calendarWidget(),
-  //         );
-  //       });
-  //   notifyListeners();
-  // }
 
   DateRangePickerController dutyPickerController = DateRangePickerController();
   var outputDayNode4 = DateFormat('dd-MM-yyyy');
@@ -2549,9 +2145,12 @@ Future<void> AddCartDetailsJuices(
       if (event.snapshot.value != null) {
         Map<dynamic, dynamic> map = event.snapshot.value as Map;
         List<String> versions =
-            map[!Platform.isIOS ? 'AppVersion' : 'iOSVersion'].toString().split(',');
+            map[!Platform.isIOS ? 'AppVersion' : 'iOSVersion']
+                .toString()
+                .split(',');
         if (!versions.contains(appVersion)) {
-          String ADDRESS = map[!Platform.isIOS ? 'ADDRESS' : 'ADDRESS_iOS'].toString();
+          String ADDRESS =
+              map[!Platform.isIOS ? 'ADDRESS' : 'ADDRESS_iOS'].toString();
           String button = map['BUTTON'].toString();
           String text = map['TEXT'].toString();
           print(button + 'buttonnnn');
@@ -2606,150 +2205,6 @@ Future<void> AddCartDetailsJuices(
 
   /// order
 
-  // void AddOrder(
-  //     String name,
-  //     String date,
-  //     String ordertype,
-  //     List itemslist,
-  //     String tableno,
-  //     String invoiceno,
-  //     String totalprice,
-  //     String slno,
-  //     BuildContext context) {
-  //
-  //   // Debugging: Print the details being passed to the function
-  //   print("Adding Order:");
-  //   print("Customer Name: $name");
-  //   print("Date: $date");
-  //   print("Order Type: $ordertype");
-  //   print("Items List: $itemslist");
-  //   print("Table No: $tableno");
-  //   print("Invoice No: $invoiceno");
-  //   print("Total Price: $totalprice");
-  //   print("Items Count (slno): $slno");
-  //
-  //   // Ensure itemslist is not null or empty
-  //   if (itemslist == null || itemslist.isEmpty) {
-  //     print("Error: itemslist is null or empty.");
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Center(
-  //           child: Text("Order failed: No items in the list",
-  //               style: TextStyle(
-  //                   color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
-  //       backgroundColor: Colors.red,
-  //       elevation: 10,
-  //       behavior: SnackBarBehavior.floating,
-  //       margin: EdgeInsets.all(5),
-  //     ));
-  //     return;
-  //   }
-  //
-  //   // Ensure totalprice is not null
-  //   if (totalprice == null || totalprice.isEmpty) {
-  //     print("Error: totalprice is null or empty.");
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Center(
-  //           child: Text("Order failed: Total price is missing",
-  //               style: TextStyle(
-  //                   color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
-  //       backgroundColor: Colors.red,
-  //       elevation: 10,
-  //       behavior: SnackBarBehavior.floating,
-  //       margin: EdgeInsets.all(5),
-  //     ));
-  //     return;
-  //   }
-  //
-  //   String id = DateTime.now().millisecondsSinceEpoch.toString();
-  //
-  //   Map<String, dynamic> ordermap = HashMap();
-  //
-  //   ordermap["ORDER_ID"] = id;
-  //   ordermap["CUSTOMER_NAME"] = name;
-  //   ordermap["DATE_TIME"] = date;
-  //   ordermap["ORDER_TYPE"] = ordertype;
-  //   ordermap["ITEMS_LIST"] = itemslist;
-  //   ordermap["TABLE_NO"] = tableno;
-  //   ordermap["INVOICE_NO"] = invoiceno;
-  //   ordermap["TOTAL_PRICE"] = totalprice;
-  //   ordermap["ITEMS_COUNT"] = slno;
-  //   ordermap["PRINTED"] = "YES";
-  //
-  //   // Debugging: Print the order map to verify its contents
-  //   print("Order Map: ${ordermap.toString()}");
-  //
-  //   // Add the order to the Firestore collection
-  //   db.collection("ORDER_DETAILS").doc(id).set(ordermap).then((_) {
-  //     print("Order added successfully");
-  //
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Center(
-  //           child: Text("Your Order Is Confirmed",
-  //               style: TextStyle(
-  //                   color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
-  //       backgroundColor: Colors.green,
-  //       elevation: 10,
-  //       behavior: SnackBarBehavior.floating,
-  //       margin: EdgeInsets.all(5),
-  //     ));
-  //
-  //     notifyListeners();
-  //   }).catchError((error) {
-  //     print("Failed to add order: $error");
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Center(
-  //           child: Text("Failed to confirm order",
-  //               style: TextStyle(
-  //                   color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
-  //       backgroundColor: Colors.red,
-  //       elevation: 10,
-  //       behavior: SnackBarBehavior.floating,
-  //       margin: EdgeInsets.all(5),
-  //     ));
-  //   });
-  // }
-  //
-  // void AddOrder(
-  //     String name,
-  //     String date,
-  //     String ordertype,
-  //     List itemslist,
-  //     String tableno,
-  //     String invoiceno,
-  //     String totalprice,
-  //     String slno,
-  //     BuildContext context) {
-  //   print("vbfdbdfbfbdfbdfbdfbbbbbbbb");
-  //
-  //   String id = DateTime.now().millisecondsSinceEpoch.toString();
-  //
-  //   Map<String, dynamic> ordermap = HashMap();
-  //
-  //   ordermap["ORDER_ID"] = id;
-  //   ordermap["CUSTOMER_NAME"] = name;
-  //   ordermap["DATE_TIME"] = date;
-  //   ordermap["ORDER_TYPE"] = ordertype;
-  //   ordermap["ITEMS_LIST"] = itemslist;
-  //   ordermap["TABLE_NO"] = tableno;
-  //   ordermap["INVOIVE_NO"] = invoiceno;
-  //   ordermap["TOTAL_PRICE"] = totalprice;
-  //   ordermap["ITEMS_COUNT"] = slno;
-  //   ordermap["PRINTED"] = "YES";
-  //
-  //   db.collection("ORDER_DETAILS").doc(id).set(ordermap);
-  //
-  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //     content: Center(
-  //         child: Text("Your Order Is Confirmed",
-  //             style: TextStyle(
-  //                 color: cWhite, fontSize: 15, fontWeight: FontWeight.bold))),
-  //     backgroundColor: cgreen,
-  //     elevation: 10,
-  //     behavior: SnackBarBehavior.floating,
-  //     margin: EdgeInsets.all(5),
-  //   ));
-  //   notifyListeners();
-  // }
 
   List<String> cartitemidlist = [];
 
@@ -2768,86 +2223,10 @@ Future<void> AddCartDetailsJuices(
     notifyListeners();
   }
 
-  // List<Orderdetails> orderlist = [];
-  //
-  // void getordereddetils() {
-  //   // Notify listeners at the start
-  //   notifyListeners();
-  //
-  //   // Initialize variables
-  //   List<String> itemsId = [];
-  //   String itemName = '';
-  //   String itemsPrice = '';
-  //   String photo = '';
-  //   String itemQty = '';
-  //
-  //   // Fetch data from the ORDER_DETAILS collection
-  //   db.collection("ORDER_DETAILS").get().then((value) {
-  //     notifyListeners(); // Notify listeners after fetching data
-  //
-  //     if (value.docs.isNotEmpty) {
-  //       orderlist.clear(); // Clear the order list before adding new data
-  //
-  //       // orderlist.clear();
-  //       for (var elements in value.docs) {
-  //         Map<String, dynamic> orderMap = elements.data();
-  //         itemsId.clear(); // Clear itemsId for each new order
-  //
-  //         if (orderMap["ITEMS_ID"] != null &&
-  //             orderMap["ITEMS_ID"] is Iterable) {
-  //           for (var itemId in orderMap["ITEMS_ID"]) {
-  //             itemsId.add(itemId);
-  //             notifyListeners();
-  //           }
-  //         }
-  //
-  //         // Fetch data from the CART collection for each item in the order
-  //         db
-  //             .collection("CART")
-  //             .where("ITEMS_ID", whereIn: itemsId)
-  //             .get()
-  //             .then((cartSnapshot) {
-  //           if (cartSnapshot.docs.isNotEmpty) {
-  //             for (var cartItem in cartSnapshot.docs) {
-  //               itemName = cartItem.get("ITEMS_NAME").toString();
-  //               itemsPrice = cartItem.get("ITEMS_PRICE").toString();
-  //               photo = cartItem.get("ITEMS_PHOTO") ?? "";
-  //               itemQty = cartItem.get("QTY").toString();
-  //
-  //               // Add the details to the order list
-  //               orderlist.add(Orderdetails(
-  //                 itemsId,
-  //                 photo,
-  //                 orderMap["ORDER_ID"].toString(),
-  //                 orderMap["CUSTOMER_NAME"].toString(),
-  //                 orderMap["DATE_TIME"].toString(),
-  //                 orderMap["INVOICE_NO"].toString(),
-  //                 orderMap["ITEMS_COUNT"].toString(),
-  //                 orderMap["ORDER_TYPE"].toString(),
-  //                 orderMap["TABLE_NO"].toString(),
-  //                 double.parse(orderMap["TOTAL_PRICE"].toString()),
-  //                 orderMap["PRINTED"] ?? "",
-  //                 itemsPrice,
-  //                 itemName,
-  //                 itemQty,
-  //               ));
-  //               notifyListeners();
-  //             }
-  //           }
-  //         });
-  //         notifyListeners();
-  //       }
-  //     }
-  //   }).catchError((error) {
-  //     // Handle any errors that occur during the fetch
-  //     print("Error fetching order details: $error");
-  //   });
-  // }
 
   Future<void> addOrdersnew(
       List<CartItemsDetails> cartList,
       String customerName,
-
       String orderType,
       String tableNo,
       String invoiceNo,
@@ -2891,20 +2270,9 @@ Future<void> AddCartDetailsJuices(
       margin: EdgeInsets.all(5),
     ));
 
-
     notifyListeners();
   }
 
-
-// List<OrderModel> OrderList = [];
-//   Stream<List<OrderModel>> getOrdersStream() {
-//     return db.collection("ORDERS").snapshots().map((snapshot) {
-//       return snapshot.docs.map((doc) {
-//
-//         return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
-//       }).toList();
-//     });
-//   }
 
   List<OrderModel> orderList = [];
   bool orderLoader = false;
@@ -2917,10 +2285,7 @@ Future<void> AddCartDetailsJuices(
     notifyListeners();
 
     try {
-      QuerySnapshot querySnapshot = await db
-          .collection("ORDERS")
-
-          .get();
+      QuerySnapshot querySnapshot = await db.collection("ORDERS").get();
 
       if (_disposed) return;
 
@@ -2936,102 +2301,61 @@ Future<void> AddCartDetailsJuices(
     } catch (error) {
       print("Error fetching orders: $error");
     } finally {
-      if (!_disposed) {
-
-      }
+      if (!_disposed) {}
     }
   }
 
-  // List<OrderModel> ordersList = [];
-  //
-  //  void fetchOrders() {
-  //    print("hhhhhhhhhk");
-  //   db.collection("ORDERS").get().then((value) {
-  //     if (value.docs.isNotEmpty) {
-  //       print("jhgfcvbnm");
-  //       for (var doc in value.docs) {
-  //         Map<String, dynamic> map = doc.data();
-  //         if (map['PRODUCTS'] != null) {
-  //           List<ProductModel> productList = [];
-  //           print("fpjjbn"+productList.length.toString());
-  //           for (var element in map['PRODUCTS'].entries) {
-  //             productList.add(ProductModel(
-  //               name: element.key,
-  //               qty: element.value['Qty'].toString(),
-  //               price: element.value['Price'].toString(),
-  //               itemTotal: element.value['Item Total'].toString(),
-  //             ));
-  //             print("fpjjbn"+productList.length.toString());
-  //
-  //           }
-  //           ordersList.add(OrderModel(
-  //             orderId: map['ORDER_ID'],
-  //             customerName: map['CUSTOMER_NAME'],
-  //             orderDate: map['ORDER_DATE'],
-  //             orderType: map['ORDER_TYPE'],
-  //             tableNo: map['TABLE_NO'],
-  //             invoiceNo: map['INVOICE_NO'],
-  //             products: productList,
-  //             totalAmount: map['TOTAL_AMOUT'].toString(),
-  //           ));
-  //         }
-  //       }
-  //     }
-  //   });
-  // }
 
-  List<SalesReportOrder>salesreportlist=[];
+  List<SalesReportOrder> salesreportlist = [];
 
-    bool getsalsesloader=false;
+  bool getsalsesloader = false;
 
-  void salesreport(DateTime date1, DateTime date2){
-    getsalsesloader=true;
+  void salesreport(DateTime date1, DateTime date2) {
+    getsalsesloader = true;
     notifyListeners();
     print("fvkljhbfvhjbfn");
-     db.collection("ORDERS").where("ORDER_DATE", isGreaterThanOrEqualTo: date1)
-         .where("ORDER_DATE", isLessThanOrEqualTo: date2).get().then((value) {
-         print(date1.toString()+"jsjsjsjsj"+date2.toString());
-       if(value.docs.isNotEmpty){
-         salesreportlist.clear();
-         getsalsesloader=false;
-         notifyListeners();
-         for(var element in value.docs){
-           Map<dynamic,dynamic> getmap=element.data();
-           salesreportlist.add(SalesReportOrder(
-               getmap["ORDER_ID"].toString(),
-               getmap["CUSTOMER_NAME"].toString(),
-               getmap["INVOICE_NO"].toString(),
-             DateFormat("dd-MM-yyyy hh:mm a").format(getmap["ORDER_DATE"].toDate()).toString(),
-               getmap["ORDER_TYPE"].toString(),
-               getmap["TABLE_NO"].toString(),
-               getmap["TOTAL_AMOUT"].toString(),
-                   ));
-           notifyListeners();
+    db
+        .collection("ORDERS")
+        .where("ORDER_DATE", isGreaterThanOrEqualTo: date1)
+        .where("ORDER_DATE", isLessThanOrEqualTo: date2)
+        .get()
+        .then(
+      (value) {
+        print(date1.toString() + "jsjsjsjsj" + date2.toString());
+        if (value.docs.isNotEmpty) {
+          salesreportlist.clear();
+          getsalsesloader = false;
+          notifyListeners();
+          for (var element in value.docs) {
+            Map<dynamic, dynamic> getmap = element.data();
+            salesreportlist.add(SalesReportOrder(
+              getmap["ORDER_ID"].toString(),
+              getmap["CUSTOMER_NAME"].toString(),
+              getmap["INVOICE_NO"].toString(),
+              DateFormat("dd-MM-yyyy hh:mm a")
+                  .format(getmap["ORDER_DATE"].toDate())
+                  .toString(),
+              getmap["ORDER_TYPE"].toString(),
+              getmap["TABLE_NO"].toString(),
+              getmap["TOTAL_AMOUT"].toString(),
+            ));
+            notifyListeners();
 
-           print("gggggg"+salesreportlist.length.toString());
-
-         }
-       }
-     },);
-     notifyListeners();
+            print("gggggg" + salesreportlist.length.toString());
+          }
+        }
+      },
+    );
+    notifyListeners();
   }
+
   ///
-
-
 
   @override
   void dispose() {
     _disposed = true;
     super.dispose();
-
-
   }
-
-
-
-
-
-
 
   // / call
   void makingPhoneCall(String Phone) async {
@@ -3044,19 +2368,11 @@ Future<void> AddCartDetailsJuices(
     }
   }
 
-//whatsapp
-//   void launchWhatsApp({required String phoneNumber, required String message}) async {
-//     String url = "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
-//
-//     if (await canLaunch(url)) {
-//       await launch(url);
-//     } else {
-//       throw 'Could not launch $url';
-//     }
-//   }
 
-  Future<void> launchWhatsApp({required String phoneNumber, required String message}) async {
-    final String url = "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+  Future<void> launchWhatsApp(
+      {required String phoneNumber, required String message}) async {
+    final String url =
+        "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
 
     try {
       if (!await launchUrl(Uri.parse(url))) {
@@ -3067,11 +2383,4 @@ Future<void> AddCartDetailsJuices(
       print('Error opening WhatsApp: $e');
     }
   }
-
-
-
-
-
-
-
 }

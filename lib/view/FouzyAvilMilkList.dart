@@ -18,6 +18,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
@@ -78,6 +79,7 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                     ),
                     child: Consumer<Mainprovider>(
                         builder: (context, value, child) {
+                          print("anas monna"+value.AVILcheckboxStates.toString());
                           return TextField(
                             onChanged: (text){
                               value.filterAvilmilk(text);
@@ -172,9 +174,9 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                             alignment: Alignment.topRight,
                                             child: Transform.scale(
                                               scale: 1.5,
-                                              child: Checkbox(
+                                              child:Checkbox(
                                                 shape: CircleBorder(),
-                                                value: value.AVILgetCheckboxValue(index) || value.isInCart("AVIL_MILK", item.id),
+                                                value: value.AVILgetCheckboxValue(index),  // Remove the || value.isInCart(...) check
                                                 onChanged: (bool? newValue) {
                                                   value.AddCartDetailsAvilMilk(
                                                       item.name,
@@ -189,12 +191,11 @@ class FouzyAvilMilkListScreen extends StatelessWidget {
                                                     value.cartItemsControlls('AVIL_MILK', item.id, item);
                                                   } else {
                                                     value.cartItemsControlls('AVIL_MILK', item.id, item);
-
                                                   }
                                                 },
                                                 checkColor: Colors.green,
                                                 fillColor: WidgetStatePropertyAll(Colors.white),
-                                              ),
+                                              )
                                             )
                                         ),
                                       ),

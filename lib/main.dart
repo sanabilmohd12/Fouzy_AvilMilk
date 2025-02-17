@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fouzy/provider/printerProvider.dart';
@@ -13,7 +12,7 @@ import 'provider/mainprovider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true);
+
   await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: "AIzaSyAwonLzDyhK4hCYhzOA2d7L4ZUWBWERkZ0",
@@ -36,6 +35,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create:(context) => Mainprovider(),
 
         ),  ChangeNotifierProvider(create:(context) => PrinterProvider(),
+
 
         )
 
